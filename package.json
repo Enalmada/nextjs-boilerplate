@@ -2,6 +2,8 @@
   "name": "t3-challenge",
   "version": "0.1.0",
   "scripts": {
+    "analyze": "cross-env ANALYZE=true pnpm run buildLocal",
+    "buildLocal": "cross-env NODE_ENV=production next build",
     "build": "next build",
     "dev": "next dev",
     "postinstall": "prisma generate",
@@ -25,6 +27,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^13.4.5",
     "@types/eslint": "^8.40.1",
     "@types/node": "^20.3.0",
     "@types/prettier": "^2.7.3",
@@ -33,6 +36,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.9",
     "@typescript-eslint/parser": "^5.59.9",
     "autoprefixer": "^10.4.14",
+    "cross-env": "^7.0.3",
     "eslint": "^8.42.0",
     "eslint-config-next": "13.4.5",
     "lint-staged": "^13.2.2",

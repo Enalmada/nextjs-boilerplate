@@ -30,6 +30,7 @@ const server = new ApolloServer({
   typeDefs,
 });
 
+// eslint-disable-next-line @typescript-eslint/require-await
 const handler = startServerAndCreateNextHandler<NextRequest>(server, { context: async req => ({ req }) });
 
 export async function GET(request: NextRequest) {

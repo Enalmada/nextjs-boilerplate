@@ -1,4 +1,6 @@
 // @ts-check
+import withBundleAnalyzer from '@next/bundle-analyzer';
+
 
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
@@ -27,4 +29,10 @@ const config = {
     domains: ["avatars.githubusercontent.com", "lh3.googleusercontent.com"],
   },
 };
-export default config;
+
+const bundleAnalyzer = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+})
+
+export default bundleAnalyzer(config);
+
