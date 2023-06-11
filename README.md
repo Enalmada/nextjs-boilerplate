@@ -1,13 +1,13 @@
 # Startup Boilerplate
 
 ## Getting Started
-- `docker compose up -d`
-- `pnpm install`
+- `npm install -g pnpm`
 - Copy `.env.example` to `.env`
 
 ## Development mode
+- `docker compose up -d`
+- `pnpm install`
 - `pnpm run dev`
-
 
 ## About this project
 ### Frontend
@@ -39,8 +39,8 @@
 * validation - YEP. 
 
 ### Other
-* eslint/prettier formatting everything to team agreement
 * fixpack for package.json consistency
+* eslint/prettier to normalize and validate formatting
 
 ## TODO
 ### Technical

@@ -6,7 +6,9 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "check-types": "tsc",
+    "check-types-watch": "pnpm run check-types -- --watch --preserveWatchOutput"
   },
   "dependencies": {
     "@apollo/client": "3.8.0-beta.2",
@@ -33,6 +35,7 @@
     "autoprefixer": "^10.4.14",
     "eslint": "^8.42.0",
     "eslint-config-next": "13.4.5",
+    "lint-staged": "^13.2.2",
     "postcss": "^8.4.24",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
