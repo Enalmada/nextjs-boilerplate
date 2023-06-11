@@ -6,11 +6,11 @@ settings:
 
 dependencies:
   '@apollo/client':
-    specifier: 3.8.0-alpha.15
-    version: 3.8.0-alpha.15(graphql@16.6.0)(react-dom@18.2.0)(react@18.2.0)
+    specifier: 3.8.0-beta.2
+    version: 3.8.0-beta.2(graphql@16.6.0)(react-dom@18.2.0)(react@18.2.0)
   '@apollo/experimental-nextjs-app-support':
-    specifier: ^0.1.0
-    version: 0.1.0(@apollo/client@3.8.0-alpha.15)(next@13.4.5)(react@18.2.0)
+    specifier: ^0.2.1
+    version: 0.2.1(@apollo/client@3.8.0-beta.2)(next@13.4.5)(react@18.2.0)
   '@apollo/server':
     specifier: ^4.7.3
     version: 4.7.3(graphql@16.6.0)
@@ -107,8 +107,8 @@ packages:
       graphql: 16.6.0
     dev: false
 
-  /@apollo/client@3.8.0-alpha.15(graphql@16.6.0)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-725uCJ7m/+39nHj7tUb3NMr3I6Fyth3GFtMjSVx5w4FngZiLF4xszXzH8sGZxfAlKagXMVKK0EDncAoFXoY16A==}
+  /@apollo/client@3.8.0-beta.2(graphql@16.6.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-EH1KsanJq/kWFBC3M+Wwue1iAoS+IFcIS+STmg7JI+er7MdvF8d8PNgUzahpRU89w0b2uHcxtqVRs89GVjkyhQ==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
       graphql-ws: ^5.5.5
@@ -143,14 +143,14 @@ packages:
       zen-observable-ts: 1.2.5
     dev: false
 
-  /@apollo/experimental-nextjs-app-support@0.1.0(@apollo/client@3.8.0-alpha.15)(next@13.4.5)(react@18.2.0):
-    resolution: {integrity: sha512-RBDzsZLHYBnbPkh3NVlIZUxynO2ASbCpO7JEmcZRZIzMbCMpH6wXmPrenD6hxOEgLxWzxS2F3q5VlTGXtmb3ww==}
+  /@apollo/experimental-nextjs-app-support@0.2.1(@apollo/client@3.8.0-beta.2)(next@13.4.5)(react@18.2.0):
+    resolution: {integrity: sha512-Dykrn/AWuaO4zt+DlZsPx7pQr86Z/F/3n3Hi1kQFhdLFksWu/TCuM90JLr7NZBF4DNn5vSodama6nhWf7DlyVg==}
     peerDependencies:
-      '@apollo/client': '>= 3.8.0-alpha.13'
+      '@apollo/client': '>=3.8.0-beta.2'
       next: ^13.4.1
       react: ^18
     dependencies:
-      '@apollo/client': 3.8.0-alpha.15(graphql@16.6.0)(react-dom@18.2.0)(react@18.2.0)
+      '@apollo/client': 3.8.0-beta.2(graphql@16.6.0)(react-dom@18.2.0)(react@18.2.0)
       next: 13.4.5(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       superjson: 1.12.3
