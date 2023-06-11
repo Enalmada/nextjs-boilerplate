@@ -1,16 +1,57 @@
-# Welcome to my public lib!
+# Startup Boilerplate
 
-This is the github repository, to the article "Full Stack with Next.js 13 and the app directory" published on medium. If you want the full tutorial, go ahead and check out https://medium.com/@wimluk
+## Getting Started
+- `docker compose up -d`
+- `pnpm install`
+- Copy `.env.example` to `.env`
 
-## Learn More
+## Development mode
+- `pnpm run dev`
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## About this project
+### Frontend
+* React with Next.js - very powerful constantly improving framework.
+* Typescript - hoping this is a given in our day and age if using javascript.  
+* API - Graphql provides a typesafe interface out of the box.  Apollo Server/Client add
+  significant features like cache, optimistic responses on top of that interface.
+  * graphql-codegen provides auto generated types and hooks 
+* Authentication - Auth.js with Google OAuth.  Cose effective, secure, scalable.
+* validation - YEP is lightweight for client bundles
+* CSS - Tailwind for composable utility classes
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+#### Todo
+* error logging - sentry (see src/pages/_app.js)
+* forms - react-hook-form makes forms simple and high performance
+* e2e testing - Cypress
+* unit testing - Jest (majestic ui for convenient dev coverage review)
+* deployment - Vercel is quick and easy but demo only.  backend api routes are slow, and db connections have no persistence
 
-## How do I deploy this?
+### Backend
+* backend framework - Next.js backend serverless api routes provide easy node.js starting point.
+* database - postgres is the safe choice though I have had my eye on FaunaDB
+* ORM - Prisma 
+  * See prisma/schema.prisma for mapping
+  * DB schema migrations 
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+#### Todo
+* email templating - mjml
+* validation - YEP. 
+
+### Other
+* eslint/prettier formatting everything to team agreement
+* fixpack for package.json consistency
+
+## TODO
+### Technical
+* graphql endpoint post uses csrf and server cookie
+* optimistic actions - app performs instant despite slow network
+* service worker - PWA, temporary offline support
+* graphql subscriptions (multi device real time)
+* full coverage of Jest and Cypress testing
+* analytics
+* localization - easier if everyone keeps english out of templates from the start
+
+
+## Notes
+
