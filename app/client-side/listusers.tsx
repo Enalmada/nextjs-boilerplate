@@ -1,19 +1,10 @@
 /* eslint-disable */
 "use client";
 
-import { gql } from "@apollo/client";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import React from "react";
+import { USERS } from "../graphql/queries-mutations"
 
-const query = gql`
-    query {
-        users {
-            id
-            name
-            email
-        }
-    }
-`;
 
 interface Response {
     users: { id: number; name: string; email: string }[];
@@ -21,7 +12,7 @@ interface Response {
 
 export default function ListUsers() {
     const [count, setCount] = React.useState(0);
-    const { data, error } = useSuspenseQuery<Response>(query);
+    const { data, error } = useSuspenseQuery<Response>(USERS);
 
     return (
         <main style={{ maxWidth: 1200, marginInline: "auto", padding: 20 }}>
