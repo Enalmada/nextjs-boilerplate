@@ -20,7 +20,7 @@ function makeClient() {
         uri: process.env.GRAPHQL_ENDPOINT,
         // you can disable result caching here if you want to
         // (this does not work if you are rendering your page with `export const dynamic = "force-static"`)
-        fetchOptions: { cache: "default" },
+        fetchOptions: { cache: "default" }, // default, no-store, reload, no-cache, force-cache, only-if-cached
     });
 
     return new ApolloClient({
