@@ -15,7 +15,7 @@
 * Typescript - hoping this is a given in our day and age if using javascript.  
 * API - Graphql provides a typesafe interface out of the box.  Apollo Server/Client add
   significant features like cache, optimistic responses on top of that interface.
-  * graphql-codegen provides auto generated types and hooks 
+  * [graphql-codegen](https://the-guild.dev/graphql/codegen/docs/guides/react-vue) provides auto generated types and hooks 
 * Authentication - Auth.js with Google OAuth.  Cose effective, secure, scalable.
 * validation - YEP is lightweight for client bundles
 * CSS - Tailwind for composable utility classes

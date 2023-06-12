@@ -24,6 +24,11 @@ const config = {
   },
   experimental: {
     appDir: true,
+    /* currently crashing https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#swc-plugin
+    swcPlugins: [
+      ['@graphql-codegen/client-preset-swc-plugin', { artifactDirectory: './src/gql', gqlTagName: 'graphql' }]
+    ]
+     */
   },
   images: {
     domains: ["avatars.githubusercontent.com", "lh3.googleusercontent.com"],

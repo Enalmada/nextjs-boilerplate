@@ -4,18 +4,7 @@
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import React from "react";
 import Link from 'next/link'
-
-import { graphql } from '@/gql'
-
-export const allFilmsWithVariablesQueryDocument = graphql(/* GraphQL */ `
-    query Users {
-        users {
-            id
-            name
-            email
-        }
-    }
-`);
+import {allFilmsWithVariablesQueryDocument} from "@/queries-mutations";
 
 export default function ListUsers() {
     const [count, setCount] = React.useState(0);
