@@ -7,7 +7,7 @@
 ## Development mode
 - `docker compose up -d`
 - `pnpm install`
-- `pnpm run dev`
+- `pnpm dev`
 
 ## About this project
 ### Frontend
