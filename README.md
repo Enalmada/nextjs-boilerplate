@@ -9,6 +9,30 @@
 - `pnpm install`
 - `pnpm dev`
 
+### Features
+
+-  ⚡ [Next.js](https://nextjs.org) 
+- 🔥 Type checking [TypeScript](https://nextjs.org/docs/app/building-your-application/configuring/typescript)
+- 💎 [Tailwind CSS](https://tailwindcss.com)
+- ✅ Strict Mode for TypeScript and React 18
+- 📏 Linter with [ESLint](https://nextjs.org/docs/pages/building-your-application/configuring/eslint#lint-staged) on commit
+- 💖 Code Formatter with [Prettier](https://nextjs.org/docs/app/building-your-application/configuring/eslint)
+- 🦊 Husky for Git Hooks
+- 💡 Absolute Imports using `@` prefix
+- ⚙️ [Bundler Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
+
+#### TODO
+- 🚓 Lint git commit with Commitlint
+- 📓 Write standard compliant commit messages with Commitizen
+- 🦺 Unit Testing with Jest and React Testing Library
+- 🧪 E2E Testing with Cypress
+- 👷 Run tests on pull request with GitHub Actions
+- 🎉 Storybook for UI development
+- 🎁 Automatic changelog generation with Semantic Release
+- 🔍 Visual testing with Percy (Optional)
+- 🤖 SEO metadata, JSON-LD and Open Graph tags with Next SEO
+- 🗺️ Sitemap.xml and robots.txt with next-sitemap
+
 ## About this project
 ### Frontend
 * React with Next.js - very powerful constantly improving framework.
