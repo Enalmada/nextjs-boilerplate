@@ -1,10 +1,7 @@
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { ApolloServer } from '@apollo/server';
-import { gql } from 'graphql-tag';
+import { gql } from '@apollo/client';
 import { type NextRequest } from 'next/server';
-
-
-
 
 const resolvers = {
   Query: {

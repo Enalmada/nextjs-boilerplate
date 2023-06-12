@@ -6,6 +6,8 @@ import Form from "./Form";
 import { prisma } from "@/server/db";
 import Delete from "./Delete";
 import { type Session } from "next-auth";
+import Link from "next/link";
+import React from "react";
 
 async function getPosts() {
   const data = await prisma.posts.findMany({
@@ -51,6 +53,7 @@ export default async function Home() {
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
             Our <span className="text-[hsl(280,100%,70%)]">BLOG</span> App
           </h1>
+          <Link href="/client-side">Client Side</Link>
           <div className="flex flex-col items-center justify-center gap-1">
             {session?.user ? (
               <>

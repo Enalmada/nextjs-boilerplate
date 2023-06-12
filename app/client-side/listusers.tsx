@@ -3,16 +3,23 @@
 
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import React from "react";
-import { USERS } from "../graphql/queries-mutations"
+import Link from 'next/link'
 
+import { graphql } from '@/gql'
 
-interface Response {
-    users: { id: number; name: string; email: string }[];
-}
+export const allFilmsWithVariablesQueryDocument = graphql(/* GraphQL */ `
+    query Users {
+        users {
+            id
+            name
+            email
+        }
+    }
+`);
 
 export default function ListUsers() {
     const [count, setCount] = React.useState(0);
-    const { data, error } = useSuspenseQuery<Response>(USERS);
+    const { data, error } = useSuspenseQuery(allFilmsWithVariablesQueryDocument);
 
     return (
         <main style={{ maxWidth: 1200, marginInline: "auto", padding: 20 }}>
@@ -40,7 +47,7 @@ export default function ListUsers() {
                         gap: 20,
                     }}
                 >
-                    {data?.users.map((user: any) => (
+                    {data?.users?.map((user: any) => (
                         <div
                             key={user.id}
                             style={{ border: "1px solid #ccc", textAlign: "center" }}
@@ -55,6 +62,7 @@ export default function ListUsers() {
                     ))}
                 </div>
             ) : null}
+            <Link href="/">Home</Link>
         </main>
     );
 }
