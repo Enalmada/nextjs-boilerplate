@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2018",  // typegraphql uses features from ES2018
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "esnext",
+      "esnext.asynciterable"
     ],
     "allowJs": true,
     "checkJs": true,
@@ -20,6 +21,8 @@
     "jsx": "preserve",
     "incremental": true,
     "noUncheckedIndexedAccess": true,
+    "emitDecoratorMetadata": true,  // Must be set to true to enable experimental support for emitting type metadata for the decorators we will be writing.
+    "experimentalDecorators": true, // Must be set to true to enable experimental support for decorators.
     "baseUrl": ".",
     "paths": {
       "@/*": [

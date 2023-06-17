@@ -1,30 +1,41 @@
+import 'reflect-metadata';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { ApolloServer } from '@apollo/server';
-import { gql } from '@apollo/client';
 import { type NextRequest } from 'next/server';
+import { buildSchema, Query, Resolver, Field, ID, ObjectType } from 'type-graphql';
 
-const resolvers = {
-  Query: {
-    hello: () => 'world',
-    users: () => [{ id: 1, name: "Adam", email: "enalmada@gmail.com"}]
-  },
-};
+@ObjectType()
+class User {
+    @Field(() => ID)
+    id!: string;
 
-const typeDefs = gql`
-    type User {
-        id: Int!
-        name: String!
-        email: String!
+    @Field()
+    name!: string;
+
+    @Field()
+    email!: string;
+}
+
+@Resolver(User)
+class UserResolver {
+    @Query(() => String)
+    hello() {
+        return 'Hello World!';
     }
-    type Query {
-        hello: String
-        users: [User]
+
+    @Query(() => [User])
+    users() {
+        return [{ id: 1, name: "Adam", email: "enalmada@gmail.com"}];
     }
-`;
+
+}
+
+const schema = await buildSchema({
+    resolvers: [UserResolver],
+});
 
 const server = new ApolloServer({
-  resolvers,
-  typeDefs,
+    schema
 });
 
 // eslint-disable-next-line @typescript-eslint/require-await

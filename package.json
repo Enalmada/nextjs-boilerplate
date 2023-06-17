@@ -2,6 +2,7 @@
   "name": "t3-challenge",
   "version": "0.1.0",
   "scripts": {
+    "docker": "docker compose up -d",
     "analyze": "cross-env ANALYZE=true pnpm run buildLocal",
     "build": "next build",
     "buildLocal": "cross-env NODE_ENV=production next build",
@@ -9,7 +10,7 @@
     "check-types-watch": "pnpm run check-types -- --watch --preserveWatchOutput",
     "codegen": "pnpm graphql-codegen --watch",
     "dev": "start-server-and-test dev-init http://localhost:3000 codegen",
-    "dev-init": "pnpm install && pnpm migrate && next dev",
+    "dev-init": "pnpm docker && pnpm install && pnpm migrate && next dev",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "migrate": "dotenv -e ./.env -e ./dev.env prisma migrate dev",
@@ -25,12 +26,15 @@
     "@graphql-typed-document-node/core": "^3.2.0",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@prisma/client": "^4.15.0",
+    "class-validator": "^0.14.0",
     "encoding": "^0.1.13",
     "graphql": "^16.6.0",
     "next": "13.4.5",
     "next-auth": "^4.22.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "2.0.0-beta.2",
     "zod": "^3.21.4"
   },
   "devDependencies": {
