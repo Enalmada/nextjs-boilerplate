@@ -33,6 +33,14 @@ module.exports = {
         "allowTemplateLiterals": true
       }
     ],
-    'object-curly-spacing': ['error', 'always'],
+    "object-curly-spacing": ["error", "always"],
+    "sort-imports":
+      [
+        "error",
+        {
+          "ignoreCase": true,
+          "ignoreDeclarationSort": true
+        }
+      ],
   },
 };
