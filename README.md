@@ -9,62 +9,55 @@
 - `pnpm install`
 - `pnpm dev`
 
-### Features
+## Features
+🔥 React + Graphql + Prisma + Tailwind
 
--  ⚡ [Next.js](https://nextjs.org) 
-- 🔥 Type checking [TypeScript](https://nextjs.org/docs/app/building-your-application/configuring/typescript)
-- 💎 [Tailwind CSS](https://tailwindcss.com)
-- ✅ Strict Mode for TypeScript and React 18
-- 📏 Linter with [ESLint](https://nextjs.org/docs/pages/building-your-application/configuring/eslint#lint-staged) on commit
-- 💖 Code Formatter with [Prettier](https://nextjs.org/docs/app/building-your-application/configuring/eslint)
-- 🦊 Husky for Git Hooks
-- 💡 Absolute Imports using `@` prefix
+### Frontend
+- ⚡ [Next.js](https://nextjs.org) Fullstack react framework with SWC
+-💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
+- 💖 [Apollo Client](https://www.apollographql.com/docs/react/) graphql (state management, subscriptions, etc)  
+  - Graphql code generation with [client preset](https://the-guild.dev/graphql/codegen/plugins/presets/preset-client)
+- 🔒 [Auth.js](https://authjs.dev/) authentication  
+
+#### Todo
+- [stailwc](https://github.com/arlyon/stailwc) tailwind with the power of css-in-js
+* error logging - sentry (see src/pages/_app.js)
+* forms - react-hook-form makes forms simple and high performance
+* e2e testing - Playwright
+* unit testing - ViTest (ViTest ui for convenient dev coverage review)
+* deployment - AWS App Runner. quick and easy
+
+### Backend
+- ⚡ [Next.js](https://nextjs.org) API routes.  Fullstack and serverless friendly
+- [TypeGraphQL](https://typegraphql.com/) "code first" typesafe graphql
+- [CockroachDB](https://www.prisma.io/docs/guides/database/cockroachdb) database feels like a next gen postgres
+- [Prisma](https://www.prisma.io/) ORM
+  - See prisma/schema.prisma for intuitive DB mapping
+  - schema migrations with [Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate)
+- 💉 [typedi](https://docs.typestack.community/typedi/) Dependency Injection
+
+### Features
+- ✅ [TypeScript](https://nextjs.org/docs/app/building-your-application/configuring/typescript) Strict
+- 📏 [ESLint and Prettier](https://nextjs.org/docs/pages/building-your-application/configuring/eslint#lint-staged) on commit with Husky
 - ⚙️ [Bundler Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
+- 💡 Absolute Imports using `@` prefix
+- [fixpack](https://github.com/henrikjoreteg/fixpack) package.json consistency
 
 #### TODO
 - 🚓 Lint git commit with Commitlint
 - 📓 Write standard compliant commit messages with Commitizen
-- 🦺 Unit Testing with Jest and React Testing Library
-- 🧪 E2E Testing with Cypress
+- 🦺 Unit Testing with ViTest and React Testing Library
+- 🧪 E2E Testing with Playwright
 - 👷 Run tests on pull request with GitHub Actions
 - 🎉 Storybook for UI development
 - 🎁 Automatic changelog generation with Semantic Release
 - 🔍 Visual testing with Percy (Optional)
 - 🤖 SEO metadata, JSON-LD and Open Graph tags with Next SEO
 - 🗺️ Sitemap.xml and robots.txt with next-sitemap
+- validation - YEP is lightweight for client bundles
+- email templating - mjml
 
-## About this project
-### Frontend
-* React with Next.js - very powerful constantly improving framework.
-* Typescript - hoping this is a given in our day and age if using javascript.  
-* API - Graphql provides a typesafe interface out of the box.  Apollo Server/Client add
-  significant features like cache, optimistic responses on top of that interface.
-  * [graphql-codegen](https://the-guild.dev/graphql/codegen/docs/guides/react-vue) provides auto generated types and hooks 
-* Authentication - Auth.js with Google OAuth.  Cose effective, secure, scalable.
-* validation - YEP is lightweight for client bundles
-* CSS - Tailwind for composable utility classes
 
-#### Todo
-* error logging - sentry (see src/pages/_app.js)
-* forms - react-hook-form makes forms simple and high performance
-* e2e testing - Cypress
-* unit testing - Jest (majestic ui for convenient dev coverage review)
-* deployment - Vercel is quick and easy but demo only.  backend api routes are slow, and db connections have no persistence
-
-### Backend
-* backend framework - Next.js backend serverless api routes provide easy node.js starting point.
-* database - postgres is the safe choice though I have had my eye on FaunaDB
-* ORM - Prisma 
-  * See prisma/schema.prisma for mapping
-  * DB schema migrations 
-
-#### Todo
-* email templating - mjml
-* validation - YEP. 
-
-### Other
-* fixpack for package.json consistency
-* eslint/prettier to normalize and validate formatting
 
 ## TODO
 ### Technical
