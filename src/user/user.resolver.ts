@@ -1,7 +1,14 @@
 import {Query, Resolver} from "type-graphql";
 import { User } from "./user.model"
-@Resolver(User)
+import UserService from "@/user/user.service";
+import { Service } from "typedi";
+
+@Service()
+@Resolver(() => User)
 export class UserResolver {
+
+    constructor(private readonly userService: UserService) {}
+
     @Query(() => String)
     hello() {
         return 'Hello World!';
@@ -9,7 +16,7 @@ export class UserResolver {
 
     @Query(() => [User])
     users() {
-        return [{ id: 1, name: "Adam", email: "enalmada@gmail.com"}];
+        return this.userService.getUsers();
     }
 
 }

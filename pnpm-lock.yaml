@@ -53,6 +53,9 @@ dependencies:
   type-graphql:
     specifier: 2.0.0-beta.2
     version: 2.0.0-beta.2(class-validator@0.14.0)(graphql@16.6.0)
+  typedi:
+    specifier: ^0.10.0
+    version: 0.10.0
   zod:
     specifier: ^3.21.4
     version: 3.21.4
@@ -6799,6 +6802,10 @@ packages:
       for-each: 0.3.3
       is-typed-array: 1.1.10
     dev: true
+
+  /typedi@0.10.0:
+    resolution: {integrity: sha512-v3UJF8xm68BBj6AF4oQML3ikrfK2c9EmZUyLOfShpJuItAqVBHWP/KtpGinkSsIiP6EZyyb6Z3NXyW9dgS9X1w==}
+    dev: false
 
   /typescript@5.1.3:
     resolution: {integrity: sha512-XH627E9vkeqhlZFQuL+UsyAXEnibT0kWR2FWONlr4sTjvxyJYnyefgrkyECLzM5NenmKzRAy2rR/OlYLA1HkZw==}

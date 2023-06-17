@@ -4,9 +4,11 @@ import { ApolloServer } from '@apollo/server';
 import { type NextRequest } from 'next/server';
 import { buildSchema } from 'type-graphql';
 import {UserResolver} from "@/user/user.resolver";
+import { Container } from "typedi";
 
 const schema = await buildSchema({
     resolvers: [UserResolver],
+    container: Container,
 });
 
 const server = new ApolloServer({
