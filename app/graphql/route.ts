@@ -2,33 +2,8 @@ import 'reflect-metadata';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { ApolloServer } from '@apollo/server';
 import { type NextRequest } from 'next/server';
-import { buildSchema, Query, Resolver, Field, ID, ObjectType } from 'type-graphql';
-
-@ObjectType()
-class User {
-    @Field(() => ID)
-    id!: string;
-
-    @Field()
-    name!: string;
-
-    @Field()
-    email!: string;
-}
-
-@Resolver(User)
-class UserResolver {
-    @Query(() => String)
-    hello() {
-        return 'Hello World!';
-    }
-
-    @Query(() => [User])
-    users() {
-        return [{ id: 1, name: "Adam", email: "enalmada@gmail.com"}];
-    }
-
-}
+import { buildSchema } from 'type-graphql';
+import {UserResolver} from "@/user/user.resolver";
 
 const schema = await buildSchema({
     resolvers: [UserResolver],
