@@ -1,5 +1,5 @@
 import { type User } from "./user.model"
-import { Service } from 'typedi';
+import { Service } from "typedi";
 
 @Service()
 export default class UserService {

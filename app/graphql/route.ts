@@ -1,8 +1,8 @@
-import 'reflect-metadata';
-import { startServerAndCreateNextHandler } from '@as-integrations/next';
-import { ApolloServer } from '@apollo/server';
-import { type NextRequest } from 'next/server';
-import { buildSchema } from 'type-graphql';
+import "reflect-metadata";
+import { startServerAndCreateNextHandler } from "@as-integrations/next";
+import { ApolloServer } from "@apollo/server";
+import { type NextRequest } from "next/server";
+import { buildSchema } from "type-graphql";
 import {UserResolver} from "@/user/user.resolver";
 import { Container } from "typedi";
 

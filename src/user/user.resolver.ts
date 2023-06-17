@@ -11,7 +11,7 @@ export class UserResolver {
 
     @Query(() => String)
     hello() {
-        return 'Hello World!';
+        return "Hello World!";
     }
 
     @Query(() => [User])
