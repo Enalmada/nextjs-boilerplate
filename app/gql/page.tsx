@@ -1,11 +1,13 @@
-import { SignIn, SignOut } from "./Actions";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/server/auth";
 import Image from "next/image";
-import Form from "./Form";
-import { prisma } from "@/server/db";
-import Delete from "./Delete";
 import { type Session } from "next-auth";
+import { getServerSession } from "next-auth/next";
+
+import { authOptions } from "@/server/auth";
+import { prisma } from "@/server/db";
+
+import { SignIn, SignOut } from "./Actions";
+import Delete from "./Delete";
+import Form from "./Form";
 
 async function getPosts() {
   const data = await prisma.posts.findMany({

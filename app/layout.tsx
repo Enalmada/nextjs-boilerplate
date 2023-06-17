@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+
 import { ApolloWrapper } from "@/lib/apollo-wrapper";
 // import "./globals.css";
 

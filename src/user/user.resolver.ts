@@ -1,7 +1,9 @@
 import { Query, Resolver } from "type-graphql";
-import { User } from "./user.model"
-import UserService from "@/user/user.service";
 import { Service } from "typedi";
+
+import UserService from "@/user/user.service";
+
+import { User } from "./user.model"
 
 @Service()
 @Resolver(() => User)

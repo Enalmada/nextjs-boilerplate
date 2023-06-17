@@ -1,10 +1,12 @@
 import "reflect-metadata";
-import { startServerAndCreateNextHandler } from "@as-integrations/next";
+
 import { ApolloServer } from "@apollo/server";
+import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { type NextRequest } from "next/server";
 import { buildSchema } from "type-graphql";
-import { UserResolver } from "@/user/user.resolver";
 import { Container } from "typedi";
+
+import { UserResolver } from "@/user/user.resolver";
 
 const schema = await buildSchema({
     resolvers: [UserResolver],
