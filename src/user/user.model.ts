@@ -1,4 +1,4 @@
-import {Field, ID, ObjectType} from "type-graphql";
+import { Field, ID, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class User {

@@ -1,4 +1,4 @@
-import {Query, Resolver} from "type-graphql";
+import { Query, Resolver } from "type-graphql";
 import { User } from "./user.model"
 import UserService from "@/user/user.service";
 import { Service } from "typedi";

@@ -32,6 +32,7 @@ module.exports = {
         "avoidEscape": true,
         "allowTemplateLiterals": true
       }
-    ]
+    ],
+    'object-curly-spacing': ['error', 'always'],
   },
 };
