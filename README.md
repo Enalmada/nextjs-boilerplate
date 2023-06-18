@@ -42,10 +42,9 @@
 - ⚙️ [Bundler Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
 - 💡 Absolute Imports using `@` prefix
 - [fixpack](https://github.com/henrikjoreteg/fixpack) package.json consistency
+- 🚓 Lint git commit with Commitlint
 
 #### TODO
-- 🚓 Lint git commit with Commitlint
-- 📓 Write standard compliant commit messages with Commitizen
 - 🦺 Unit Testing with ViTest and React Testing Library
 - 🧪 E2E Testing with Playwright
 - 👷 Run tests on pull request with GitHub Actions
