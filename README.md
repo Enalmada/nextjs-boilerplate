@@ -71,4 +71,10 @@
 
 
 ## Notes
+### CockroachDB
+cockroachdb with docker setup: https://gist.github.com/dbist/ebb1f39f580ad9d07c04c3a3377e2bff
+navigate to the admin-ui with http://127.0.0.1:8080
 
+# To allow the same kube context to work on the host and the container:
+127.0.0.1	kubernetes.docker.internal
+# End of section
