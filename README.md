@@ -1,8 +1,10 @@
 # Startup Boilerplate
 
 ## Getting Started
-- `npm install -g pnpm`
-- Copy `.env.example` to `.env`
+- Install Docker or Rancher Desktop ([recommended](https://codeengineered.com/blog/2022/docker-desktop-vs-rancher-desktop/))
+- Install package manager.  pnpm ([recommended](https://www.atatus.com/blog/npm-vs-yarn-vs-pnpm/))
+  - `npm install -g pnpm`
+- Copy `.env.example` to `.env` and edit variables
 
 ## Development mode
 - `docker compose up -d`

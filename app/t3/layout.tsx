@@ -1,6 +1,5 @@
-import "@/styles/index.css";
+import "@/styles/globals.css";
 
-// import "@/styles/globals.css";
 import { ApolloWrapper } from "@/lib/apollo-wrapper";
 // import "./globals.css";
 
@@ -16,7 +15,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className={"leading-normal tracking-normal text-white gradient"}>
+            <body>
                 <ApolloWrapper>{children}</ApolloWrapper>
             </body>
         </html>
