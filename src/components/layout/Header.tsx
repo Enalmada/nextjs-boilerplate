@@ -86,10 +86,9 @@ const Header: FC<Props> = (props) => {
         <nav id="header" className={`fixed w-full z-30 top-0 text-white ${headerStyle.header}`}>
             <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
                 <div className="pl-4 flex items-center">
-                    <Link legacyBehavior href={getRouteById("Index").path}>
-                        <a
-                            data-testid="brand"
-                            className={`toggleColour no-underline hover:no-underline font-bold text-2xl lg:text-4xl ${headerStyle.toToggle}`}>
+                    <Link href={getRouteById("Index").path} data-testid="brand"
+                          className={`toggleColour no-underline hover:no-underline font-bold text-2xl lg:text-4xl ${headerStyle.toToggle}`}>
+
                             {/*
                         <svg className="h-8 fill-current inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.005 512.005">
                             <rect fill="#2a2a31" x="16.539" y="425.626" width="479.767" height="50.502" transform="matrix(1,0,0,1,0,0)" />
@@ -97,7 +96,7 @@ const Header: FC<Props> = (props) => {
                         </svg>
                          */}
                             {props.companyName}
-                        </a>
+
                     </Link>
                 </div>
 
@@ -123,15 +122,10 @@ const Header: FC<Props> = (props) => {
                     id="nav-content">
                     <ul className="list-reset lg:flex justify-end flex-1 items-center">
                         <li className="mr-3">
-                            <Link legacyBehavior href={getRouteById("About").path}>
-                                <a
-                                    className={`inline-block py-2 px-4 text-black no-underline ${
-                                        active
-                                            ? "font-bold no-underline"
-                                            : "hover:text-gray-800 hover:text-underline"
-                                    }`}>
+                            <Link href={getRouteById("About").path} className={`inline-block py-2 px-4 text-black no-underline ${active ? "font-bold no-underline" : "hover:text-gray-800 hover:text-underline"}`}>
+
                                     About
-                                </a>
+
                             </Link>
                         </li>
                     </ul>

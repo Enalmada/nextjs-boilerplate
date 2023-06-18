@@ -13,8 +13,7 @@ const Footer: FC<Props> = (props) => {
             <div className="container mx-auto  px-8">
                 <div className="w-full flex flex-col md:flex-row py-6">
                     <div className="flex-1 mb-6">
-                        <Link legacyBehavior href={getRouteById("Index").path}>
-                            <a className="text-orange-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl">
+                        <Link href={getRouteById("Index").path} className="text-orange-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl">
                                 {/*
                     <svg className="h-8 fill-current inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.005 512.005">
                         <rect fill="#2a2a31" x="16.539" y="425.626" width="479.767" height="50.502" transform="matrix(1,0,0,1,0,0)" fill="rgb(0,0,0)" />
@@ -22,7 +21,7 @@ const Footer: FC<Props> = (props) => {
                     </svg>
                      */}
                                 {props.companyName}
-                            </a>
+
                         </Link>
                     </div>
 
@@ -30,10 +29,8 @@ const Footer: FC<Props> = (props) => {
                         <p className="uppercase text-gray-700 md:mb-6">Links</p>
                         <ul className="list-reset mb-6">
                             <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                                <Link legacyBehavior href={getRouteById("FAQ").path}>
-                                    <a className="no-underline hover:underline text-gray-800 hover:text-orange-500">
+                                <Link href={getRouteById("FAQ").path} className="no-underline hover:underline text-gray-800 hover:text-orange-500">
                                         FAQ
-                                    </a>
                                 </Link>
                             </li>
                         </ul>
@@ -42,17 +39,15 @@ const Footer: FC<Props> = (props) => {
                         <p className="uppercase text-gray-700 md:mb-6">Legal</p>
                         <ul className="list-reset mb-6">
                             <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                                <Link legacyBehavior href={getRouteById("Terms").path}>
-                                    <a className="no-underline hover:underline text-gray-800 hover:text-orange-500">
+                                <Link href={getRouteById("Terms").path} className="no-underline hover:underline text-gray-800 hover:text-orange-500">
+
                                         Terms
-                                    </a>
+
                                 </Link>
                             </li>
                             <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                                <Link legacyBehavior href={getRouteById("Privacy").path}>
-                                    <a className="no-underline hover:underline text-gray-800 hover:text-orange-500">
+                                <Link href={getRouteById("Privacy").path} className="no-underline hover:underline text-gray-800 hover:text-orange-500">
                                         Privacy
-                                    </a>
                                 </Link>
                             </li>
                         </ul>
@@ -87,24 +82,24 @@ const Footer: FC<Props> = (props) => {
                         <p className="uppercase text-gray-700 md:mb-6">Company</p>
                         <ul className="list-reset mb-6">
                             <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                                <Link legacyBehavior href={getRouteById("Blog").path}>
-                                    <a className="no-underline hover:underline text-gray-800 hover:text-orange-500">
+                                <Link href={getRouteById("Blog").path} className="no-underline hover:underline text-gray-800 hover:text-orange-500">
+
                                         Blog
-                                    </a>
+
                                 </Link>
                             </li>
                             <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                                <Link legacyBehavior href={getRouteById("About").path}>
-                                    <a className="no-underline hover:underline text-gray-800 hover:text-orange-500">
+                                <Link href={getRouteById("About").path} className="no-underline hover:underline text-gray-800 hover:text-orange-500">
+
                                         About Us
-                                    </a>
+
                                 </Link>
                             </li>
                             <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                                <Link legacyBehavior href={getRouteById("Contact").path}>
-                                    <a className="no-underline hover:underline text-gray-800 hover:text-orange-500">
+                                <Link href={getRouteById("Contact").path} className="no-underline hover:underline text-gray-800 hover:text-orange-500">
+
                                         Contact
-                                    </a>
+
                                 </Link>
                             </li>
                         </ul>
