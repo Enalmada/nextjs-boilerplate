@@ -128,14 +128,17 @@ const Header: FC<Props> = (props) => {
 
                             </Link>
                         </li>
+                        <li className="mr-3">
+                            <Link legacyBehavior href={getRouteById("Home").path}>
+                                <button
+                                    id="navAction"
+                                    className={`mx-auto lg:mx-0 hover:underline font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 ${headerStyle.navaction}`}>
+                                    {user ? "App" : "Login"}
+                                </button>
+                            </Link>
+                        </li>
                     </ul>
-                    <Link legacyBehavior href={getRouteById("Home").path}>
-                        <button
-                            id="navAction"
-                            className={`mx-auto lg:mx-0 hover:underline font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 ${headerStyle.navaction}`}>
-                            {user ? "App" : "Login"}
-                        </button>
-                    </Link>
+
                 </div>
             </div>
 

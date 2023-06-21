@@ -17,11 +17,11 @@ const companyName = "Technical Challenge";
 
 const Layout = (props: PropsWithChildren<Props>) => {
     return (
-        <>
+        <span id={"sticky-footer"}>
             {!props.empty && <Header companyName={companyName} />}
             <main className={"flex-grow"}>{props.children}</main>
             {!props.empty && <Footer companyName={companyName} />}
-        </>
+        </span>
     );
 };
 

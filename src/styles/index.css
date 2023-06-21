@@ -20,7 +20,7 @@
 
     /* sticky footer hacking for next.js */
     /* purgecss ignore */
-    #__next {
+    #__next, #sticky-footer {
         height: 100%;
         display: flex;
         min-height: 100vh;
