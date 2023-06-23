@@ -1,5 +1,6 @@
+import { PrismaService } from "@/backend/prisma.service";
 import { TaskStatus } from "@prisma/client";
-import { Service } from "typedi";
+import { injectable } from "tsyringe";
 
 import { type Task, type TaskInput } from "./task.model";
 
@@ -13,14 +14,21 @@ const sampleTask: Task = {
   updatedAt: new Date(),
 };
 
-@Service()
+@injectable()
 export default class TaskService {
-  getTasks(): [Task] {
-    return [sampleTask];
+  constructor(private prisma: PrismaService) {}
+
+  getTasks() {
+    return this.prisma.task.findMany({
+      where: {
+        userId: "12222222222222222222222222222222",
+      },
+    });
   }
 
   upsertTask(input: TaskInput): Task {
     console.log("input: " + JSON.stringify(input));
+
     return {
       ...sampleTask,
       title: input.title,

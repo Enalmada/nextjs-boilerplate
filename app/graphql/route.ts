@@ -5,12 +5,13 @@ import { TaskResolver } from "@/task/task.resolver";
 import { UserResolver } from "@/user/user.resolver";
 import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
+import { container } from "tsyringe";
 import { buildSchema } from "type-graphql";
-import { Container } from "typedi";
 
 const schema = await buildSchema({
   resolvers: [UserResolver, TaskResolver],
-  container: Container,
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-return
+  container: { get: (cls) => container.resolve(cls) },
 });
 
 const server = new ApolloServer({

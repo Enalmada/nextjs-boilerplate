@@ -1,10 +1,10 @@
 import TaskService from "@/task/task.service";
+import { injectable } from "tsyringe";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
-import { Service } from "typedi";
 
 import { Task, TaskInput } from "./task.model";
 
-@Service()
+@injectable()
 @Resolver(() => Task)
 export class TaskResolver {
   constructor(private readonly taskService: TaskService) {}

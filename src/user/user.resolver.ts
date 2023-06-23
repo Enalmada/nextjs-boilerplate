@@ -1,10 +1,10 @@
 import UserService from "@/user/user.service";
+import { injectable } from "tsyringe";
 import { Query, Resolver } from "type-graphql";
-import { Service } from "typedi";
 
 import { User } from "./user.model";
 
-@Service()
+@injectable()
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
