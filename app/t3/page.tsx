@@ -1,11 +1,10 @@
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { type Session } from "next-auth";
-import { getServerSession } from "next-auth/next";
-import React from "react";
-
 import { authOptions } from "@/server/auth";
 import { prisma } from "@/server/db";
+import { type Session } from "next-auth";
+import { getServerSession } from "next-auth/next";
 
 import { SignIn, SignOut } from "./Actions";
 import Delete from "./Delete";

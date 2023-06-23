@@ -1,12 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2018",  // typegraphql uses features from ES2018
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext",
-      "esnext.asynciterable"
-    ],
+    "target": "es2018", // typegraphql uses features from ES2018
+    "lib": ["dom", "dom.iterable", "esnext", "esnext.asynciterable"],
     "allowJs": true,
     "checkJs": true,
     "skipLibCheck": true,
@@ -21,13 +16,11 @@
     "jsx": "preserve",
     "incremental": true,
     "noUncheckedIndexedAccess": true,
-    "emitDecoratorMetadata": true,  // Must be set to true to enable experimental support for emitting type metadata for the decorators we will be writing.
+    "emitDecoratorMetadata": true, // Must be set to true to enable experimental support for emitting type metadata for the decorators we will be writing.
     "experimentalDecorators": true, // Must be set to true to enable experimental support for decorators.
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
     "plugins": [
       {
@@ -44,7 +37,5 @@
     "**/*.mjs",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

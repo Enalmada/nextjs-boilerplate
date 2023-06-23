@@ -7,23 +7,27 @@
 @tailwind utilities;
 
 @layer base {
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    font-family: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+      "Noto Color Emoji";
+  }
 
-    html,body {
-        width: 100%;
-        height: 100%;
-        font-family: "Open Sans",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-    }
+  .gradient {
+    background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
+  }
 
-    .gradient {
-        background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
-    }
-
-    /* sticky footer hacking for next.js */
-    /* purgecss ignore */
-    #__next, #sticky-footer {
-        height: 100%;
-        display: flex;
-        min-height: 100vh;
-        flex-direction: column;
-    }
+  /* sticky footer hacking for next.js */
+  /* purgecss ignore */
+  #__next,
+  #sticky-footer {
+    height: 100%;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
 }

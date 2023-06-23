@@ -15,8 +15,12 @@ module.exports = {
   parserOptions: {
     project: "./tsconfig.json",
   },
-  plugins: ["@typescript-eslint", "simple-import-sort"],
-  extends: ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+  plugins: ["@typescript-eslint"],
+  extends: [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+  ],
   rules: {
     "@typescript-eslint/consistent-type-imports": [
       "warn",
@@ -29,11 +33,10 @@ module.exports = {
       "error",
       "double",
       {
-        "avoidEscape": true,
-        "allowTemplateLiterals": true
-      }
+        avoidEscape: true,
+        allowTemplateLiterals: true,
+      },
     ],
     "object-curly-spacing": ["error", "always"],
-    "simple-import-sort/imports": "error"  // https://remarkablemark.org/blog/2020/01/12/eslint-sort-imports/
   },
 };

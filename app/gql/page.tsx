@@ -1,9 +1,8 @@
 import Image from "next/image";
-import { type Session } from "next-auth";
-import { getServerSession } from "next-auth/next";
-
 import { authOptions } from "@/server/auth";
 import { prisma } from "@/server/db";
+import { type Session } from "next-auth";
+import { getServerSession } from "next-auth/next";
 
 import { SignIn, SignOut } from "./Actions";
 import Delete from "./Delete";

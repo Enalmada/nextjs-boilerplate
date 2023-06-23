@@ -1,6 +1,5 @@
 // @ts-check
-import withBundleAnalyzer from '@next/bundle-analyzer';
-
+import withBundleAnalyzer from "@next/bundle-analyzer";
 
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
@@ -36,8 +35,7 @@ const config = {
 };
 
 const bundleAnalyzer = withBundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
-})
+  enabled: process.env.ANALYZE === "true",
+});
 
 export default bundleAnalyzer(config);
-

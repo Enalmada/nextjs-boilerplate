@@ -1,36 +1,43 @@
 # Startup Boilerplate
 
 ## Getting Started
+
 - Install Docker or Rancher Desktop ([recommended](https://codeengineered.com/blog/2022/docker-desktop-vs-rancher-desktop/))
-- Install package manager.  pnpm ([recommended](https://www.atatus.com/blog/npm-vs-yarn-vs-pnpm/))
+- Install package manager. pnpm ([recommended](https://www.atatus.com/blog/npm-vs-yarn-vs-pnpm/))
   - `npm install -g pnpm`
 - Copy `.env.example` to `.env` and edit variables
 
 ## Development mode
+
 - `docker compose up -d`
 - `pnpm install`
 - `pnpm dev`
 
 ## Features
+
 🔥 React + Graphql + Prisma + Tailwind
 
 ### Frontend
+
 - ⚡ [Next.js](https://nextjs.org) Fullstack react framework with SWC
--💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
-- 💖 [Apollo Client](https://www.apollographql.com/docs/react/) graphql (state management, subscriptions, etc)  
+  -💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
+- 💖 [Apollo Client](https://www.apollographql.com/docs/react/) graphql (state management, subscriptions, etc)
   - Graphql code generation with [client preset](https://the-guild.dev/graphql/codegen/plugins/presets/preset-client)
-- 🔒 [Auth.js](https://authjs.dev/) authentication  
+- 🔒 [Auth.js](https://authjs.dev/) authentication
 
 #### Todo
+
 - [stailwc](https://github.com/arlyon/stailwc) tailwind with the power of css-in-js
-* error logging - sentry (see src/pages/_app.js)
+
+* error logging - sentry (see src/pages/\_app.js)
 * forms - react-hook-form makes forms simple and high performance
 * e2e testing - Playwright
 * unit testing - ViTest (ViTest ui for convenient dev coverage review)
 * deployment - AWS App Runner. quick and easy
 
 ### Backend
-- ⚡ [Next.js](https://nextjs.org) API routes.  Fullstack and serverless friendly
+
+- ⚡ [Next.js](https://nextjs.org) API routes. Fullstack and serverless friendly
 - [TypeGraphQL](https://typegraphql.com/) "code first" typesafe graphql
 - [CockroachDB](https://www.prisma.io/docs/guides/database/cockroachdb) database feels like a next gen postgres
 - [Prisma](https://www.prisma.io/) ORM
@@ -39,6 +46,7 @@
 - 💉 [typedi](https://docs.typestack.community/typedi/) Dependency Injection
 
 ### Features
+
 - ✅ [TypeScript](https://nextjs.org/docs/app/building-your-application/configuring/typescript) Strict
 - 📏 [ESLint and Prettier](https://nextjs.org/docs/pages/building-your-application/configuring/eslint#lint-staged) on commit with Husky
 - ⚙️ [Bundler Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
@@ -47,6 +55,7 @@
 - 🚓 Lint git commit with Commitlint
 
 #### TODO
+
 - 🦺 Unit Testing with ViTest and React Testing Library
 - 🧪 E2E Testing with Playwright
 - 👷 Run tests on pull request with GitHub Actions
@@ -58,24 +67,27 @@
 - validation - YEP is lightweight for client bundles
 - email templating - mjml
 
-
-
 ## TODO
-### Technical
-* graphql endpoint post uses csrf and server cookie
-* optimistic actions - app performs instant despite slow network
-* service worker - PWA, temporary offline support
-* graphql subscriptions (multi device real time)
-* full coverage of Jest and Cypress testing
-* analytics
-* localization - easier if everyone keeps english out of templates from the start
 
+### Technical
+
+- graphql endpoint post uses csrf and server cookie
+- optimistic actions - app performs instant despite slow network
+- service worker - PWA, temporary offline support
+- graphql subscriptions (multi device real time)
+- full coverage of Jest and Cypress testing
+- analytics
+- localization - easier if everyone keeps english out of templates from the start
 
 ## Notes
+
 ### CockroachDB
+
 cockroachdb with docker setup: https://gist.github.com/dbist/ebb1f39f580ad9d07c04c3a3377e2bff
 navigate to the admin-ui with http://127.0.0.1:8080
 
 # To allow the same kube context to work on the host and the container:
-127.0.0.1	kubernetes.docker.internal
+
+127.0.0.1 kubernetes.docker.internal
+
 # End of section
