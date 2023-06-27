@@ -2,11 +2,7 @@ import { type GetServerSidePropsContext } from "next";
 import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import {
-  getServerSession,
-  type DefaultSession,
-  type NextAuthOptions,
-} from "next-auth";
+import { getServerSession, type DefaultSession, type NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 /**
@@ -36,6 +32,12 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
+  session: {
+    // jwt vs database: https://stytch.com/blog/jwts-vs-sessions-which-is-right-for-you/
+    // errors when trying to change to jwt possibly fixed by:
+    // https://stackoverflow.com/questions/70409219/get-user-id-from-session-in-next-auth-client
+    strategy: "database",
+  },
   callbacks: {
     session({ session, user }) {
       if (session.user) {
