@@ -1,5 +1,3 @@
-"use client";
-
 import BreadCrumb from "@/client/components/Breadcrumb";
 import PageLayout from "@/client/components/layout/PageLayout";
 import TaskForm from "@/client/components/tasks/TaskForm";

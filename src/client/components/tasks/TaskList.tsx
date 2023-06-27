@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { TASKS } from "@/client/queries-mutations";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";

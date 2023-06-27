@@ -14,9 +14,7 @@ const BreadCrumb = (props: Props) => {
       <ol className="inline-flex list-none p-0">
         {props.routes.map((route) => (
           <li key={route.id} className="flex items-center">
-            <Link href={route.path}>
-              <a>{route.name}</a>
-            </Link>
+            <Link href={route.path}>{route.name}</Link>
             <svg
               className="mx-3 h-3 w-3 fill-current"
               xmlns="http://www.w3.org/2000/svg"

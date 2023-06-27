@@ -23,6 +23,9 @@ const config = {
   },
   experimental: {
     appDir: true,
+    // To prevent certain packages from being included in the client bundle
+    // https://codevoweb.com/setup-and-use-nextauth-in-nextjs-13-app-directory/
+    serverComponentsExternalPackages: ["@prisma/client", "bcryptjs"],
     /* currently crashing https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#swc-plugin
     swcPlugins: [
       ['@graphql-codegen/client-preset-swc-plugin', { artifactDirectory: './src/gql', gqlTagName: 'graphql' }]

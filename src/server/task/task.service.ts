@@ -1,4 +1,4 @@
-import { PrismaService } from "@/server/prisma.service";
+import { PrismaService } from "@/server/db/prisma.service";
 import authCheck from "@/server/utils/authCheck";
 import { type User } from "next-auth";
 import { injectable } from "tsyringe";

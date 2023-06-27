@@ -1,5 +1,3 @@
-"use client";
-
 import { type State } from "@/client/components/layout/Header";
 import { signIn, signOut } from "next-auth/react";
 

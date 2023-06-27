@@ -4,3 +4,5 @@ node_modules/**
 .vercel
 e2e/setup/storage-state.json
 src/gql
+dist
+build

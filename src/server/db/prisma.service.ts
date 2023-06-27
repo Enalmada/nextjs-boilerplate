@@ -11,6 +11,7 @@ Reference: https://github.com/prisma/prisma/issues/18628#issuecomment-1584985619
 export class PrismaService extends getExtendedClient() {}
 
 function getExtendedClient() {
+  // TODO: load this from db.ts instead
   const client = () =>
     new PrismaClient({
       log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],

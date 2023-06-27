@@ -2,7 +2,7 @@ import "reflect-metadata";
 
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { type NextRequest, type NextResponse } from "next/server";
-import { authOptions } from "@/server/auth";
+import { authOptions } from "@/lib/auth";
 import { TaskResolver } from "@/server/task/task.resolver";
 import { UserResolver } from "@/server/user/user.resolver";
 import { CustomAuthChecker } from "@/server/utils/customAuthorized";
