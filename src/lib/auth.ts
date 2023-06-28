@@ -38,6 +38,9 @@ const strategy = "jwt";
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
+  pages: {
+    signIn: "/login",
+  },
   session: {
     // jwt vs database: https://stytch.com/blog/jwts-vs-sessions-which-is-right-for-you/
     // errors when trying to change to jwt possibly fixed by:
