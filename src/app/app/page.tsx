@@ -1,26 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import PageLayout from "@/client/components/layout/PageLayout";
 import TaskList from "@/client/components/tasks/TaskList";
 import { getRouteById } from "@/client/utils/routes";
-import { useSession } from "next-auth/react";
 
 export const dynamic = "force-dynamic";
 
 export default function Page() {
-  const { status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      redirect("/api/auth/signin");
-    },
-  });
-
-  if (status === "loading") {
-    return <p>Loading....</p>;
-  }
-
   return (
     <PageLayout>
       <div>

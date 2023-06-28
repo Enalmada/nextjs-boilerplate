@@ -23,17 +23,15 @@
   -💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
 - 💖 [Apollo Client](https://www.apollographql.com/docs/react/) graphql (state management, subscriptions, etc)
   - Graphql code generation with [client preset](https://the-guild.dev/graphql/codegen/plugins/presets/preset-client)
-- 🔒 [Auth.js](https://authjs.dev/) authentication
+- 🔒 [NextAuth.js](https://authjs.dev/) authentication with jwt (vs database session for best latency)
+- react-hook-form for simple and high performance forms
 
 #### Todo
-
-- [stailwc](https://github.com/arlyon/stailwc) tailwind with the power of css-in-js
-
-* error logging - sentry (see src/pages/\_app.js)
-* forms - react-hook-form makes forms simple and high performance
-* e2e testing - Playwright
-* unit testing - ViTest (ViTest ui for convenient dev coverage review)
-* deployment - AWS App Runner. quick and easy
+- mantine layout, forms
+- error logging - sentry (see src/pages/\_app.js)
+- e2e testing - Playwright
+- unit testing - ViTest (ViTest ui for convenient dev coverage review)
+- deployment - AWS App Runner. quick and easy
 
 ### Backend
 
@@ -52,7 +50,7 @@
 - ⚙️ [Bundler Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
 - 💡 Absolute Imports using `@` prefix
 - [fixpack](https://github.com/henrikjoreteg/fixpack) package.json consistency
-- 🚓 Lint git commit with Commitlint
+- 🚓 commit messages validated with Commitlint
 
 #### TODO
 
@@ -61,33 +59,35 @@
 - 👷 Run tests on pull request with GitHub Actions
 - 🎉 Storybook for UI development
 - 🎁 Automatic changelog generation with Semantic Release
-- 🔍 Visual testing with Percy (Optional)
 - 🤖 SEO metadata, JSON-LD and Open Graph tags with Next SEO
 - 🗺️ Sitemap.xml and robots.txt with next-sitemap
 - validation - YEP is lightweight for client bundles
 - email templating - mjml
+- typesafe routes
+- PWA service worker config
 
 ## TODO
 
 ### Technical
 
-- graphql endpoint post uses csrf and server cookie
+- graphql endpoint post uses csrf
 - optimistic actions - app performs instant despite slow network
 - service worker - PWA, temporary offline support
 - graphql subscriptions (multi device real time)
-- full coverage of Jest and Cypress testing
 - analytics
 - localization - easier if everyone keeps english out of templates from the start
 
 ## Notes
 
+### Graphql playground
+http://localhost:3000/graphql
+to connect authenticated: `Connection Settings > Edit > Include Cookies > on`
+
 ### CockroachDB
-
 cockroachdb with docker setup: https://gist.github.com/dbist/ebb1f39f580ad9d07c04c3a3377e2bff
-navigate to the admin-ui with http://127.0.0.1:8080
+admin-ui: http://127.0.0.1:8080
 
-# To allow the same kube context to work on the host and the container:
-
+### To allow the same kube context to work on the host and the container:
 127.0.0.1 kubernetes.docker.internal
 
-# End of section
+

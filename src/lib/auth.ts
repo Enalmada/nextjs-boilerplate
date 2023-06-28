@@ -2,7 +2,12 @@ import { type GetServerSidePropsContext } from "next";
 import { env } from "@/env.mjs";
 import { prisma } from "@/server/db/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { getServerSession, type DefaultSession, type NextAuthOptions } from "next-auth";
+import {
+  getServerSession,
+  type DefaultSession,
+  type NextAuthOptions,
+  type SessionStrategy,
+} from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 /**
@@ -26,6 +31,7 @@ declare module "next-auth" {
   // }
 }
 
+const strategy = "jwt";
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
  *
@@ -36,15 +42,37 @@ export const authOptions: NextAuthOptions = {
     // jwt vs database: https://stytch.com/blog/jwts-vs-sessions-which-is-right-for-you/
     // errors when trying to change to jwt possibly fixed by:
     // https://stackoverflow.com/questions/70409219/get-user-id-from-session-in-next-auth-client
-    strategy: "database",
+    strategy: strategy,
   },
   callbacks: {
-    session({ session, user }) {
-      if (session.user) {
-        session.user.id = user.id;
-        // session.user.role = user.role; <-- put other properties on the session here
+    // Guide to getting this working.  next-auth docs were not working
+    // https://codevoweb.com/setup-and-use-nextauth-in-nextjs-13-app-directory/?unapproved=2132&moderation-hash=cb5ecacd77d3a4ec285c31770cfc3928#comment-2132
+    session({ session, token, user }) {
+      if (strategy === ("session" as SessionStrategy)) {
+        if (session.user) {
+          session.user.id = user.id;
+          // session.user.role = user.role; <-- put other properties on the session here
+          return session;
+        }
+        return session;
+      } else {
+        return {
+          ...session,
+          user: {
+            ...session.user,
+            id: token.id,
+          },
+        };
       }
-      return session;
+    },
+    jwt: ({ token, user }) => {
+      if (user) {
+        return {
+          ...token,
+          id: user.id,
+        };
+      }
+      return token;
     },
   },
   adapter: PrismaAdapter(prisma),

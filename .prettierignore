@@ -3,6 +3,6 @@ node_modules/**
 .next
 .vercel
 e2e/setup/storage-state.json
-src/gql
+src/client/gql
 dist
 build
