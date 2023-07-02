@@ -3,31 +3,13 @@ import Link from "next/link";
 import Layout from "@/client/components/layout/Layout";
 import { getRouteById } from "@/client/utils/routes";
 
-/*
-export default function Home() {
-
-    return (
-        <>
-            <main className="flex min-h-screen flex-col items-center justify-center text-white">
-                <div className="container flex flex-col items-center justify-center gap-10 px-4 py-16 ">
-                    <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-                        Our <span className="text-[hsl(280,100%,70%)]">BLOG</span> App
-                    </h1>
-                    <div className="flex flex-col items-center justify-center gap-1">
-
-                        Home
-
-                    </div>
-                </div>
-            </main>
-        </>
-    );
-}
-*/
+export const metadata = {
+  title: "Home",
+};
 
 export default function Home() {
   return (
-    <Layout title={"Home"}>
+    <Layout>
       <Hero />
       <Features />
       {/* <Users /> */}

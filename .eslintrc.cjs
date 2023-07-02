@@ -32,5 +32,6 @@ module.exports = {
       },
     ],
     "object-curly-spacing": ["error", "always"],
+    "no-console": ["error", { allow: ["warn", "error"] }],
   },
 };

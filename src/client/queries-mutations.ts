@@ -28,6 +28,20 @@ export const TASKS = graphql(/* GraphQL */ `
   }
 `);
 
+export const TASK = graphql(/* GraphQL */ `
+  query Task($input: FindTaskInput!) {
+    task(input: $input) {
+      id
+      title
+      description
+      dueDate
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`);
+
 export const UPSERT_TASK = graphql(/* GraphQL */ `
   mutation UpsertTask($input: TaskInput!) {
     upsertTask(input: $input) {

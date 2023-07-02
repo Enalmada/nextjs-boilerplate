@@ -1,11 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import { TASKS } from "@/client/queries-mutations";
-import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
+import { useQuery } from "@apollo/client";
 
 import Task from "./Task";
 
-const TaskList = () => {
-  const { data, error } = useSuspenseQuery(TASKS);
+export default function TaskList() {
+  const { data, error } = useQuery(TASKS);
 
   if (!data) return null;
   if (error) return <div>{`Error! ${error.message}`}</div>;
@@ -21,13 +23,10 @@ const TaskList = () => {
       {tasks.map((task) => {
         return (
           <Link href={`/app/task/${task.id}`} key={task.id}>
-            `
             <Task task={task} />
           </Link>
         );
       })}
     </div>
   );
-};
-
-export default TaskList;
+}

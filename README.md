@@ -93,3 +93,7 @@ admin-ui: http://127.0.0.1:8080
 ### To allow the same kube context to work on the host and the container:
 
 127.0.0.1 kubernetes.docker.internal
+
+### Firebase
+
+To switch to firebaseui - read this https://github.com/firebase/firebaseui-web-react/pull/173

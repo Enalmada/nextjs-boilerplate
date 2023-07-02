@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { TaskStatus, type Task } from "@/client/gql/graphql";
-import { DELETE_TASK, TASKS, UPSERT_TASK } from "@/client/queries-mutations";
+import { TaskStatus, type Task, type TaskQuery } from "@/client/gql/graphql";
+import { DELETE_TASK, TASK, TASKS, UPSERT_TASK } from "@/client/queries-mutations";
 import { getRouteById } from "@/client/utils/routes";
-import { useMutation, type ApolloError } from "@apollo/client";
+import { useMutation, useQuery, type ApolloError } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -13,11 +13,13 @@ import * as yup from "yup";
 import DatePicker from "../DatePicker";
 
 interface Props {
-  task?: Pick<Task, "id" | "title" | "description" | "dueDate" | "status">;
+  id?: string;
 }
 
-const TaskForm = (props: Props) => {
+export default function TaskForm(props: Props) {
   const router = useRouter();
+
+  const { data, error } = useQuery<TaskQuery>(TASK, { variables: { input: { id: props.id } } });
 
   const [upsertTask, { error: mutationError }] = useMutation(UPSERT_TASK, {
     refetchQueries: [{ query: TASKS }],
@@ -50,7 +52,7 @@ const TaskForm = (props: Props) => {
 
   const onSubmit = async ({ title, description, status, dueDate }: FormData) => {
     const input = {
-      id: props.task?.id,
+      id: props.id,
       title: title,
       description: description,
       dueDate: !dueDate || dueDate == "" ? null : new Date(dueDate),
@@ -77,7 +79,10 @@ const TaskForm = (props: Props) => {
     const errorMessage = graphQLErrors[0]?.message;
     return errorMessage ?? "No error message available";
   };
-  const { id, title, description, dueDate, status } = props.task || {};
+
+  if (error) return <div>{`Error! ${error.message}`}</div>;
+
+  const { id, title, description, dueDate, status } = data?.task as Task;
 
   return (
     <div className="max-w-sm sm:max-w-md md:max-w-lg">
@@ -216,7 +221,7 @@ const TaskForm = (props: Props) => {
       </form>
     </div>
   );
-};
+}
 
 const DeleteTaskButton = (props: { id: string }) => {
   const router = useRouter();
@@ -250,5 +255,3 @@ const DeleteTaskButton = (props: { id: string }) => {
     </>
   );
 };
-
-export default TaskForm;

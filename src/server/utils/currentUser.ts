@@ -1,9 +1,9 @@
-import { type Session } from "next-auth";
+import { type User } from "@prisma/client";
 import { createParamDecorator } from "type-graphql";
 
 export interface MyContextType {
-  session: Session;
+  user: User;
 }
 export function CurrentUser() {
-  return createParamDecorator<MyContextType>(({ context }) => context.session.user);
+  return createParamDecorator<MyContextType>(({ context }) => context.user);
 }

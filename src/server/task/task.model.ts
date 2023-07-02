@@ -6,9 +6,9 @@ registerEnumType(TaskStatus, {
 });
 
 @InputType()
-export class TaskListInput {
+export class FindTaskInput {
   @Field(() => ID)
-  userId!: string;
+  id!: string;
 }
 
 @InputType()

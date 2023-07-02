@@ -1,15 +1,18 @@
-"use client";
-
 import Link from "next/link";
+import BreadCrumb from "@/client/components/Breadcrumb";
 import PageLayout from "@/client/components/layout/PageLayout";
 import TaskList from "@/client/components/tasks/TaskList";
 import { getRouteById } from "@/client/utils/routes";
 
-export const dynamic = "force-dynamic";
+export const metadata = {
+  title: "Tasks",
+};
 
 export default function Page() {
   return (
     <PageLayout>
+      <BreadCrumb routes={[getRouteById("Home")]} />
+
       <div>
         <div className="my-2 w-full text-center text-2xl font-bold leading-tight text-gray-800">
           Task Manager

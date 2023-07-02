@@ -1,9 +1,9 @@
 import { PrismaService } from "@/server/db/prisma.service";
 import authCheck from "@/server/utils/authCheck";
-import { type User } from "next-auth";
+import { type User } from "@prisma/client";
 import { injectable } from "tsyringe";
 
-import { type TaskInput } from "./task.model";
+import { type FindTaskInput, type TaskInput } from "./task.model";
 
 @injectable()
 export default class TaskService {
@@ -12,6 +12,15 @@ export default class TaskService {
   getTasks(user: User) {
     return this.prisma.task.findMany({
       where: {
+        userId: user.id,
+      },
+    });
+  }
+
+  getTask(user: User, input: FindTaskInput) {
+    return this.prisma.task.findFirstOrThrow({
+      where: {
+        id: input.id,
         userId: user.id,
       },
     });

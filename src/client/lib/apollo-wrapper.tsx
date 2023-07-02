@@ -1,12 +1,28 @@
 "use client";
 
 // ^ this file needs the "use client" pragma
-import { ApolloClient, ApolloLink, HttpLink, SuspenseCache } from "@apollo/client";
+import { ApolloLink, HttpLink, SuspenseCache, type DefaultOptions } from "@apollo/client";
 import {
   ApolloNextAppProvider,
+  NextSSRApolloClient,
   NextSSRInMemoryCache,
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
+
+// Graphql error policies overridden to return data and errors (default is data OR errors)
+// This decision impacts the shape of the response so you need to decide up front
+// to handle errors appropriately
+// https://www.apollographql.com/docs/react/data/error-handling/#graphql-error-policies
+const defaultOptions: DefaultOptions = {
+  query: {
+    fetchPolicy: "cache-first",
+    errorPolicy: "all", // default "none"
+    partialRefetch: true,
+  },
+  mutate: {
+    errorPolicy: "all", // default "none"
+  },
+};
 
 // have a function to create a client for you
 function makeClient() {
@@ -18,8 +34,9 @@ function makeClient() {
     fetchOptions: { cache: "default" }, // default, no-store, reload, no-cache, force-cache, only-if-cached
   });
 
-  return new ApolloClient({
+  return new NextSSRApolloClient({
     // use the `NextSSRInMemoryCache`, not the normal `InMemoryCache`
+    defaultOptions: defaultOptions,
     cache: new NextSSRInMemoryCache(),
     link:
       typeof window === "undefined"

@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { SignIn, SignOut } from "@/app/Actions";
+import AuthButtons from "@/client/components/layout/header/AuthButtons";
 import { getRouteById } from "@/client/utils/routes";
-import { useSession } from "next-auth/react";
 
-// import { useAuth } from "../../utils/auth/auth";
+import ProfileButtons from "./header/ProfileButtons";
 
 interface Props {
   companyName: string;
@@ -21,7 +20,6 @@ export type State = {
 
 const Header = (props: Props) => {
   // const { user } = useAuth();
-  const { data: session } = useSession();
 
   const [showMenu, setShowMenu] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -83,7 +81,6 @@ const Header = (props: Props) => {
     // eslint-disable-next-line
   }, [isScrolled, showMenu]);
 
-  const active = false;
   return (
     <nav id="header" className={`fixed top-0 z-30 w-full text-white ${headerStyle.header}`}>
       <div className="container mx-auto mt-0 flex w-full flex-wrap items-center justify-between py-2">
@@ -128,21 +125,10 @@ const Header = (props: Props) => {
         >
           <ul className="list-reset flex-1 items-center justify-end lg:flex">
             <li className="mr-3">
-              <Link
-                href={getRouteById("About").path}
-                className={`inline-block px-4 py-2 text-black no-underline ${
-                  active ? "font-bold no-underline" : "hover:text-underline hover:text-gray-800"
-                }`}
-              >
-                About
-              </Link>
+              <ProfileButtons />
             </li>
             <li className="mr-3">
-              {session ? (
-                <SignOut headerStyle={headerStyle} />
-              ) : (
-                <SignIn headerStyle={headerStyle} />
-              )}
+              <AuthButtons headerStyle={headerStyle} />
             </li>
           </ul>
         </div>

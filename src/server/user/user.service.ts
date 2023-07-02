@@ -1,10 +1,26 @@
+import prismaClient from "@/server/db/db";
+import { PrismaService } from "@/server/db/prisma.service";
 import { injectable } from "tsyringe";
-
-import { type User } from "./user.model";
 
 @injectable()
 export default class UserService {
-  getUsers(): [User] {
-    return [{ id: "1", name: "Adam!", email: "enalmada@gmail.com" }];
+  constructor(private prisma: PrismaService) {}
+
+  static async createOrGetFirebaseUser(firebaseId: string, email: string | undefined) {
+    // TODO - send welcome email on new user creation
+    // EmailService.sendWelcome()
+
+    // To avoid an unnecessary update, we need to find first and compare incoming attributes that might be different
+    const user = await prismaClient.user.findFirst({ where: { firebaseId } });
+
+    if (!user || user.email != email) {
+      return prismaClient.user.upsert({
+        where: { firebaseId: firebaseId },
+        update: { firebaseId: firebaseId, email: email },
+        create: { firebaseId: firebaseId, email: email },
+      });
+    }
+
+    return user;
   }
 }

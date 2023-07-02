@@ -1,8 +1,7 @@
 import "@/client/styles/index.css";
 
+import { ServerAuthProvider } from "@/auth/server-auth-provider";
 import { ApolloWrapper } from "@/client/lib/apollo-wrapper";
-
-import { NextAuthProvider } from "./providers";
 
 export const metadata = {
   title: "Todo App",
@@ -13,9 +12,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={"gradient leading-normal tracking-normal text-white"}>
-        <NextAuthProvider>
+        <ServerAuthProvider>
           <ApolloWrapper>{children}</ApolloWrapper>
-        </NextAuthProvider>
+        </ServerAuthProvider>
       </body>
     </html>
   );

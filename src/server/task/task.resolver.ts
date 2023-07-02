@@ -1,10 +1,10 @@
 import TaskService from "@/server/task/task.service";
 import { CurrentUser } from "@/server/utils/currentUser";
-import { type User } from "next-auth";
+import { type User } from "@prisma/client";
 import { injectable } from "tsyringe";
 import { Arg, Authorized, Mutation, Query, Resolver } from "type-graphql";
 
-import { Task, TaskInput } from "./task.model";
+import { FindTaskInput, Task, TaskInput } from "./task.model";
 
 @injectable()
 @Resolver(() => Task)
@@ -15,6 +15,12 @@ export class TaskResolver {
   @Authorized()
   tasks(@CurrentUser() user: User) {
     return this.taskService.getTasks(user);
+  }
+
+  @Query(() => Task)
+  @Authorized()
+  task(@CurrentUser() user: User, @Arg("input") data: FindTaskInput) {
+    return this.taskService.getTask(user, data);
   }
 
   @Mutation(() => Task)

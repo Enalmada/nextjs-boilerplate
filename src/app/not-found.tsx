@@ -1,5 +1,8 @@
 import Link from "next/link";
 
+export const metadata = {
+  title: "Not Found",
+};
 export default function Page() {
   return (
     <div className="m-auto flex min-h-screen w-9/12 items-center justify-center py-16">
