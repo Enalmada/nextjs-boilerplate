@@ -1,6 +1,7 @@
 import { type Tenant } from "@/auth/types";
 import type { Auth, AuthError, AuthProvider, OAuthCredential } from "firebase/auth";
 import { type User as FirebaseUser, type IdTokenResult } from "firebase/auth";
+import type firebase from "firebase/compat";
 import { filterStandardClaims } from "next-firebase-auth-edge/lib/auth/tenant";
 
 const CREDENTIAL_ALREADY_IN_USE_ERROR = "auth/credential-already-in-use";
@@ -111,7 +112,26 @@ export const loginWithProvider = async (
   }
 
   const { signInWithPopup, browserPopupRedirectResolver } = await import("firebase/auth");
-  const result = await signInWithPopup(auth, provider, browserPopupRedirectResolver);
-  const idTokenResult = await result.user.getIdTokenResult();
-  return mapFirebaseResponseToTenant(idTokenResult, result.user);
+
+  try {
+    const result = await signInWithPopup(auth, provider, browserPopupRedirectResolver);
+    const idTokenResult = await result.user.getIdTokenResult();
+    return mapFirebaseResponseToTenant(idTokenResult, result.user);
+  } catch (error: unknown) {
+    if ((error as firebase.FirebaseError)?.code === "auth/popup-closed-by-user") {
+      // Handle the specific error: auth/popup-closed-by-user
+      console.warn("Popup closed by the user");
+      // Perform any necessary actions or show an error message to the user
+    } else if ((error as firebase.FirebaseError)?.code === "auth/cancelled-popup-request") {
+      // Handle the specific error: auth/cancelled-popup-request
+      console.warn("Popup request cancelled");
+      // Perform any necessary actions or show an error message to the user
+    } else {
+      // Handle other errors
+      console.error("Sign-in error:", error);
+      // Perform any necessary actions or show an error message to the user
+    }
+  }
+
+  return undefined as unknown as Tenant;
 };

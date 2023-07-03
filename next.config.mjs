@@ -7,28 +7,31 @@ import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from "next/constants
  */
 !process.env.SKIP_ENV_VALIDATION && (await import("./src/env.mjs"));
 
+// https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid#cross_origin_opener_policy
+// Content-Security-Policy: script-src https://accounts.google.com/gsi/client; frame-src https://accounts.google.com/gsi/; connect-src https://accounts.google.com/gsi/;
+
 // https://www.yagiz.co/securing-your-nextjs-13-application
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com/;
-  frame-src 'self' https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/;
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com/ https://accounts.google.com/gsi/client;
+  frame-src 'self' https://accounts.google.com/gsi/ https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/;
   style-src 'self' 'unsafe-inline';
   img-src * blob: data:;
   media-src 'none';
-  connect-src *;
+  connect-src * https://accounts.google.com/gsi/;
   font-src 'self';
-`.replace(/\n/g, '');
+`.replace(/\n/g, "");
 
 const securityHeaders = [
-  { key: 'Content-Security-Policy', value: ContentSecurityPolicy },
-  { key: 'Referrer-Policy', value: 'origin-when-cross-origin' },
-  { key: 'X-Frame-Options', value: 'DENY' },
-  { key: 'X-Content-Type-Options', value: 'nosniff' },
-  { key: 'X-DNS-Prefetch-Control', value: 'on' },
+  { key: "Content-Security-Policy", value: ContentSecurityPolicy },
+  { key: "Referrer-Policy", value: "origin-when-cross-origin" },
+  { key: "X-Frame-Options", value: "DENY" },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "X-DNS-Prefetch-Control", value: "on" },
   // { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains; preload' },
-  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
-  { key: 'X-XSS-Protection', value: '1; mode=block'},
-  { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups"},
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+  { key: "X-XSS-Protection", value: "1; mode=block" },
+  { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
 ];
 
 /** @type {import("next").NextConfig} */
@@ -37,9 +40,9 @@ const config = {
   reactStrictMode: true,
   async headers() {
     return [
-      { source: '/', headers: securityHeaders },
-      { source: '/(.*)', headers: securityHeaders },
-    ]
+      { source: "/", headers: securityHeaders },
+      { source: "/(.*)", headers: securityHeaders },
+    ];
   },
 
   /**
@@ -68,19 +71,15 @@ const config = {
   },
 };
 
-
-
 // @ts-ignore
 export default async function configureNextConfig(phase) {
   if (phase === PHASE_DEVELOPMENT_SERVER || phase === PHASE_PRODUCTION_BUILD) {
     const withBundleAnalyzer = await import("@next/bundle-analyzer");
 
     const bundleAnalyzerConfig = {
-      enabled: process.env.ANALYZE === "true"
+      enabled: process.env.ANALYZE === "true",
     };
     return withBundleAnalyzer.default(bundleAnalyzerConfig)(config);
   }
   return config;
 }
-
-

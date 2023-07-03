@@ -19,7 +19,10 @@ interface Props {
 export default function TaskForm(props: Props) {
   const router = useRouter();
 
-  const { data, error } = useQuery<TaskQuery>(TASK, { variables: { input: { id: props.id } } });
+  const { data, loading, error } = useQuery<TaskQuery>(TASK, {
+    variables: { input: { id: props.id } },
+    skip: props.id === undefined,
+  });
 
   const [upsertTask, { error: mutationError }] = useMutation(UPSERT_TASK, {
     refetchQueries: [{ query: TASKS }],
@@ -80,9 +83,13 @@ export default function TaskForm(props: Props) {
     return errorMessage ?? "No error message available";
   };
 
+  // Without this, updating description causes form update schema checking to say "title can't be blank"
+  if (props.id && loading) {
+    return null;
+  }
   if (error) return <div>{`Error! ${error.message}`}</div>;
 
-  const { id, title, description, dueDate, status } = data?.task as Task;
+  const { id, title, description, dueDate, status } = (data?.task as Task) || ({} as Task);
 
   return (
     <div className="max-w-sm sm:max-w-md md:max-w-lg">
