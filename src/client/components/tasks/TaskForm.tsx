@@ -2,8 +2,15 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { TaskStatus, type Task, type TaskQuery } from "@/client/gql/graphql";
+import {
+  TaskStatus,
+  type DeleteTaskMutation,
+  type Task,
+  type TaskQuery,
+  type TasksQuery,
+} from "@/client/gql/graphql";
 import { DELETE_TASK, TASK, TASKS, UPSERT_TASK } from "@/client/queries-mutations";
+import { optimisticResponseHelper, removeFromCache } from "@/client/utils/graphql-helpers";
 import { getRouteById } from "@/client/utils/routes";
 import { useMutation, useQuery, type ApolloError } from "@apollo/client";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -223,32 +230,30 @@ export default function TaskForm(props: Props) {
             </Link>
           </div>
 
-          {id && <DeleteTaskButton id={id} />}
+          {data?.task && <DeleteTaskButton task={data.task} />}
         </div>
       </form>
     </div>
   );
 }
 
-const DeleteTaskButton = (props: { id: string }) => {
+interface DeleteTaskButtonProps {
+  task: Task;
+}
+
+function DeleteTaskButton(props: DeleteTaskButtonProps) {
   const router = useRouter();
 
-  const [deleteTask] = useMutation(DELETE_TASK, {
-    refetchQueries: [{ query: TASKS }],
-  });
+  const [deleteTask] = useMutation(DELETE_TASK);
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     try {
-      await deleteTask({
-        variables: { id: props.id },
-        /*
-        update(cache) {
-          const normalizedId = cache.identify({ id: props.id, __typename: "Task" });
-          cache.evict({ id: normalizedId });
-          cache.gc();
-        }
-
-         */
+      void deleteTask({
+        variables: { id: props.task.id },
+        optimisticResponse: optimisticResponseHelper<DeleteTaskMutation>("deleteTask", props.task),
+        update(cache, { data }) {
+          removeFromCache<TasksQuery>(data?.deleteTask, TASKS, cache, "tasks");
+        },
       });
       router.push(getRouteById("Home").path);
     } catch (error) {
@@ -267,4 +272,4 @@ const DeleteTaskButton = (props: { id: string }) => {
       Delete
     </button>
   );
-};
+}
