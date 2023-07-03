@@ -20,7 +20,7 @@ export default function TaskForm(props: Props) {
   const router = useRouter();
 
   const { data, loading, error } = useQuery<TaskQuery>(TASK, {
-    variables: { input: { id: props.id } },
+    variables: { id: props.id },
     skip: props.id === undefined,
   });
 
@@ -237,28 +237,34 @@ const DeleteTaskButton = (props: { id: string }) => {
     refetchQueries: [{ query: TASKS }],
   });
 
+  const handleDelete = async () => {
+    try {
+      await deleteTask({
+        variables: { id: props.id },
+        /*
+        update(cache) {
+          const normalizedId = cache.identify({ id: props.id, __typename: "Task" });
+          cache.evict({ id: normalizedId });
+          cache.gc();
+        }
+
+         */
+      });
+      router.push(getRouteById("Home").path);
+    } catch (error) {
+      // Handle the error appropriately, e.g., display error message or redirect to error page
+      console.error("Error deleting task:", error);
+      // TODO: Display error message or redirect to error page
+    }
+  };
+
   return (
-    <>
-      <button
-        type="button"
-        className="rounded bg-red-600 p-5 py-2 font-bold text-white shadow-lg transition duration-200 hover:bg-red-700 hover:shadow-xl"
-        onClick={() => {
-          try {
-            // Wait for deleteTask to complete before router.push
-            // https://github.com/typescript-eslint/typescript-eslint/issues/4619#issuecomment-1055614155
-            void (async () => {
-              await deleteTask({ variables: { id: props.id } });
-              router.push(getRouteById("Home").path);
-            })();
-          } catch (e) {
-            // mutation error will render errors but not handle them
-            // https://stackoverflow.com/questions/59465864/handling-errors-with-react-apollo-usemutation-hook
-            // TODO: send error to error page
-          }
-        }}
-      >
-        Delete
-      </button>
-    </>
+    <button
+      type="button"
+      className="rounded bg-red-600 p-5 py-2 font-bold text-white shadow-lg transition duration-200 hover:bg-red-700 hover:shadow-xl"
+      onClick={() => void handleDelete()}
+    >
+      Delete
+    </button>
   );
 };

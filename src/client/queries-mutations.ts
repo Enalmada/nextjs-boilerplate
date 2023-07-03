@@ -29,8 +29,8 @@ export const TASKS = graphql(/* GraphQL */ `
 `);
 
 export const TASK = graphql(/* GraphQL */ `
-  query Task($input: FindTaskInput!) {
-    task(input: $input) {
+  query Task($id: ID!) {
+    task(id: $id) {
       id
       title
       description

@@ -6,12 +6,6 @@ registerEnumType(TaskStatus, {
 });
 
 @InputType()
-export class FindTaskInput {
-  @Field(() => ID)
-  id!: string;
-}
-
-@InputType()
 export class TaskInput {
   @Field(() => ID, { nullable: true })
   id?: string;

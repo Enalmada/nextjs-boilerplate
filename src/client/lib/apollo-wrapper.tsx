@@ -9,6 +9,8 @@ import {
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
 
+import typePolicies from "./typePolicies";
+
 // Graphql error policies overridden to return data and errors (default is data OR errors)
 // This decision impacts the shape of the response so you need to decide up front
 // to handle errors appropriately
@@ -37,7 +39,9 @@ function makeClient() {
   return new NextSSRApolloClient({
     // use the `NextSSRInMemoryCache`, not the normal `InMemoryCache`
     defaultOptions: defaultOptions,
-    cache: new NextSSRInMemoryCache(),
+    cache: new NextSSRInMemoryCache({
+      typePolicies: typePolicies,
+    }),
     link:
       typeof window === "undefined"
         ? ApolloLink.from([

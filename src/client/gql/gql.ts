@@ -14,7 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  query Tasks {\n    tasks {\n      id\n      title\n      description\n      dueDate\n      status\n      createdAt\n      updatedAt\n    }\n  }\n": types.TasksDocument,
-    "\n  query Task($input: FindTaskInput!) {\n    task(input: $input) {\n      id\n      title\n      description\n      dueDate\n      status\n      createdAt\n      updatedAt\n    }\n  }\n": types.TaskDocument,
+    "\n  query Task($id: ID!) {\n    task(id: $id) {\n      id\n      title\n      description\n      dueDate\n      status\n      createdAt\n      updatedAt\n    }\n  }\n": types.TaskDocument,
     "\n  mutation UpsertTask($input: TaskInput!) {\n    upsertTask(input: $input) {\n      id\n      title\n      description\n      dueDate\n      status\n      createdAt\n      updatedAt\n    }\n  }\n": types.UpsertTaskDocument,
     "\n  mutation DeleteTask($id: String!) {\n    deleteTask(id: $id) {\n      id\n      title\n      description\n      dueDate\n      status\n      createdAt\n      updatedAt\n    }\n  }\n": types.DeleteTaskDocument,
 };
@@ -40,7 +40,7 @@ export function graphql(source: "\n  query Tasks {\n    tasks {\n      id\n     
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Task($input: FindTaskInput!) {\n    task(input: $input) {\n      id\n      title\n      description\n      dueDate\n      status\n      createdAt\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  query Task($input: FindTaskInput!) {\n    task(input: $input) {\n      id\n      title\n      description\n      dueDate\n      status\n      createdAt\n      updatedAt\n    }\n  }\n"];
+export function graphql(source: "\n  query Task($id: ID!) {\n    task(id: $id) {\n      id\n      title\n      description\n      dueDate\n      status\n      createdAt\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  query Task($id: ID!) {\n    task(id: $id) {\n      id\n      title\n      description\n      dueDate\n      status\n      createdAt\n      updatedAt\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

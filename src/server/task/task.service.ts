@@ -3,7 +3,7 @@ import authCheck from "@/server/utils/authCheck";
 import { type User } from "@prisma/client";
 import { injectable } from "tsyringe";
 
-import { type FindTaskInput, type TaskInput } from "./task.model";
+import { type TaskInput } from "./task.model";
 
 @injectable()
 export default class TaskService {
@@ -17,10 +17,10 @@ export default class TaskService {
     });
   }
 
-  getTask(user: User, input: FindTaskInput) {
+  getTask(user: User, id: string) {
     return this.prisma.task.findFirstOrThrow({
       where: {
-        id: input.id,
+        id,
         userId: user.id,
       },
     });
