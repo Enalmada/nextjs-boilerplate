@@ -14,6 +14,7 @@ export function LoginPage() {
   const params = useSearchParams();
   const [hasLogged, setHasLogged] = useState(false);
   const { getFirebaseAuth } = useFirebaseAuth(clientConfig);
+  const router = useRouter();
 
   const handleLoginWithGoogle = async () => {
     setHasLogged(false);
@@ -33,9 +34,8 @@ export function LoginPage() {
     });
     setHasLogged(true);
     const redirect = params?.get("redirect");
-    // TODO: figure out how to do this without full page reload.
-    // router.push(redirect ?? "/");
-    window.location.replace(redirect ?? "/");
+    router.refresh(); // This seems necessary to avoid a full window.reload
+    router.push(redirect ?? "/");
   };
 
   return (

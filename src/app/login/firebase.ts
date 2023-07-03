@@ -53,7 +53,7 @@ export const getGoogleProvider = async (auth: Auth) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useDeviceLanguage(auth);
   provider.setCustomParameters({
-    display: "popup",
+    display: "popup", // popup|redirect|touch|page
   });
 
   return provider;
