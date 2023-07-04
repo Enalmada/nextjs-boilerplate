@@ -31,6 +31,7 @@ const securityHeaders = [
   // { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains; preload' },
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
   { key: "X-XSS-Protection", value: "1; mode=block" },
+  // https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid#cross_origin_opener_policy
   { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
 ];
 
