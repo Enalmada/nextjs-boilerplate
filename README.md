@@ -33,6 +33,7 @@
 - e2e testing - Playwright
 - unit testing - ViTest (ViTest ui for convenient dev coverage review)
 - deployment - AWS App Runner. quick and easy
+- 💎 [CVA](https://cva.style/docs) - Create reusable css (css-in-js alternative)
 
 ### Backend
 
@@ -47,10 +48,11 @@
 ### Features
 
 - ✅ [TypeScript](https://nextjs.org/docs/app/building-your-application/configuring/typescript) Strict
+- 🛠️ Extremely strict TypeScript - With ts-reset library for ultimate type safety
 - 📏 [ESLint and Prettier](https://nextjs.org/docs/pages/building-your-application/configuring/eslint#lint-staged) on commit with Husky
 - ⚙️ [Bundler Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
-- 💡 Absolute Imports using `@` prefix
-- [fixpack](https://github.com/henrikjoreteg/fixpack) package.json consistency
+- 🎯 [Absolute imports](https://nextjs.org/docs/pages/building-your-application/configuring/absolute-imports-and-module-aliases) - No more spaghetti imports
+- [fixpack](https://github.com/henrikjoreteg/fixpack) package.json normalization
 - 🚓 commit messages validated with Commitlint
 
 #### TODO
@@ -97,3 +99,9 @@ admin-ui: http://127.0.0.1:8080
 ### Firebase
 
 To switch to firebaseui - read this https://github.com/firebase/firebaseui-web-react/pull/173
+
+### AI Code review
+
+To review all staged files https://medium.com/@samho1996/how-do-i-make-use-of-chatgpt-to-review-my-code-33efd8f42178
+Note on windows you will need to set: `npm config set script-shell "C:\\Program Files\\git\\bin\\bash.exe"`
+https://stackoverflow.com/questions/23243353/how-to-set-shell-for-npm-run-scripts-in-windows

@@ -2,18 +2,25 @@ version: "3.9"
 
 services:
   crdb:
-    image: cockroachdb/cockroach:v23.1.2
+    image: cockroachdb/cockroach:${CRDB_VERSION:-v23.1.2}
+    container_name: crdb
     ports:
       - "26257:26257"
       - "8080:8080"
     command: start-single-node --insecure
     volumes:
-      - "./cockroach-data/crdb:/cockroach/cockroach-data"
+      - "crdb-data:/cockroach/cockroach-data"
+
   crdbTest:
-    image: cockroachdb/cockroach:v23.1.2
+    image: cockroachdb/cockroach:${CRDB_VERSION:-v23.1.2}
+    container_name: crdbTest
     ports:
       - "26258:26257"
       - "8081:8088"
     command: start-single-node --insecure
     volumes:
-      - "./cockroach-data/crdb:/cockroach/cockroach-data-test"
+      - "crdb-data-test:/cockroach/cockroach-data-test"
+
+volumes:
+  crdb-data:
+  crdb-data-test:

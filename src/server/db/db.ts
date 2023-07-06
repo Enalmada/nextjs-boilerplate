@@ -4,7 +4,6 @@ import { PrismaClient } from "@prisma/client";
 // https://github.com/karlhorky/next-js-tricks#avoid-postgresql-connection-slots-error-with-development-server
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
 
-// TODO: load this in prisma.service.ts instead of again
 export const prisma =
   globalForPrisma.prisma ||
   new PrismaClient({

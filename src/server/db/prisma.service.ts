@@ -1,22 +1,14 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/server/db/db";
 import { singleton } from "tsyringe";
 
 export * from "@prisma/client";
 
-/*
-Reference: https://github.com/prisma/prisma/issues/18628#issuecomment-1584985619
- */
-
+// Reference: https://github.com/prisma/prisma/issues/18628#issuecomment-1584985619
 @singleton()
 export class PrismaService extends getExtendedClient() {}
 
 function getExtendedClient() {
-  // TODO: load this from db.ts instead
-  const client = () =>
-    new PrismaClient({
-      log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
-    });
-
+  const client = () => prisma;
   return class {
     // wrapper with type-safety 🎉
     constructor() {
