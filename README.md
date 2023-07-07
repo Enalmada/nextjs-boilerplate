@@ -1,16 +1,13 @@
 # Startup Boilerplate
 
 ## Getting Started
-
+- Install [node](https://nodejs.org/en/download)
 - Install Docker or Rancher Desktop ([recommended](https://codeengineered.com/blog/2022/docker-desktop-vs-rancher-desktop/))
 - Install package manager. pnpm ([recommended](https://www.atatus.com/blog/npm-vs-yarn-vs-pnpm/))
   - `npm install -g pnpm`
-- Copy `.env.example` to `.env` and edit variables
+- Copy `.env.example` to `.env.local` and edit variables
 
 ## Development mode
-
-- `docker compose up -d`
-- `pnpm install`
 - `pnpm dev`
 
 ## Features
@@ -23,16 +20,17 @@
   -💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
 - 💖 [Apollo Client](https://www.apollographql.com/docs/react/) graphql (state management, subscriptions, etc)
   - Graphql code generation with [client preset](https://the-guild.dev/graphql/codegen/plugins/presets/preset-client)
-- 🔒 [NextAuth.js](https://authjs.dev/) authentication with jwt (vs database session for best latency)
+  - optimistic actions - instant update while network in process
+- 🔒 [firebase auth](https://github.com/awinogrodzki/next-firebase-auth-edge) edge compatible
 - react-hook-form for simple and high performance forms
+- 🗺️ Sitemap.xml and robots.txt with [next-sitemap](https://github.com/iamvishnusankar/next-sitemap)
 
 #### Todo
 
-- mantine layout, forms
 - error logging - sentry (see src/pages/\_app.js)
 - e2e testing - Playwright
 - unit testing - ViTest (ViTest ui for convenient dev coverage review)
-- deployment - AWS App Runner. quick and easy
+- deployment - AWS App Runner or Cloudflare pages
 - 💎 [CVA](https://cva.style/docs) - Create reusable css (css-in-js alternative)
 
 ### Backend
@@ -43,16 +41,16 @@
 - [Prisma](https://www.prisma.io/) ORM
   - See prisma/schema.prisma for intuitive DB mapping
   - schema migrations with [Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate)
-- 💉 [typedi](https://docs.typestack.community/typedi/) Dependency Injection
+- 💉 [tsyringe](https://github.com/microsoft/tsyringe) Dependency Injection
 
 ### Features
 
 - ✅ [TypeScript](https://nextjs.org/docs/app/building-your-application/configuring/typescript) Strict
-- 🛠️ Extremely strict TypeScript - With ts-reset library for ultimate type safety
+  - ts-reset library for extra type safety
 - 📏 [ESLint and Prettier](https://nextjs.org/docs/pages/building-your-application/configuring/eslint#lint-staged) on commit with Husky
 - ⚙️ [Bundler Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
 - 🎯 [Absolute imports](https://nextjs.org/docs/pages/building-your-application/configuring/absolute-imports-and-module-aliases) - No more spaghetti imports
-- [fixpack](https://github.com/henrikjoreteg/fixpack) package.json normalization
+- 🛠️ ️[fixpack](https://github.com/henrikjoreteg/fixpack) package.json normalization
 - 🚓 commit messages validated with Commitlint
 
 #### TODO
@@ -63,19 +61,12 @@
 - 🎉 Storybook for UI development
 - 🎁 Automatic changelog generation with Semantic Release
 - 🤖 SEO metadata, JSON-LD and Open Graph tags with Next SEO
-- 🗺️ Sitemap.xml and robots.txt with next-sitemap
 - validation - YEP is lightweight for client bundles
 - email templating - mjml
 - typesafe routes
 - PWA service worker config
-
-## TODO
-
-### Technical
-
+- release-please https://github.com/googleapis/release-please
 - graphql endpoint post uses csrf
-- optimistic actions - app performs instant despite slow network
-- service worker - PWA, temporary offline support
 - graphql subscriptions (multi device real time)
 - analytics
 - localization - easier if everyone keeps english out of templates from the start
