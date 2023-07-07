@@ -137,7 +137,7 @@ export function getNamedUrl(
     let href = route.path;
     if (variables && Object.keys(variables).length) {
       for (const key in variables) {
-        href = href.replace(`[${key}]`, <string>variables[key]);
+        href = href.replace(`[${key}]`, variables[key] as string);
       }
     }
 
