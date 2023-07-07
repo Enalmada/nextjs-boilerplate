@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+export const runtime = "edge"; // https://github.com/cloudflare/next-on-pages
+
 export const metadata = {
   title: "Maintenance",
 };

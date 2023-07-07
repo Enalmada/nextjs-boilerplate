@@ -1,6 +1,7 @@
 # Startup Boilerplate
 
 ## Getting Started
+
 - Install [node](https://nodejs.org/en/download)
 - Install Docker or Rancher Desktop ([recommended](https://codeengineered.com/blog/2022/docker-desktop-vs-rancher-desktop/))
 - Install package manager. pnpm ([recommended](https://www.atatus.com/blog/npm-vs-yarn-vs-pnpm/))
@@ -8,6 +9,7 @@
 - Copy `.env.example` to `.env.local` and edit variables
 
 ## Development mode
+
 - `pnpm dev`
 
 ## Features
@@ -30,7 +32,7 @@
 - error logging - sentry (see src/pages/\_app.js)
 - e2e testing - Playwright
 - unit testing - ViTest (ViTest ui for convenient dev coverage review)
-- deployment - AWS App Runner or Cloudflare pages
+- deployment - AWS App Runner or [Cloudflare pages](https://github.com/cloudflare/next-on-pages)
 - 💎 [CVA](https://cva.style/docs) - Create reusable css (css-in-js alternative)
 
 ### Backend

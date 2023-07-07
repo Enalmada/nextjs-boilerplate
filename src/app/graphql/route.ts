@@ -14,6 +14,8 @@ import { container } from "tsyringe";
 import type InjectionToken from "tsyringe/dist/typings/providers/injection-token";
 import { buildSchema } from "type-graphql";
 
+export const runtime = "edge"; // https://github.com/cloudflare/next-on-pages
+
 const schema = await buildSchema({
   resolvers: [UserResolver, TaskResolver],
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return

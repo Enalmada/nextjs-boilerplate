@@ -4,6 +4,8 @@ import PageLayout from "@/client/components/layout/PageLayout";
 import TaskList from "@/client/components/tasks/TaskList";
 import { getRouteById } from "@/client/utils/routes";
 
+export const runtime = "edge"; // https://github.com/cloudflare/next-on-pages
+
 export const metadata = {
   title: "Tasks",
 };

@@ -3,6 +3,8 @@ import Link from "next/link";
 import Layout from "@/client/components/layout/Layout";
 import { getRouteById } from "@/client/utils/routes";
 
+export const runtime = "edge"; // https://github.com/cloudflare/next-on-pages
+
 export const metadata = {
   title: "Home",
 };
