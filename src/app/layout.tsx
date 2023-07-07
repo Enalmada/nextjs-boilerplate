@@ -3,10 +3,10 @@ import "@/client/styles/index.css";
 import { Inter, Roboto_Mono } from "next/font/google";
 import { ServerAuthProvider } from "@/auth/server-auth-provider";
 import { ApolloWrapper } from "@/client/lib/apollo-wrapper";
+import metadataConfig from "@/metadata.config";
 
 export const metadata = {
-  title: "Todo App",
-  description: "Everyone loves a simple todo app exercise.",
+  ...metadataConfig,
 };
 
 // https://nextjs.org/docs/app/building-your-application/optimizing/fonts#with-tailwind-css

@@ -16,7 +16,7 @@
     "format:check": "prettier --check .",
     "improve": "node openai.js --overwrite",
     "lint": "dotenv -e ./.env.local -e ./.env.development next lint  && pnpm format:check && && pnpm check-types",
-    "lint:fix": "dotenv -e ./.env.local -e ./.env.development next lint --fix && pnpm format && pnpm check-types",
+    "lint:fix": "pnpm format && dotenv -e ./.env.local -e ./.env.development next lint --fix && pnpm check-types",
     "migrate": "dotenv -e ./.env.local -e ./.env.development prisma migrate dev",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "postinstall": "prisma generate",

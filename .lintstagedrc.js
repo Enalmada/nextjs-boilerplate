@@ -12,6 +12,6 @@ const buildEslintCommand = (filenames) =>
 const buildPrettierCommand = (filenames) => `pnpm prettier --write ${filenames.join(" ")}`;
 
 module.exports = {
-  "*.{ts,tsx}": [buildEslintCommand, buildPrettierCommand],
+  "*.{ts,tsx}": [buildPrettierCommand, buildEslintCommand],
   "**/*.(ts|tsx)": [tsc],
 };

@@ -105,3 +105,7 @@ To switch to firebaseui - read this https://github.com/firebase/firebaseui-web-r
 To review all staged files https://medium.com/@samho1996/how-do-i-make-use-of-chatgpt-to-review-my-code-33efd8f42178
 Note on windows you will need to set: `npm config set script-shell "C:\\Program Files\\git\\bin\\bash.exe"`
 https://stackoverflow.com/questions/23243353/how-to-set-shell-for-npm-run-scripts-in-windows
+
+### Favicon
+
+use this site to generate: https://realfavicongenerator.net/
