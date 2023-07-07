@@ -4,6 +4,10 @@ import { z } from "zod";
 export const env = createEnv({
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   server: {
+    ANALYZE: z
+      .enum(["true", "false"])
+      .optional()
+      .transform((value) => value === "true"),
     NODE_ENV: z.enum(["development", "test", "production"]),
     APP_ENV: z.enum(["local", "development", "production"]),
     DATABASE_URL: z.string().url(),
