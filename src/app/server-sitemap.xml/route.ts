@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { env } from "@/env.mjs";
 import { getServerSideSitemap } from "next-sitemap";
 
 export async function GET(request: Request) {
@@ -7,7 +8,7 @@ export async function GET(request: Request) {
 
   return getServerSideSitemap([
     {
-      loc: `${process.env.NEXT_PUBLIC_REDIRECT_URL || ""}`,
+      loc: `${env.NEXT_PUBLIC_REDIRECT_URL || ""}`,
       lastmod: new Date().toISOString(),
     },
   ]);

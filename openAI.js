@@ -50,7 +50,7 @@ Format the response as follows:
   - Do not include any metadata like "Updated file contents:" after the identifier.
   
 ${code}
-  `
+  `;
 
   const messages = [
     {
@@ -62,7 +62,6 @@ ${code}
       content: shouldOverwrite ? promptImprove : promptReview,
     },
   ];
-
 
   const request = {
     model: "gpt-3.5-turbo",

@@ -1,17 +1,19 @@
+import { env } from "@/env.mjs";
+
 export const serverConfig = {
-  useSecureCookies: process.env.USE_SECURE_COOKIES === "true",
-  firebaseApiKey: process.env.FIREBASE_API_KEY!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
+  useSecureCookies: env.USE_SECURE_COOKIES === "true",
+  firebaseApiKey: env.NEXT_PUBLIC_FIREBASE_API_KEY,
   serviceAccount: {
-    projectId: process.env.FIREBASE_PROJECT_ID!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
-    clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
-    privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY!.replace(/\\n/g, "\n"), // eslint-disable-line @typescript-eslint/no-non-null-assertion
+    projectId: env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    clientEmail: env.FIREBASE_ADMIN_CLIENT_EMAIL,
+    privateKey: env.FIREBASE_ADMIN_PRIVATE_KEY.replace(/\\n/g, "\n"),
   },
 };
 
 export const authConfig = {
   apiKey: serverConfig.firebaseApiKey,
   cookieName: "AuthToken",
-  cookieSignatureKeys: [process.env.FIREBASE_SECRET1!, process.env.FIREBASE_SECRET2!], // eslint-disable-line @typescript-eslint/no-non-null-assertion
+  cookieSignatureKeys: [env.FIREBASE_SECRET1, env.FIREBASE_SECRET2],
   cookieSerializeOptions: {
     path: "/",
     httpOnly: true,

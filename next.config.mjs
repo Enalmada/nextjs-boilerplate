@@ -1,11 +1,7 @@
 // @ts-check
 import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from "next/constants.js";
 
-/**
- * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
- * This is especially useful for Docker builds.
- */
-!process.env.SKIP_ENV_VALIDATION && (await import("./src/env.mjs"));
+import "./src/env.mjs";
 
 // https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid#cross_origin_opener_policy
 // Content-Security-Policy: script-src https://accounts.google.com/gsi/client; frame-src https://accounts.google.com/gsi/; connect-src https://accounts.google.com/gsi/;
