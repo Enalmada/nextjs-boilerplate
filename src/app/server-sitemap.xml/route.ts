@@ -2,8 +2,6 @@
 import { env } from "@/env.mjs";
 import { getServerSideSitemap } from "next-sitemap";
 
-export const runtime = "edge"; // https://github.com/cloudflare/next-on-pages
-
 export async function GET(request: Request) {
   // Method to source urls from cms
   // const urls = await fetch('https//example.com/api')

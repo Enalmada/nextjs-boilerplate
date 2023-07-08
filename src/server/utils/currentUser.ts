@@ -2,8 +2,10 @@ import { type User } from "@prisma/client";
 import { createParamDecorator } from "type-graphql";
 
 export interface MyContextType {
-  user: User;
+  currentUser: User;
 }
 export function CurrentUser() {
-  return createParamDecorator<MyContextType>(({ context }) => context.user);
+  return createParamDecorator<MyContextType>(({ context }) => {
+    return context.currentUser;
+  });
 }

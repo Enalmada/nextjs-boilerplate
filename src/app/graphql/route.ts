@@ -1,5 +1,62 @@
 import "reflect-metadata";
 
+import { type NextRequest } from "next/server";
+import { authConfig } from "@/config/server-config";
+import { TaskResolver } from "@/server/task/task.resolver";
+import { UserResolver } from "@/server/user/user.resolver";
+import UserService from "@/server/user/user.service";
+import { CustomAuthChecker } from "@/server/utils/customAuthorized";
+import { useGenericAuth } from "@envelop/generic-auth";
+import { type User } from "@prisma/client";
+import { createYoga, type YogaInitialContext } from "graphql-yoga";
+import { getTokens } from "next-firebase-auth-edge/lib/next/tokens";
+import { container } from "tsyringe";
+import type InjectionToken from "tsyringe/dist/typings/providers/injection-token";
+import { buildSchema } from "type-graphql";
+
+// export const runtime = 'edge';
+
+const schema = await buildSchema({
+  resolvers: [UserResolver, TaskResolver],
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  container: { get: (cls: InjectionToken) => container.resolve(cls) },
+  authChecker: CustomAuthChecker,
+});
+
+const handleFirebase = async (req: NextRequest) => {
+  const tokens = await getTokens(req.cookies, authConfig);
+  const { uid: firebaseId, email } = tokens?.decodedToken ?? {};
+  return firebaseId ? await UserService.createOrGetFirebaseUser(firebaseId, email) : null;
+};
+
+// Next.js Custom Route Handler: https://nextjs.org/docs/app/building-your-application/routing/router-handlers
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const { handleRequest } = createYoga<unknown, { currentUser: User }>({
+  plugins: [
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,react-hooks/rules-of-hooks
+    useGenericAuth({
+      mode: "protect-granular",
+      async resolveUserFn(context: YogaInitialContext) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        return await handleFirebase(context.request as NextRequest);
+      },
+    }),
+  ],
+  schema: schema,
+
+  // While using Next.js file convention for routing, we need to configure Yoga to use the correct endpoint
+  graphqlEndpoint: "/graphql",
+
+  // Yoga needs to know how to create a valid Next response
+  fetchAPI: { Response },
+});
+
+export { handleRequest as GET, handleRequest as POST };
+
+/*
+import "reflect-metadata";
+
 import { type NextApiResponse } from "next";
 import { type NextRequest } from "next/server";
 import { authConfig } from "@/config/server-config";
@@ -13,8 +70,6 @@ import { getTokens } from "next-firebase-auth-edge/lib/next/tokens";
 import { container } from "tsyringe";
 import type InjectionToken from "tsyringe/dist/typings/providers/injection-token";
 import { buildSchema } from "type-graphql";
-
-export const runtime = "edge"; // https://github.com/cloudflare/next-on-pages
 
 const schema = await buildSchema({
   resolvers: [UserResolver, TaskResolver],
@@ -50,3 +105,4 @@ export async function GET(req: NextRequest, res: NextApiResponse) {
 export async function POST(req: NextRequest, res: NextApiResponse) {
   return handler(req, res);
 }
+ */

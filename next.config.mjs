@@ -3,19 +3,25 @@ import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from "next/constants
 
 import "./src/env.mjs";
 
+const graphiQL = "https://unpkg.com/@graphql-yoga/";
+
 // https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid#cross_origin_opener_policy
-// Content-Security-Policy: script-src https://accounts.google.com/gsi/client; frame-src https://accounts.google.com/gsi/; connect-src https://accounts.google.com/gsi/;
+const firebase = {
+  script: "https://apis.google.com/ https://accounts.google.com/gsi/client",
+  connect: "https://accounts.google.com/gsi/",
+}
 
 // https://www.yagiz.co/securing-your-nextjs-13-application
+// font-src data: added for graphiQL
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com/ https://accounts.google.com/gsi/client;
-  frame-src 'self' https://accounts.google.com/gsi/ https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/;
-  style-src 'self' 'unsafe-inline';
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' ${firebase.script} ${graphiQL};
+  frame-src 'self' ${firebase.connect} https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/;
+  style-src 'self' 'unsafe-inline' ${graphiQL};
   img-src * blob: data:;
   media-src 'none';
-  connect-src * https://accounts.google.com/gsi/;
-  font-src 'self';
+  connect-src * ${firebase.connect};
+  font-src 'self' data:;
 `.replace(/\n/g, "");
 
 const securityHeaders = [
@@ -31,10 +37,18 @@ const securityHeaders = [
   { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
 ];
 
+const cloudflarePages = {
+  images: {
+    loader: "custom",
+    loaderFile: "./imageLoader.js",
+  },
+};
+
 /** @type {import("next").NextConfig} */
 const config = {
   poweredByHeader: false,
   reactStrictMode: true,
+  ...cloudflarePages,
   async headers() {
     return [
       { source: "/", headers: securityHeaders },

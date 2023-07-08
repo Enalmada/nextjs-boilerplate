@@ -4,8 +4,6 @@ import { Button } from "@/ui/button";
 import styles from "./page.module.css";
 import { UserProfile } from "./UserProfile";
 
-export const runtime = "edge"; // https://github.com/cloudflare/next-on-pages
-
 export const metadata = {
   title: "Profile",
 };

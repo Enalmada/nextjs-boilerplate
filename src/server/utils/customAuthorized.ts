@@ -9,6 +9,6 @@ export class CustomAuthChecker implements AuthCheckerInterface<MyContextType> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     roles: string[]
   ) {
-    return typeof context.user !== "undefined";
+    return typeof context.currentUser !== "undefined";
   }
 }

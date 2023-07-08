@@ -19,59 +19,62 @@
 ### Frontend
 
 - ⚡ [Next.js](https://nextjs.org) Fullstack react framework with SWC
-  -💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
+  - - ✅ [TypeScript](https://nextjs.org/docs/app/building-your-application/configuring/typescript) Strict
+  - ts-reset library for extra type safety
+  - 📏 [ESLint and Prettier](https://nextjs.org/docs/pages/building-your-application/configuring/eslint#lint-staged) on commit with Husky
+  - ⚙️ [Bundler Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
+  - 🎯 [Absolute imports](https://nextjs.org/docs/pages/building-your-application/configuring/absolute-imports-and-module-aliases) - No more spaghetti imports
+-💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
 - 💖 [Apollo Client](https://www.apollographql.com/docs/react/) graphql (state management, subscriptions, etc)
   - Graphql code generation with [client preset](https://the-guild.dev/graphql/codegen/plugins/presets/preset-client)
   - optimistic actions - instant update while network in process
 - 🔒 [firebase auth](https://github.com/awinogrodzki/next-firebase-auth-edge) edge compatible
 - react-hook-form for simple and high performance forms
 - 🗺️ Sitemap.xml and robots.txt with [next-sitemap](https://github.com/iamvishnusankar/next-sitemap)
-
-#### Todo
-
-- error logging - sentry (see src/pages/\_app.js)
-- e2e testing - Playwright
-- unit testing - ViTest (ViTest ui for convenient dev coverage review)
-- deployment - AWS App Runner or [Cloudflare pages](https://github.com/cloudflare/next-on-pages)
-- 💎 [CVA](https://cva.style/docs) - Create reusable css (css-in-js alternative)
+- 🤖 SEO, JSON-LD and Open Graph tags with Next metadata
 
 ### Backend
 
 - ⚡ [Next.js](https://nextjs.org) API routes. Fullstack and serverless friendly
-- [TypeGraphQL](https://typegraphql.com/) "code first" typesafe graphql
-- [CockroachDB](https://www.prisma.io/docs/guides/database/cockroachdb) database feels like a next gen postgres
-- [Prisma](https://www.prisma.io/) ORM
-  - See prisma/schema.prisma for intuitive DB mapping
-  - schema migrations with [Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate)
 - 💉 [tsyringe](https://github.com/microsoft/tsyringe) Dependency Injection
+- Graphql
+  - [yoga-server](https://the-guild.dev/graphql/yoga-server) serverless/edge compatible
+  - [TypeGraphQL](https://typegraphql.com/) "code first" typesafe graphql
+- Database
+  - [Prisma](https://www.prisma.io/) ORM
+    - See prisma/schema.prisma for intuitive DB mapping
+    - schema migrations with [Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate)
+  - [CockroachDB](https://www.prisma.io/docs/guides/database/cockroachdb) database (a next gen postgres)
 
-### Features
-
-- ✅ [TypeScript](https://nextjs.org/docs/app/building-your-application/configuring/typescript) Strict
-  - ts-reset library for extra type safety
-- 📏 [ESLint and Prettier](https://nextjs.org/docs/pages/building-your-application/configuring/eslint#lint-staged) on commit with Husky
-- ⚙️ [Bundler Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
-- 🎯 [Absolute imports](https://nextjs.org/docs/pages/building-your-application/configuring/absolute-imports-and-module-aliases) - No more spaghetti imports
+### Dev Ops
+- local and test db running in docker container
 - 🛠️ ️[fixpack](https://github.com/henrikjoreteg/fixpack) package.json normalization
 - 🚓 commit messages validated with Commitlint
+- ChatGPT Integration 
+  - file review `pnpm review <file>`
+  - file improve `pnpm improve <file>`
+  - [PR code review](https://github.com/anc95/ChatGPT-CodeReview)
 
-#### TODO
-
+### TODO
+- error logging - sentry (see src/pages/\_app.js)
+- e2e testing - Playwright
+- unit testing - ViTest (ViTest ui for convenient dev coverage review)
+- 💎 [CVA](https://cva.style/docs) - Create reusable css (css-in-js alternative)
 - 🦺 Unit Testing with ViTest and React Testing Library
 - 🧪 E2E Testing with Playwright
 - 👷 Run tests on pull request with GitHub Actions
 - 🎉 Storybook for UI development
 - 🎁 Automatic changelog generation with Semantic Release
-- 🤖 SEO metadata, JSON-LD and Open Graph tags with Next SEO
 - validation - YEP is lightweight for client bundles
 - email templating - mjml
 - typesafe routes
 - PWA service worker config
-- release-please https://github.com/googleapis/release-please
 - graphql endpoint post uses csrf
 - graphql subscriptions (multi device real time)
 - analytics
 - localization - easier if everyone keeps english out of templates from the start
+- deployment - AWS App Runner or [Cloudflare pages](https://github.com/cloudflare/next-on-pages)
+- release-please https://github.com/googleapis/release-please
 
 ## Notes
 
