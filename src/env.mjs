@@ -4,6 +4,7 @@ import { z } from "zod";
 export const env = createEnv({
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   server: {
+    LOG_LEVEL: z.enum(["fatal", "error", "warn", "debug", "trace", "silent"]).optional(),
     ANALYZE: z
       .enum(["true", "false"])
       .optional()

@@ -1,3 +1,4 @@
+import { getLogger } from "@/logging/log-util";
 import prismaClient from "@/server/db/db";
 import { PrismaService } from "@/server/db/prisma.service";
 import { type User } from "@prisma/client";
@@ -11,6 +12,9 @@ export default class UserService {
     firebaseId: string,
     email: string | undefined
   ): Promise<User> {
+    const logger = getLogger(UserService.name);
+    const childLogger = logger.child({ firebaseId, email });
+
     // TODO - send welcome email on new user creation
     // EmailService.sendWelcome()
 
@@ -18,6 +22,7 @@ export default class UserService {
     const user = await prismaClient.user.findFirst({ where: { firebaseId } });
 
     if (!user || user.email != email) {
+      !user ? childLogger.info("user created") : childLogger.info("user updated");
       return prismaClient.user.upsert({
         where: { firebaseId: firebaseId },
         update: { firebaseId: firebaseId, email: email },

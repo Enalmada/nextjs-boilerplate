@@ -24,7 +24,7 @@
   - 📏 [ESLint and Prettier](https://nextjs.org/docs/pages/building-your-application/configuring/eslint#lint-staged) on commit with Husky
   - ⚙️ [Bundler Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
   - 🎯 [Absolute imports](https://nextjs.org/docs/pages/building-your-application/configuring/absolute-imports-and-module-aliases) - No more spaghetti imports
--💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
+    -💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
 - 💖 [Apollo Client](https://www.apollographql.com/docs/react/) graphql (state management, subscriptions, etc)
   - Graphql code generation with [client preset](https://the-guild.dev/graphql/codegen/plugins/presets/preset-client)
   - optimistic actions - instant update while network in process
@@ -47,15 +47,17 @@
   - [CockroachDB](https://www.prisma.io/docs/guides/database/cockroachdb) database (a next gen postgres)
 
 ### Dev Ops
+
 - local and test db running in docker container
 - 🛠️ ️[fixpack](https://github.com/henrikjoreteg/fixpack) package.json normalization
 - 🚓 commit messages validated with Commitlint
-- ChatGPT Integration 
+- ChatGPT Integration
   - file review `pnpm review <file>`
   - file improve `pnpm improve <file>`
   - [PR code review](https://github.com/anc95/ChatGPT-CodeReview)
 
 ### TODO
+
 - error logging - sentry (see src/pages/\_app.js)
 - e2e testing - Playwright
 - unit testing - ViTest (ViTest ui for convenient dev coverage review)

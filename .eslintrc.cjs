@@ -38,5 +38,8 @@ module.exports = {
     ],
     "object-curly-spacing": ["error", "always"],
     "no-console": ["error", { allow: ["warn", "error"] }],
+    // Disable for now until pages is working
+    // https://github.com/cloudflare/next-on-pages/tree/main/packages/eslint-plugin-next-on-pages#eslint-plugin-next-on-pages
+    "next-on-pages/missing-image-loader": 0,
   },
 };

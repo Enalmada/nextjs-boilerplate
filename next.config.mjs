@@ -9,7 +9,7 @@ const graphiQL = "https://unpkg.com/@graphql-yoga/";
 const firebase = {
   script: "https://apis.google.com/ https://accounts.google.com/gsi/client",
   connect: "https://accounts.google.com/gsi/",
-}
+};
 
 // https://www.yagiz.co/securing-your-nextjs-13-application
 // font-src data: added for graphiQL

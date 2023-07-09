@@ -1,3 +1,4 @@
+import { getLogger } from "@/logging/log-util";
 import { PrismaService } from "@/server/db/prisma.service";
 import authCheck from "@/server/utils/authCheck";
 import { type User } from "@prisma/client";
@@ -8,6 +9,7 @@ import { type TaskInput } from "./task.model";
 @injectable()
 export default class TaskService {
   constructor(private prisma: PrismaService) {}
+  private readonly logger = getLogger(TaskService.name);
 
   getTasks(user: User) {
     return this.prisma.task.findMany({
