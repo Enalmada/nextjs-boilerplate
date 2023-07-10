@@ -1,4 +1,4 @@
-import { env } from "@/env.mjs";
+import { env } from '@/env.mjs';
 
 export const clientConfig = {
   redirectUrl: env.NEXT_PUBLIC_REDIRECT_URL,

@@ -1,10 +1,10 @@
-import * as React from "react";
+import * as React from 'react';
 
-import styles from "./LoadingIcon.module.css";
+import styles from './LoadingIcon.module.css';
 
-export function LoadingIcon(props: JSX.IntrinsicElements["span"]) {
+export function LoadingIcon(props: JSX.IntrinsicElements['span']) {
   return (
-    <span {...props} className={[styles.loader, props.className].filter(Boolean).join(" ")}>
+    <span {...props} className={[styles.loader, props.className].filter(Boolean).join(' ')}>
       <svg
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"

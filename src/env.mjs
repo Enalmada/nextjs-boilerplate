@@ -1,16 +1,16 @@
-import { createEnv } from "@t3-oss/env-nextjs";
-import { z } from "zod";
+import { createEnv } from '@t3-oss/env-nextjs';
+import { z } from 'zod';
 
 export const env = createEnv({
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   server: {
-    LOG_LEVEL: z.enum(["fatal", "error", "warn", "debug", "trace", "silent"]).optional(),
+    LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'debug', 'trace', 'silent']).optional(),
     ANALYZE: z
-      .enum(["true", "false"])
+      .enum(['true', 'false'])
       .optional()
-      .transform((value) => value === "true"),
-    NODE_ENV: z.enum(["development", "test", "production"]),
-    APP_ENV: z.enum(["local", "development", "production"]),
+      .transform((value) => value === 'true'),
+    NODE_ENV: z.enum(['development', 'test', 'production']),
+    APP_ENV: z.enum(['local', 'development', 'production']),
     DATABASE_URL: z.string().url(),
     FIREBASE_ADMIN_CLIENT_EMAIL: z.string().min(1),
     FIREBASE_ADMIN_PRIVATE_KEY: z.string().min(1),

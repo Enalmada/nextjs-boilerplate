@@ -1,6 +1,6 @@
-import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker.css';
 
-import DatePicker from "react-datepicker";
+import DatePicker from 'react-datepicker';
 
 // CSS Modules, react-datepicker-cssmodules.css
 // import 'react-datepicker/dist/react-datepicker-cssmodules.css';
@@ -26,7 +26,7 @@ const MyDatePicker = (props: Props) => {
       selected={props.selected}
       onChange={props.onChange}
       onBlur={props.onBlur}
-      className={"form-input"}
+      className={'form-input'}
     />
   );
 };

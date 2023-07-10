@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/auth/hooks";
-import { clientConfig } from "@/config/client-config";
-import { Button } from "@/ui/button";
-import { useLoadingCallback } from "react-loading-hook";
+import * as React from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/client/ui/button';
+import { useAuth } from '@/lib/firebase/auth/hooks';
+import { clientConfig } from '@/lib/firebase/config/client-config';
+import { useLoadingCallback } from 'react-loading-hook';
 
-import styles from "./UserProfile.module.css";
+import styles from './UserProfile.module.css';
 
 export function UserProfile() {
   const router = useRouter();
@@ -19,8 +19,8 @@ export function UserProfile() {
       return;
     }
 
-    await fetch("/api/refresh-tokens", {
-      method: "GET",
+    await fetch('/api/refresh-tokens', {
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${tenant.idToken}`,
       },
@@ -32,8 +32,8 @@ export function UserProfile() {
       return;
     }
 
-    await fetch("/api/custom-claims", {
-      method: "GET",
+    await fetch('/api/custom-claims', {
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${tenant.idToken}`,
       },
@@ -56,8 +56,8 @@ export function UserProfile() {
           {tenant.photoUrl && (
             <Image
               src={tenant.photoUrl}
-              alt={""}
-              style={{ objectFit: "contain" }}
+              alt={''}
+              style={{ objectFit: 'contain' }}
               width={100}
               height={100}
             />

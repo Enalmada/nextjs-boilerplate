@@ -1,37 +1,37 @@
-import { builder } from "@/server/graphql/builder";
-import TaskService from "@/server/task/task.service";
+import { builder } from '@/server/graphql/builder';
+import TaskService from '@/server/task/task.service';
 
-import { TaskStatus } from ".prisma/client";
+import { TaskStatus } from '.prisma/client';
 
 builder.enumType(TaskStatus, {
-  name: "TaskStatus",
+  name: 'TaskStatus',
 });
 
-builder.prismaObject("Task", {
+builder.prismaObject('Task', {
   fields: (t) => ({
-    id: t.exposeID("id"),
-    title: t.exposeString("title"),
-    description: t.exposeString("description", { nullable: true }),
+    id: t.exposeID('id'),
+    title: t.exposeString('title'),
+    description: t.exposeString('description', { nullable: true }),
     status: t.field({
       type: TaskStatus,
       resolve: (task) => task.status as unknown as TaskStatus,
     }),
-    dueDate: t.expose("dueDate", {
+    dueDate: t.expose('dueDate', {
       nullable: true,
-      type: "DateTime",
+      type: 'DateTime',
     }),
-    createdAt: t.expose("createdAt", {
-      type: "DateTime",
+    createdAt: t.expose('createdAt', {
+      type: 'DateTime',
     }),
-    updatedAt: t.expose("updatedAt", {
-      type: "DateTime",
+    updatedAt: t.expose('updatedAt', {
+      type: 'DateTime',
     }),
   }),
 });
 
-builder.queryField("task", (t) =>
+builder.queryField('task', (t) =>
   t.prismaField({
-    type: "Task",
+    type: 'Task',
     args: {
       id: t.arg.id({ required: true }),
     },
@@ -42,24 +42,24 @@ builder.queryField("task", (t) =>
   })
 );
 
-builder.queryField("tasks", (t) =>
+builder.queryField('tasks', (t) =>
   t.prismaField({
-    type: ["Task"],
+    type: ['Task'],
     resolve: async (query, root, args, ctx) => {
       return new TaskService().tasks(ctx.currentUser);
     },
   })
 );
 
-builder.mutationField("upsertTask", (t) =>
+builder.mutationField('upsertTask', (t) =>
   t.prismaFieldWithInput({
-    type: "Task",
+    type: 'Task',
     input: {
       id: t.input.id({ required: false }),
       title: t.input.string({ required: true }),
       description: t.input.string(),
       status: t.input.field({ type: TaskStatus, required: true }),
-      dueDate: t.input.field({ type: "DateTime" }),
+      dueDate: t.input.field({ type: 'DateTime' }),
     },
     resolve: async (query, root, args, ctx) => {
       const input = {
@@ -72,9 +72,9 @@ builder.mutationField("upsertTask", (t) =>
   })
 );
 
-builder.mutationField("deleteTask", (t) =>
+builder.mutationField('deleteTask', (t) =>
   t.prismaField({
-    type: "Task",
+    type: 'Task',
     args: {
       id: t.arg.string({ required: true }),
     },

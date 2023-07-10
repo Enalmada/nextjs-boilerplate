@@ -1,11 +1,11 @@
 // https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadata-fields
 
-import { type Metadata } from "next";
+import { type Metadata } from 'next';
 import {
   type ColorSchemeEnum,
   type ReferrerEnum,
-} from "next/dist/lib/metadata/types/metadata-types";
-import { env } from "@/env.mjs";
+} from 'next/dist/lib/metadata/types/metadata-types';
+import { env } from '@/env.mjs';
 
 // Next.js auto icon generation instructions:
 // Use https://realfavicongenerator.net/ to generate icons and manifest
@@ -17,9 +17,9 @@ import { env } from "@/env.mjs";
 // Update site.webmanifest with correct values
 
 export const config = {
-  siteUrl: "ToDoApp.com",
-  applicationName: "ToDoApp",
-  description: "Everyone loves a simple todo app exercise.",
+  siteUrl: 'ToDoApp.com',
+  applicationName: 'ToDoApp',
+  description: 'Everyone loves a simple todo app exercise.',
 };
 
 export const basicFields: Metadata = {
@@ -29,21 +29,21 @@ export const basicFields: Metadata = {
   },
   // keywords: ["Next.js", "React", "JavaScript"],
   description: config.description,
-  category: "technology",
+  category: 'technology',
   applicationName: config.siteUrl,
-  referrer: "strict-origin-when-cross-origin" as ReferrerEnum, // https://web.dev/referrer-best-practices/
-  authors: [{ name: "Adam Lane" }],
-  colorScheme: "dark" as ColorSchemeEnum,
-  creator: "Adam Lane",
-  publisher: "Lane Business Consulting",
-  themeColor: "black",
+  referrer: 'strict-origin-when-cross-origin' as ReferrerEnum, // https://web.dev/referrer-best-practices/
+  authors: [{ name: 'Adam Lane' }],
+  colorScheme: 'dark' as ColorSchemeEnum,
+  creator: 'Adam Lane',
+  publisher: 'Lane Business Consulting',
+  themeColor: 'black',
   openGraph: {
     title: config.applicationName,
     description: config.description,
     url: env.NEXT_PUBLIC_REDIRECT_URL,
     siteName: config.siteUrl,
-    locale: "en_US",
-    type: "website",
+    locale: 'en_US',
+    type: 'website',
   },
   appLinks: {
     /*
@@ -109,7 +109,7 @@ export const icons = {
     apple: [{ url: "/apple-icon.png?v=1", sizes: "180x180", type: "image/png" }],
   },
    */
-  manifest: "/site.webmanifest",
+  manifest: '/site.webmanifest',
 };
 
 const metadataConfig: Metadata = {

@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useFirebaseAuth } from "@/auth/firebase";
-import { clientConfig } from "@/config/client-config";
-import { Button } from "@/ui/button";
-import { LoadingIcon } from "@/ui/icons";
+import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Button } from '@/client/ui/button';
+import { LoadingIcon } from '@/client/ui/icons';
+import { useFirebaseAuth } from '@/lib/firebase/auth/firebase';
+import { clientConfig } from '@/lib/firebase/config/client-config';
 
-import { getGoogleProvider, loginWithProvider } from "./firebase";
-import styles from "./login.module.css";
+import { getGoogleProvider, loginWithProvider } from './firebase';
+import styles from './login.module.css';
 
 export function LoginPage() {
   const params = useSearchParams();
@@ -18,7 +18,7 @@ export function LoginPage() {
 
   const handleLoginWithGoogle = async () => {
     setHasLogged(false);
-    const { GoogleAuthProvider } = await import("firebase/auth");
+    const { GoogleAuthProvider } = await import('firebase/auth');
     const auth = await getFirebaseAuth();
     const tenant = await loginWithProvider(
       auth,
@@ -26,16 +26,16 @@ export function LoginPage() {
       // eslint-disable-next-line @typescript-eslint/unbound-method
       GoogleAuthProvider.credentialFromError
     );
-    await fetch("/api/login", {
-      method: "GET",
+    await fetch('/api/login', {
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${tenant.idToken}`,
       },
     });
     setHasLogged(true);
-    const redirect = params?.get("redirect");
+    const redirect = params?.get('redirect');
     router.refresh(); // This seems necessary to avoid a full window.reload
-    router.push(redirect ?? "/");
+    router.push(redirect ?? '/');
   };
 
   return (
@@ -49,7 +49,7 @@ export function LoginPage() {
       {hasLogged && (
         <div className={styles.info}>
           <p>
-            Redirecting to <strong>{params?.get("redirect") || "/"}</strong> <LoadingIcon />
+            Redirecting to <strong>{params?.get('redirect') || '/'}</strong> <LoadingIcon />
           </p>
         </div>
       )}

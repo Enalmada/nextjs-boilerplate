@@ -1,11 +1,11 @@
-import Link from "next/link";
-import { Button } from "@/ui/button";
+import Link from 'next/link';
+import { Button } from '@/client/ui/button';
 
-import styles from "./page.module.css";
-import { UserProfile } from "./UserProfile";
+import styles from './page.module.css';
+import { UserProfile } from './UserProfile';
 
 export const metadata = {
-  title: "Profile",
+  title: 'Profile',
 };
 
 export default function Profile() {

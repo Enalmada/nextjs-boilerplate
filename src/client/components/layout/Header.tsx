@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import AuthButtons from "@/client/components/layout/header/AuthButtons";
-import { getRouteById } from "@/client/utils/routes";
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import AuthButtons from '@/client/components/layout/header/AuthButtons';
+import { getRouteById } from '@/client/utils/routes';
 
-import ProfileButtons from "./header/ProfileButtons";
+import ProfileButtons from './header/ProfileButtons';
 
 interface Props {
   companyName: string;
@@ -25,24 +25,24 @@ const Header = (props: Props) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const closedState: State = {
-    header: "",
-    navaction: "bg-white text-gray-800",
-    toToggle: "text-white",
-    navcontent: "bg-gray-200",
+    header: '',
+    navaction: 'bg-white text-gray-800',
+    toToggle: 'text-white',
+    navcontent: 'bg-gray-200',
   };
 
   const topOpenState: State = {
-    header: "",
-    navaction: "bg-white text-gray-800",
-    toToggle: "",
-    navcontent: "bg-gray-200 shadow-xl",
+    header: '',
+    navaction: 'bg-white text-gray-800',
+    toToggle: '',
+    navcontent: 'bg-gray-200 shadow-xl',
   };
 
   const openState: State = {
-    header: "bg-white shadow",
-    navaction: "text-white gradient",
-    toToggle: "text-gray-800",
-    navcontent: "bg-white",
+    header: 'bg-white shadow',
+    navaction: 'text-white gradient',
+    toToggle: 'text-gray-800',
+    navcontent: 'bg-white',
   };
 
   const [headerStyle, setHeaderStyle] = useState(closedState);
@@ -58,9 +58,9 @@ const Header = (props: Props) => {
         setIsScrolled(currentScrolled);
       }
     };
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener('scroll', onScroll);
 
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, [isScrolled]);
 
   // change menu style when scrolled
@@ -86,7 +86,7 @@ const Header = (props: Props) => {
       <div className="container mx-auto mt-0 flex w-full flex-wrap items-center justify-between py-2">
         <div className="flex items-center pl-4">
           <Link
-            href={getRouteById("Index").path}
+            href={getRouteById('Index').path}
             data-testid="brand"
             className={`toggleColour text-2xl font-bold no-underline hover:no-underline lg:text-4xl ${headerStyle.toToggle}`}
           >
@@ -120,7 +120,7 @@ const Header = (props: Props) => {
         <div
           className={`z-20 mt-2 w-full flex-grow p-4 text-black lg:mt-0 lg:block lg:flex lg:w-auto lg:items-center lg:bg-transparent lg:p-0 ${
             headerStyle.navcontent
-          } ${showMenu ? "" : "hidden"}`}
+          } ${showMenu ? '' : 'hidden'}`}
           id="nav-content"
         >
           <ul className="list-reset flex-1 items-center justify-end lg:flex">

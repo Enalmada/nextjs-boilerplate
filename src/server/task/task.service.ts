@@ -1,9 +1,9 @@
-import { getChildLogger, getLogger } from "@/logging/log-util";
-import prisma from "@/server/db/db";
-import authCheck from "@/server/utils/authCheck";
-import { type User } from "@prisma/client";
+import { getChildLogger, getLogger } from '@/lib/logging/log-util';
+import prisma from '@/server/db/db';
+import authCheck from '@/server/utils/authCheck';
+import { type User } from '@prisma/client';
 
-import { Prisma } from ".prisma/client";
+import { Prisma } from '.prisma/client';
 
 import TaskUncheckedCreateInput = Prisma.TaskUncheckedCreateInput;
 
@@ -46,7 +46,7 @@ export default class TaskService {
       });
 
       if (!task) {
-        throw Error("not found");
+        throw Error('not found');
       }
 
       authCheck(user, task.userId);
@@ -79,7 +79,7 @@ export default class TaskService {
     });
 
     if (!task) {
-      throw Error("not found");
+      throw Error('not found');
     }
 
     authCheck(user, task.userId);

@@ -1,5 +1,5 @@
 const logLevelData = {
-  "*": "info",
+  '*': 'info',
   // TaskService: "info",
 };
 

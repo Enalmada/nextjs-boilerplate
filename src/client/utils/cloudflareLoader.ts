@@ -1,7 +1,7 @@
 // https://developers.cloudflare.com/images/image-resizing/integration-with-frameworks/#nextjs
 
 const normalizeSrc = (src: string): string => {
-  return src.startsWith("/") ? src.slice(1) : src;
+  return src.startsWith('/') ? src.slice(1) : src;
 };
 
 type CloudflareLoaderParams = {
@@ -20,6 +20,6 @@ export default async function cloudflareLoader({
   if (quality) {
     params.push(`quality=${quality}`);
   }
-  const paramsString = params.join(",");
+  const paramsString = params.join(',');
   return `/cdn-cgi/image/${paramsString}/${normalizeSrc(src)}`;
 }

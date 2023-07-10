@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { getRouteById } from "@/client/utils/routes";
+import Link from 'next/link';
+import { getRouteById } from '@/client/utils/routes';
 
 interface Props {
   companyName: string;
@@ -12,7 +12,7 @@ const Footer = (props: Props) => {
         <div className="flex w-full flex-col py-6 md:flex-row">
           <div className="mb-6 flex-1">
             <Link
-              href={getRouteById("Index").path}
+              href={getRouteById('Index').path}
               className="text-2xl font-bold text-orange-600 no-underline hover:no-underline lg:text-4xl"
             >
               {/*
@@ -30,7 +30,7 @@ const Footer = (props: Props) => {
             <ul className="list-reset mb-6">
               <li className="mr-2 mt-2 inline-block md:mr-0 md:block">
                 <Link
-                  href={getRouteById("FAQ").path}
+                  href={getRouteById('FAQ').path}
                   className="text-gray-800 no-underline hover:text-orange-500 hover:underline"
                 >
                   FAQ
@@ -43,7 +43,7 @@ const Footer = (props: Props) => {
             <ul className="list-reset mb-6">
               <li className="mr-2 mt-2 inline-block md:mr-0 md:block">
                 <Link
-                  href={getRouteById("Terms").path}
+                  href={getRouteById('Terms').path}
                   className="text-gray-800 no-underline hover:text-orange-500 hover:underline"
                 >
                   Terms
@@ -51,7 +51,7 @@ const Footer = (props: Props) => {
               </li>
               <li className="mr-2 mt-2 inline-block md:mr-0 md:block">
                 <Link
-                  href={getRouteById("Privacy").path}
+                  href={getRouteById('Privacy').path}
                   className="text-gray-800 no-underline hover:text-orange-500 hover:underline"
                 >
                   Privacy
@@ -93,7 +93,7 @@ const Footer = (props: Props) => {
             <ul className="list-reset mb-6">
               <li className="mr-2 mt-2 inline-block md:mr-0 md:block">
                 <Link
-                  href={getRouteById("Blog").path}
+                  href={getRouteById('Blog').path}
                   className="text-gray-800 no-underline hover:text-orange-500 hover:underline"
                 >
                   Blog
@@ -101,7 +101,7 @@ const Footer = (props: Props) => {
               </li>
               <li className="mr-2 mt-2 inline-block md:mr-0 md:block">
                 <Link
-                  href={getRouteById("About").path}
+                  href={getRouteById('About').path}
                   className="text-gray-800 no-underline hover:text-orange-500 hover:underline"
                 >
                   About Us
@@ -109,7 +109,7 @@ const Footer = (props: Props) => {
               </li>
               <li className="mr-2 mt-2 inline-block md:mr-0 md:block">
                 <Link
-                  href={getRouteById("Contact").path}
+                  href={getRouteById('Contact').path}
                   className="text-gray-800 no-underline hover:text-orange-500 hover:underline"
                 >
                   Contact

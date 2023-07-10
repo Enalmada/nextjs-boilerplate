@@ -1,9 +1,9 @@
-import Loader from "@/client/components/Loader";
+import Loader from '@/client/components/Loader';
 
-import LogoutPage from "./LogoutPage";
+import LogoutPage from './LogoutPage';
 
 export const metadata = {
-  title: "Logout",
+  title: 'Logout',
 };
 
 export default function Logout() {

@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { type Route } from "@/client/utils/routes";
+import Link from 'next/link';
+import { type Route } from '@/client/utils/routes';
 
 interface Props {
   routes: Route[];

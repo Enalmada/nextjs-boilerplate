@@ -1,9 +1,9 @@
-import "@/client/styles/index.css";
+import '@/client/styles/index.css';
 
-import { Inter, Roboto_Mono } from "next/font/google";
-import { ServerAuthProvider } from "@/auth/server-auth-provider";
-import { ApolloWrapper } from "@/client/lib/apollo-wrapper";
-import metadataConfig from "@/metadata.config";
+import { Inter, Roboto_Mono } from 'next/font/google';
+import { ApolloWrapper } from '@/client/lib/apollo-wrapper';
+import { ServerAuthProvider } from '@/lib/firebase/auth/server-auth-provider';
+import metadataConfig from '@/metadata.config';
 
 export const metadata = {
   ...metadataConfig,
@@ -11,15 +11,15 @@ export const metadata = {
 
 // https://nextjs.org/docs/app/building-your-application/optimizing/fonts#with-tailwind-css
 const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
 });
 
 const roboto_mono = Roboto_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-roboto-mono",
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-roboto-mono',
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

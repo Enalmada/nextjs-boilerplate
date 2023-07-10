@@ -1,9 +1,9 @@
-import { type NextRequest } from "next/server";
-import { handleFirebase } from "@/server/firebase/firebase";
-import { schema } from "@/server/graphql/schema";
-import { useGenericAuth } from "@envelop/generic-auth";
-import { type User } from "@prisma/client";
-import { createYoga, type YogaInitialContext } from "graphql-yoga";
+import { type NextRequest } from 'next/server';
+import { handleCreateOrGetUser } from '@/lib/firebase/handleCreateOrGetUser';
+import { schema } from '@/server/graphql/schema';
+import { useGenericAuth } from '@envelop/generic-auth';
+import { type User } from '@prisma/client';
+import { createYoga, type YogaInitialContext } from 'graphql-yoga';
 
 // export const runtime = 'edge';
 
@@ -18,17 +18,17 @@ const { handleRequest } = createYoga<unknown, { currentUser: User }>({
   plugins: [
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call,react-hooks/rules-of-hooks
     useGenericAuth({
-      mode: "protect-granular",
+      mode: 'protect-granular',
       async resolveUserFn(context: YogaInitialContext) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        return await handleFirebase(context.request as NextRequest);
+        return await handleCreateOrGetUser(context.request as NextRequest);
       },
     }),
   ],
   schema: schema,
 
   // While using Next.js file convention for routing, we need to configure Yoga to use the correct endpoint
-  graphqlEndpoint: "/graphql",
+  graphqlEndpoint: '/graphql',
 
   // Yoga needs to know how to create a valid Next response
   fetchAPI: { Response },
@@ -37,6 +37,7 @@ const { handleRequest } = createYoga<unknown, { currentUser: User }>({
 export { handleRequest as GET, handleRequest as POST };
 
 /*
+// Example for apollo server, next-auth
 import "reflect-metadata";
 
 import { type NextApiResponse } from "next";

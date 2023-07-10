@@ -1,13 +1,13 @@
-import * as React from "react";
+import * as React from 'react';
 
-import styles from "./button.module.css";
-import { LoadingIcon } from "./icons";
+import styles from './button.module.css';
+import { LoadingIcon } from './icons';
 
 export function Button({
   loading,
   children,
   ...props
-}: JSX.IntrinsicElements["button"] & { loading?: boolean }) {
+}: JSX.IntrinsicElements['button'] & { loading?: boolean }) {
   return (
     <button className={styles.button} {...props}>
       {loading && <LoadingIcon className={styles.icon} />}

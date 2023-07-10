@@ -1,10 +1,10 @@
-import Image from "next/image";
-import Link from "next/link";
-import Layout from "@/client/components/layout/Layout";
-import { getRouteById } from "@/client/utils/routes";
+import Image from 'next/image';
+import Link from 'next/link';
+import Layout from '@/client/components/layout/Layout';
+import { getRouteById } from '@/client/utils/routes';
 
 export const metadata = {
-  title: "Home",
+  title: 'Home',
 };
 
 export default function Home() {
@@ -33,7 +33,7 @@ const Hero = () => {
               Everyone loves a simple todo app exercise.
             </p>
 
-            <Link href={getRouteById("Home").path}>
+            <Link href={getRouteById('Home').path}>
               <button className="mx-auto my-6 rounded-full bg-white px-8 py-4 font-bold text-gray-800 shadow-lg hover:underline lg:mx-0">
                 Try For Free
               </button>
@@ -55,7 +55,7 @@ const Hero = () => {
             <Image
               width={603}
               height={333}
-              alt={""}
+              alt={''}
               className="z-0 w-full md:w-4/5"
               src="/images/home/undraw_To_do_list_re_9nt7.svg"
             />
@@ -103,39 +103,39 @@ const Features = () => {
 
         <Feature
           isLeftImg={true}
-          h3Text={"Secure Login"}
+          h3Text={'Secure Login'}
           pText={
-            "Username & password registration so only authorized users can access the task manager."
+            'Username & password registration so only authorized users can access the task manager.'
           }
-          imgSrc={"/images/home/undraw_secure_login_pdn4.svg"}
+          imgSrc={'/images/home/undraw_secure_login_pdn4.svg'}
         />
 
         <Feature
           isLeftImg={false}
-          h3Text={"Create a task"}
-          pText={"Keep track of anything you want"}
-          imgSrc={"/images/home/undraw_task_31wc.svg"}
+          h3Text={'Create a task'}
+          pText={'Keep track of anything you want'}
+          imgSrc={'/images/home/undraw_task_31wc.svg'}
         />
 
         <Feature
           isLeftImg={true}
-          h3Text={"See all tasks"}
-          pText={"Look at everything in your list"}
-          imgSrc={"/images/home/undraw_task_list_6x9d.svg"}
+          h3Text={'See all tasks'}
+          pText={'Look at everything in your list'}
+          imgSrc={'/images/home/undraw_task_list_6x9d.svg'}
         />
 
         <Feature
           isLeftImg={false}
-          h3Text={"View Details"}
-          pText={"View details of a single task in a details view"}
-          imgSrc={"/images/home/undraw_Checklist__re_2w7v.svg"}
+          h3Text={'View Details'}
+          pText={'View details of a single task in a details view'}
+          imgSrc={'/images/home/undraw_Checklist__re_2w7v.svg'}
         />
 
         <Feature
           isLeftImg={true}
-          h3Text={"Delete a task"}
-          pText={"Keep your list clean"}
-          imgSrc={"/images/home/undraw_Throw_away_re_x60k.svg"}
+          h3Text={'Delete a task'}
+          pText={'Keep your list clean'}
+          imgSrc={'/images/home/undraw_Throw_away_re_x60k.svg'}
         />
       </div>
     </section>
@@ -161,7 +161,7 @@ const Feature = ({ isLeftImg, h3Text, pText, imgSrc }: FeatureProps) => {
         </div>
         <div className="w-full p-6 sm:w-1/2">
           {/* <Image alt="" src={imgSrc} unsized /> */}
-          <Image alt="" src={imgSrc} style={{ objectFit: "contain" }} width={521} height={146} />
+          <Image alt="" src={imgSrc} style={{ objectFit: 'contain' }} width={521} height={146} />
         </div>
       </div>
     );
@@ -171,7 +171,7 @@ const Feature = ({ isLeftImg, h3Text, pText, imgSrc }: FeatureProps) => {
     <div className="flex flex-col-reverse flex-wrap sm:flex-row">
       <div className="mt-6 w-full p-6 sm:w-1/2">
         {/* <Image alt="" src={imgSrc} unsized /> */}
-        <Image alt="" src={imgSrc} style={{ objectFit: "contain" }} width={521} height={146} />
+        <Image alt="" src={imgSrc} style={{ objectFit: 'contain' }} width={521} height={146} />
       </div>
       <div className="mt-6 flex w-full items-center p-6 sm:w-1/2">
         <div className="align-middle">
@@ -196,7 +196,7 @@ const Users = () => {
 
         <div className="flex w-full flex-shrink flex-grow flex-col p-6 md:w-1/3">
           <div className="flex-1 overflow-hidden rounded-b-none rounded-t bg-white shadow">
-            <Link href={getRouteById("Home").path}>
+            <Link href={getRouteById('Home').path}>
               <a className="flex flex-wrap no-underline hover:no-underline">
                 <p className="w-full px-6 text-xs text-gray-600 md:text-sm">GETTING STARTED</p>
                 <div className="w-full px-6 text-xl font-bold text-gray-800">
@@ -220,7 +220,7 @@ const Users = () => {
 
         <div className="flex w-full flex-shrink flex-grow flex-col p-6 md:w-1/3">
           <div className="flex-1 overflow-hidden rounded-b-none rounded-t bg-white shadow">
-            <Link href={getRouteById("Home").path}>
+            <Link href={getRouteById('Home').path}>
               <a className="flex flex-wrap no-underline hover:no-underline">
                 <p className="w-full px-6 text-xs text-gray-600 md:text-sm">GETTING STARTED</p>
                 <div className="w-full px-6 text-xl font-bold text-gray-800">
@@ -244,7 +244,7 @@ const Users = () => {
 
         <div className="flex w-full flex-shrink flex-grow flex-col p-6 md:w-1/3">
           <div className="flex-1 overflow-hidden rounded-b-none rounded-t bg-white shadow">
-            <Link href={getRouteById("Home").path}>
+            <Link href={getRouteById('Home').path}>
               <a className="flex flex-wrap no-underline hover:no-underline">
                 <p className="w-full px-6 text-xs text-gray-600 md:text-sm">GETTING STARTED</p>
                 <div className="w-full px-6 text-xl font-bold text-gray-800">
@@ -398,7 +398,7 @@ const CallToAction = () => {
 
         <div className="my-4 text-3xl leading-tight">See for yourself how easy tasks are</div>
 
-        <Link href={getRouteById("Home").path}>
+        <Link href={getRouteById('Home').path}>
           <button className="mx-auto my-6 rounded-full bg-white px-8 py-4 font-bold text-gray-800 shadow-lg hover:underline lg:mx-0">
             Try It Free
           </button>

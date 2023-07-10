@@ -1,5 +1,5 @@
 // https://github.com/echobind/bisonapp/blob/canary/packages/create-bison-app/template/src/pages/api/health.ts
-import { prisma } from "@/server/db/db";
+import { prisma } from '@/server/db/db';
 
 export async function GET() {
   let databaseWorking = false;
@@ -22,7 +22,7 @@ export async function GET() {
   return new Response(JSON.stringify(data), {
     status: statusCode,
     headers: {
-      "content-type": "application/json",
+      'content-type': 'application/json',
     },
   });
 }

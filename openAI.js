@@ -1,11 +1,11 @@
 // https://medium.com/@samho1996/how-do-i-make-use-of-chatgpt-to-review-my-code-33efd8f42178
-require("dotenv").config();
+require('dotenv').config();
 
-const { Configuration, OpenAIApi } = require("openai");
-const fs = require("fs");
+const { Configuration, OpenAIApi } = require('openai');
+const fs = require('fs');
 
-const reset = "\x1b[0m";
-const green = "\x1b[32m";
+const reset = '\x1b[0m';
+const green = '\x1b[32m';
 
 const getReview = async (openai, code, shouldOverwrite) => {
   const promptReview = `
@@ -54,17 +54,17 @@ ${code}
 
   const messages = [
     {
-      role: "system",
-      content: "You are the best engineer and code reviewer at the company.",
+      role: 'system',
+      content: 'You are the best engineer and code reviewer at the company.',
     },
     {
-      role: "user",
+      role: 'user',
       content: shouldOverwrite ? promptImprove : promptReview,
     },
   ];
 
   const request = {
-    model: "gpt-3.5-turbo",
+    model: 'gpt-3.5-turbo',
     messages,
   };
 
@@ -75,20 +75,20 @@ ${code}
 };
 
 const main = async () => {
-  const shouldOverwrite = process.argv.includes("--overwrite");
+  const shouldOverwrite = process.argv.includes('--overwrite');
 
   let filePaths = process.argv.slice(2);
   if (!filePaths.length) {
-    console.error("Please provide at least one file path.");
+    console.error('Please provide at least one file path.');
     process.exit(1);
   }
 
   // Filter out the `--overwrite` flag from the file paths
-  filePaths = filePaths.filter((path) => path !== "--overwrite");
+  filePaths = filePaths.filter((path) => path !== '--overwrite');
 
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    console.error("Please set the OPENAI_API_KEY environment variable.");
+    console.error('Please set the OPENAI_API_KEY environment variable.');
     process.exit(1);
   }
 
@@ -97,7 +97,7 @@ const main = async () => {
 
   for (const filePath of filePaths) {
     try {
-      const code = fs.readFileSync(filePath, "utf-8");
+      const code = fs.readFileSync(filePath, 'utf-8');
 
       if (!code) {
         console.error(`File ${filePath} is empty or invalid.`);
@@ -108,7 +108,7 @@ const main = async () => {
       console.log(`${green}Review ${filePath}:${reset}\n${response}${reset}\n`);
 
       if (shouldOverwrite) {
-        fs.writeFileSync(filePath, response, "utf-8");
+        fs.writeFileSync(filePath, response, 'utf-8');
         console.log(`File ${filePath} has been overwritten with the suggested rewrite.`);
       }
     } catch (error) {

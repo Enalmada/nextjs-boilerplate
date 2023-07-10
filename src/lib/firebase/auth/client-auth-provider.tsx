@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { startTransition } from "react";
-import { clientConfig } from "@/config/client-config";
-import type { User as FirebaseUser } from "firebase/auth";
-import { type IdTokenResult } from "firebase/auth";
+import * as React from 'react';
+import { startTransition } from 'react';
+import { clientConfig } from '@/lib/firebase/config/client-config';
+import type { User as FirebaseUser } from 'firebase/auth';
+import { type IdTokenResult } from 'firebase/auth';
 
-import { AuthContext } from "./context";
-import { useFirebaseAuth } from "./firebase";
-import { type Tenant } from "./types";
+import { AuthContext } from './context';
+import { useFirebaseAuth } from './firebase';
+import { type Tenant } from './types';
 
 const mapFirebaseResponseToTenant = (result: IdTokenResult, user: FirebaseUser): Tenant => {
   const providerData = user.providerData && user.providerData[0];
@@ -62,11 +62,11 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = ({
 
       const signInAnonymouslyEnabled = false;
       if (signInAnonymouslyEnabled && !firebaseUser && firstLoadRef.current) {
-        const { signInAnonymously } = await import("firebase/auth");
+        const { signInAnonymously } = await import('firebase/auth');
         firstLoadRef.current = false;
         const credential = await signInAnonymously(auth);
-        await fetch("/api/login", {
-          method: "GET",
+        await fetch('/api/login', {
+          method: 'GET',
           headers: {
             Authorization: `Bearer ${(await credential.user.getIdTokenResult()).token}`,
           },
@@ -93,7 +93,7 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = ({
 
   const registerChangeListener = React.useCallback(async () => {
     const auth = await getFirebaseAuth();
-    const { onIdTokenChanged } = await import("firebase/auth");
+    const { onIdTokenChanged } = await import('firebase/auth');
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     return onIdTokenChanged(auth, handleIdTokenChanged);
   }, [getFirebaseAuth, handleIdTokenChanged]);

@@ -1,6 +1,6 @@
-import { getLogger } from "@/logging/log-util";
-import prismaClient from "@/server/db/db";
-import { type User } from "@prisma/client";
+import { getLogger } from '@/lib/logging/log-util';
+import prismaClient from '@/server/db/db';
+import { type User } from '@prisma/client';
 
 export default class UserService {
   static async createOrGetFirebaseUser(
@@ -17,7 +17,7 @@ export default class UserService {
     const user = await prismaClient.user.findFirst({ where: { firebaseId } });
 
     if (!user || user.email != email) {
-      !user ? childLogger.info("user created") : childLogger.info("user updated");
+      !user ? childLogger.info('user created') : childLogger.info('user updated');
       return prismaClient.user.upsert({
         where: { firebaseId: firebaseId },
         update: { firebaseId: firebaseId, email: email },

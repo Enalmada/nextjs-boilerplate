@@ -1,7 +1,7 @@
-import PageLayout from "@/client/components/layout/PageLayout";
+import PageLayout from '@/client/components/layout/PageLayout';
 
 export const metadata = {
-  title: "Privacy",
+  title: 'Privacy',
 };
 
 export default function Page() {
@@ -11,7 +11,7 @@ export default function Page() {
         <h2>Privacy Policy</h2>
         <p>
           Your privacy is important to us. It is Technical Challenge&apos;s policy to respect your
-          privacy regarding any information we may collect from you across our website,{" "}
+          privacy regarding any information we may collect from you across our website,{' '}
           <a href="https://TechnicalChallenge.com">https://TechnicalChallenge.com</a>, and other
           sites we own and operate.
         </p>

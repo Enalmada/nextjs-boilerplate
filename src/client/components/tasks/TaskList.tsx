@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { TASKS } from "@/client/queries-mutations";
-import { useQuery } from "@apollo/client";
+import Link from 'next/link';
+import { TASKS } from '@/client/queries-mutations';
+import { useQuery } from '@apollo/client';
 
-import Task from "./Task";
+import Task from './Task';
 
 export default function TaskList() {
   const { data, error } = useQuery(TASKS);

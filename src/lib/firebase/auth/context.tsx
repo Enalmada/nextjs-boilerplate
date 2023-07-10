@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { createContext } from "react";
+import { createContext } from 'react';
 
-import { type Tenant } from "./types";
+import { type Tenant } from './types';
 
 export interface AuthContextValue {
   tenant: Tenant | null;

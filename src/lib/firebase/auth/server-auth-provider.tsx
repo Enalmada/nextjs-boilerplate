@@ -1,11 +1,11 @@
-import { cookies } from "next/headers";
-import { authConfig, serverConfig } from "@/config/server-config";
-import { type Tokens } from "next-firebase-auth-edge/lib/auth";
-import { filterStandardClaims } from "next-firebase-auth-edge/lib/auth/tenant";
-import { getTokens } from "next-firebase-auth-edge/lib/next/tokens";
+import { cookies } from 'next/headers';
+import { authConfig, serverConfig } from '@/lib/firebase/config/server-config';
+import { type Tokens } from 'next-firebase-auth-edge/lib/auth';
+import { filterStandardClaims } from 'next-firebase-auth-edge/lib/auth/tenant';
+import { getTokens } from 'next-firebase-auth-edge/lib/next/tokens';
 
-import { AuthProvider } from "./client-auth-provider";
-import { type Tenant } from "./types";
+import { AuthProvider } from './client-auth-provider';
+import { type Tenant } from './types';
 
 const mapTokensToTenant = ({ token, decodedToken }: Tokens): Tenant => {
   const customClaims = filterStandardClaims(decodedToken);

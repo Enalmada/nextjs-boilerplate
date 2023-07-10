@@ -1,10 +1,10 @@
-import { type Tenant } from "@/auth/types";
-import type { Auth, AuthError, AuthProvider, OAuthCredential } from "firebase/auth";
-import { type User as FirebaseUser, type IdTokenResult } from "firebase/auth";
-import type firebase from "firebase/compat";
-import { filterStandardClaims } from "next-firebase-auth-edge/lib/auth/tenant";
+import { type Tenant } from '@/lib/firebase/auth/types';
+import type { Auth, AuthError, AuthProvider, OAuthCredential } from 'firebase/auth';
+import { type User as FirebaseUser, type IdTokenResult } from 'firebase/auth';
+import type firebase from 'firebase/compat';
+import { filterStandardClaims } from 'next-firebase-auth-edge/lib/auth/tenant';
 
-const CREDENTIAL_ALREADY_IN_USE_ERROR = "auth/credential-already-in-use";
+const CREDENTIAL_ALREADY_IN_USE_ERROR = 'auth/credential-already-in-use';
 export const isCredentialAlreadyInUseError = (e: AuthError) =>
   e?.code === CREDENTIAL_ALREADY_IN_USE_ERROR;
 
@@ -41,20 +41,20 @@ export const mapFirebaseResponseToTenant = async (
 };
 
 export const logout = async (auth: Auth): Promise<void> => {
-  const { signOut } = await import("firebase/auth");
+  const { signOut } = await import('firebase/auth');
   return signOut(auth);
 };
 
 export const getGoogleProvider = async (auth: Auth) => {
-  const { GoogleAuthProvider, useDeviceLanguage } = await import("firebase/auth");
+  const { GoogleAuthProvider, useDeviceLanguage } = await import('firebase/auth');
 
   const provider = new GoogleAuthProvider();
-  provider.addScope("profile");
-  provider.addScope("email");
+  provider.addScope('profile');
+  provider.addScope('email');
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useDeviceLanguage(auth);
   provider.setCustomParameters({
-    display: "popup", // popup|redirect|touch|page
+    display: 'popup', // popup|redirect|touch|page
   });
 
   return provider;
@@ -71,7 +71,7 @@ export const loginWithProvider = async (
     try {
       // Link anonymous user with given provider
       const { linkWithPopup, browserPopupRedirectResolver, updateProfile } = await import(
-        "firebase/auth"
+        'firebase/auth'
       );
       const result = await linkWithPopup(user, provider, browserPopupRedirectResolver);
 
@@ -93,7 +93,7 @@ export const loginWithProvider = async (
 
         await user.delete();
 
-        const { signInWithCredential, updateProfile } = await import("firebase/auth");
+        const { signInWithCredential, updateProfile } = await import('firebase/auth');
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const result = await signInWithCredential(auth, credential!);
 
@@ -111,24 +111,24 @@ export const loginWithProvider = async (
     }
   }
 
-  const { signInWithPopup, browserPopupRedirectResolver } = await import("firebase/auth");
+  const { signInWithPopup, browserPopupRedirectResolver } = await import('firebase/auth');
 
   try {
     const result = await signInWithPopup(auth, provider, browserPopupRedirectResolver);
     const idTokenResult = await result.user.getIdTokenResult();
     return mapFirebaseResponseToTenant(idTokenResult, result.user);
   } catch (error: unknown) {
-    if ((error as firebase.FirebaseError)?.code === "auth/popup-closed-by-user") {
+    if ((error as firebase.FirebaseError)?.code === 'auth/popup-closed-by-user') {
       // Handle the specific error: auth/popup-closed-by-user
-      console.warn("Popup closed by the user");
+      console.warn('Popup closed by the user');
       // Perform any necessary actions or show an error message to the user
-    } else if ((error as firebase.FirebaseError)?.code === "auth/cancelled-popup-request") {
+    } else if ((error as firebase.FirebaseError)?.code === 'auth/cancelled-popup-request') {
       // Handle the specific error: auth/cancelled-popup-request
-      console.warn("Popup request cancelled");
+      console.warn('Popup request cancelled');
       // Perform any necessary actions or show an error message to the user
     } else {
       // Handle other errors
-      console.error("Sign-in error:", error);
+      console.error('Sign-in error:', error);
       // Perform any necessary actions or show an error message to the user
     }
   }

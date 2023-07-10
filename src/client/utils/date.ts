@@ -1,6 +1,6 @@
-import { type Locale } from "date-fns";
-import formatRelative from "date-fns/formatRelative";
-import enUS from "date-fns/locale/en-US";
+import { type Locale } from 'date-fns';
+import formatRelative from 'date-fns/formatRelative';
+import enUS from 'date-fns/locale/en-US';
 
 // https://date-fns.org/docs/I18n-Contribution-Guide#formatrelative
 // https://github.com/date-fns/date-fns/blob/master/src/locale/en-US/_lib/formatRelative/index.js
@@ -21,7 +21,7 @@ const formatRelativeLocale: FormatRelativeLocale = {
   today: "'Today'",
   tomorrow: "'Tomorrow'",
   nextWeek: "'Next' eeee",
-  other: "MM/dd/yyyy",
+  other: 'MM/dd/yyyy',
 };
 
 const locale: Locale = {

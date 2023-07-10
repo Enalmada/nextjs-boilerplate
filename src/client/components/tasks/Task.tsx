@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 // import ReactTooltip from "react-tooltip";
-import { TaskStatus, type Task } from "@/client/gql/graphql";
-import { TASKS, UPSERT_TASK } from "@/client/queries-mutations";
-import { formatRelativeDate } from "@/client/utils/date";
-import { useMutation } from "@apollo/client";
-import { format } from "date-fns";
+import { TaskStatus, type Task } from '@/client/gql/graphql';
+import { TASKS, UPSERT_TASK } from '@/client/queries-mutations';
+import { formatRelativeDate } from '@/client/utils/date';
+import { useMutation } from '@apollo/client';
+import { format } from 'date-fns';
 
 interface Props {
   task: Task;
@@ -36,14 +36,14 @@ const Task = (props: Props) => {
             <input
               type="checkbox"
               className="form-checkbox h-5 w-5 cursor-pointer text-purple-600"
-              defaultChecked={status === "COMPLETED"}
+              defaultChecked={status === 'COMPLETED'}
               onClick={(e) => {
                 const input = {
                   id: id,
                   title: title,
                   description: description,
                   dueDate: dueDate ? dueDate : undefined,
-                  status: status === "ACTIVE" ? TaskStatus.Completed : TaskStatus.Active,
+                  status: status === 'ACTIVE' ? TaskStatus.Completed : TaskStatus.Active,
                 };
 
                 try {
@@ -65,7 +65,7 @@ const Task = (props: Props) => {
               <>
                 {dueDate}
                 <small
-                  data-tip={format(new Date(dueDate), "MM/dd/yyyy")}
+                  data-tip={format(new Date(dueDate), 'MM/dd/yyyy')}
                   className="text-right text-sm text-gray-700"
                 >
                   {formatRelativeDate(new Date(dueDate))}

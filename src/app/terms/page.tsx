@@ -1,7 +1,7 @@
-import PageLayout from "@/client/components/layout/PageLayout";
+import PageLayout from '@/client/components/layout/PageLayout';
 
 export const metadata = {
-  title: "Terms",
+  title: 'Terms',
 };
 
 export default function Page() {
@@ -11,7 +11,7 @@ export default function Page() {
         <h2>Technical Challenge Terms of Service</h2>
         <h3>1. Terms</h3>
         <p>
-          By accessing the website at{" "}
+          By accessing the website at{' '}
           <a href="https://TechnicalChallenge.com">https://TechnicalChallenge.com</a>, you are
           agreeing to be bound by these terms of service, all applicable laws and regulations, and
           agree that you are responsible for compliance with any applicable local laws. If you do

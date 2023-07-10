@@ -1,5 +1,5 @@
 // TODO: text-black should be something more thought out
-import Layout from "@/client/components/layout/Layout";
+import Layout from '@/client/components/layout/Layout';
 
 interface Props {
   children: React.ReactNode;

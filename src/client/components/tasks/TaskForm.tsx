@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   TaskStatus,
   type DeleteTaskMutation,
   type Task,
   type TaskQuery,
   type TasksQuery,
-} from "@/client/gql/graphql";
-import { DELETE_TASK, TASK, TASKS, UPSERT_TASK } from "@/client/queries-mutations";
-import { optimisticResponseHelper, removeFromCache } from "@/client/utils/graphql-helpers";
-import { getRouteById } from "@/client/utils/routes";
-import { useMutation, useQuery, type ApolloError } from "@apollo/client";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Controller, useForm } from "react-hook-form";
-import * as yup from "yup";
+} from '@/client/gql/graphql';
+import { DELETE_TASK, TASK, TASKS, UPSERT_TASK } from '@/client/queries-mutations';
+import { optimisticResponseHelper, removeFromCache } from '@/client/utils/graphql-helpers';
+import { getRouteById } from '@/client/utils/routes';
+import { useMutation, useQuery, type ApolloError } from '@apollo/client';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Controller, useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
-import DatePicker from "../DatePicker";
+import DatePicker from '../DatePicker';
 
 interface Props {
   id?: string;
@@ -45,9 +45,9 @@ export default function TaskForm(props: Props) {
 
   // TODO: dueDate should be date()  (form not submitting)
   const schema = yup.object().shape({
-    title: yup.string().required("Title is a required field"),
+    title: yup.string().required('Title is a required field'),
     description: yup.string(),
-    status: yup.string().required("Status is a required field"),
+    status: yup.string().required('Status is a required field'),
     dueDate: yup.string(),
   });
 
@@ -65,15 +65,15 @@ export default function TaskForm(props: Props) {
       id: props.id,
       title: title,
       description: description,
-      dueDate: !dueDate || dueDate == "" ? null : new Date(dueDate),
-      status: status == "ACTIVE" ? TaskStatus.Active : TaskStatus.Completed,
+      dueDate: !dueDate || dueDate == '' ? null : new Date(dueDate),
+      status: status == 'ACTIVE' ? TaskStatus.Active : TaskStatus.Completed,
     };
 
     try {
       await upsertTask({
         variables: { input },
       });
-      router.push(getRouteById("Home").path);
+      router.push(getRouteById('Home').path);
     } catch (e) {
       // mutation error will render errors but not handle them
       // https://stackoverflow.com/questions/59465864/handling-errors-with-react-apollo-usemutation-hook
@@ -84,10 +84,10 @@ export default function TaskForm(props: Props) {
   const mutationErrorMessage = (mutationError: ApolloError | undefined): string => {
     const graphQLErrors = mutationError?.graphQLErrors;
     if (!graphQLErrors) {
-      return "No error message available";
+      return 'No error message available';
     }
     const errorMessage = graphQLErrors[0]?.message;
-    return errorMessage ?? "No error message available";
+    return errorMessage ?? 'No error message available';
   };
 
   // Without this, updating description causes form update schema checking to say "title can't be blank"
@@ -124,35 +124,35 @@ export default function TaskForm(props: Props) {
 
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={"mb-5"}>
+        <div className={'mb-5'}>
           <label className="block">
             <span className="text-gray-700">Title</span>
             <input
               className="form-input mt-1 block w-full"
-              {...register("title")}
+              {...register('title')}
               defaultValue={title}
             />
           </label>
-          {errors.title?.message && <span className={"text-red-600"}>{errors.title?.message}</span>}
+          {errors.title?.message && <span className={'text-red-600'}>{errors.title?.message}</span>}
         </div>
 
-        <div className={"mb-5"}>
+        <div className={'mb-5'}>
           <label className="block">
             <span className="text-gray-700">Description</span>
             <textarea
               className="form-textarea mt-1 block w-full"
               defaultValue={description ?? undefined}
               rows={3}
-              {...register("description")}
+              {...register('description')}
             ></textarea>
           </label>
           {errors.description?.message && (
-            <span className={"text-red-600"}>{errors.description?.message}</span>
+            <span className={'text-red-600'}>{errors.description?.message}</span>
           )}
         </div>
 
         <div className="mb-5">
-          <label className="block" htmlFor={"dueDate"}>
+          <label className="block" htmlFor={'dueDate'}>
             <span className="text-gray-700">Due Date</span>
 
             <div>
@@ -162,8 +162,8 @@ export default function TaskForm(props: Props) {
                 defaultValue={dueDate ? dueDate.toString() : undefined}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <DatePicker
-                    id={"dueDate"}
-                    name={"dueDate"}
+                    id={'dueDate'}
+                    name={'dueDate'}
                     onChange={(value) => {
                       /* TODO form won't submit null for unknown reason */
                       if (!value) {
@@ -181,7 +181,7 @@ export default function TaskForm(props: Props) {
           </label>
 
           {errors.dueDate?.message && (
-            <span className={"text-red-600"}>{errors.title?.message}</span>
+            <span className={'text-red-600'}>{errors.title?.message}</span>
           )}
         </div>
 
@@ -192,9 +192,9 @@ export default function TaskForm(props: Props) {
               <input
                 type="radio"
                 className="form-radio"
-                {...register("status")}
+                {...register('status')}
                 value="ACTIVE"
-                defaultChecked={!status || status === "ACTIVE"}
+                defaultChecked={!status || status === 'ACTIVE'}
               />
               <span className="ml-2">Active</span>
             </label>
@@ -202,28 +202,28 @@ export default function TaskForm(props: Props) {
               <input
                 type="radio"
                 className="form-radio"
-                {...register("status")}
+                {...register('status')}
                 value="COMPLETED"
-                defaultChecked={status === "COMPLETED"}
+                defaultChecked={status === 'COMPLETED'}
               />
               <span className="ml-2">Completed</span>
             </label>
           </div>
           {errors.status?.message && (
-            <span className={"text-red-600"}>{errors.status?.message}</span>
+            <span className={'text-red-600'}>{errors.status?.message}</span>
           )}
         </div>
 
-        <div className={"mt-10 flex justify-between"}>
+        <div className={'mt-10 flex justify-between'}>
           <div>
             <button
               type="submit"
               className="mr-3 rounded bg-purple-600 p-5 py-2 font-bold text-white shadow-lg transition duration-200 hover:bg-purple-700 hover:shadow-xl"
             >
-              {id ? "Save" : "Create"}
+              {id ? 'Save' : 'Create'}
             </button>
 
-            <Link href={getRouteById("Home").path}>
+            <Link href={getRouteById('Home').path}>
               <button className="rounded bg-white p-5 py-2 font-bold text-gray-700 shadow-lg transition duration-200 hover:bg-gray-200 hover:shadow-xl">
                 Cancel
               </button>
@@ -250,15 +250,15 @@ function DeleteTaskButton(props: DeleteTaskButtonProps) {
     try {
       void deleteTask({
         variables: { id: props.task.id },
-        optimisticResponse: optimisticResponseHelper<DeleteTaskMutation>("deleteTask", props.task),
+        optimisticResponse: optimisticResponseHelper<DeleteTaskMutation>('deleteTask', props.task),
         update(cache, { data }) {
-          removeFromCache<TasksQuery>(data?.deleteTask, TASKS, cache, "tasks");
+          removeFromCache<TasksQuery>(data?.deleteTask, TASKS, cache, 'tasks');
         },
       });
-      router.push(getRouteById("Home").path);
+      router.push(getRouteById('Home').path);
     } catch (error) {
       // Handle the error appropriately, e.g., display error message or redirect to error page
-      console.error("Error deleting task:", error);
+      console.error('Error deleting task:', error);
       // TODO: Display error message or redirect to error page
     }
   };

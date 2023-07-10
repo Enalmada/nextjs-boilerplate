@@ -1,14 +1,14 @@
-import { type FirebaseOptions } from "firebase/app";
+import { type FirebaseOptions } from 'firebase/app';
 
 const getFirebaseApp = async (options: FirebaseOptions) => {
-  const { getApp, getApps, initializeApp } = await import("firebase/app");
+  const { getApp, getApps, initializeApp } = await import('firebase/app');
 
   return !getApps().length ? initializeApp(options) : getApp();
 };
 
 const getAuth = async (options: FirebaseOptions) => {
   const app = await getFirebaseApp(options);
-  const { getAuth } = await import("firebase/auth");
+  const { getAuth } = await import('firebase/auth');
 
   return getAuth(app);
 };

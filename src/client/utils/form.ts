@@ -6,9 +6,9 @@ export function addServerErrors<T>(
 ) {
   return Object.keys(errors).forEach((key) => {
     setError(key as keyof T, {
-      type: "server",
+      type: 'server',
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      message: errors[key as keyof T]!.join(". "),
+      message: errors[key as keyof T]!.join('. '),
     });
   });
 }

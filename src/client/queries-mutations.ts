@@ -1,4 +1,4 @@
-import { graphql } from "@/client/gql";
+import { graphql } from '@/client/gql';
 
 /*
 export const TASK_PARTS = graphql( `

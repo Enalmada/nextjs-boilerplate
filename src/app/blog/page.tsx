@@ -1,7 +1,7 @@
-import PageLayout from "@/client/components/layout/PageLayout";
+import PageLayout from '@/client/components/layout/PageLayout';
 
 export const metadata = {
-  title: "Blog",
+  title: 'Blog',
 };
 
 export default function Page() {

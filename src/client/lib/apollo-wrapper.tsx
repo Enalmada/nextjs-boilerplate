@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
 // ^ this file needs the "use client" pragma
-import { env } from "@/env.mjs";
-import { ApolloLink, HttpLink, SuspenseCache, type DefaultOptions } from "@apollo/client";
+import { env } from '@/env.mjs';
+import { ApolloLink, HttpLink, SuspenseCache, type DefaultOptions } from '@apollo/client';
 import {
   ApolloNextAppProvider,
   NextSSRApolloClient,
   NextSSRInMemoryCache,
   SSRMultipartLink,
-} from "@apollo/experimental-nextjs-app-support/ssr";
+} from '@apollo/experimental-nextjs-app-support/ssr';
 
-import typePolicies from "./typePolicies";
+import typePolicies from './typePolicies';
 
 // Graphql error policies overridden to return data and errors (default is data OR errors)
 // This decision impacts the shape of the response so you need to decide up front
@@ -18,12 +18,12 @@ import typePolicies from "./typePolicies";
 // https://www.apollographql.com/docs/react/data/error-handling/#graphql-error-policies
 const defaultOptions: DefaultOptions = {
   query: {
-    fetchPolicy: "cache-first",
-    errorPolicy: "all", // default "none"
+    fetchPolicy: 'cache-first',
+    errorPolicy: 'all', // default "none"
     partialRefetch: true,
   },
   mutate: {
-    errorPolicy: "all", // default "none"
+    errorPolicy: 'all', // default "none"
   },
 };
 
@@ -34,7 +34,7 @@ function makeClient() {
     uri: env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
     // you can disable result caching here if you want to
     // (this does not work if you are rendering your page with `export const dynamic = "force-static"`)
-    fetchOptions: { cache: "default" }, // default, no-store, reload, no-cache, force-cache, only-if-cached
+    fetchOptions: { cache: 'default' }, // default, no-store, reload, no-cache, force-cache, only-if-cached
   });
 
   return new NextSSRApolloClient({
@@ -44,7 +44,7 @@ function makeClient() {
       typePolicies: typePolicies,
     }),
     link:
-      typeof window === "undefined"
+      typeof window === 'undefined'
         ? ApolloLink.from([
             // in a SSR environment, if you use multipart features like
             // @defer, you need to decide how to handle these.

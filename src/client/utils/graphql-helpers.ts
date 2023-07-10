@@ -1,4 +1,4 @@
-import { type ApolloCache, type DocumentNode } from "@apollo/client";
+import { type ApolloCache, type DocumentNode } from '@apollo/client';
 
 // https://christianlydemann.com/graphql-cache-updates-made-easy/
 export interface EntityObject {
@@ -10,10 +10,10 @@ export function optimisticResponseHelper<UpdateMutationResponseT>(
   content: object
 ): UpdateMutationResponseT {
   return {
-    __typename: "Mutation",
+    __typename: 'Mutation',
     [mutationName]: {
-      __typename: "bla", // this is now coming with the content
-      id: "-1",
+      __typename: 'bla', // this is now coming with the content
+      id: '-1',
       ...content,
     },
   } as UpdateMutationResponseT;
