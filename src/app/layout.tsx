@@ -4,7 +4,6 @@ import { Inter, Roboto_Mono } from "next/font/google";
 import { ServerAuthProvider } from "@/auth/server-auth-provider";
 import { ApolloWrapper } from "@/client/lib/apollo-wrapper";
 import metadataConfig from "@/metadata.config";
-import { TrpcProvider } from "@/utils/trpc-provider";
 
 export const metadata = {
   ...metadataConfig,
@@ -30,9 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className={`${inter.className} ${inter.variable} ${roboto_mono.variable} gradient leading-normal tracking-normal text-white`}
       >
         <ServerAuthProvider>
-          <TrpcProvider>
-            <ApolloWrapper>{children}</ApolloWrapper>
-          </TrpcProvider>
+          <ApolloWrapper>{children}</ApolloWrapper>
         </ServerAuthProvider>
       </body>
     </html>

@@ -1,13 +1,8 @@
 import { getLogger } from "@/logging/log-util";
 import prismaClient from "@/server/db/db";
-import { PrismaService } from "@/server/db/prisma.service";
 import { type User } from "@prisma/client";
-import { injectable } from "tsyringe";
 
-@injectable()
 export default class UserService {
-  constructor(private prisma: PrismaService) {}
-
   static async createOrGetFirebaseUser(
     firebaseId: string,
     email: string | undefined

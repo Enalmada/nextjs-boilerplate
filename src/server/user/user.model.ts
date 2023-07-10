@@ -1,13 +1,9 @@
-import { Field, ID, ObjectType } from "type-graphql";
+import { builder } from "@/server/graphql/builder";
 
-@ObjectType()
-export class User {
-  @Field(() => ID)
-  id!: string;
-
-  @Field()
-  name!: string;
-
-  @Field()
-  email!: string;
-}
+builder.prismaObject("User", {
+  fields: (t) => ({
+    id: t.exposeID("id"),
+    name: t.exposeString("name", { nullable: true }),
+    email: t.exposeString("email", { nullable: true }),
+  }),
+});

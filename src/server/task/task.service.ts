@@ -1,26 +1,29 @@
-import { getLogger } from "@/logging/log-util";
-import { PrismaService } from "@/server/db/prisma.service";
+import { getChildLogger, getLogger } from "@/logging/log-util";
+import prisma from "@/server/db/db";
 import authCheck from "@/server/utils/authCheck";
 import { type User } from "@prisma/client";
-import { injectable } from "tsyringe";
 
-import { type TaskInput } from "./task.model";
+import { Prisma } from ".prisma/client";
 
-@injectable()
+import TaskUncheckedCreateInput = Prisma.TaskUncheckedCreateInput;
+
 export default class TaskService {
-  constructor(private prisma: PrismaService) {}
   private readonly logger = getLogger(TaskService.name);
 
-  getTasks(user: User) {
-    return this.prisma.task.findMany({
+  tasks(user: User) {
+    getChildLogger(this.logger, { method: this.tasks.name, userId: user.id });
+
+    return prisma.task.findMany({
       where: {
         userId: user.id,
       },
     });
   }
 
-  getTask(user: User, id: string) {
-    return this.prisma.task.findFirstOrThrow({
+  task(user: User, id: string) {
+    getChildLogger(this.logger, { method: this.task.name, userId: user.id, id });
+
+    return prisma.task.findFirstOrThrow({
       where: {
         id,
         userId: user.id,
@@ -28,9 +31,15 @@ export default class TaskService {
     });
   }
 
-  async upsertTask(user: User, input: TaskInput) {
+  async upsertTask(user: User, input: TaskUncheckedCreateInput) {
+    getChildLogger(this.logger, {
+      method: this.upsertTask.name,
+      userId: user.id,
+      data: { ...input },
+    });
+
     if (input.id) {
-      const task = await this.prisma.task.findFirst({
+      const task = await prisma.task.findFirst({
         where: {
           id: input.id,
         },
@@ -42,7 +51,7 @@ export default class TaskService {
 
       authCheck(user, task.userId);
 
-      return this.prisma.task.update({
+      return prisma.task.update({
         where: {
           id: input.id,
         },
@@ -52,7 +61,7 @@ export default class TaskService {
       });
     }
 
-    return this.prisma.task.create({
+    return prisma.task.create({
       data: {
         ...input,
         userId: user.id,
@@ -61,7 +70,9 @@ export default class TaskService {
   }
 
   async deleteTask(user: User, id: string) {
-    const task = await this.prisma.task.findFirst({
+    getChildLogger(this.logger, { method: this.deleteTask.name, userId: user.id, id });
+
+    const task = await prisma.task.findFirst({
       where: {
         id,
       },
@@ -73,7 +84,7 @@ export default class TaskService {
 
     authCheck(user, task.userId);
 
-    return this.prisma.task.delete({
+    return prisma.task.delete({
       where: {
         id,
       },

@@ -1,10 +1,11 @@
 import prisma from "@/server/db/db";
-import { singleton } from "tsyringe";
+
+// import { singleton } from "tsyringe";
 
 export * from "@prisma/client";
 
 // Reference: https://github.com/prisma/prisma/issues/18628#issuecomment-1584985619
-@singleton()
+// @singleton()
 export class PrismaService extends getExtendedClient() {}
 
 function getExtendedClient() {

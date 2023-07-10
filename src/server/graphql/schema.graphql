@@ -1,0 +1,49 @@
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+"""
+The query mutation type.
+"""
+type Mutation {
+  deleteTask(id: String!): Task!
+  upsertTask(input: MutationUpsertTaskInput!): Task!
+}
+
+input MutationUpsertTaskInput {
+  description: String
+  dueDate: DateTime
+  id: ID
+  status: TaskStatus!
+  title: String!
+}
+
+"""
+The query root type.
+"""
+type Query {
+  task(id: ID!): Task
+  tasks: [Task!]!
+}
+
+type Task {
+  createdAt: DateTime!
+  description: String
+  dueDate: DateTime
+  id: ID!
+  status: TaskStatus!
+  title: String!
+  updatedAt: DateTime!
+}
+
+enum TaskStatus {
+  ACTIVE
+  COMPLETED
+}
+
+type User {
+  email: String
+  id: ID!
+  name: String
+}

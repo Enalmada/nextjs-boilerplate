@@ -1,33 +1,15 @@
-import "reflect-metadata";
-
 import { type NextRequest } from "next/server";
-import { authConfig } from "@/config/server-config";
-import { TaskResolver } from "@/server/task/task.resolver";
-import { UserResolver } from "@/server/user/user.resolver";
-import UserService from "@/server/user/user.service";
-import { CustomAuthChecker } from "@/server/utils/customAuthorized";
+import { handleFirebase } from "@/server/firebase/firebase";
+import { schema } from "@/server/graphql/schema";
 import { useGenericAuth } from "@envelop/generic-auth";
 import { type User } from "@prisma/client";
 import { createYoga, type YogaInitialContext } from "graphql-yoga";
-import { getTokens } from "next-firebase-auth-edge/lib/next/tokens";
-import { container } from "tsyringe";
-import type InjectionToken from "tsyringe/dist/typings/providers/injection-token";
-import { buildSchema } from "type-graphql";
 
 // export const runtime = 'edge';
 
-const schema = await buildSchema({
-  resolvers: [UserResolver, TaskResolver],
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  container: { get: (cls: InjectionToken) => container.resolve(cls) },
-  authChecker: CustomAuthChecker,
-});
-
-const handleFirebase = async (req: NextRequest) => {
-  const tokens = await getTokens(req.cookies, authConfig);
-  const { uid: firebaseId, email } = tokens?.decodedToken ?? {};
-  return firebaseId ? await UserService.createOrGetFirebaseUser(firebaseId, email) : null;
-};
+export interface MyContextType {
+  currentUser: User;
+}
 
 // Next.js Custom Route Handler: https://nextjs.org/docs/app/building-your-application/routing/router-handlers
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
