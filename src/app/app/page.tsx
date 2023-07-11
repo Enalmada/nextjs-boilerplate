@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 import BreadCrumb from '@/client/components/Breadcrumb';
 import PageLayout from '@/client/components/layout/PageLayout';
@@ -7,6 +8,7 @@ import { getRouteById } from '@/client/utils/routes';
 export const metadata = {
   title: 'Tasks',
 };
+export const dynamic = 'force-dynamic';
 
 export default function Page() {
   return (
@@ -30,7 +32,9 @@ export default function Page() {
         </Link>
       </div>
 
-      <TaskList />
+      <Suspense>
+        <TaskList />
+      </Suspense>
     </PageLayout>
   );
 }

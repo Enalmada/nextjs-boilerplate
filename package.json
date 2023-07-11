@@ -29,7 +29,7 @@
     "updates": "pnpm outdated -r"
   },
   "dependencies": {
-    "@apollo/client": "3.8.0-beta.6",
+    "@apollo/client": "3.8.0-beta.7",
     "@apollo/experimental-nextjs-app-support": "^0.3.2",
     "@envelop/generic-auth": "^6.0.0",
     "@graphql-typed-document-node/core": "^3.2.0",

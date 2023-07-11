@@ -2,12 +2,12 @@
 
 import Link from 'next/link';
 import { TASKS } from '@/client/queries-mutations';
-import { useQuery } from '@apollo/client';
+import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 
 import Task from './Task';
 
 export default function TaskList() {
-  const { data, error } = useQuery(TASKS);
+  const { data, error } = useSuspenseQuery(TASKS);
 
   if (!data) return null;
   if (error) return <div>{`Error! ${error.message}`}</div>;

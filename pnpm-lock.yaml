@@ -6,11 +6,11 @@ settings:
 
 dependencies:
   '@apollo/client':
-    specifier: 3.8.0-beta.6
-    version: 3.8.0-beta.6(graphql@16.7.1)(react-dom@18.2.0)(react@18.2.0)
+    specifier: 3.8.0-beta.7
+    version: 3.8.0-beta.7(graphql@16.7.1)(react-dom@18.2.0)(react@18.2.0)
   '@apollo/experimental-nextjs-app-support':
     specifier: ^0.3.2
-    version: 0.3.2(@apollo/client@3.8.0-beta.6)(next@13.4.9)(react@18.2.0)
+    version: 0.3.2(@apollo/client@3.8.0-beta.7)(next@13.4.9)(react@18.2.0)
   '@envelop/generic-auth':
     specifier: ^6.0.0
     version: 6.0.0(@envelop/core@4.0.0)(graphql@16.7.1)
@@ -240,8 +240,8 @@ packages:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.18
 
-  /@apollo/client@3.8.0-beta.6(graphql@16.7.1)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-2kZMLz1Tt41t1kwaLtpNOaPXO0lGPGwXFnqa+3U5E3jLzkEKEF1MZ+NOOFcm6ZY832+6FZ13tP61PItZqDFCAw==}
+  /@apollo/client@3.8.0-beta.7(graphql@16.7.1)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-LoIn1ocMF+YBzpUBn056b+ZdmF7trK35BJCTny+oZ9bm1xqv7f/SivyAr++qz4QSXNJqgnNdr0Zjh6LeIsTIcA==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
       graphql-ws: ^5.5.5
@@ -276,14 +276,14 @@ packages:
       zen-observable-ts: 1.2.5
     dev: false
 
-  /@apollo/experimental-nextjs-app-support@0.3.2(@apollo/client@3.8.0-beta.6)(next@13.4.9)(react@18.2.0):
+  /@apollo/experimental-nextjs-app-support@0.3.2(@apollo/client@3.8.0-beta.7)(next@13.4.9)(react@18.2.0):
     resolution: {integrity: sha512-h219jTHVl7vR6RtUv9GJrv8+EbtQpUUvcNrM4aPWqOMvq1vN95T33Z96la7iWEWruwBvcWQD7UreAOdbd432Gw==}
     peerDependencies:
       '@apollo/client': '>=3.8.0-beta.4'
       next: ^13.4.1
       react: ^18
     dependencies:
-      '@apollo/client': 3.8.0-beta.6(graphql@16.7.1)(react-dom@18.2.0)(react@18.2.0)
+      '@apollo/client': 3.8.0-beta.7(graphql@16.7.1)(react-dom@18.2.0)(react@18.2.0)
       next: 13.4.9(@babel/core@7.22.8)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       superjson: 1.12.4
@@ -15821,6 +15821,7 @@ packages:
   /vm2@3.9.19:
     resolution: {integrity: sha512-J637XF0DHDMV57R6JyVsTak7nIL8gy5KH4r1HiwWLf/4GBbb5MKL5y7LpmF4A8E2nR6XmzpmMFQ7V7ppPTmUQg==}
     engines: {node: '>=6.0'}
+    deprecated: The library contains critical security issues and should not be used for production! The maintenance of the project has been discontinued. Consider migrating your code to isolated-vm.
     hasBin: true
     dependencies:
       acorn: 8.10.0
