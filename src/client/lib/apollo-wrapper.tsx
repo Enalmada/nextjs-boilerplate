@@ -2,7 +2,9 @@
 
 // ^ this file needs the "use client" pragma
 import { env } from '@/env.mjs';
+import { useAuth } from '@/lib/firebase/auth/hooks';
 import { ApolloLink, HttpLink, SuspenseCache, type DefaultOptions } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import {
   ApolloNextAppProvider,
   NextSSRApolloClient,
@@ -28,7 +30,17 @@ const defaultOptions: DefaultOptions = {
 };
 
 // have a function to create a client for you
-function makeClient() {
+function makeClient(tenantIdToken: string | null) {
+  const authLink = setContext((_, { headers }) => {
+    return {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      headers: {
+        ...headers,
+        authorization: tenantIdToken ? `${tenantIdToken}` : '',
+      },
+    };
+  });
+
   const httpLink = new HttpLink({
     // this needs to be an absolute url, as relative urls cannot be used in SSR
     uri: env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
@@ -52,9 +64,10 @@ function makeClient() {
             new SSRMultipartLink({
               stripDefer: true,
             }),
+            authLink,
             httpLink,
           ])
-        : httpLink,
+        : authLink.concat(httpLink),
   });
 }
 
@@ -65,8 +78,14 @@ function makeSuspenseCache() {
 
 // you need to create a component to wrap your app in
 export function ApolloWrapper({ children }: React.PropsWithChildren) {
+  const { tenant } = useAuth();
+  const tenantIdToken = tenant?.idToken ?? null;
+
   return (
-    <ApolloNextAppProvider makeClient={makeClient} makeSuspenseCache={makeSuspenseCache}>
+    <ApolloNextAppProvider
+      makeClient={() => makeClient(tenantIdToken)}
+      makeSuspenseCache={makeSuspenseCache}
+    >
       {children}
     </ApolloNextAppProvider>
   );

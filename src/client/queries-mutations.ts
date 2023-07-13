@@ -42,9 +42,23 @@ export const TASK = graphql(/* GraphQL */ `
   }
 `);
 
-export const UPSERT_TASK = graphql(/* GraphQL */ `
-  mutation UpsertTask($input: MutationUpsertTaskInput!) {
-    upsertTask(input: $input) {
+export const CREATE_TASK = graphql(/* GraphQL */ `
+  mutation CreateTask($input: MutationCreateTaskInput!) {
+    createTask(input: $input) {
+      id
+      title
+      description
+      dueDate
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`);
+
+export const UPDATE_TASK = graphql(/* GraphQL */ `
+  mutation UpdateTask($input: MutationUpdateTaskInput!) {
+    updateTask(input: $input) {
       id
       title
       description

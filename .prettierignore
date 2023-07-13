@@ -4,5 +4,6 @@ node_modules/**
 .vercel
 e2e/setup/storage-state.json
 src/client/gql
+src/server/graphql/schema.graphql
 dist
 build

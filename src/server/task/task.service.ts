@@ -2,10 +2,12 @@ import { getChildLogger, getLogger } from '@/lib/logging/log-util';
 import prisma from '@/server/db/db';
 import authCheck from '@/server/utils/authCheck';
 import { type User } from '@prisma/client';
+import { GraphQLError } from 'graphql';
 
 import { Prisma } from '.prisma/client';
 
 import TaskUncheckedCreateInput = Prisma.TaskUncheckedCreateInput;
+import TaskUncheckedUpdateInput = Prisma.TaskUncheckedUpdateInput;
 
 export default class TaskService {
   private readonly logger = getLogger(TaskService.name);
@@ -20,46 +22,31 @@ export default class TaskService {
     });
   }
 
-  task(user: User, id: string) {
+  async task(user: User, id: string) {
     getChildLogger(this.logger, { method: this.task.name, userId: user.id, id });
 
-    return prisma.task.findFirstOrThrow({
+    const task = await prisma.task.findFirst({
       where: {
         id,
-        userId: user.id,
       },
     });
+
+    if (!task) {
+      this.logger.warn(`${user.id} trying to access task ${id} that doesn't exist`);
+      return null;
+    }
+
+    authCheck(user, task.userId);
+
+    return task;
   }
 
-  async upsertTask(user: User, input: TaskUncheckedCreateInput) {
+  async create(user: User, input: TaskUncheckedCreateInput) {
     getChildLogger(this.logger, {
-      method: this.upsertTask.name,
+      method: this.create.name,
       userId: user.id,
       data: { ...input },
     });
-
-    if (input.id) {
-      const task = await prisma.task.findFirst({
-        where: {
-          id: input.id,
-        },
-      });
-
-      if (!task) {
-        throw Error('not found');
-      }
-
-      authCheck(user, task.userId);
-
-      return prisma.task.update({
-        where: {
-          id: input.id,
-        },
-        data: {
-          ...input,
-        },
-      });
-    }
 
     return prisma.task.create({
       data: {
@@ -69,8 +56,38 @@ export default class TaskService {
     });
   }
 
-  async deleteTask(user: User, id: string) {
-    getChildLogger(this.logger, { method: this.deleteTask.name, userId: user.id, id });
+  async update(user: User, input: { id: string } & TaskUncheckedUpdateInput) {
+    getChildLogger(this.logger, {
+      method: this.update.name,
+      userId: user.id,
+      data: { ...input },
+    });
+
+    const task = await prisma.task.findFirst({
+      where: {
+        id: input.id,
+      },
+    });
+
+    if (!task) {
+      this.logger.warn(`${user.id} trying to access task ${input.id} that doesn't exist`);
+      throw new GraphQLError(`task ${input.id} not found`);
+    }
+
+    authCheck(user, task.userId);
+
+    return prisma.task.update({
+      where: {
+        id: input.id,
+      },
+      data: {
+        ...input,
+      },
+    });
+  }
+
+  async delete(user: User, id: string) {
+    getChildLogger(this.logger, { method: this.delete.name, userId: user.id, id });
 
     const task = await prisma.task.findFirst({
       where: {
@@ -79,7 +96,8 @@ export default class TaskService {
     });
 
     if (!task) {
-      throw Error('not found');
+      this.logger.warn(`${user.id} trying to access task ${id} that doesn't exist`);
+      throw new GraphQLError(`task ${id} not found`);
     }
 
     authCheck(user, task.userId);

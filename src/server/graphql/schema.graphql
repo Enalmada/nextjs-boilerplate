@@ -3,15 +3,21 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
-"""
-The query mutation type.
-"""
+"""The query mutation type."""
 type Mutation {
+  createTask(input: MutationCreateTaskInput!): Task!
   deleteTask(id: String!): Task!
-  upsertTask(input: MutationUpsertTaskInput!): Task!
+  updateTask(input: MutationUpdateTaskInput!): Task!
 }
 
-input MutationUpsertTaskInput {
+input MutationCreateTaskInput {
+  description: String
+  dueDate: DateTime
+  status: TaskStatus!
+  title: String!
+}
+
+input MutationUpdateTaskInput {
   description: String
   dueDate: DateTime
   id: ID
@@ -19,9 +25,7 @@ input MutationUpsertTaskInput {
   title: String!
 }
 
-"""
-The query root type.
-"""
+"""The query root type."""
 type Query {
   task(id: ID!): Task
   tasks: [Task!]!

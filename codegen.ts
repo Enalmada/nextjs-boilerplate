@@ -6,7 +6,7 @@ const config: CodegenConfig = {
   ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
     './src/client/gql/': {
-      preset: 'client',
+      preset: 'client-preset',
       config: {
         scalars: {
           DateTime: 'Date',
@@ -14,6 +14,7 @@ const config: CodegenConfig = {
       },
     },
   },
+  // hooks: { afterAllFileWrite: ['prettier --write'] },
 };
 
 export default config;

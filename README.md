@@ -40,6 +40,7 @@
 - Graphql
   - [yoga-server](https://the-guild.dev/graphql/yoga-server) serverless/edge compatible
   - [TypeGraphQL](https://typegraphql.com/) "code first" typesafe graphql
+  - [Graphql Armor](https://escape.tech/graphql-armor/) security defaults
 - Database
   - [Prisma](https://www.prisma.io/) ORM
     - See prisma/schema.prisma for intuitive DB mapping

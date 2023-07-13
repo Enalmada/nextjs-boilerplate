@@ -46,12 +46,35 @@ builder.queryField('tasks', (t) =>
   t.prismaField({
     type: ['Task'],
     resolve: async (query, root, args, ctx) => {
-      return new TaskService().tasks(ctx.currentUser);
+      if (!ctx.currentUser) {
+        return [];
+      }
+
+      return await new TaskService().tasks(ctx.currentUser);
     },
   })
 );
 
-builder.mutationField('upsertTask', (t) =>
+builder.mutationField('createTask', (t) =>
+  t.prismaFieldWithInput({
+    type: 'Task',
+    input: {
+      title: t.input.string({ required: true }),
+      description: t.input.string(),
+      status: t.input.field({ type: TaskStatus, required: true }),
+      dueDate: t.input.field({ type: 'DateTime' }),
+    },
+    resolve: async (query, root, args, ctx) => {
+      const input = {
+        ...args.input,
+        userId: ctx.currentUser.id,
+      };
+      return new TaskService().create(ctx.currentUser, input);
+    },
+  })
+);
+
+builder.mutationField('updateTask', (t) =>
   t.prismaFieldWithInput({
     type: 'Task',
     input: {
@@ -67,7 +90,7 @@ builder.mutationField('upsertTask', (t) =>
         id: args.input.id as string,
         userId: ctx.currentUser.id,
       };
-      return new TaskService().upsertTask(ctx.currentUser, input);
+      return new TaskService().update(ctx.currentUser, input);
     },
   })
 );
@@ -79,7 +102,7 @@ builder.mutationField('deleteTask', (t) =>
       id: t.arg.string({ required: true }),
     },
     resolve: async (query, root, args, ctx) => {
-      return new TaskService().deleteTask(ctx.currentUser, args.id);
+      return new TaskService().delete(ctx.currentUser, args.id);
     },
   })
 );

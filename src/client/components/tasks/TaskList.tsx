@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import Link from 'next/link';
 import { TASKS } from '@/client/queries-mutations';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
@@ -20,13 +21,15 @@ export default function TaskList() {
 
   return (
     <div>
-      {tasks.map((task) => {
-        return (
-          <Link href={`/app/task/${task.id}`} key={task.id}>
-            <Task task={task} />
-          </Link>
-        );
-      })}
+      <Suspense>
+        {tasks.map((task) => {
+          return (
+            <Link href={`/app/task/${task.id}`} key={task.id}>
+              <Task task={task} />
+            </Link>
+          );
+        })}
+      </Suspense>
     </div>
   );
 }

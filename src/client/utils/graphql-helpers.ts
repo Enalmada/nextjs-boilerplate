@@ -19,6 +19,26 @@ export function optimisticResponseHelper<UpdateMutationResponseT>(
   } as UpdateMutationResponseT;
 }
 
+export function addToCache<ReadQueryResponseT>(
+  toCreate: EntityObject | undefined,
+  readQuery: DocumentNode,
+  cache: ApolloCache<unknown>,
+  entityName: keyof ReadQueryResponseT
+) {
+  const existingEntities = cache.readQuery<Record<keyof ReadQueryResponseT, EntityObject[]>>({
+    query: readQuery,
+  });
+
+  if (toCreate && existingEntities) {
+    cache.writeQuery({
+      query: readQuery,
+      data: {
+        [entityName]: [...existingEntities[entityName], toCreate],
+      },
+    });
+  }
+}
+
 export function removeFromCache<ReadQueryResponseT>(
   toRemove: EntityObject | undefined,
   readQuery: DocumentNode,

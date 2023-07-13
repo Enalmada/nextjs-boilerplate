@@ -76,5 +76,8 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/((?!_next/static|favicon.ico|logo.svg|site.webmanifest|graphql).*)'],
+  matcher: [
+    '/',
+    '/((?!_next/static|favicon.ico|logo.svg|site.webmanifest|api/graphql|api/health).*)',
+  ],
 };

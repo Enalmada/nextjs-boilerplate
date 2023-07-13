@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
 // import ReactTooltip from "react-tooltip";
 import { TaskStatus, type Task } from '@/client/gql/graphql';
-import { TASKS, UPSERT_TASK } from '@/client/queries-mutations';
+import { UPDATE_TASK } from '@/client/queries-mutations';
 import { formatRelativeDate } from '@/client/utils/date';
 import { useMutation } from '@apollo/client';
 import { format } from 'date-fns';
@@ -16,17 +15,29 @@ interface Props {
 const Task = (props: Props) => {
   const { id, title, description, dueDate, status } = props.task;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [clientSide, setClientSide] = useState(false);
+  const [updateTask, { error: updateTaskError }] = useMutation(UPDATE_TASK);
 
-  const [upsertTask] = useMutation(UPSERT_TASK, {
-    refetchQueries: [{ query: TASKS }],
-  });
+  const handleUpdateTask = async (e: React.MouseEvent<HTMLInputElement>) => {
+    const input = {
+      id: id,
+      title: title,
+      description: description,
+      dueDate: dueDate ? dueDate : undefined,
+      status: status === 'ACTIVE' ? TaskStatus.Completed : TaskStatus.Active,
+    };
 
-  useEffect(() => {
-    // update some client side state to say it is now safe to render the client-side only component
-    setClientSide(true);
-  }, []);
+    try {
+      e.stopPropagation();
+      // use void to skip await in a void callback
+      // https://github.com/typescript-eslint/typescript-eslint/issues/4619#issuecomment-1055614155
+      await updateTask({ variables: { input } });
+      if (updateTaskError) {
+        console.error('Oh no!', updateTaskError.message);
+      }
+    } catch (error) {
+      //
+    }
+  };
 
   return (
     <div className="mb-3 flex max-w-md rounded-lg bg-white shadow-lg md:mx-auto md:max-w-2xl ">
@@ -37,24 +48,7 @@ const Task = (props: Props) => {
               type="checkbox"
               className="form-checkbox h-5 w-5 cursor-pointer text-purple-600"
               defaultChecked={status === 'COMPLETED'}
-              onClick={(e) => {
-                const input = {
-                  id: id,
-                  title: title,
-                  description: description,
-                  dueDate: dueDate ? dueDate : undefined,
-                  status: status === 'ACTIVE' ? TaskStatus.Completed : TaskStatus.Active,
-                };
-
-                try {
-                  e.stopPropagation();
-                  // use void to skip await in a void callback
-                  // https://github.com/typescript-eslint/typescript-eslint/issues/4619#issuecomment-1055614155
-                  void upsertTask({ variables: { input } });
-                } catch (e) {
-                  //
-                }
-              }}
+              onClick={(e) => void handleUpdateTask(e)}
             />
           </label>
         </div>
