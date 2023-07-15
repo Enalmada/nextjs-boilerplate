@@ -17,6 +17,8 @@ export const env = createEnv({
     USE_SECURE_COOKIES: z.string().min(1),
     FIREBASE_SECRET1: z.string().min(1),
     FIREBASE_SECRET2: z.string().min(1),
+    AXIOM_TOKEN: z.string().optional(),
+    AXIOM_DATASET: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_REDIRECT_URL: z.string().url(),

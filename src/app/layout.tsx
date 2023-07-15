@@ -1,6 +1,6 @@
 import '@/client/styles/index.css';
 
-import { Inter, Roboto_Mono } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import { ApolloWrapper } from '@/client/lib/apollo-wrapper';
 import { ServerAuthProvider } from '@/lib/firebase/auth/server-auth-provider';
 import metadataConfig from '@/metadata.config';

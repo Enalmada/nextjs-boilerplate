@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { type NextRequest } from 'next/server';
 import { env } from '@/env.mjs';
+import { type RequestReport } from '@/lib/logging/log-util';
 import { modifiedHandleCreateOrGetUser } from '@/server/graphql/modifiedHandleCreateOrGetUser';
 import { schema } from '@/server/graphql/schema';
 import { useGenericAuth } from '@envelop/generic-auth';
@@ -12,6 +13,7 @@ import { createYoga, type Plugin, type YogaInitialContext } from 'graphql-yoga';
 
 export interface MyContextType {
   currentUser: User;
+  report: RequestReport; // RequestReport is not exported properly from axiom
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -47,5 +49,20 @@ export function makeYoga(graphqlEndpoint: string) {
       methods: ['POST'],
     },
     batching: true,
+    context: ({ request }: { request: NextRequest }) => {
+      // code from next-axios logger combining their api and edge RequestReport
+      // https://github.com/axiomhq/next-axiom/blob/00f97e0619aa7e47d91f4fe9b11cf5a72fdf6815/src/logger.ts
+      const report: RequestReport = {
+        startTime: new Date().getTime(),
+        ip: request.headers.get('x-forwarded-for') || request.ip,
+        region: request.geo?.region || process.env.VERCEL_REGION,
+        host: request.nextUrl.host || request.headers.get('host') || '',
+        method: request.method,
+        path: request.nextUrl.pathname || request.url,
+        scheme: request.nextUrl.protocol.replace(':', ''),
+        userAgent: request.headers.get('user-agent'),
+      };
+      return { report };
+    },
   });
 }

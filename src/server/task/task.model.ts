@@ -37,7 +37,7 @@ builder.queryField('task', (t) =>
     },
     nullable: true,
     resolve: async (query, root, args, ctx) => {
-      return new TaskService().task(ctx.currentUser, args.id as string);
+      return new TaskService().task(ctx.currentUser, args.id as string, ctx);
     },
   })
 );
@@ -50,7 +50,7 @@ builder.queryField('tasks', (t) =>
         return [];
       }
 
-      return await new TaskService().tasks(ctx.currentUser);
+      return await new TaskService().tasks(ctx.currentUser, ctx);
     },
   })
 );
@@ -69,7 +69,7 @@ builder.mutationField('createTask', (t) =>
         ...args.input,
         userId: ctx.currentUser.id,
       };
-      return new TaskService().create(ctx.currentUser, input);
+      return new TaskService().create(ctx.currentUser, input, ctx);
     },
   })
 );
@@ -90,7 +90,7 @@ builder.mutationField('updateTask', (t) =>
         id: args.input.id as string,
         userId: ctx.currentUser.id,
       };
-      return new TaskService().update(ctx.currentUser, input);
+      return new TaskService().update(ctx.currentUser, input, ctx);
     },
   })
 );
@@ -102,7 +102,7 @@ builder.mutationField('deleteTask', (t) =>
       id: t.arg.string({ required: true }),
     },
     resolve: async (query, root, args, ctx) => {
-      return new TaskService().delete(ctx.currentUser, args.id);
+      return new TaskService().delete(ctx.currentUser, args.id, ctx);
     },
   })
 );

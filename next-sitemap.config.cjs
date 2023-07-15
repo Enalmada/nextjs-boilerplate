@@ -2,7 +2,17 @@
 module.exports = {
   siteUrl: process.env.NEXT_PUBLIC_REDIRECT_URL,
   generateRobotsTxt: true,
-  exclude: ['/server-sitemap.xml', '/app/*', '/graphql', '/login', '/logout', '/maintenance-mode', '/api/health', '/apple-icon.png', 'icon.png'],
+  exclude: [
+    '/server-sitemap.xml',
+    '/app/*',
+    '/graphql',
+    '/login',
+    '/logout',
+    '/maintenance-mode',
+    '/api/health',
+    '/apple-icon.png',
+    'icon.png',
+  ],
   generateIndexSitemap: false,
   robotsTxtOptions: {
     policies:

@@ -1,5 +1,6 @@
-import { getChildLogger, getLogger } from '@/lib/logging/log-util';
+import Logger from '@/lib/logging/log-util';
 import prisma from '@/server/db/db';
+import { type MyContextType } from '@/server/graphql/yoga';
 import authCheck from '@/server/utils/authCheck';
 import { type User } from '@prisma/client';
 import { GraphQLError } from 'graphql';
@@ -10,10 +11,11 @@ import TaskUncheckedCreateInput = Prisma.TaskUncheckedCreateInput;
 import TaskUncheckedUpdateInput = Prisma.TaskUncheckedUpdateInput;
 
 export default class TaskService {
-  private readonly logger = getLogger(TaskService.name);
+  private readonly logger = new Logger(TaskService.name);
 
-  tasks(user: User) {
-    getChildLogger(this.logger, { method: this.tasks.name, userId: user.id });
+  tasks(user: User, ctx: MyContextType) {
+    // log.debug("testing out axiom", { source: "backend-log"});
+    this.logger.logMethodStart(this.tasks.name, ctx);
 
     return prisma.task.findMany({
       where: {
@@ -22,8 +24,8 @@ export default class TaskService {
     });
   }
 
-  async task(user: User, id: string) {
-    getChildLogger(this.logger, { method: this.task.name, userId: user.id, id });
+  async task(user: User, id: string, ctx: MyContextType) {
+    const logger = this.logger.logMethodStart(this.task.name, ctx);
 
     const task = await prisma.task.findFirst({
       where: {
@@ -32,7 +34,7 @@ export default class TaskService {
     });
 
     if (!task) {
-      this.logger.warn(`${user.id} trying to access task ${id} that doesn't exist`);
+      logger.warn(`${user.id} trying to access task ${id} that doesn't exist`);
       return null;
     }
 
@@ -41,10 +43,8 @@ export default class TaskService {
     return task;
   }
 
-  async create(user: User, input: TaskUncheckedCreateInput) {
-    getChildLogger(this.logger, {
-      method: this.create.name,
-      userId: user.id,
+  async create(user: User, input: TaskUncheckedCreateInput, ctx: MyContextType) {
+    this.logger.logMethodStart(this.create.name, ctx, {
       data: { ...input },
     });
 
@@ -56,10 +56,8 @@ export default class TaskService {
     });
   }
 
-  async update(user: User, input: { id: string } & TaskUncheckedUpdateInput) {
-    getChildLogger(this.logger, {
-      method: this.update.name,
-      userId: user.id,
+  async update(user: User, input: { id: string } & TaskUncheckedUpdateInput, ctx: MyContextType) {
+    const logger = this.logger.logMethodStart(this.update.name, ctx, {
       data: { ...input },
     });
 
@@ -70,7 +68,7 @@ export default class TaskService {
     });
 
     if (!task) {
-      this.logger.warn(`${user.id} trying to access task ${input.id} that doesn't exist`);
+      logger.warn(`${user.id} trying to access task ${input.id} that doesn't exist`);
       throw new GraphQLError(`task ${input.id} not found`);
     }
 
@@ -86,8 +84,8 @@ export default class TaskService {
     });
   }
 
-  async delete(user: User, id: string) {
-    getChildLogger(this.logger, { method: this.delete.name, userId: user.id, id });
+  async delete(user: User, id: string, ctx: MyContextType) {
+    const logger = this.logger.logMethodStart(this.delete.name, ctx);
 
     const task = await prisma.task.findFirst({
       where: {
@@ -96,7 +94,7 @@ export default class TaskService {
     });
 
     if (!task) {
-      this.logger.warn(`${user.id} trying to access task ${id} that doesn't exist`);
+      logger.warn(`${user.id} trying to access task ${id} that doesn't exist`);
       throw new GraphQLError(`task ${id} not found`);
     }
 

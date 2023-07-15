@@ -60,6 +60,7 @@
 ### TODO
 
 - error logging - sentry (see src/pages/\_app.js)
+  - https://nextjs.org/docs/app/building-your-application/routing/error-handling
 - e2e testing - Playwright
 - unit testing - ViTest (ViTest ui for convenient dev coverage review)
 - 💎 [CVA](https://cva.style/docs) - Create reusable css (css-in-js alternative)

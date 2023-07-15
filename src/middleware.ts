@@ -2,7 +2,6 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import matchesAnyItem from '@/client/utils/matchesAnyItem';
 import { authConfig } from '@/lib/firebase/config/server-config';
-import { getLogger } from '@/lib/logging/log-util';
 import { getFirebaseAuth } from 'next-firebase-auth-edge/lib/auth';
 import { authentication, refreshAuthCookies } from 'next-firebase-auth-edge/lib/next/middleware';
 
@@ -12,12 +11,15 @@ const protectedMatcher = ['/app', '/app/(.)'];
 
 // https://github.com/vercel/next.js/discussions/33898#discussioncomment-6055562
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+/*
 const logger = getLogger('middleware', {
   browser: {
     // eslint-disable-next-line no-console
     write: (o: unknown) => console.log(JSON.stringify(o)),
   },
 });
+
+ */
 
 function redirectToLogin(request: NextRequest) {
   if (

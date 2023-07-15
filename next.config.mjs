@@ -3,6 +3,8 @@ import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from 'next/constants
 
 import './src/env.mjs';
 
+import { withAxiom } from 'next-axiom';
+
 const graphiQL = 'https://unpkg.com/@graphql-yoga/';
 
 // https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid#cross_origin_opener_policy
@@ -90,7 +92,7 @@ export default async function configureNextConfig(phase) {
     const bundleAnalyzerConfig = {
       enabled: process.env.ANALYZE === 'true',
     };
-    return withBundleAnalyzer.default(bundleAnalyzerConfig)(config);
+    return withAxiom(withBundleAnalyzer.default(bundleAnalyzerConfig)(config));
   }
-  return config;
+  return withAxiom(config);
 }
