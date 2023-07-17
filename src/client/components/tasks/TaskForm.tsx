@@ -217,7 +217,7 @@ export default function TaskForm(props: Props) {
                   className="form-radio"
                   {...register('status')}
                   value="ACTIVE"
-                  defaultChecked={!status || status === 'ACTIVE'}
+                  defaultChecked={!status || status === TaskStatus.Active}
                 />
                 <span className="ml-2">Active</span>
               </label>
@@ -227,7 +227,7 @@ export default function TaskForm(props: Props) {
                   className="form-radio"
                   {...register('status')}
                   value="COMPLETED"
-                  defaultChecked={status === 'COMPLETED'}
+                  defaultChecked={status === TaskStatus.Completed}
                 />
                 <span className="ml-2">Completed</span>
               </label>

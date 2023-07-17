@@ -16,6 +16,8 @@ export type Scalars = {
   Float: { input: number; output: number; }
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: { input: Date; output: Date; }
+  /** A string that cannot be passed as an empty value */
+  NonEmptyString: { input: string; output: string; }
 };
 
 /** The query mutation type. */
@@ -48,7 +50,7 @@ export type MutationCreateTaskInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   dueDate?: InputMaybe<Scalars['DateTime']['input']>;
   status: TaskStatus;
-  title: Scalars['String']['input'];
+  title: Scalars['NonEmptyString']['input'];
 };
 
 export type MutationUpdateTaskInput = {
@@ -56,7 +58,7 @@ export type MutationUpdateTaskInput = {
   dueDate?: InputMaybe<Scalars['DateTime']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
   status: TaskStatus;
-  title: Scalars['String']['input'];
+  title: Scalars['NonEmptyString']['input'];
 };
 
 /** The query root type. */
@@ -79,7 +81,7 @@ export type Task = {
   dueDate?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   status: TaskStatus;
-  title: Scalars['String']['output'];
+  title: Scalars['NonEmptyString']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
 

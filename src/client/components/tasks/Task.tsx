@@ -23,7 +23,7 @@ const Task = (props: Props) => {
       title: title,
       description: description,
       dueDate: dueDate ? dueDate : undefined,
-      status: status === 'ACTIVE' ? TaskStatus.Completed : TaskStatus.Active,
+      status: status === TaskStatus.Active ? TaskStatus.Completed : TaskStatus.Active,
     };
 
     try {
@@ -47,7 +47,7 @@ const Task = (props: Props) => {
             <input
               type="checkbox"
               className="form-checkbox h-5 w-5 cursor-pointer text-purple-600"
-              defaultChecked={status === 'COMPLETED'}
+              defaultChecked={status === TaskStatus.Completed}
               onClick={(e) => void handleUpdateTask(e)}
             />
           </label>

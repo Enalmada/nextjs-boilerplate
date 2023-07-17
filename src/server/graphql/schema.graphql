@@ -14,7 +14,7 @@ input MutationCreateTaskInput {
   description: String
   dueDate: DateTime
   status: TaskStatus!
-  title: String!
+  title: NonEmptyString!
 }
 
 input MutationUpdateTaskInput {
@@ -22,8 +22,11 @@ input MutationUpdateTaskInput {
   dueDate: DateTime
   id: ID
   status: TaskStatus!
-  title: String!
+  title: NonEmptyString!
 }
+
+"""A string that cannot be passed as an empty value"""
+scalar NonEmptyString
 
 """The query root type."""
 type Query {
@@ -37,7 +40,7 @@ type Task {
   dueDate: DateTime
   id: ID!
   status: TaskStatus!
-  title: String!
+  title: NonEmptyString!
   updatedAt: DateTime!
 }
 

@@ -10,7 +10,9 @@ builder.enumType(TaskStatus, {
 builder.prismaObject('Task', {
   fields: (t) => ({
     id: t.exposeID('id'),
-    title: t.exposeString('title'),
+    title: t.expose('title', {
+      type: 'NonEmptyString',
+    }),
     description: t.exposeString('description', { nullable: true }),
     status: t.field({
       type: TaskStatus,
@@ -59,7 +61,7 @@ builder.mutationField('createTask', (t) =>
   t.prismaFieldWithInput({
     type: 'Task',
     input: {
-      title: t.input.string({ required: true }),
+      title: t.input.field({ type: 'NonEmptyString', required: true }),
       description: t.input.string(),
       status: t.input.field({ type: TaskStatus, required: true }),
       dueDate: t.input.field({ type: 'DateTime' }),
@@ -79,7 +81,7 @@ builder.mutationField('updateTask', (t) =>
     type: 'Task',
     input: {
       id: t.input.id({ required: false }),
-      title: t.input.string({ required: true }),
+      title: t.input.field({ type: 'NonEmptyString', required: true }),
       description: t.input.string(),
       status: t.input.field({ type: TaskStatus, required: true }),
       dueDate: t.input.field({ type: 'DateTime' }),

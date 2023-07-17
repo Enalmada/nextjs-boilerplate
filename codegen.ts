@@ -10,6 +10,7 @@ const config: CodegenConfig = {
       config: {
         scalars: {
           DateTime: 'Date',
+          NonEmptyString: 'string',
         },
       },
     },

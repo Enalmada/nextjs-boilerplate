@@ -5,7 +5,7 @@ import PrismaPlugin from '@pothos/plugin-prisma';
 import type PrismaTypes from '@pothos/plugin-prisma/generated';
 import WithInputPlugin from '@pothos/plugin-with-input';
 import { PrismaClient } from '@prisma/client';
-import { DateTimeResolver } from 'graphql-scalars';
+import { DateTimeResolver, NonEmptyStringResolver } from 'graphql-scalars';
 
 import { type MyContextType } from './yoga';
 
@@ -33,6 +33,10 @@ export const builder = new SchemaBuilder<{
       Input: Date;
       Output: Date;
     };
+    NonEmptyString: {
+      Input: string;
+      Output: string;
+    };
   };
   Context: MyContextType;
 }>({
@@ -48,6 +52,7 @@ export const builder = new SchemaBuilder<{
   },
 });
 
+builder.addScalarType('NonEmptyString', NonEmptyStringResolver, {});
 builder.addScalarType('DateTime', DateTimeResolver, {});
 
 builder.queryType({
