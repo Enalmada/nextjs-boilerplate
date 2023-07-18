@@ -1,6 +1,6 @@
 // import ReactTooltip from "react-tooltip";
-import { TaskStatus, type Task } from '@/client/gql/graphql';
-import { UPDATE_TASK } from '@/client/queries-mutations';
+import { TaskStatus, type Task } from '@/client/gql/generated/graphql';
+import { UPDATE_TASK } from '@/client/gql/queries-mutations';
 import { formatRelativeDate } from '@/client/utils/date';
 import { useMutation } from '@apollo/client';
 import { format } from 'date-fns';

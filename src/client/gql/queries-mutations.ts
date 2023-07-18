@@ -1,4 +1,4 @@
-import { graphql } from '@/client/gql';
+import { graphql } from '@/client/gql/generated';
 
 /*
 export const TASK_PARTS = graphql( `
@@ -27,6 +27,33 @@ export const TASKS = graphql(/* GraphQL */ `
     }
   }
 `);
+
+/*
+export const TASK = graphql(`
+  query Task($id: ID!) {
+    task(id: $id) {
+      ... on BaseError {
+        message
+      }
+      ... on NotFoundError {
+        message
+      }
+      ... on UnauthorizedError {
+        message
+      }
+      ... on Task {
+        id
+        title
+        description
+        dueDate
+        status
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`);
+ */
 
 export const TASK = graphql(/* GraphQL */ `
   query Task($id: ID!) {

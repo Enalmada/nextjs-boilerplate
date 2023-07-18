@@ -3,22 +3,22 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { extractErrorMessages } from '@/client/gql/errorHandling';
 import {
   TaskStatus,
-  type CreateTaskMutation,
   type DeleteTaskMutation,
   type Task,
-  type TaskQuery,
   type TasksQuery,
-} from '@/client/gql/graphql';
-import { CREATE_TASK, DELETE_TASK, TASK, TASKS, UPDATE_TASK } from '@/client/queries-mutations';
+} from '@/client/gql/generated/graphql';
 import {
   addToCache,
   optimisticResponseHelper,
   removeFromCache,
-} from '@/client/utils/graphql-helpers';
+} from '@/client/gql/graphql-helpers';
+import { CREATE_TASK, DELETE_TASK, TASK, TASKS, UPDATE_TASK } from '@/client/gql/queries-mutations';
 import { getRouteById } from '@/client/utils/routes';
-import { useMutation, useSuspenseQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -32,14 +32,12 @@ interface Props {
 export default function TaskForm(props: Props) {
   const router = useRouter();
 
-  const { data, error } = useSuspenseQuery<TaskQuery>(TASK, {
-    variables: { id: props.id },
+  const { data, error } = useSuspenseQuery(TASK, {
+    variables: { id: props.id || '' },
     skip: props.id === undefined,
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [createTask, { error: createMutationError }] = useMutation(CREATE_TASK);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [updateTask, { error: updateMutationError }] = useMutation(UPDATE_TASK);
 
   // TODO: dueDate should be Date (form not submitting)
@@ -78,37 +76,27 @@ export default function TaskForm(props: Props) {
 
     try {
       if (input.id) {
-        await updateTask({ variables: { input } });
+        const result = await updateTask({ variables: { input } });
+        if (result.data) {
+          router.push(getRouteById('Home').path);
+        }
       } else {
-        await createTask({
+        const result = await createTask({
           variables: { input },
-          optimisticResponse: optimisticResponseHelper<CreateTaskMutation>('createTask', input),
+          // optimisticResponse: optimisticResponseHelper<CreateTaskMutation>('createTask', input),
           update(cache, { data }) {
             void addToCache<TasksQuery>(data?.createTask, TASKS, cache, 'tasks');
           },
         });
+        if (result.data) {
+          router.push(getRouteById('Home').path);
+        }
       }
-      router.push(getRouteById('Home').path);
     } catch (e) {
       // mutation error will render errors but not handle them
       // https://stackoverflow.com/questions/59465864/handling-errors-with-react-apollo-usemutation-hook
     }
   };
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-  // const mutationErrorMessage = mutationError?.networkError?.graphQLErrors?.[0]?.message;
-  /*
-  const mutationErrorMessage = (mutationError): string => {
-    const graphQLErrors = mutationError?.graphQLErrors;
-    if (!graphQLErrors) {
-      return 'No error message available';
-    }
-    const errorMessage = graphQLErrors[0]?.message;
-    return errorMessage ?? 'No error message available';
-  };
-   */
-  //const mutationErrorMessage = (mutationError: CombinedError) => {
-  //  return mutationError.message;
-  //};
 
   // Without this, updating description causes form update schema checking to say "title can't be blank"
 
@@ -116,31 +104,108 @@ export default function TaskForm(props: Props) {
 
   const { id, title, description, dueDate, status } = (data?.task as Task) || ({} as Task);
 
+  const formError = (errors: string[]) => {
+    return (
+      <div className="alert mb-5 flex flex-row items-center rounded border-b-2 border-red-300 bg-red-200 p-5">
+        <div className="alert-icon flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-red-500 bg-red-100">
+          <span className="text-red-500">
+            <svg fill="currentColor" viewBox="0 0 20 20" className="h-6 w-6">
+              <path
+                fillRule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              ></path>
+            </svg>
+          </span>
+        </div>
+        <div className="alert-content ml-4">
+          <div className="alert-title text-lg font-semibold text-red-800">Error</div>
+          <div className="alert-description text-sm text-red-600">
+            <ul>
+              {errors.map((errorMessage, index) => (
+                <li key={index}>{errorMessage}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  /*
+  const formSuccess = (successMessage: string) => {
+    return (
+      <div className="alert mb-5 flex flex-row items-center rounded border-b-2 border-green-300 bg-green-200 p-5">
+        <div className="alert-content ml-4">
+          <div className="alert-description text-sm text-green-600">
+            <ul>{successMessage}</ul>
+          </div>
+        </div>
+      </div>
+    );
+  };
+   */
+
+  /*
+  // The following code is for experimentation on mutations returning error types
+ type MutationResponse<MutationName extends string> = {
+   __typename?: 'Mutation';
+ } & {
+   [K in MutationName]: {
+     __typename: string;
+   };
+ };
+
+
+ const handleMutationDataError = (mutationData: unknown, mutationName: string) => {
+   if (!mutationData) {
+     return null;
+   }
+
+   const data = (mutationData as MutationResponse<string>)[mutationName];
+
+   const typename = data?.__typename;
+
+   if (!typename) {
+     return null;
+   }
+
+   if (['BaseError', 'NotFoundError', 'UnauthorizedError'].includes(typename)) {
+     const error = (data as BaseError).message;
+     return formError([error]);
+   }
+
+   return null;
+ };
+
+  const handleMutationDataSuccess = (
+    mutationData: unknown,
+    mutationName: string,
+    successMessage: string
+  ) => {
+    if (!mutationData) {
+      return null;
+    }
+    const data = (mutationData as MutationResponse<string>)[mutationName];
+
+    const typename = data?.__typename;
+    if (typename === 'Task') {
+      return formSuccess(successMessage);
+    }
+  };
+
+   */
+
   return (
     <Suspense>
       <div className="max-w-sm sm:max-w-md md:max-w-lg">
+        {createMutationError && formError(extractErrorMessages(createMutationError))}
+        {updateMutationError && formError(extractErrorMessages(updateMutationError))}
+
         {/*
-        {upsertTaskResult.error && (
-          <div className="alert mb-5 flex flex-row items-center rounded border-b-2 border-red-300 bg-red-200 p-5">
-            <div className="alert-icon flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-red-500 bg-red-100">
-              <span className="text-red-500">
-                <svg fill="currentColor" viewBox="0 0 20 20" className="h-6 w-6">
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-              </span>
-            </div>
-            <div className="alert-content ml-4">
-              <div className="alert-title text-lg font-semibold text-red-800">Error</div>
-              <div className="alert-description text-sm text-red-600">
-                {mutationErrorMessage(upsertTaskResult.error)}
-              </div>
-            </div>
-          </div>
-        )}
+        {handleMutationDataError(createMutationData, 'createTask')}
+        {handleMutationDataError(updateMutationData, 'updateTask')}
+        {handleMutationDataSuccess(updateMutationData, 'updateTask', 'Task Updated')}
         */}
 
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}

@@ -11,9 +11,6 @@ dependencies:
   '@apollo/experimental-nextjs-app-support':
     specifier: ^0.3.4
     version: 0.3.4(@apollo/client@3.8.0-beta.7)(next@13.4.10)(react@18.2.0)
-  '@axiomhq/pino':
-    specifier: ^0.1.2
-    version: 0.1.2(encoding@0.1.13)
   '@envelop/generic-auth':
     specifier: ^6.0.0
     version: 6.0.0(@envelop/core@4.0.0)(graphql@16.7.1)
@@ -35,6 +32,9 @@ dependencies:
   '@pothos/core':
     specifier: ^3.30.0
     version: 3.30.0(graphql@16.7.1)
+  '@pothos/plugin-errors':
+    specifier: ^3.11.1
+    version: 3.11.1(@pothos/core@3.30.0)(graphql@16.7.1)
   '@pothos/plugin-prisma':
     specifier: ^3.52.0
     version: 3.52.0(@pothos/core@3.30.0)(@prisma/client@5.0.0)(graphql@16.7.1)(typescript@5.1.6)
@@ -528,27 +528,6 @@ packages:
     transitivePeerDependencies:
       - encoding
     dev: true
-
-  /@axiomhq/js@0.1.2(encoding@0.1.13):
-    resolution: {integrity: sha512-gupeqSFnQM9VLtBa8AH2Gt01mupKwUP9YUy7HAgITmyYY5J+o7ek3elITbre8etUpJP/kyOLhs2+D23G07xt6g==}
-    engines: {node: '>=16'}
-    dependencies:
-      cross-fetch: 3.1.8(encoding@0.1.13)
-      fetch-retry: 5.0.6
-      uuid: 8.3.2
-    transitivePeerDependencies:
-      - encoding
-    dev: false
-
-  /@axiomhq/pino@0.1.2(encoding@0.1.13):
-    resolution: {integrity: sha512-P1SDi5mzLgarq2uw61ZhxG5J6QKVvCkhgQUX2E8dkQAeQkvI90fAYfh5n0WVk4/QALKNR+ce1WFFoEZ9t0vQqA==}
-    engines: {node: '>=16'}
-    dependencies:
-      '@axiomhq/js': 0.1.2(encoding@0.1.13)
-      pino-abstract-transport: 1.0.0
-    transitivePeerDependencies:
-      - encoding
-    dev: false
 
   /@babel/code-frame@7.22.5:
     resolution: {integrity: sha512-Xmwn266vad+6DAqEB2A6V/CcZVp62BbwVmcOJc2RPuwih1kw02TjQvWVWlcKGbBPd+8/0V5DEkOcizRGYsspYQ==}
@@ -4154,6 +4133,16 @@ packages:
       graphql: 16.7.1
     dev: false
 
+  /@pothos/plugin-errors@3.11.1(@pothos/core@3.30.0)(graphql@16.7.1):
+    resolution: {integrity: sha512-ty+L1yfGartuuIMszGZyDQtzwpt/7ijVbnmGfOZdcQZOlk1P0MUr1iJ56Z5QhaHwZuwyVBF17gwP7ZroGs9htg==}
+    peerDependencies:
+      '@pothos/core': '*'
+      graphql: '>=15.1.0'
+    dependencies:
+      '@pothos/core': 3.30.0(graphql@16.7.1)
+      graphql: 16.7.1
+    dev: false
+
   /@pothos/plugin-prisma@3.52.0(@pothos/core@3.30.0)(@prisma/client@5.0.0)(graphql@16.7.1)(typescript@5.1.6):
     resolution: {integrity: sha512-VTh5rj4ddj8XCnoA5OQWyrxFECYir1afDj71raZFdB7usnoHvCntluODPD/z8nSs1lQ4p3AAiJZ1NsS0gBNdjA==}
     hasBin: true
@@ -6295,6 +6284,7 @@ packages:
       node-fetch: 2.6.12(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
+    dev: true
 
   /cross-spawn@5.1.0:
     resolution: {integrity: sha512-pTgQJ5KC0d2hcY8eyL1IzlBPYjTkyH72XRZPnLyKus2mBfNjQs3klqbJU2VILqZryAZUt9JOb3h/mWMy23/f5A==}
@@ -7365,10 +7355,6 @@ packages:
     transitivePeerDependencies:
       - encoding
     dev: true
-
-  /fetch-retry@5.0.6:
-    resolution: {integrity: sha512-3yurQZ2hD9VISAhJJP9bpYFNQrHHBXE2JxxjY5aLEcDi46RmAzJE2OC9FAde0yis5ElW0jTTzs0zfg/Cca4XqQ==}
-    dev: false
 
   /figures@3.2.0:
     resolution: {integrity: sha512-yaduQFRKLXYOGgEn6AZau90j3ggSOyiqXU0F9JZfeXYhNa+Jk4X+s45A2zg5jns87GAFa34BBm2kXw4XpNcbdg==}
@@ -12513,11 +12499,6 @@ packages:
   /utils-merge@1.0.1:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
-    dev: false
-
-  /uuid@8.3.2:
-    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
-    hasBin: true
     dev: false
 
   /uuid@9.0.0:

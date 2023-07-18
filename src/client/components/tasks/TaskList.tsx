@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import Link from 'next/link';
-import { TASKS } from '@/client/queries-mutations';
+import { TASKS } from '@/client/gql/queries-mutations';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 
 import Task from './Task';

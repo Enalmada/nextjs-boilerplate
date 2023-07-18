@@ -1,9 +1,9 @@
 import Logger from '@/lib/logging/log-util';
 import prisma from '@/server/db/db';
+import { NotFoundError } from '@/server/graphql/errors';
 import { type MyContextType } from '@/server/graphql/yoga';
 import authCheck from '@/server/utils/authCheck';
 import { type User } from '@prisma/client';
-import { GraphQLError } from 'graphql';
 
 import { Prisma } from '.prisma/client';
 
@@ -35,7 +35,7 @@ export default class TaskService {
 
     if (!task) {
       logger.warn(`${user.id} trying to access task ${id} that doesn't exist`);
-      return null;
+      throw new NotFoundError(`task ${id} not found`);
     }
 
     authCheck(user, task.userId);
@@ -69,7 +69,7 @@ export default class TaskService {
 
     if (!task) {
       logger.warn(`${user.id} trying to access task ${input.id} that doesn't exist`);
-      throw new GraphQLError(`task ${input.id} not found`);
+      throw new NotFoundError(`task ${input.id} not found`);
     }
 
     authCheck(user, task.userId);
@@ -95,7 +95,7 @@ export default class TaskService {
 
     if (!task) {
       logger.warn(`${user.id} trying to access task ${id} that doesn't exist`);
-      throw new GraphQLError(`task ${id} not found`);
+      throw new NotFoundError(`task ${id} not found`);
     }
 
     authCheck(user, task.userId);

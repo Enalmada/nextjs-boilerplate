@@ -1,6 +1,7 @@
 // https://pothos-graphql.dev/docs/plugins/prisma
 // https://www.prisma.io/blog/e2e-type-safety-graphql-react-3-fbV2ZVIGWg#define-a-date-scalar-type
 import SchemaBuilder from '@pothos/core';
+import ErrorsPlugin from '@pothos/plugin-errors';
 import PrismaPlugin from '@pothos/plugin-prisma';
 import type PrismaTypes from '@pothos/plugin-prisma/generated';
 import WithInputPlugin from '@pothos/plugin-with-input';
@@ -40,7 +41,13 @@ export const builder = new SchemaBuilder<{
   };
   Context: MyContextType;
 }>({
-  plugins: [PrismaPlugin, WithInputPlugin],
+  plugins: [ErrorsPlugin, PrismaPlugin, WithInputPlugin],
+  /*
+  errorOptions: {
+    directResult: true,
+    defaultTypes: [Error],
+  },
+   */
   prisma: {
     client: prisma,
     // defaults to false, uses /// comments from prisma schema as descriptions
@@ -51,6 +58,29 @@ export const builder = new SchemaBuilder<{
     filterConnectionTotalCount: true,
   },
 });
+
+/*
+const ErrorInterface = builder.interfaceRef<Error>('Error').implement({
+  fields: (t) => ({
+    message: t.exposeString('message'),
+  }),
+});
+
+builder.objectType(Error, {
+  name: 'BaseError',
+  interfaces: [ErrorInterface],
+});
+
+builder.objectType(UnauthorizedError, {
+  name: 'UnauthorizedError',
+  interfaces: [ErrorInterface],
+});
+
+builder.objectType(NotFoundError, {
+  name: 'NotFoundError',
+  interfaces: [ErrorInterface],
+});
+ */
 
 builder.addScalarType('NonEmptyString', NonEmptyStringResolver, {});
 builder.addScalarType('DateTime', DateTimeResolver, {});

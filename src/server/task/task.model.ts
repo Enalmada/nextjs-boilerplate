@@ -37,6 +37,12 @@ builder.queryField('task', (t) =>
     args: {
       id: t.arg.id({ required: true }),
     },
+    /*
+    errors: {
+      directResult: true,
+      types: [NotFoundError, UnauthorizedError],
+    },
+     */
     nullable: true,
     resolve: async (query, root, args, ctx) => {
       return new TaskService().task(ctx.currentUser, args.id as string, ctx);
@@ -66,6 +72,7 @@ builder.mutationField('createTask', (t) =>
       status: t.input.field({ type: TaskStatus, required: true }),
       dueDate: t.input.field({ type: 'DateTime' }),
     },
+    // errors: {},
     resolve: async (query, root, args, ctx) => {
       const input = {
         ...args.input,
@@ -86,6 +93,11 @@ builder.mutationField('updateTask', (t) =>
       status: t.input.field({ type: TaskStatus, required: true }),
       dueDate: t.input.field({ type: 'DateTime' }),
     },
+    /*
+    errors: {
+      types: [NotFoundError, UnauthorizedError],
+    },
+     */
     resolve: async (query, root, args, ctx) => {
       const input = {
         ...args.input,
@@ -103,6 +115,11 @@ builder.mutationField('deleteTask', (t) =>
     args: {
       id: t.arg.string({ required: true }),
     },
+    /*
+    errors: {
+      types: [NotFoundError, UnauthorizedError],
+    },
+     */
     resolve: async (query, root, args, ctx) => {
       return new TaskService().delete(ctx.currentUser, args.id, ctx);
     },

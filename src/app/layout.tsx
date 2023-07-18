@@ -1,7 +1,7 @@
 import '@/client/styles/index.css';
 
 import { Inter } from 'next/font/google';
-import { ApolloWrapper } from '@/client/lib/apollo-wrapper';
+import { ApolloWrapper } from '@/client/gql/apollo-wrapper';
 import { ServerAuthProvider } from '@/lib/firebase/auth/server-auth-provider';
 import metadataConfig from '@/metadata.config';
 
