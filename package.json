@@ -88,6 +88,10 @@
     "@react-aria/visually-hidden": "^3.8.4",
     "@sentry/cli": "^2.21.1",
     "@sentry/nextjs": "^7.72.0",
+    "@urql/core": "^4.0.11",
+    "@urql/exchange-graphcache": "^6.1.4",
+    "@urql/exchange-persisted": "^4.0.1",
+    "@urql/next": "1.0.0-beta.2",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
     "drizzle-orm": "^0.28.6",
@@ -113,6 +117,7 @@
     "react-icons": "^4.11.0",
     "react-loading-hook": "^1.0.0",
     "tailwind-variants": "^0.1.14",
+    "urql": "^4.0.4",
     "valibot": "^0.17.1"
   },
   "devDependencies": {

@@ -3,9 +3,11 @@
 import { type MyTasksQuery, type Task } from '@/client/gql/generated/graphql';
 import { MY_TASKS } from '@/client/gql/queries-mutations';
 import { Card, CardBody } from '@/client/ui';
-import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
+import { useQuery } from '@urql/next';
 
 import TaskRender, { TaskBody } from './Task';
+
+export const dynamic = 'force-dynamic';
 
 export const TaskListLoading = () => {
   return (

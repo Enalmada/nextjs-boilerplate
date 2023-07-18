@@ -8,7 +8,13 @@ import { env } from '@/env.mjs';
 import { useAuth } from '@/lib/firebase/auth/hooks';
 import { createClient, fetchExchange, ssrExchange, UrqlProvider } from '@urql/next';
 
-const ssr = ssrExchange();
+const isServerSide = typeof window === 'undefined';
+
+const ssr = ssrExchange(        {
+  isClient: !isServerSide,
+      initialState: !isServerSide ? window.__URQL_DATA__ : undefined,
+    }
+);
 
 // you need to create a component to wrap your app in
 export function UrqlWrapper({ children }: React.PropsWithChildren) {
@@ -24,7 +30,7 @@ export function UrqlWrapper({ children }: React.PropsWithChildren) {
       url: env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
       exchanges: [
         cacheExchange,
-        ssr,
+        //ssr,
         /*
         persistedExchange({
           preferGetForPersistedQueries: false,
@@ -34,9 +40,12 @@ export function UrqlWrapper({ children }: React.PropsWithChildren) {
       ],
       suspense: true,
       fetchOptions: () => {
-        // authorization header must always be passed for csrf prevention
-        // https://the-guild.dev/graphql/yoga-server/docs/features/csrf-prevention
-        return { headers: { authorization: `${tenantIdToken || ''}` } };
+        return {
+          // avoid running into cached fetches with server-components
+          cache: 'no-store',
+          // authorization header must always be passed for csrf prevention
+          // https://the-guild.dev/graphql/yoga-server/docs/features/csrf-prevention
+          headers: { authorization: `${tenantIdToken || ''}` } };
       },
       requestPolicy: 'cache-first',
     });
