@@ -62,8 +62,11 @@
     "vercel:buildLocal": "dotenv -e ./.env.local pnpx vercel build"
   },
   "dependencies": {
-    "@apollo/client": "^3.8.4",
-    "@apollo/experimental-nextjs-app-support": "^0.4.3",
+    "@urql/core": "^4.0.10",
+    "@urql/exchange-graphcache": "^6.1.4",
+    "@urql/exchange-persisted": "^4.0.0",
+    "@urql/next": "1.0.0-beta.2",
+    "urql": "^4.0.4",
     "@casl/ability": "^6.5.0",
     "@ducanh2912/next-pwa": "9.7.1",
     "@enalmada/drizzle-helpers": "^0.0.8",
@@ -121,6 +124,7 @@
     "@graphql-codegen/client-preset": "^4.1.0",
     "@graphql-codegen/client-preset-swc-plugin": "^0.2.0",
     "@graphql-codegen/schema-ast": "^4.0.0",
+    "@graphql-codegen/urql-introspection": "^2.2.1",
     "@ianvs/prettier-plugin-sort-imports": "^4.1.0",
     "@next/bundle-analyzer": "^13.5.3",
     "@parcel/watcher": "^2.3.0",

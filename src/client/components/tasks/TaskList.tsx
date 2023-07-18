@@ -28,7 +28,7 @@ const EmptyState = () => {
 };
 
 export default function TaskList() {
-  const { data, error } = useSuspenseQuery<MyTasksQuery>(MY_TASKS);
+  const [{ data, fetching, error }] = useQuery({ query: MY_TASKS });
 
   if (error) return <div>{`Error! ${error?.message}`}</div>;
   if (!data) return null;

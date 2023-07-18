@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/ban-ts-comment,@typescript-eslint/no-unsafe-call */
+/*
 import { type ApolloCache, type DocumentNode } from '@apollo/client';
 
 // https://christianlydemann.com/graphql-cache-updates-made-easy/
@@ -91,3 +92,4 @@ export function removeFromCache<ReadQueryResponseT>(
     cache.evict({ id: toRemove.id });
   }
 }
+*/

@@ -70,7 +70,7 @@ interface Props {
 export default function Task(props: Props) {
   const { id, title, description, dueDate, status, version } = props.task;
 
-  const [updateTask, { error: updateTaskError }] = useMutation(UPDATE_TASK);
+  const [{ error: updateTaskError }, updateTask] = useMutation(UPDATE_TASK);
 
   const handleUpdateTask = async (e: React.MouseEvent<HTMLInputElement>) => {
     const input = {
@@ -85,7 +85,7 @@ export default function Task(props: Props) {
       e.stopPropagation();
       // use void to skip await in a void callback
       // https://github.com/typescript-eslint/typescript-eslint/issues/4619#issuecomment-1055614155
-      await updateTask({ variables: { id, input } });
+      await updateTask({ id, input });
       if (updateTaskError) {
         console.error('Oh no!', updateTaskError.message);
       }

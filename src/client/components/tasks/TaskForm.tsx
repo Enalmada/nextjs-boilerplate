@@ -30,8 +30,8 @@ import {
   RadioGroupControlled,
   TextareaControlled,
 } from '@/client/ui';
-import { useMutation } from '@apollo/client';
-import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
+
+import { useMutation, useQuery } from '@urql/next';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { Button as NextUIButton, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 import format from 'date-fns/format';
@@ -51,15 +51,15 @@ export default function TaskForm(props: Props) {
 
   const { data: dataQuery, error: errorQuery } = useSuspenseQuery<TaskQuery>(TASK, {
     variables: { id: props.id || '' },
-    skip: props.id === undefined,
+    pause: props.id === undefined,
   });
 
   // Create and Update loading is handled by form submitting
   // mutation error will render errors but not handle them
   // https://stackoverflow.com/questions/59465864/handling-errors-with-react-apollo-usemutation-hook
-  const [createTask, { error: createMutationError }] = useMutation<CreateTaskMutation>(CREATE_TASK);
-  const [updateTask, { error: updateMutationError }] = useMutation<UpdateTaskMutation>(UPDATE_TASK);
-  const [deleteTask, { error: deleteMutationError, loading: loadingDelete }] =
+  const [{ error: createMutationError }, createTask] = useMutation<CreateTaskMutation>(CREATE_TASK);
+  const [{ error: updateMutationError }, updateTask] = useMutation<UpdateTaskMutation>(UPDATE_TASK);
+  const [{ error: deleteMutationError, loading: loadingDelete }, deleteTask] =
     useMutation<DeleteTaskMutation>(DELETE_TASK);
 
   // TODO: dueDate should be Date (form not submitting)
@@ -134,9 +134,9 @@ export default function TaskForm(props: Props) {
       variables: { id },
       // TODO when optimistic errors are handled
       // optimisticResponse: optimisticResponseHelper<DeleteTaskMutation>('deleteTask', props.task),
-      update(cache, { data }) {
-        void removeFromCache<MyTasksQuery>(data?.deleteTask, MY_TASKS, cache, 'me.tasks');
-      },
+      // update(cache, { data }) {
+      //  void removeFromCache<MyTasksQuery>(data?.deleteTask, MY_TASKS, cache, 'me.tasks');
+      // },
     });
     if (result.data) {
       router.push('/app');

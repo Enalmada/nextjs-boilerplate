@@ -1,10 +1,8 @@
-import { type ApolloError } from '@apollo/client';
-
 type ErrorType = {
   message: string;
 };
 
-export const extractErrorMessages = (error?: ApolloError): string[] => {
+export const extractErrorMessages = (error?: unknown): string[] => {
   if (!error) {
     return [];
   }

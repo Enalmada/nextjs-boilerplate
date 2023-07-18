@@ -3,6 +3,8 @@ import TaskForm from '@/client/components/tasks/TaskForm';
 import { Breadcrumb } from '@/client/ui';
 import { getRouteById } from '@/client/utils/routes';
 
+export const dynamic = 'force-dynamic';
+
 interface Props {
   params: {
     id: string;
