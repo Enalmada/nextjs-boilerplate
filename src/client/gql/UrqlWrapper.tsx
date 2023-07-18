@@ -38,6 +38,7 @@ export function UrqlWrapper({ children }: React.PropsWithChildren) {
         // https://the-guild.dev/graphql/yoga-server/docs/features/csrf-prevention
         return { headers: { authorization: `${tenantIdToken || ''}` } };
       },
+      requestPolicy: 'cache-first',
     });
   }, [tenantIdToken]);
 
