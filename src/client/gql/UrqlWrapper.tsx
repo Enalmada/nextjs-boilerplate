@@ -8,7 +8,17 @@ import { env } from '@/env.mjs';
 import { useAuth } from '@/lib/firebase/auth/hooks';
 import { createClient, fetchExchange, ssrExchange, UrqlProvider } from '@urql/next';
 
-const ssr = ssrExchange();
+const isServerSide = typeof window === 'undefined';
+
+// The `ssrExchange` must be initialized with `isClient` and `initialState`
+
+const ssr = ssrExchange({
+  isClient: !isServerSide,
+  initialState: !isServerSide ? window.__URQL_DATA__ : undefined,
+});
+
+
+// const ssr = ssrExchange();
 
 // you need to create a component to wrap your app in
 export function UrqlWrapper({ children }: React.PropsWithChildren) {
