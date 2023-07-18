@@ -8,13 +8,7 @@ import { env } from '@/env.mjs';
 import { useAuth } from '@/lib/firebase/auth/hooks';
 import { createClient, fetchExchange, ssrExchange, UrqlProvider } from '@urql/next';
 
-const isServerSide = typeof window === 'undefined';
-
-const ssr = ssrExchange(        {
-  isClient: !isServerSide,
-      initialState: !isServerSide ? window.__URQL_DATA__ : undefined,
-    }
-);
+const ssr = ssrExchange();
 
 // you need to create a component to wrap your app in
 export function UrqlWrapper({ children }: React.PropsWithChildren) {
@@ -30,7 +24,7 @@ export function UrqlWrapper({ children }: React.PropsWithChildren) {
       url: env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
       exchanges: [
         cacheExchange,
-        //ssr,
+        ssr,
         /*
         persistedExchange({
           preferGetForPersistedQueries: false,
