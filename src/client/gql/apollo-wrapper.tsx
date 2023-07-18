@@ -3,7 +3,7 @@
 // ^ this file needs the "use client" pragma
 import { env } from '@/env.mjs';
 import { useAuth } from '@/lib/firebase/auth/hooks';
-import { ApolloLink, HttpLink, SuspenseCache, type DefaultOptions } from '@apollo/client';
+import { ApolloLink, HttpLink, type DefaultOptions } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import {
   ApolloNextAppProvider,
@@ -71,21 +71,13 @@ function makeClient(tenantIdToken: string | null) {
   });
 }
 
-// also have a function to create a suspense cache
-function makeSuspenseCache() {
-  return new SuspenseCache();
-}
-
 // you need to create a component to wrap your app in
 export function ApolloWrapper({ children }: React.PropsWithChildren) {
   const { tenant } = useAuth();
   const tenantIdToken = tenant?.idToken ?? null;
 
   return (
-    <ApolloNextAppProvider
-      makeClient={() => makeClient(tenantIdToken)}
-      makeSuspenseCache={makeSuspenseCache}
-    >
+    <ApolloNextAppProvider makeClient={() => makeClient(tenantIdToken)}>
       {children}
     </ApolloNextAppProvider>
   );
