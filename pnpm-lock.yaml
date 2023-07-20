@@ -17,6 +17,9 @@ dependencies:
   '@escape.tech/graphql-armor':
     specifier: ^2.2.0
     version: 2.2.0(encoding@0.1.13)
+  '@firebase/util':
+    specifier: ^1.9.3
+    version: 1.9.3
   '@graphql-typed-document-node/core':
     specifier: ^3.2.0
     version: 3.2.0(graphql@16.7.1)

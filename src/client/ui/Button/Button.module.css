@@ -10,8 +10,13 @@
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  margin-bottom: 1rem;
   justify-content: center;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 280px;
+  min-width: 0;
 }
 
 .button:last-of-type {
@@ -26,10 +31,25 @@
 .button:not([disabled]):hover,
 .button:not([disabled]):focus,
 .button:not([disabled]):active {
-  color: #000;
+  color: #fff;
   background-color: #0070f3;
 }
 
 .icon {
   margin-right: 0.5rem;
+}
+
+.outlined {
+}
+.contained {
+  color: #fff;
+  border-color: #0070f3;
+  background-color: #0070f3;
+}
+.contained:not([disabled]):hover,
+.contained:not([disabled]):focus,
+.contained:not([disabled]):active {
+  color: #fff;
+  border-color: #015ac0;
+  background-color: #015ac0;
 }

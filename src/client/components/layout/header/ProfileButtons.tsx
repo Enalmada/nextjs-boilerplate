@@ -1,15 +1,15 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { getRouteById } from '@/client/utils/routes';
-import { useAuth } from '@/lib/firebase/auth/hooks';
+import { useAuth } from '@/lib/firebase/auth/context';
 
 export default function AuthButtons() {
-  const { tenant } = useAuth();
+  const { user } = useAuth();
 
   const active = false;
   return (
     <>
-      {tenant ? (
+      {user ? (
         <Link
           href={'/app/profile'}
           className={`inline-block px-4 py-2 text-black no-underline ${

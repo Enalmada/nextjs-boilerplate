@@ -15,6 +15,8 @@ export const env = createEnv({
     FIREBASE_ADMIN_CLIENT_EMAIL: z.string().min(1),
     FIREBASE_ADMIN_PRIVATE_KEY: z.string().min(1),
     USE_SECURE_COOKIES: z.string().min(1),
+    FIREBASE_PROJECT_ID: z.string().min(1),
+    FIREBASE_API_KEY: z.string().min(1),
     FIREBASE_SECRET1: z.string().min(1),
     FIREBASE_SECRET2: z.string().min(1),
     AXIOM_TOKEN: z.string().optional(),

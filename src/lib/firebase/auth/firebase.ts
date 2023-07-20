@@ -1,21 +1,26 @@
-import { type FirebaseOptions } from 'firebase/app';
+import { getApp, getApps, initializeApp, type FirebaseOptions } from 'firebase/app';
+import { connectAuthEmulator, getAuth } from 'firebase/auth';
 
-const getFirebaseApp = async (options: FirebaseOptions) => {
-  const { getApp, getApps, initializeApp } = await import('firebase/app');
+import { clientConfig } from '../config/client-config';
 
+const getFirebaseApp = (options: FirebaseOptions) => {
   return !getApps().length ? initializeApp(options) : getApp();
 };
 
-const getAuth = async (options: FirebaseOptions) => {
-  const app = await getFirebaseApp(options);
-  const { getAuth } = await import('firebase/auth');
+export const useFirebaseAuth = () => {
+  const getFirebaseAuth = () => {
+    const auth = getAuth(getFirebaseApp(clientConfig));
 
-  return getAuth(app);
-};
+    if (process.env.NEXT_PUBLIC_EMULATOR_HOST) {
+      // https://stackoverflow.com/questions/73605307/firebase-auth-emulator-fails-intermittently-with-auth-emulator-config-failed
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+      (auth as unknown as any)._canInitEmulator = true;
+      connectAuthEmulator(auth, process.env.NEXT_PUBLIC_EMULATOR_HOST, {
+        disableWarnings: true,
+      });
+    }
 
-export const useFirebaseAuth = (options: FirebaseOptions) => {
-  const getFirebaseAuth = async () => {
-    return getAuth(options);
+    return auth;
   };
 
   return { getFirebaseAuth };

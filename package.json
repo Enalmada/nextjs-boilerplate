@@ -34,6 +34,7 @@
     "@apollo/experimental-nextjs-app-support": "^0.4.0",
     "@envelop/generic-auth": "^6.0.0",
     "@escape.tech/graphql-armor": "^2.2.0",
+    "@firebase/util": "^1.9.3",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@graphql-yoga/plugin-apq": "^2.0.3",
     "@graphql-yoga/plugin-csrf-prevention": "^2.0.3",

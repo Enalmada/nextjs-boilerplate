@@ -1,18 +1,18 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { type State } from '@/client/components/layout/Header';
-import { useAuth } from '@/lib/firebase/auth/hooks';
+import { useAuth } from '@/lib/firebase/auth/context';
 
 interface Props {
   headerStyle: State;
 }
 
 export default function AuthButtons(props: Props) {
-  const { tenant } = useAuth();
+  const { user } = useAuth();
 
   return (
     <>
-      {tenant ? (
+      {user ? (
         <SignOut headerStyle={props.headerStyle} />
       ) : (
         <SignIn headerStyle={props.headerStyle} />

@@ -2,7 +2,7 @@
 
 // ^ this file needs the "use client" pragma
 import { env } from '@/env.mjs';
-import { useAuth } from '@/lib/firebase/auth/hooks';
+import { useAuth } from '@/lib/firebase/auth/context';
 import { ApolloLink, HttpLink, type DefaultOptions } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import {
@@ -30,13 +30,13 @@ const defaultOptions: DefaultOptions = {
 };
 
 // have a function to create a client for you
-function makeClient(tenantIdToken: string | null) {
+function makeClient(userIdToken?: string) {
   const authLink = setContext((_, { headers }) => {
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       headers: {
         ...headers,
-        authorization: tenantIdToken ? `${tenantIdToken}` : '',
+        authorization: userIdToken ? `${userIdToken}` : '',
       },
     };
   });
@@ -73,11 +73,12 @@ function makeClient(tenantIdToken: string | null) {
 
 // you need to create a component to wrap your app in
 export function ApolloWrapper({ children }: React.PropsWithChildren) {
-  const { tenant } = useAuth();
-  const tenantIdToken = tenant?.idToken ?? null;
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { user } = useAuth();
+  const userIdToken = user?.idToken;
 
   return (
-    <ApolloNextAppProvider makeClient={() => makeClient(tenantIdToken)}>
+    <ApolloNextAppProvider makeClient={() => makeClient(userIdToken)}>
       {children}
     </ApolloNextAppProvider>
   );

@@ -19,6 +19,7 @@ export async function modifiedHandleCreateOrGetUser(req: NextRequest): Promise<U
   );
 
   const tokens = await verifyIdToken(authorization);
+
   const { uid: firebaseId, email } = tokens ?? {};
   return firebaseId ? await UserService.createOrGetFirebaseUser(firebaseId, email) : null;
 }

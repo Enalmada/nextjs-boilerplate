@@ -1,44 +1,40 @@
 import { cookies } from 'next/headers';
-import { authConfig, serverConfig } from '@/lib/firebase/config/server-config';
 import { type Tokens } from 'next-firebase-auth-edge/lib/auth';
 import { filterStandardClaims } from 'next-firebase-auth-edge/lib/auth/tenant';
 import { getTokens } from 'next-firebase-auth-edge/lib/next/tokens';
 
+import { authConfig } from '../config/server-config';
 import { AuthProvider } from './client-auth-provider';
-import { type Tenant } from './types';
+import { type User } from './context';
 
-const mapTokensToTenant = ({ token, decodedToken }: Tokens): Tenant => {
-  const customClaims = filterStandardClaims(decodedToken);
-
+const mapTokensToUser = (tokens: Tokens): User => {
   const {
     uid,
     email,
-    email_verified: emailVerified,
     picture: photoURL,
+    email_verified: emailVerified,
+    phone_number: phoneNumber,
     name: displayName,
-  } = decodedToken;
+  } = tokens.decodedToken;
+
+  const customClaims = filterStandardClaims(tokens.decodedToken);
 
   return {
-    id: uid,
+    uid,
     email: email ?? null,
-    customClaims,
-    isAnonymous: !emailVerified,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    displayName: displayName ?? null,
+    photoURL: photoURL ?? null,
+    phoneNumber: phoneNumber ?? null,
     emailVerified: emailVerified ?? false,
-    name: (displayName as string) ?? null,
-    photoUrl: photoURL ?? null,
-    idToken: token,
+    customClaims,
+    idToken: tokens.token,
   };
 };
 
 export async function ServerAuthProvider({ children }: { children: React.ReactNode }) {
-  const tokens = await getTokens(cookies(), {
-    serviceAccount: serverConfig.serviceAccount,
-    apiKey: serverConfig.firebaseApiKey,
-    cookieName: authConfig.cookieName,
-    cookieSignatureKeys: authConfig.cookieSignatureKeys,
-  });
+  const tokens = await getTokens(cookies(), authConfig);
+  const user = tokens ? mapTokensToUser(tokens) : null;
 
-  const tenant = tokens ? mapTokensToTenant(tokens) : null;
-
-  return <AuthProvider defaultTenant={tenant}>{children}</AuthProvider>;
+  return <AuthProvider defaultUser={user}>{children}</AuthProvider>;
 }

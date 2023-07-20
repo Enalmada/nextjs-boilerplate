@@ -1,6 +1,6 @@
 import Logger from '@/lib/logging/log-util';
 import prisma from '@/server/db/db';
-import { NotFoundError } from '@/server/graphql/errors';
+import { NotAuthorizedError, NotFoundError } from '@/server/graphql/errors';
 import { type MyContextType } from '@/server/graphql/yoga';
 import authCheck from '@/server/utils/authCheck';
 import { type User } from '@prisma/client';
@@ -14,8 +14,11 @@ export default class TaskService {
   private readonly logger = new Logger(TaskService.name);
 
   tasks(user: User, ctx: MyContextType) {
-    // log.debug("testing out axiom", { source: "backend-log"});
     this.logger.logMethodStart(this.tasks.name, ctx);
+
+    if (!user) {
+      throw new NotAuthorizedError(`user required to complete this operation`);
+    }
 
     return prisma.task.findMany({
       where: {
