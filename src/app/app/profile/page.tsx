@@ -1,6 +1,6 @@
 import { type Metadata } from 'next';
 import { cookies } from 'next/headers';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { Button } from '@/client/ui/Button';
 import { ServerAuthProvider } from '@/lib/firebase/auth/server-auth-provider';
 import { authConfig } from '@/lib/firebase/config/server-config';
@@ -27,9 +27,9 @@ export default function Profile() {
   return (
     <div className={styles.container}>
       <nav className={styles.nav}>
-        <Link href="/app">
-          <Button>Back to App</Button>
-        </Link>
+        <Button as={NextLink} href="/app">
+          Back to App
+        </Button>
       </nav>
       <h1 className={styles.title}>Profile page</h1>
       <ServerAuthProvider>

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/client/ui/Link';
 import { getRouteById } from '@/client/utils/routes';
 
 interface Props {

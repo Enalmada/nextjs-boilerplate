@@ -1,6 +1,14 @@
-import { cx } from '../classNames';
-import styles from './Card.module.css';
+import React from 'react';
+import {
+  Card as NextUICard,
+  CardBody as NextUICardBody,
+  type CardProps as NextUICardProps,
+} from '@nextui-org/card';
 
-export function Card(props: JSX.IntrinsicElements['div']) {
-  return <div {...props} className={cx(styles.card, props.className)} />;
-}
+export const Card = ({ ...props }: NextUICardProps) => {
+  return <NextUICard as={'div'} {...props} />;
+};
+
+export const CardBody = ({ ...props }) => {
+  return <NextUICardBody {...props} />;
+};

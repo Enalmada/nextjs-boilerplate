@@ -70,7 +70,7 @@ export function PasswordForm({ children, loading, error, onSubmit, ...props }: P
           )}
         </div>
         {error && <FormError>{error.message}</FormError>}
-        <Button loading={loading} disabled={loading} variant="contained" type="submit">
+        <Button isLoading={loading} disabled={loading} type="submit">
           Submit
         </Button>
       </form>

@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import AuthButtons from '@/client/components/layout/header/AuthButtons';
+import Link from '@/client/ui/Link';
 import { getRouteById } from '@/client/utils/routes';
 
 import ProfileButtons from './header/ProfileButtons';

@@ -35,4 +35,11 @@
       margin-top: 52px;
     }
   }
+
+  /* NextUI requires this */
+  /* https://github.com/nextui-org/nextui/discussions/804#discussioncomment-4241529 */
+  [data-overlay-container='true'] {
+    height: 100%;
+    width: 100%;
+  }
 }

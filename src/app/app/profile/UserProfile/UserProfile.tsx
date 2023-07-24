@@ -88,20 +88,20 @@ export function UserProfile({ count }: UserProfileProps) {
             <pre>{JSON.stringify(user.customClaims, undefined, 2)}</pre>
           </div>
           <Button
-            loading={isClaimsLoading}
+            isLoading={isClaimsLoading}
             disabled={isClaimsLoading}
-            onClick={() => void handleClaims()}
+            onPress={() => void handleClaims()}
           >
             Refresh custom user claims
           </Button>
           <Button
-            loading={isLogoutLoading}
+            isLoading={isLogoutLoading}
             disabled={isLogoutLoading}
-            onClick={() => void handleLogout()}
+            onPress={() => void handleLogout()}
           >
             Log out
           </Button>
-          <Button onClick={handleRedirect}>Redirect</Button>
+          <Button onPress={handleRedirect}>Redirect</Button>
         </ButtonGroup>
       </Card>
       <Card className={styles.section}>

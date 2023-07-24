@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { extractErrorMessages } from '@/client/gql/errorHandling';
 import {
@@ -16,6 +16,10 @@ import {
   removeFromCache,
 } from '@/client/gql/graphql-helpers';
 import { CREATE_TASK, DELETE_TASK, TASK, TASKS, UPDATE_TASK } from '@/client/gql/queries-mutations';
+import { Button } from '@/client/ui/Button';
+import { InputControlled } from '@/client/ui/Input';
+import { TextareaControlled } from '@/client/ui/Input/Textarea';
+import { Radio, RadioGroupControlled } from '@/client/ui/Radio';
 import { getRouteById } from '@/client/utils/routes';
 import { useMutation } from '@apollo/client';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
@@ -56,13 +60,20 @@ export default function TaskForm(props: Props) {
     dueDate: yup.string(),
   });
 
+  const { id, title, description, dueDate, status } = (data?.task as Task) || ({} as Task);
+
   const {
-    register,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
     control,
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: {
+      title: title || '',
+      description: description || '',
+      dueDate: dueDate?.toString() || undefined,
+      status: status || TaskStatus.Active,
+    },
   });
 
   const onSubmit = async ({ title, description, status, dueDate }: FormData) => {
@@ -101,8 +112,6 @@ export default function TaskForm(props: Props) {
   // Without this, updating description causes form update schema checking to say "title can't be blank"
 
   if (error) return <div>{`Error! ${error.message}`}</div>;
-
-  const { id, title, description, dueDate, status } = (data?.task as Task) || ({} as Task);
 
   const formError = (errors: string[]) => {
     return (
@@ -208,36 +217,23 @@ export default function TaskForm(props: Props) {
         {handleMutationDataSuccess(updateMutationData, 'updateTask', 'Task Updated')}
         */}
 
-        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className={'mb-5'}>
-            <label className="block">
-              <span className="text-gray-700">Title</span>
-              <input
-                className="form-input mt-1 block w-full"
-                {...register('title')}
-                defaultValue={title}
-              />
-            </label>
-            {errors.title?.message && (
-              <span className={'text-red-600'}>{errors.title?.message}</span>
-            )}
-          </div>
+        <form onSubmit={(event) => void handleSubmit(onSubmit)(event)}>
+          <InputControlled
+            name="title"
+            control={control}
+            label="Title"
+            errors={errors}
+            className={'mb-5 mt-14'}
+          />
 
-          <div className={'mb-5'}>
-            <label className="block">
-              <span className="text-gray-700">Description</span>
-              <textarea
-                className="form-textarea mt-1 block w-full"
-                defaultValue={description ?? undefined}
-                rows={3}
-                {...register('description')}
-              ></textarea>
-            </label>
-            {errors.description?.message && (
-              <span className={'text-red-600'}>{errors.description?.message}</span>
-            )}
-          </div>
+          <TextareaControlled
+            name="description"
+            control={control}
+            label="Description"
+            minRows={3}
+            errors={errors}
+            className={'mb-5'}
+          />
 
           <div className="mb-5">
             <label className="block" htmlFor={'dueDate'}>
@@ -273,49 +269,31 @@ export default function TaskForm(props: Props) {
             )}
           </div>
 
-          <div className="mb-5">
-            <span className="text-gray-700">Status</span>
-            <div className="mt-2">
-              <label className="inline-flex items-center">
-                <input
-                  type="radio"
-                  className="form-radio"
-                  {...register('status')}
-                  value="ACTIVE"
-                  defaultChecked={!status || status === TaskStatus.Active}
-                />
-                <span className="ml-2">Active</span>
-              </label>
-              <label className="ml-6 inline-flex items-center">
-                <input
-                  type="radio"
-                  className="form-radio"
-                  {...register('status')}
-                  value="COMPLETED"
-                  defaultChecked={status === TaskStatus.Completed}
-                />
-                <span className="ml-2">Completed</span>
-              </label>
-            </div>
-            {errors.status?.message && (
-              <span className={'text-red-600'}>{errors.status?.message}</span>
-            )}
-          </div>
+          <RadioGroupControlled
+            control={control}
+            name="status"
+            label="Status"
+            orientation="horizontal"
+            errors={errors}
+          >
+            <Radio value={TaskStatus.Active}>Active</Radio>
+            <Radio value={TaskStatus.Completed}>Completed</Radio>
+          </RadioGroupControlled>
 
           <div className={'mt-10 flex justify-between'}>
-            <div>
-              <button
-                type="submit"
-                className="mr-3 rounded bg-purple-600 p-5 py-2 font-bold text-white shadow-lg transition duration-200 hover:bg-purple-700 hover:shadow-xl"
-              >
+            <div className={'flex justify-center'}>
+              <Button color={'primary'} type="submit" isLoading={isSubmitting} className={'mr-5'}>
                 {id ? 'Save' : 'Create'}
-              </button>
+              </Button>
 
-              <Link href={getRouteById('Home').path}>
-                <button className="rounded bg-white p-5 py-2 font-bold text-gray-700 shadow-lg transition duration-200 hover:bg-gray-200 hover:shadow-xl">
-                  Cancel
-                </button>
-              </Link>
+              <Button
+                as={NextLink}
+                href={getRouteById('Home').path}
+                color={'default'}
+                isDisabled={isSubmitting}
+              >
+                Cancel
+              </Button>
             </div>
 
             {data?.task && <DeleteTaskButton task={data.task} />}
@@ -333,7 +311,7 @@ interface DeleteTaskButtonProps {
 function DeleteTaskButton(props: DeleteTaskButtonProps) {
   const router = useRouter();
 
-  const [deleteTask] = useMutation(DELETE_TASK);
+  const [deleteTask, { loading }] = useMutation(DELETE_TASK);
 
   const handleDelete = () => {
     try {
@@ -353,12 +331,14 @@ function DeleteTaskButton(props: DeleteTaskButtonProps) {
   };
 
   return (
-    <button
+    <Button
       type="button"
+      color="danger"
       className="rounded bg-red-600 p-5 py-2 font-bold text-white shadow-lg transition duration-200 hover:bg-red-700 hover:shadow-xl"
-      onClick={() => void handleDelete()}
+      onPress={() => void handleDelete()}
+      isLoading={loading}
     >
       Delete
-    </button>
+    </Button>
   );
 }

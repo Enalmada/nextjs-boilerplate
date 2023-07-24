@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import NextLink from 'next/link';
 import Layout from '@/client/components/layout/Layout';
+import { Button } from '@/client/ui/Button';
 import { getRouteById } from '@/client/utils/routes';
 
 export const metadata = {
@@ -33,11 +35,18 @@ const Hero = () => {
               Everyone loves a simple todo app exercise.
             </p>
 
-            <Link href={getRouteById('Home').path}>
-              <button className="mx-auto my-6 rounded-full bg-white px-8 py-4 font-bold text-gray-800 shadow-lg hover:underline lg:mx-0">
-                Try For Free
-              </button>
-            </Link>
+            <Button
+              href={getRouteById('Home').path}
+              hoverIndication={false}
+              radius="full"
+              color="default"
+              size="lg"
+              className={
+                'mx-auto my-6 rounded-full bg-white px-8 py-4 font-bold text-gray-800 hover:bg-gradient-to-tr  hover:from-pink-500 hover:to-yellow-500 hover:text-white lg:mx-0'
+              }
+            >
+              Try For Free
+            </Button>
           </div>
 
           <div className="mb-10 w-full py-6 text-center md:mb-0 md:w-3/5">
@@ -398,11 +407,17 @@ const CallToAction = () => {
 
         <div className="my-4 text-3xl leading-tight">See for yourself how easy tasks are</div>
 
-        <Link href={getRouteById('Home').path}>
-          <button className="mx-auto my-6 rounded-full bg-white px-8 py-4 font-bold text-gray-800 shadow-lg hover:underline lg:mx-0">
-            Try It Free
-          </button>
-        </Link>
+        <Button
+          as={NextLink}
+          href={getRouteById('Home').path}
+          radius="full"
+          color="default"
+          size="lg"
+          variant="shadow"
+          className={'mx-auto my-6 bg-white px-8 py-4 font-bold text-gray-800 lg:mx-0'}
+        >
+          Try It Free
+        </Button>
       </section>
     </>
   );

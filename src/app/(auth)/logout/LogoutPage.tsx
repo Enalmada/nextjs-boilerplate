@@ -20,7 +20,10 @@ export default function LogoutPage() {
         await fetch('/api/logout', {
           method: 'GET',
         });
+        router.refresh(); // This seems necessary to avoid a full window.reload
+        // TODO get router.replace working again
         // router.replace('/');
+
         window.location.replace('/');
       } catch (error) {
         console.error('Error clearing Apollo Client cache:', error);

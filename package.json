@@ -39,6 +39,7 @@
     "@graphql-yoga/plugin-apq": "^2.0.3",
     "@graphql-yoga/plugin-csrf-prevention": "^2.0.3",
     "@hookform/resolvers": "^3.1.1",
+    "@nextui-org/react": "0.0.0-dev-v2-20230719131057",
     "@pothos/core": "^3.30.0",
     "@pothos/plugin-errors": "^3.11.1",
     "@pothos/plugin-prisma": "^3.52.0",
@@ -48,15 +49,15 @@
     "date-fns": "^2.30.0",
     "encoding": "^0.1.13",
     "firebase": "^10.0.0",
+    "framer-motion": "^10.13.0",
     "graphql": "^16.7.1",
     "graphql-scalars": "^1.22.2",
     "graphql-yoga": "^4.0.3",
     "lodash": "^4.17.21",
-    "next": "13.4.10",
+    "next": "^13.4.12",
     "next-axiom": "^0.18.0",
     "next-firebase-auth-edge": "0.7.6",
     "next-sitemap": "^4.1.8",
-    "pino": "^8.14.1",
     "react": "18.2.0",
     "react-datepicker": "^4.16.0",
     "react-dom": "18.2.0",
@@ -96,7 +97,6 @@
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
     "openai": "^3.3.0",
-    "pino-pretty": "^10.0.1",
     "postcss": "^8.4.26",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.4.1",
@@ -113,5 +113,14 @@
   "engines": {
     "node": ">=18.16.0"
   },
-  "main": ""
+  "main": "",
+  "optionalDependencies": {
+    "@nextui-org/button": "0.0.0-dev-v2-20230719131057",
+    "@nextui-org/input": "0.0.0-dev-v2-20230719131057",
+    "@nextui-org/radio": "0.0.0-dev-v2-20230719131057",
+    "@nextui-org/card": "0.0.0-dev-v2-20230719131057",
+    "@nextui-org/spinner": "0.0.0-dev-v2-20230719131057",
+    "@nextui-org/checkbox": "0.0.0-dev-v2-20230719131057",
+    "@nextui-org/link": "0.0.0-dev-v2-20230719131057"
+  }
 }

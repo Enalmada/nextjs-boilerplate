@@ -1,27 +1,30 @@
-import * as React from 'react';
+import { Button as NextUIButton, type ButtonProps as NextUIButtonProps } from '@nextui-org/button';
 
-import { cx } from '../classNames';
-import { LoadingIcon } from '../icons';
-import styles from './Button.module.css';
-
-const variantClassNames = {
-  contained: styles.contained,
-  outlined: styles.outlined,
-};
+interface ButtonProps extends NextUIButtonProps {
+  children: React.ReactNode;
+  hoverIndication: boolean;
+}
 
 export function Button({
-  loading,
-  children,
-  variant = 'outlined',
+  color = 'primary',
+  radius = 'sm',
+  hoverIndication = true,
   ...props
-}: JSX.IntrinsicElements['button'] & {
-  loading?: boolean;
-  variant?: 'contained' | 'outlined';
-}) {
+}: ButtonProps) {
+  // Apply some hover effects
+  let className = props.className;
+
+  if (hoverIndication && color == 'primary') {
+    className = `hover:bg-blue-700 ${props.className}`;
+  }
+
+  if (hoverIndication && color == 'default') {
+    className = `hover:bg-gray-400 ${props.className}`;
+  }
+
   return (
-    <button {...props} className={cx(styles.button, variantClassNames[variant], props.className)}>
-      {loading && <LoadingIcon className={styles.icon} />}
-      <span>{children}</span>
-    </button>
+    <NextUIButton color={color} radius={radius} {...props} className={className}>
+      {props.children}
+    </NextUIButton>
   );
 }

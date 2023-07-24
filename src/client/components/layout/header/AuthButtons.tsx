@@ -1,6 +1,8 @@
 import * as React from 'react';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { type State } from '@/client/components/layout/Header';
+import { Button } from '@/client/ui/Button';
+import Link from '@/client/ui/Link';
 import { useAuth } from '@/lib/firebase/auth/context';
 
 interface Props {
@@ -23,24 +25,35 @@ export default function AuthButtons(props: Props) {
 
 function SignOut(props: Props) {
   return (
-    <Link href={'/logout'}>
-      <button
-        className={`mx-auto mt-4 rounded-full bg-white px-8 py-4 font-bold opacity-75 shadow hover:underline lg:mx-0 lg:mt-0 ${props.headerStyle.navaction}`}
-      >
-        Logout
-      </button>
-    </Link>
+    <>
+      <Link href={'/logout'} underline={'none'}>
+        <button
+          className={`mx-auto mt-4 rounded-full bg-white px-8 py-4 font-bold opacity-75 shadow lg:mx-0 lg:mt-0 ${props.headerStyle.navaction}`}
+        >
+          Logout
+        </button>
+      </Link>
+    </>
   );
 }
 
 function SignIn(props: Props) {
   return (
-    <Link href={'/login'}>
-      <button
+    <>
+      <Button
+        as={NextLink}
+        href={'/login'}
         className={`mx-auto mt-4 rounded-full bg-white px-8 py-4 font-bold opacity-75 shadow hover:underline lg:mx-0 lg:mt-0 ${props.headerStyle.navaction}`}
       >
         Login
-      </button>
-    </Link>
+      </Button>
+      <Link href={'/login'}>
+        <button
+          className={`mx-auto mt-4 rounded-full bg-white px-8 py-4 font-bold opacity-75 shadow hover:underline lg:mx-0 lg:mt-0 ${props.headerStyle.navaction}`}
+        >
+          Login
+        </button>
+      </Link>
+    </>
   );
 }

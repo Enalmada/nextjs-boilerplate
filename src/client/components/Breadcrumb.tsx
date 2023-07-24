@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/client/ui/Link';
 import { type Route } from '@/client/utils/routes';
 
 interface Props {
@@ -14,7 +14,9 @@ const BreadCrumb = (props: Props) => {
       <ol className="inline-flex list-none p-0">
         {props.routes.map((route) => (
           <li key={route.id} className="flex items-center">
-            <Link href={route.path}>{route.name}</Link>
+            <Link color="foreground" underline="none" href={route.path}>
+              {route.name}
+            </Link>
             <svg
               className="mx-3 h-3 w-3 fill-current"
               xmlns="http://www.w3.org/2000/svg"

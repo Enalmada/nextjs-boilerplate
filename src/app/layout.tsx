@@ -2,6 +2,7 @@ import '@/client/styles/index.css';
 
 import { Inter } from 'next/font/google';
 import { ApolloWrapper } from '@/client/gql/apollo-wrapper';
+import { NextUIWrapper } from '@/client/ui/NextUIWrapper';
 import { ServerAuthProvider } from '@/lib/firebase/auth/server-auth-provider';
 import metadataConfig from '@/metadata.config';
 
@@ -18,9 +19,11 @@ const inter = Inter({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} gradient leading-normal tracking-normal text-white`}>
+      <body className={`${inter.className}`}>
         <ServerAuthProvider>
-          <ApolloWrapper>{children}</ApolloWrapper>
+          <ApolloWrapper>
+            <NextUIWrapper>{children}</NextUIWrapper>
+          </ApolloWrapper>
         </ServerAuthProvider>
       </body>
     </html>

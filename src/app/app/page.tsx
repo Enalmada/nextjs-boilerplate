@@ -1,10 +1,9 @@
-import Link from 'next/link';
+import NextLink from 'next/link';
 import BreadCrumb from '@/client/components/Breadcrumb';
 import PageLayout from '@/client/components/layout/PageLayout';
 import TaskList from '@/client/components/tasks/TaskList';
+import { Button } from '@/client/ui/Button';
 import { getRouteById } from '@/client/utils/routes';
-
-export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Tasks',
@@ -25,11 +24,13 @@ export default function Page() {
       </div>
 
       <div className={'mb-6 text-center'}>
-        <Link href={getRouteById('NewTask').path}>
-          <button className="rounded bg-purple-600 px-20 py-2 text-center font-bold text-white shadow-lg transition duration-200 hover:bg-purple-700 hover:shadow-xl">
-            New Task
-          </button>
-        </Link>
+        <Button
+          as={NextLink}
+          href={getRouteById('NewTask').path}
+          className="rounded bg-purple-600 px-20 py-2 text-center font-bold text-white shadow-lg transition duration-200 hover:bg-purple-700 hover:shadow-xl"
+        >
+          New Task
+        </Button>
       </div>
       <TaskList />
     </PageLayout>
