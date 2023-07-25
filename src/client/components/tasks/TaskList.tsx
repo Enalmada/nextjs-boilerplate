@@ -1,7 +1,6 @@
 'use client';
 
 import { Suspense } from 'react';
-import Link from 'next/link';
 import { TASKS } from '@/client/gql/queries-mutations';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 
@@ -20,14 +19,10 @@ export default function TaskList() {
   });
 
   return (
-    <div>
+    <div className="grid grid-cols-1 gap-2">
       <Suspense>
         {tasks.map((task) => {
-          return (
-            <Link href={`/app/task/${task.id}`} key={task.id}>
-              <Task task={task} />
-            </Link>
-          );
+          return <Task task={task} key={task.id} />;
         })}
       </Suspense>
     </div>

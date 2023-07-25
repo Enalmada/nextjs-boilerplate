@@ -36,6 +36,7 @@ const Hero = () => {
             </p>
 
             <Button
+              as={NextLink}
               href={getRouteById('Home').path}
               hoverIndication={false}
               radius="full"

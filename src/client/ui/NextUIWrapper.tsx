@@ -1,8 +1,19 @@
 'use client';
 
-// ^ this file needs the "use client" pragma
-import { NextUIProvider } from '@nextui-org/react';
+import * as React from 'react';
+import { NextUIProvider } from '@nextui-org/system';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import { type ThemeProviderProps } from 'next-themes/dist/types';
 
-export function NextUIWrapper({ children }: React.PropsWithChildren) {
-  return <NextUIProvider>{children}</NextUIProvider>;
+export interface ProvidersProps {
+  children: React.ReactNode;
+  themeProps?: ThemeProviderProps;
+}
+
+export function NextUIWrapper({ children, themeProps }: ProvidersProps) {
+  return (
+    <NextUIProvider>
+      <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
+    </NextUIProvider>
+  );
 }

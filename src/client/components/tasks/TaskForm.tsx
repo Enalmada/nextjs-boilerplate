@@ -207,7 +207,7 @@ export default function TaskForm(props: Props) {
 
   return (
     <Suspense>
-      <div className="max-w-sm sm:max-w-md md:max-w-lg">
+      <div className="max-w-sm text-black dark:text-white sm:max-w-md md:max-w-lg">
         {createMutationError && formError(extractErrorMessages(createMutationError))}
         {updateMutationError && formError(extractErrorMessages(updateMutationError))}
 
@@ -230,7 +230,7 @@ export default function TaskForm(props: Props) {
             name="description"
             control={control}
             label="Description"
-            minRows={3}
+            minRows={2}
             errors={errors}
             className={'mb-5'}
           />
@@ -270,6 +270,11 @@ export default function TaskForm(props: Props) {
           </div>
 
           <RadioGroupControlled
+            isDisabled={false}
+            onChange={undefined}
+            color={'primary'}
+            size={'md'}
+            disableAnimation={false}
             control={control}
             name="status"
             label="Status"

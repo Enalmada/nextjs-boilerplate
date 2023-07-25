@@ -7,9 +7,9 @@ import {
 import { Controller } from 'react-hook-form';
 
 interface RadioGroupProps extends NextUIRadioGroupProps {
-  color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | undefined;
-  disableAnimation?: boolean;
-  size?: 'sm' | 'md' | 'lg' | undefined;
+  color: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | undefined;
+  disableAnimation: boolean;
+  size: 'sm' | 'md' | 'lg' | undefined;
 }
 
 export const RadioGroup = React.forwardRef<HTMLInputElement, RadioGroupProps>(function RadioGroup(

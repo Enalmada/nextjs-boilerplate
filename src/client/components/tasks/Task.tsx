@@ -1,8 +1,11 @@
 // import ReactTooltip from "react-tooltip";
+import Link from 'next/link';
 import { TaskStatus, type Task } from '@/client/gql/generated/graphql';
 import { UPDATE_TASK } from '@/client/gql/queries-mutations';
+import { Card } from '@/client/ui/Card';
 import { formatRelativeDate } from '@/client/utils/date';
 import { useMutation } from '@apollo/client';
+import { CardBody } from '@nextui-org/card';
 import { format } from 'date-fns';
 
 interface Props {
@@ -40,40 +43,48 @@ const Task = (props: Props) => {
   };
 
   return (
-    <div className="mb-3 flex max-w-md rounded-lg bg-white shadow-lg md:mx-auto md:max-w-2xl ">
-      <div className="flex w-full items-start px-4 py-6">
-        <div>
-          <label className="inline-flex">
-            <input
-              type="checkbox"
-              className="form-checkbox h-5 w-5 cursor-pointer text-purple-600"
-              defaultChecked={status === TaskStatus.Completed}
-              onClick={(e) => void handleUpdateTask(e)}
-            />
-          </label>
-        </div>
-        <div className="ml-5 w-full">
-          <div className="flex items-center justify-between">
-            <h2 className="-mt-1 text-lg font-semibold text-gray-900">{title}</h2>
-            {dueDate && (
-              <>
-                {dueDate}
-                <small
-                  data-tip={format(new Date(dueDate), 'MM/dd/yyyy')}
-                  className="text-right text-sm text-gray-700"
-                >
-                  {formatRelativeDate(new Date(dueDate))}
-                </small>
-              </>
-            )}
+    <Link href={`/app/task/${id}`}>
+      <Card isPressable>
+        <CardBody>
+          <div className="flex">
+            <div className="flex w-full items-start">
+              <div>
+                <label className="inline-flex">
+                  <input
+                    type="checkbox"
+                    className="form-checkbox h-5 w-5 cursor-pointer text-purple-600 dark:text-white"
+                    defaultChecked={status === TaskStatus.Completed}
+                    onClick={(e) => void handleUpdateTask(e)}
+                  />
+                </label>
+              </div>
+              <div className="ml-5 w-full">
+                <div className="flex items-center justify-between">
+                  <h2 className="-mt-1 text-lg font-semibold text-gray-900 dark:text-white">
+                    {title}
+                  </h2>
+                  {dueDate && (
+                    <>
+                      {dueDate}
+                      <small
+                        data-tip={format(new Date(dueDate), 'MM/dd/yyyy')}
+                        className="text-right text-sm text-gray-700 dark:text-white"
+                      >
+                        {formatRelativeDate(new Date(dueDate))}
+                      </small>
+                    </>
+                  )}
+                </div>
+
+                {/* {clientSide && <ReactTooltip effect="solid" />} */}
+
+                <p className="mt-3 text-sm text-gray-700 dark:text-white">{description}</p>
+              </div>
+            </div>
           </div>
-
-          {/* {clientSide && <ReactTooltip effect="solid" />} */}
-
-          <p className="mt-3 text-sm text-gray-700">{description}</p>
-        </div>
-      </div>
-    </div>
+        </CardBody>
+      </Card>
+    </Link>
   );
 };
 

@@ -1,6 +1,4 @@
 import NextLink from 'next/link';
-import BreadCrumb from '@/client/components/Breadcrumb';
-import PageLayout from '@/client/components/layout/PageLayout';
 import TaskList from '@/client/components/tasks/TaskList';
 import { Button } from '@/client/ui/Button';
 import { getRouteById } from '@/client/utils/routes';
@@ -11,11 +9,9 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <PageLayout>
-      <BreadCrumb routes={[getRouteById('Home')]} />
-
+    <>
       <div>
-        <div className="my-2 w-full text-center text-2xl font-bold leading-tight text-gray-800">
+        <div className="my-2 w-full text-center text-2xl font-bold leading-tight text-gray-800 dark:text-white">
           Task Manager
         </div>
         <div className="mb-4 w-full">
@@ -33,6 +29,6 @@ export default function Page() {
         </Button>
       </div>
       <TaskList />
-    </PageLayout>
+    </>
   );
 }

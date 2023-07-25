@@ -10,7 +10,7 @@ const BreadCrumb = (props: Props) => {
   const last = props.routes.pop();
 
   return (
-    <nav className="mb-8 font-bold text-black" aria-label="Breadcrumb">
+    <nav className="mb-8 font-bold text-black dark:text-white" aria-label="Breadcrumb">
       <ol className="inline-flex list-none p-0">
         {props.routes.map((route) => (
           <li key={route.id} className="flex items-center">

@@ -1,4 +1,4 @@
-const { nextui } = require('@nextui-org/react');
+const { nextui } = require('@nextui-org/theme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: [
-          'var(--font-inter)',
+          'var(--font-sans)',
           'system-ui',
           '-apple-system',
           'BlinkMacSystemFont',
@@ -29,5 +29,6 @@ module.exports = {
       },
     },
   },
+  darkMode: 'class',
   plugins: [require('@tailwindcss/typography'), nextui()],
 };

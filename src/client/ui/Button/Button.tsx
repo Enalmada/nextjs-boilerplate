@@ -1,8 +1,12 @@
+import React from 'react';
 import { Button as NextUIButton, type ButtonProps as NextUIButtonProps } from '@nextui-org/button';
 
 interface ButtonProps extends NextUIButtonProps {
   children: React.ReactNode;
-  hoverIndication: boolean;
+  hoverIndication?: boolean;
+  color?: string;
+  radius?: string;
+  className?: string;
 }
 
 export function Button({
@@ -12,14 +16,14 @@ export function Button({
   ...props
 }: ButtonProps) {
   // Apply some hover effects
-  let className = props.className;
+  let className = props.className || '';
 
   if (hoverIndication && color == 'primary') {
-    className = `hover:bg-blue-700 ${props.className}`;
+    className = `hover:bg-blue-700 ${className}`;
   }
 
   if (hoverIndication && color == 'default') {
-    className = `hover:bg-gray-400 ${props.className}`;
+    className = `hover:bg-gray-400 ${className}`;
   }
 
   return (

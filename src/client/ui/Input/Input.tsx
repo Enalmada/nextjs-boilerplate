@@ -20,6 +20,8 @@ export interface ControlProps {
   errors: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any> | undefined;
+  label?: string;
+  labelPlacement?: string;
 }
 
 export const InputControlled = (args: ControlProps & InputProps) => {
