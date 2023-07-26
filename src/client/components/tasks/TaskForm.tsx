@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { extractErrorMessages } from '@/client/gql/errorHandling';
@@ -24,10 +24,14 @@ import { getRouteById } from '@/client/utils/routes';
 import { useMutation } from '@apollo/client';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Button as NextUIButton } from '@nextui-org/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover';
+import { format } from 'date-fns';
+import { DayPicker } from 'react-day-picker';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import DatePicker from '../DatePicker';
+import 'react-day-picker/dist/style.css';
 
 interface Props {
   id?: string;
@@ -35,6 +39,7 @@ interface Props {
 
 export default function TaskForm(props: Props) {
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
   const { data, error } = useSuspenseQuery(TASK, {
     variables: { id: props.id || '' },
@@ -235,39 +240,48 @@ export default function TaskForm(props: Props) {
             className={'mb-5'}
           />
 
-          <div className="mb-5">
-            <label className="block" htmlFor={'dueDate'}>
-              <span className="text-gray-700">Due Date</span>
-
-              <div>
-                <Controller
-                  control={control}
-                  name="dueDate"
-                  defaultValue={dueDate ? dueDate.toString() : undefined}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <DatePicker
-                      id={'dueDate'}
-                      name={'dueDate'}
-                      onChange={(value) => {
-                        /* TODO form won't submit null for unknown reason */
-                        if (!value) {
-                          onChange(undefined);
-                        } else {
-                          onChange(value.toString());
-                        }
+          <Controller
+            name={'dueDate'}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <>
+                <Popover
+                  placement="bottom"
+                  showArrow={true}
+                  visible={isOpen}
+                  onClose={() => setIsOpen(false)}
+                >
+                  <PopoverTrigger>
+                    <NextUIButton color="default" className={'mb-5 mr-3'}>
+                      Due Date:&nbsp;
+                      {value ? `${format(new Date(value), 'PP')}` : 'none'}
+                    </NextUIButton>
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <DayPicker
+                      mode="single"
+                      selected={value ? new Date(value) : undefined}
+                      onSelect={(date, selectedDay, activeModifiers, e) => {
+                        onChange(date);
+                        (e.currentTarget as HTMLElement).blur(); // Close popover
                       }}
-                      onBlur={onBlur}
-                      selected={value ? new Date(value) : null}
                     />
-                  )}
-                />
-              </div>
-            </label>
+                  </PopoverContent>
+                </Popover>
 
-            {errors.dueDate?.message && (
-              <span className={'text-red-600'}>{errors.title?.message}</span>
+                {value && (
+                  <NextUIButton
+                    variant="ghost"
+                    color="danger"
+                    className={'mb-5'}
+                    onPress={() => onChange('')}
+                  >
+                    Clear
+                  </NextUIButton>
+                )}
+              </>
             )}
-          </div>
+          />
 
           <RadioGroupControlled
             isDisabled={false}

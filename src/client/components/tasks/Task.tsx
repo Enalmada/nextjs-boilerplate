@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { TaskStatus, type Task } from '@/client/gql/generated/graphql';
 import { UPDATE_TASK } from '@/client/gql/queries-mutations';
 import { Card } from '@/client/ui/Card';
-import { formatRelativeDate } from '@/client/utils/date';
 import { useMutation } from '@apollo/client';
 import { CardBody } from '@nextui-org/card';
 import { format } from 'date-fns';
@@ -44,7 +43,7 @@ const Task = (props: Props) => {
 
   return (
     <Link href={`/app/task/${id}`}>
-      <Card isPressable>
+      <Card>
         <CardBody>
           <div className="flex">
             <div className="flex w-full items-start">
@@ -65,13 +64,8 @@ const Task = (props: Props) => {
                   </h2>
                   {dueDate && (
                     <>
-                      {dueDate}
-                      <small
-                        data-tip={format(new Date(dueDate), 'MM/dd/yyyy')}
-                        className="text-right text-sm text-gray-700 dark:text-white"
-                      >
-                        {formatRelativeDate(new Date(dueDate))}
-                      </small>
+                      Due:&nbsp;
+                      {format(new Date(dueDate), 'PP')}
                     </>
                   )}
                 </div>
