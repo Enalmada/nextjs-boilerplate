@@ -45,7 +45,7 @@ export default function App() {
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           className="sm:hidden"
         />
-        <NavbarBrand as={NextLink} href={'/app'} className={'text-black dark:text-white'}>
+        <NavbarBrand as={NextLink} href={'/'} className={'text-black dark:text-white'}>
           <AcmeLogo />
           <p className="font-bold text-inherit">ToDo</p>
         </NavbarBrand>

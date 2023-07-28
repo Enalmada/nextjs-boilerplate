@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import NextLink from 'next/link';
-import Layout from '@/client/components/layout/Layout';
 import { Button } from '@/client/ui/Button';
 import { getRouteById } from '@/client/utils/routes';
 
@@ -11,20 +10,20 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <Layout>
+    <>
       <Hero />
       <Features />
       {/* <Users /> */}
       {/* <Pricing /> */}
       <CallToAction />
-    </Layout>
+    </>
   );
 }
 
 const Hero = () => {
   return (
     <>
-      <div className="pt-24">
+      <div>
         <div className="container mx-auto flex flex-col flex-wrap items-center px-3 md:flex-row">
           <div className="flex w-full flex-col items-start justify-center text-center md:w-2/5 md:text-left">
             <p className="tracking-loose w-full uppercase">Simple ToDo App</p>
@@ -43,7 +42,7 @@ const Hero = () => {
               color="default"
               size="lg"
               className={
-                'mx-auto my-6 rounded-full bg-white px-8 py-4 font-bold text-gray-800 hover:bg-gradient-to-tr  hover:from-pink-500 hover:to-yellow-500 hover:text-white lg:mx-0'
+                'mx-auto my-6 rounded-full bg-white bg-gradient-to-tr from-pink-500 to-yellow-500 px-8 py-4  font-bold text-gray-800 text-white lg:mx-0'
               }
             >
               Try For Free
@@ -102,9 +101,9 @@ const Hero = () => {
 
 const Features = () => {
   return (
-    <section className="border-b bg-white py-8">
+    <section className="border-b py-8">
       <div className="container m-8 mx-auto max-w-5xl">
-        <div className="my-2 w-full text-center text-5xl font-bold leading-tight text-gray-800">
+        <div className="my-2 w-full text-center text-5xl font-bold leading-tight text-gray-800 dark:text-white">
           Features
         </div>
         <div className="mb-4 w-full">
@@ -165,8 +164,10 @@ const Feature = ({ isLeftImg, h3Text, pText, imgSrc }: FeatureProps) => {
       <div className="flex flex-wrap">
         <div className="flex w-5/6 items-center p-6 sm:w-1/2">
           <div className="align-middle">
-            <h2 className="mb-3 text-3xl font-bold leading-none text-gray-800">{h3Text}</h2>
-            <p className="mb-8 text-gray-700">{pText}</p>
+            <h2 className="mb-3 text-3xl font-bold leading-none text-gray-800 dark:text-white">
+              {h3Text}
+            </h2>
+            <p className="mb-8 text-gray-700 dark:text-white">{pText}</p>
           </div>
         </div>
         <div className="w-full p-6 sm:w-1/2">
@@ -185,8 +186,10 @@ const Feature = ({ isLeftImg, h3Text, pText, imgSrc }: FeatureProps) => {
       </div>
       <div className="mt-6 flex w-full items-center p-6 sm:w-1/2">
         <div className="align-middle">
-          <h3 className="mb-3 text-3xl font-bold leading-none text-gray-800">{h3Text}</h3>
-          <p className="mb-8 text-gray-700">{pText}</p>
+          <h3 className="mb-3 text-3xl font-bold leading-none text-gray-800 dark:text-white">
+            {h3Text}
+          </h3>
+          <p className="mb-8 text-gray-700 dark:text-white">{pText}</p>
         </div>
       </div>
     </div>
@@ -195,9 +198,9 @@ const Feature = ({ isLeftImg, h3Text, pText, imgSrc }: FeatureProps) => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Users = () => {
   return (
-    <section className="border-b bg-white py-8">
+    <section className="border-b py-8">
       <div className="container mx-auto flex flex-wrap pb-12 pt-4">
-        <div className="my-2 w-full text-center text-5xl font-bold leading-tight text-gray-800">
+        <div className="my-2 w-full text-center text-5xl font-bold leading-tight text-gray-800 dark:text-white">
           Title
         </div>
         <div className="mb-4 w-full">
@@ -209,7 +212,7 @@ const Users = () => {
             <Link href={getRouteById('Home').path}>
               <a className="flex flex-wrap no-underline hover:no-underline">
                 <p className="w-full px-6 text-xs text-gray-600 md:text-sm">GETTING STARTED</p>
-                <div className="w-full px-6 text-xl font-bold text-gray-800">
+                <div className="w-full px-6 text-xl font-bold text-gray-800 dark:text-white">
                   Lorem ipsum dolor sit amet.
                 </div>
                 <p className="mb-5 px-6 text-base text-gray-800">
@@ -399,7 +402,7 @@ const CallToAction = () => {
   return (
     <>
       <section className="container mx-auto mb-12 py-6 text-center">
-        <div className="my-2 w-full text-center text-5xl font-bold leading-tight text-white">
+        <div className="my-2 w-full text-center text-5xl font-bold leading-tight">
           The best todo program ever
         </div>
         <div className="mb-4 w-full">
@@ -411,13 +414,15 @@ const CallToAction = () => {
         <Button
           as={NextLink}
           href={getRouteById('Home').path}
+          hoverIndication={false}
           radius="full"
           color="default"
           size="lg"
-          variant="shadow"
-          className={'mx-auto my-6 bg-white px-8 py-4 font-bold text-gray-800 lg:mx-0'}
+          className={
+            'mx-auto my-6 rounded-full bg-white bg-gradient-to-tr from-pink-500 to-yellow-500 px-8 py-4  font-bold text-gray-800 text-white lg:mx-0'
+          }
         >
-          Try It Free
+          Try For Free
         </Button>
       </section>
     </>

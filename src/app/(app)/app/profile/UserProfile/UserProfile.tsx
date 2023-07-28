@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Badge } from '@/client/ui/Badge';
@@ -24,7 +24,7 @@ export function UserProfile({ count }: UserProfileProps) {
   const router = useRouter();
   const { user } = useAuth();
   const { getFirebaseAuth } = useFirebaseAuth();
-  const [hasLoggedOut, setHasLoggedOut] = React.useState(false);
+  const [hasLoggedOut, setHasLoggedOut] = useState(false);
   const [handleLogout, isLogoutLoading] = useLoadingCallback(async () => {
     const auth = getFirebaseAuth();
     await signOut(auth);

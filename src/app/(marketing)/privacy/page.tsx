@@ -1,13 +1,11 @@
-import PageLayout from '@/client/components/layout/PageLayout';
-
 export const metadata = {
   title: 'Privacy',
 };
 
 export default function Page() {
   return (
-    <PageLayout>
-      <section className="prose lg:prose-xl">
+    <>
+      <section className="prose dark:prose-invert lg:prose-xl">
         <h2>Privacy Policy</h2>
         <p>
           Your privacy is important to us. It is Technical Challenge&apos;s policy to respect your
@@ -46,6 +44,6 @@ export default function Page() {
         </p>
         <p>This policy is effective as of 27 October 2020.</p>
       </section>
-    </PageLayout>
+    </>
   );
 }

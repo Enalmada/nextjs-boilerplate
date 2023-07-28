@@ -94,13 +94,26 @@ export default class Logger {
   }
 }
 
+/*
+export type LoggerConfig = {
+  args?: { [key: string]: any };
+  logLevel?: LogLevel;
+  autoFlush?: boolean;
+  source?: string;
+  req?: any;
+};
+ */
+
 export function getAxiomLogger(
   config?: Record<string, unknown>,
   ctx?: MyContextType,
   source: 'frontend' | 'lambda' | 'edge' = 'lambda'
 ): AxiomLogger {
-  const report = env.APP_ENV === 'local' ? null : ctx?.report;
-  return new AxiomLogger(config, report, true, source);
+  // const report = env.APP_ENV === 'local' ? null : ctx?.report;
+  // Latest AxiomLogger says error TS2554: Expected 0-1 arguments, but got 4.  No report constructor?
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return new AxiomLogger({ config, autoFlush: true, source });
 }
 
 export function getChildAxiomLogger(

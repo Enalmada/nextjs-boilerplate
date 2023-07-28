@@ -1,16 +1,13 @@
-import React from 'react';
-import { useSearchParams } from 'next/navigation';
+import { type ReactNode } from 'react';
 import { Spinner } from '@/client/ui/Spinner';
 
-export default function Redirecting() {
-  const params = useSearchParams();
-  const redirect = params?.get('redirect');
-
+interface Props {
+  children: ReactNode;
+}
+export default function Redirecting({ children }: Props) {
   return (
-    <div className="text-center">
-      <span className={'mr-3'}>
-        Redirecting to <strong>{redirect || '/'}</strong>
-      </span>
+    <div className="content-center justify-center text-center">
+      <div className={'mb-5'}>{children}</div>
       <Spinner />
     </div>
   );

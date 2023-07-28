@@ -4,7 +4,7 @@ import { z } from 'zod';
 export const env = createEnv({
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   server: {
-    LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'debug', 'trace', 'silent']).optional(),
+    LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).optional(),
     ANALYZE: z
       .enum(['true', 'false'])
       .optional()
@@ -24,7 +24,8 @@ export const env = createEnv({
   },
   client: {
     NEXT_PUBLIC_REDIRECT_URL: z.string().url(),
-    NEXT_PUBLIC_GRAPHQL_ENDPOINT: z.string().url(),
+    //.transform((s) => new URL(s)),
+    NEXT_PUBLIC_GRAPHQL_ENDPOINT: z.string(),
     NEXT_PUBLIC_FIREBASE_API_KEY: z.string().min(1),
     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: z.string().min(1),
     NEXT_PUBLIC_FIREBASE_DATABASE_URL: z.string().url(),

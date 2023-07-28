@@ -1,6 +1,8 @@
-import Loader from '@/client/components/Loader';
+import Redirecting from '@/client/components/auth/Redirecting';
 
 import LogoutPage from './LogoutPage';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Logout',
@@ -9,7 +11,7 @@ export const metadata = {
 export default function Logout() {
   return (
     <>
-      <Loader />
+      <Redirecting>Logging out</Redirecting>
       <LogoutPage />
     </>
   );

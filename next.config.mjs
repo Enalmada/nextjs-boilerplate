@@ -13,12 +13,17 @@ const firebase = {
   connect: 'https://accounts.google.com/gsi/',
 };
 
+const vercel = {
+  iframe: 'https://vercel.live/',
+  script: 'https://vercel.live/_next-live/feedback/',
+};
+
 // https://www.yagiz.co/securing-your-nextjs-13-application
 // font-src data: added for graphiQL
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' 'unsafe-eval' ${firebase.script} ${graphiQL};
-  frame-src 'self' ${firebase.connect} https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/;
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' ${firebase.script} ${graphiQL} ${vercel.script};
+  frame-src 'self' ${firebase.connect} https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/ ${vercel.iframe};
   style-src 'self' 'unsafe-inline' ${graphiQL};
   img-src * blob: data:;
   media-src 'none';
@@ -39,18 +44,10 @@ const securityHeaders = [
   { key: 'Cross-Origin-Opener-Policy', value: 'same-origin-allow-popups' },
 ];
 
-const cloudflarePages = {
-  images: {
-    loader: 'custom',
-    loaderFile: './imageLoader.js',
-  },
-};
-
 /** @type {import("next").NextConfig} */
 const config = {
   poweredByHeader: false,
   reactStrictMode: true,
-  ...cloudflarePages,
   async headers() {
     return [
       { source: '/', headers: securityHeaders },

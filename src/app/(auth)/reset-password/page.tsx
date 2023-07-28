@@ -4,6 +4,14 @@ export const metadata = {
   title: 'Reset Password',
 };
 
-export default function ResetPassword() {
-  return <ResetPasswordPage />;
+interface Props {
+  searchParams: {
+    redirect?: string;
+  };
+}
+
+export default function ResetPassword({ searchParams }: Props) {
+  const redirect = searchParams.redirect;
+
+  return <ResetPasswordPage redirect={redirect} />;
 }

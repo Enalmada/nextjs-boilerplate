@@ -23,6 +23,9 @@ export const config = {
 };
 
 export const basicFields: Metadata = {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  metadataBase: env.NEXT_PUBLIC_REDIRECT_URL,
   title: {
     template: `%s | ${config.siteUrl}`,
     default: config.siteUrl, // a default is required when creating a template

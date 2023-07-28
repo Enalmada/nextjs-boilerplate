@@ -1,7 +1,6 @@
 import { builder } from '@/server/graphql/builder';
 import TaskService from '@/server/task/task.service';
-
-import { TaskStatus } from '.prisma/client';
+import { TaskStatus } from '@prisma/client';
 
 builder.enumType(TaskStatus, {
   name: 'TaskStatus',

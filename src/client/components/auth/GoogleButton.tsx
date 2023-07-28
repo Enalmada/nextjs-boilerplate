@@ -1,5 +1,4 @@
 import { type ReactNode } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/client/ui/Button';
 import { useFirebaseAuth } from '@/lib/firebase/auth/firebase';
 import { useLoadingCallback } from 'react-loading-hook';
@@ -11,13 +10,11 @@ type SetLoggedFunction = React.Dispatch<React.SetStateAction<boolean>>;
 interface Props {
   children: ReactNode;
   setHasLogged: SetLoggedFunction;
+  redirect?: string;
 }
 
-export default function GoogleButton({ setHasLogged, children }: Props) {
-  const router = useRouter();
+export default function GoogleButton({ redirect, setHasLogged, children }: Props) {
   const { getFirebaseAuth } = useFirebaseAuth();
-  const params = useSearchParams();
-  const redirect = params?.get('redirect');
 
   const [handleLoginWithGoogle, isGoogleLoading] = useLoadingCallback(async () => {
     setHasLogged(false);
@@ -32,10 +29,10 @@ export default function GoogleButton({ setHasLogged, children }: Props) {
           Authorization: `Bearer ${idTokenResult.token}`,
         },
       });
-      router.refresh(); // This seems necessary to avoid a full window.reload
+      // router.refresh(); // This seems necessary to avoid a full window.reload
       // TODO get router refresh and push working again.
       //router.push(redirect ?? '/');
-      window.location.replace(redirect ?? '/');
+      window.location.replace(redirect ?? '/app');
     } catch (error: unknown) {
       setHasLogged(false);
       throw error;

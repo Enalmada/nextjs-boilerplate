@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { useFirebaseAuth } from '@/lib/firebase/auth/firebase';
 import { useApolloClient } from '@apollo/client';
 import { signOut } from 'firebase/auth';
@@ -9,7 +8,6 @@ import { signOut } from 'firebase/auth';
 export default function LogoutPage() {
   const client = useApolloClient();
   const { getFirebaseAuth } = useFirebaseAuth();
-  const router = useRouter();
 
   useEffect(() => {
     const clearCache = async () => {
@@ -20,7 +18,7 @@ export default function LogoutPage() {
         await fetch('/api/logout', {
           method: 'GET',
         });
-        router.refresh(); // This seems necessary to avoid a full window.reload
+        // router.refresh(); // This seems necessary to avoid a full window.reload
         // TODO get router.replace working again
         // router.replace('/');
 
@@ -31,7 +29,9 @@ export default function LogoutPage() {
     };
 
     void clearCache();
-  }, [client, getFirebaseAuth, router]);
+    // getFirebaseAuth dependency will cause infinite loading
+    // eslint-disable-next-line
+  }, []);
 
   return null;
 }

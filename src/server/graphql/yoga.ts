@@ -51,6 +51,7 @@ export function makeYoga(graphqlEndpoint: string) {
     fetchAPI: { Response },
     cors: {
       origin: env.NEXT_PUBLIC_REDIRECT_URL,
+      //origin: process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : env.NEXT_PUBLIC_REDIRECT_URL,
       credentials: true,
       allowedHeaders: ['authorization'],
       methods: ['POST'],

@@ -1,13 +1,11 @@
-import PageLayout from '@/client/components/layout/PageLayout';
-
 export const metadata = {
   title: 'Terms',
 };
 
 export default function Page() {
   return (
-    <PageLayout>
-      <section className="prose lg:prose-xl">
+    <div>
+      <section className="prose dark:prose-invert lg:prose-xl">
         <h2>Technical Challenge Terms of Service</h2>
         <h3>1. Terms</h3>
         <p>
@@ -104,6 +102,6 @@ export default function Page() {
           location.
         </p>
       </section>
-    </PageLayout>
+    </div>
   );
 }

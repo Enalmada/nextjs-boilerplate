@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/client/ui/Button';
 import { HiddenIcon } from '@/client/ui/icons/HiddenIcon';
 import { VisibleIcon } from '@/client/ui/icons/VisibleIcon';
@@ -22,9 +21,10 @@ type SetLoggedFunction = React.Dispatch<React.SetStateAction<boolean>>;
 interface Props {
   isSignIn: boolean;
   setHasLogged: SetLoggedFunction;
+  redirect?: string;
 }
 
-export default function PasswordForm({ isSignIn, setHasLogged }: Props) {
+export default function PasswordForm({ redirect, isSignIn, setHasLogged }: Props) {
   const [isVisible, setIsVisible] = React.useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -33,10 +33,7 @@ export default function PasswordForm({ isSignIn, setHasLogged }: Props) {
     password: string;
   };
 
-  const router = useRouter();
   const { getFirebaseAuth } = useFirebaseAuth();
-  const params = useSearchParams();
-  const redirect = params?.get('redirect');
 
   const schema = yup.object().shape({
     email: yup.string().required('valid email is required'),
@@ -73,10 +70,10 @@ export default function PasswordForm({ isSignIn, setHasLogged }: Props) {
           Authorization: `Bearer ${idTokenResult.token}`,
         },
       });
-      router.refresh(); // This seems necessary to avoid a full window.reload
+      // router.refresh(); // This seems necessary to avoid a full window.reload
       // TODO get router refresh and push working again.
       // router.push(redirect ?? '/');
-      window.location.replace(redirect ?? '/');
+      window.location.replace(redirect ?? '/app');
     } catch (error: unknown) {
       setHasLogged(false);
 
@@ -163,7 +160,7 @@ export default function PasswordForm({ isSignIn, setHasLogged }: Props) {
           />
           {isSignIn && (
             <div className={'mb-5 flex justify-end'}>
-              <Link size="sm" href="/reset-password">
+              <Link size="sm" href={`/reset-password` + (redirect ? `?redirect=${redirect}` : '')}>
                 Forgot password?
               </Link>
             </div>

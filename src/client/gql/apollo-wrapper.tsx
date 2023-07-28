@@ -43,7 +43,9 @@ function makeClient(userIdToken?: string) {
 
   const httpLink = new HttpLink({
     // this needs to be an absolute url, as relative urls cannot be used in SSR
-    uri: env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+    //uri: (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : env.NEXT_PUBLIC_REDIRECT_URL) + env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
+    uri: env.NEXT_PUBLIC_REDIRECT_URL + env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
     // you can disable result caching here if you want to
     // (this does not work if you are rendering your page with `export const dynamic = "force-static"`)
     fetchOptions: { cache: 'default' }, // default, no-store, reload, no-cache, force-cache, only-if-cached

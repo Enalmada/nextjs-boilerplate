@@ -3,9 +3,7 @@ import prisma from '@/server/db/db';
 import { NotAuthorizedError, NotFoundError } from '@/server/graphql/errors';
 import { type MyContextType } from '@/server/graphql/yoga';
 import authCheck from '@/server/utils/authCheck';
-import { type User } from '@prisma/client';
-
-import { Prisma } from '.prisma/client';
+import { Prisma, type User } from '@prisma/client';
 
 import TaskUncheckedCreateInput = Prisma.TaskUncheckedCreateInput;
 import TaskUncheckedUpdateInput = Prisma.TaskUncheckedUpdateInput;

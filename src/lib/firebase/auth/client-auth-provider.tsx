@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { onIdTokenChanged, type User as FirebaseUser } from 'firebase/auth';
 import { filterStandardClaims } from 'next-firebase-auth-edge/lib/auth/tenant';
 
@@ -17,7 +17,7 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = ({
   children,
 }) => {
   const { getFirebaseAuth } = useFirebaseAuth();
-  const [user, setUser] = React.useState(defaultUser);
+  const [user, setUser] = useState(defaultUser);
 
   const handleIdTokenChanged = async (firebaseUser: FirebaseUser | null) => {
     if (!firebaseUser) {
@@ -46,7 +46,7 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = ({
     return onIdTokenChanged(auth, handleIdTokenChanged);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const unsubscribePromise = registerChangeListener();
 
     return () => {

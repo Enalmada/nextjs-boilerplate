@@ -1,12 +1,10 @@
-import PageLayout from '@/client/components/layout/PageLayout';
-
 export const metadata = {
   title: 'FAQ',
 };
 
 export default function Page() {
   return (
-    <PageLayout>
+    <>
       <div className="min-h-sceen mx-auto max-w-screen-xl bg-white px-5">
         <div className="flex flex-col items-center">
           <h2 className="mt-5 text-5xl font-bold tracking-tight">FAQ</h2>
@@ -258,6 +256,6 @@ export default function Page() {
           </div>
         </div>
       </div>
-    </PageLayout>
+    </>
   );
 }

@@ -17,6 +17,7 @@ import {
 } from '@/client/gql/graphql-helpers';
 import { CREATE_TASK, DELETE_TASK, TASK, TASKS, UPDATE_TASK } from '@/client/gql/queries-mutations';
 import { Button } from '@/client/ui/Button';
+import { Card, CardBody } from '@/client/ui/Card';
 import { InputControlled } from '@/client/ui/Input';
 import { TextareaControlled } from '@/client/ui/Input/Textarea';
 import { Radio, RadioGroupControlled } from '@/client/ui/Radio';
@@ -212,113 +213,122 @@ export default function TaskForm(props: Props) {
 
   return (
     <Suspense>
-      <div className="max-w-sm text-black dark:text-white sm:max-w-md md:max-w-lg">
-        {createMutationError && formError(extractErrorMessages(createMutationError))}
-        {updateMutationError && formError(extractErrorMessages(updateMutationError))}
+      <Card radius="sm" shadow="sm" className="max-w-sm sm:max-w-md md:max-w-lg">
+        <CardBody>
+          <div>
+            {createMutationError && formError(extractErrorMessages(createMutationError))}
+            {updateMutationError && formError(extractErrorMessages(updateMutationError))}
 
-        {/*
+            {/*
         {handleMutationDataError(createMutationData, 'createTask')}
         {handleMutationDataError(updateMutationData, 'updateTask')}
         {handleMutationDataSuccess(updateMutationData, 'updateTask', 'Task Updated')}
         */}
 
-        <form onSubmit={(event) => void handleSubmit(onSubmit)(event)}>
-          <InputControlled
-            name="title"
-            control={control}
-            label="Title"
-            errors={errors}
-            className={'mb-5 mt-14'}
-          />
+            <form onSubmit={(event) => void handleSubmit(onSubmit)(event)}>
+              <InputControlled
+                name="title"
+                control={control}
+                label="Title"
+                errors={errors}
+                className={'mb-5 mt-5'}
+              />
 
-          <TextareaControlled
-            name="description"
-            control={control}
-            label="Description"
-            minRows={2}
-            errors={errors}
-            className={'mb-5'}
-          />
+              <TextareaControlled
+                name="description"
+                control={control}
+                label="Description"
+                minRows={2}
+                errors={errors}
+                className={'mb-5'}
+              />
 
-          <Controller
-            name={'dueDate'}
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <>
-                <Popover
-                  placement="bottom"
-                  showArrow={true}
-                  visible={isOpen}
-                  onClose={() => setIsOpen(false)}
-                >
-                  <PopoverTrigger>
-                    <NextUIButton color="default" className={'mb-5 mr-3'}>
-                      Due Date:&nbsp;
-                      {value ? `${format(new Date(value), 'PP')}` : 'none'}
-                    </NextUIButton>
-                  </PopoverTrigger>
-                  <PopoverContent>
-                    <DayPicker
-                      mode="single"
-                      selected={value ? new Date(value) : undefined}
-                      onSelect={(date, selectedDay, activeModifiers, e) => {
-                        onChange(date);
-                        (e.currentTarget as HTMLElement).blur(); // Close popover
-                      }}
-                    />
-                  </PopoverContent>
-                </Popover>
+              <Controller
+                name={'dueDate'}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <>
+                    <Popover
+                      placement="bottom"
+                      showArrow={true}
+                      visible={isOpen}
+                      onClose={() => setIsOpen(false)}
+                    >
+                      <PopoverTrigger>
+                        <NextUIButton color="default" className={'mb-5 mr-3'}>
+                          Due Date:&nbsp;
+                          {value ? `${format(new Date(value), 'PP')}` : 'none'}
+                        </NextUIButton>
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        <DayPicker
+                          mode="single"
+                          selected={value ? new Date(value) : undefined}
+                          onSelect={(date, selectedDay, activeModifiers, e) => {
+                            onChange(date);
+                            (e.currentTarget as HTMLElement).blur(); // Close popover
+                          }}
+                        />
+                      </PopoverContent>
+                    </Popover>
 
-                {value && (
-                  <NextUIButton
-                    variant="ghost"
-                    color="danger"
-                    className={'mb-5'}
-                    onPress={() => onChange('')}
-                  >
-                    Clear
-                  </NextUIButton>
+                    {value && (
+                      <NextUIButton
+                        variant="ghost"
+                        color="danger"
+                        className={'mb-5'}
+                        onPress={() => onChange('')}
+                      >
+                        Clear
+                      </NextUIButton>
+                    )}
+                  </>
                 )}
-              </>
-            )}
-          />
+              />
 
-          <RadioGroupControlled
-            isDisabled={false}
-            onChange={undefined}
-            color={'primary'}
-            size={'md'}
-            disableAnimation={false}
-            control={control}
-            name="status"
-            label="Status"
-            orientation="horizontal"
-            errors={errors}
-          >
-            <Radio value={TaskStatus.Active}>Active</Radio>
-            <Radio value={TaskStatus.Completed}>Completed</Radio>
-          </RadioGroupControlled>
-
-          <div className={'mt-10 flex justify-between'}>
-            <div className={'flex justify-center'}>
-              <Button color={'primary'} type="submit" isLoading={isSubmitting} className={'mr-5'}>
-                {id ? 'Save' : 'Create'}
-              </Button>
-
-              <Button
-                as={NextLink}
-                href={getRouteById('Home').path}
-                color={'default'}
-                isDisabled={isSubmitting}
+              <RadioGroupControlled
+                isDisabled={false}
+                onChange={undefined}
+                color={'primary'}
+                size={'md'}
+                disableAnimation={false}
+                control={control}
+                name="status"
+                label="Status"
+                orientation="horizontal"
+                errors={errors}
               >
-                Cancel
-              </Button>
-            </div>
+                <Radio value={TaskStatus.Active}>Active</Radio>
+                <Radio value={TaskStatus.Completed}>Completed</Radio>
+              </RadioGroupControlled>
 
-            {data?.task && <DeleteTaskButton task={data.task} />}
+              <div className={'mt-10 flex justify-between'}>
+                <div className={'flex justify-center'}>
+                  <Button
+                    color={'primary'}
+                    type="submit"
+                    isLoading={isSubmitting}
+                    className={'mr-5'}
+                  >
+                    {id ? 'Save' : 'Create'}
+                  </Button>
+
+                  <Button
+                    as={NextLink}
+                    href={getRouteById('Home').path}
+                    color={'default'}
+                    isDisabled={isSubmitting}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+
+                {data?.task && <DeleteTaskButton task={data.task} />}
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
+        </CardBody>
+      </Card>
     </Suspense>
   );
 }

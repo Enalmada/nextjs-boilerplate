@@ -1,6 +1,11 @@
+import { ApolloWrapper } from '@/client/gql/apollo-wrapper';
 import { Card, CardBody } from '@/client/ui/Card';
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+// Using the searchParams Pages prop will opt the page into dynamic rendering at request time.
+// https://nextjs.org/docs/app/building-your-application/rendering/static-and-dynamic-rendering#dynamic-functions
+export const dynamic = 'force-static';
+
+function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="h-full text-black dark:text-white">
       <div className="flex h-full items-center bg-gray-100 py-16 dark:bg-slate-900">
@@ -11,5 +16,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
       </div>
     </div>
+  );
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <ApolloWrapper>
+      <AuthLayout>{children}</AuthLayout>
+    </ApolloWrapper>
   );
 }

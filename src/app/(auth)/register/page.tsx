@@ -4,6 +4,14 @@ export const metadata = {
   title: 'Register',
 };
 
-export default function Register() {
-  return <RegisterPage />;
+interface Props {
+  searchParams: {
+    redirect?: string;
+  };
+}
+
+export default function Register({ searchParams }: Props) {
+  const redirect = searchParams.redirect;
+
+  return <RegisterPage redirect={redirect} />;
 }

@@ -1,6 +1,8 @@
 // https://github.com/echobind/bisonapp/blob/canary/packages/create-bison-app/template/src/pages/api/health.ts
 import prisma from '@/server/db/db';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   let databaseWorking = false;
 

@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { Button } from '@/client/ui/Button';
 import { InputControlled } from '@/client/ui/Input';
 import Link from '@/client/ui/Link';
@@ -10,8 +9,10 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-// import { useSearchParams } from 'next/navigation';
-export function ResetPasswordPage() {
+interface Props {
+  redirect?: string;
+}
+export function ResetPasswordPage({ redirect }: Props) {
   // const params = useSearchParams();
   // TODO make sure forgot password page links back to login with redirect
   // const redirect = params?.get('redirect');
@@ -66,7 +67,11 @@ export function ResetPasswordPage() {
           </div>
 
           <div className="text-center">
-            <Link size="sm" className="ml-2 mt-5" href="/login">
+            <Link
+              size="sm"
+              className="ml-2 mt-5"
+              href={`/login` + (redirect ? `?redirect=${redirect}` : '')}
+            >
               Return to login
             </Link>
           </div>
@@ -80,7 +85,11 @@ export function ResetPasswordPage() {
             </h1>
             <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
               Remember your password?
-              <Link size="sm" className="ml-2" href="/login">
+              <Link
+                size="sm"
+                className="ml-2"
+                href={`/login` + (redirect ? `?redirect=${redirect}` : '')}
+              >
                 Sign in here
               </Link>
             </p>
