@@ -134,6 +134,9 @@ dependencies:
   next-firebase-auth-edge:
     specifier: 0.7.6
     version: 0.7.6(next@13.4.12)
+  next-safe:
+    specifier: ^3.4.1
+    version: 3.4.1(next@13.4.12)
   next-sitemap:
     specifier: ^4.1.8
     version: 4.1.8(next@13.4.12)
@@ -10830,6 +10833,14 @@ packages:
       '@edge-runtime/ponyfill': 2.3.0
       '@edge-runtime/primitives': 2.1.2
       cookie: 0.5.0
+      next: 13.4.12(@babel/core@7.22.8)(react-dom@18.2.0)(react@18.2.0)
+    dev: false
+
+  /next-safe@3.4.1(next@13.4.12):
+    resolution: {integrity: sha512-GOam3DYMHUIKwxHeqVg9pkuYFhvtUeivHexdbL3lg0mjibsnIB3NOD81dKDgaeX+cReWbugdCtWYllzXmmpE+Q==}
+    peerDependencies:
+      next: ^9.5.0 || ^10.2.1 || ^11.1.0 || ^12.1.0 || ^13.0.0
+    dependencies:
       next: 13.4.12(@babel/core@7.22.8)(react-dom@18.2.0)(react@18.2.0)
     dev: false
 

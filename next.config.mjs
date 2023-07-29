@@ -4,13 +4,16 @@ import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from 'next/constants
 import './src/env.mjs';
 
 import { withAxiom } from 'next-axiom';
+import * as nextSafe from 'next-safe';
 
-const graphiQL = 'https://unpkg.com/@graphql-yoga/';
+const isDev = process.env.NODE_ENV !== 'production';
 
 // https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid#cross_origin_opener_policy
 const firebase = {
   script: 'https://apis.google.com/ https://accounts.google.com/gsi/client',
-  connect: 'https://accounts.google.com/gsi/',
+  connect:
+    'https://accounts.google.com/gsi/ https://securetoken.googleapis.com https://identitytoolkit.googleapis.com',
+  image: 'https://lh3.googleusercontent.com',
 };
 
 const vercel = {
@@ -18,31 +21,41 @@ const vercel = {
   script: 'https://vercel.live/_next-live/feedback/',
 };
 
-// https://www.yagiz.co/securing-your-nextjs-13-application
-// font-src data: added for graphiQL
-const ContentSecurityPolicy = `
-  default-src 'self';
-  script-src 'self' 'unsafe-inline' 'unsafe-eval' ${firebase.script} ${graphiQL} ${vercel.script};
-  frame-src 'self' ${firebase.connect} https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/ ${vercel.iframe};
-  style-src 'self' 'unsafe-inline' ${graphiQL};
-  img-src * blob: data:;
-  media-src 'none';
-  connect-src * ${firebase.connect};
-  font-src 'self' data:;
-`.replace(/\n/g, '');
+const nextjs = {
+  script: "'unsafe-inline'",
+  style: "'unsafe-inline'"  // prod wont load css without it
+};
 
-const securityHeaders = [
-  { key: 'Content-Security-Policy', value: ContentSecurityPolicy },
-  { key: 'Referrer-Policy', value: 'origin-when-cross-origin' },
-  { key: 'X-Frame-Options', value: 'DENY' },
-  { key: 'X-Content-Type-Options', value: 'nosniff' },
-  { key: 'X-DNS-Prefetch-Control', value: 'on' },
-  // { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains; preload' },
-  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
-  { key: 'X-XSS-Protection', value: '1; mode=block' },
-  // https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid#cross_origin_opener_policy
-  { key: 'Cross-Origin-Opener-Policy', value: 'same-origin-allow-popups' },
-];
+const graphiQL = {
+  style: 'https://unpkg.com/@graphql-yoga/',
+  script: 'https://unpkg.com/@graphql-yoga/',
+  font: 'data:',
+};
+
+const contentSecurityPolicy = {
+  contentSecurityPolicy: {
+    mergeDefaultDirectives: true,
+    'script-src': `${firebase.script} ${graphiQL.script} ${vercel.script} ${nextjs.script}`,
+    'frame-src': `${firebase.connect} https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/ ${vercel.iframe}`,
+    'style-src': `${graphiQL.style} ${nextjs.script}`,
+    'connect-src': `${firebase.connect}`,
+    'prefetch-src': false, // chrome warning
+    'img-src': `${firebase.image}`,
+    'font-src': `${graphiQL.font}`,
+  },
+  referrerPolicy: 'origin-when-cross-origin',
+  permissionsPolicy: {
+    accelerometer: 'none',
+    camera: 'none',
+    geolocation: 'none',
+    gyroscope: 'none',
+    magnetometer: 'none',
+    microphone: 'none',
+    payment: 'none',
+    usb: 'none',
+  },
+  permissionsPolicyDirectiveSupport: [],
+};
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -50,8 +63,11 @@ const config = {
   reactStrictMode: true,
   async headers() {
     return [
-      { source: '/', headers: securityHeaders },
-      { source: '/(.*)', headers: securityHeaders },
+      {
+        source: '/:path*',
+        // @ts-ignore
+        headers: nextSafe.default({ ...contentSecurityPolicy, isDev }),
+      },
     ];
   },
 

@@ -65,6 +65,7 @@ const Hero = () => {
               width={603}
               height={333}
               alt={''}
+              priority
               className="z-0 w-full md:w-4/5"
               src="/images/home/undraw_To_do_list_re_9nt7.svg"
             />
