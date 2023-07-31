@@ -94,6 +94,20 @@ const config = {
   images: {
     domains: ['avatars.githubusercontent.com', 'lh3.googleusercontent.com', 'robohash.org'],
   },
+  webpack: (config) => {
+    // Remove kysely server deps.
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      path: false,
+      fs: false,
+      net: false,
+      tls: false,
+      dns: false,
+      stream: false,
+    };
+
+    return config;
+  },
 };
 
 // @ts-ignore
