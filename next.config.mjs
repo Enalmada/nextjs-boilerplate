@@ -104,7 +104,8 @@ const config = {
       tls: false,
       dns: false,
       stream: false,
-      crypto: false
+      crypto: false,
+      'pg-native': false
     };
 
     return config;

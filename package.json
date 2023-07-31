@@ -91,6 +91,7 @@
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.4.0",
+    "@cloudflare/workers-types": "^4.20230724.0",
     "@commitlint/cli": "^17.6.7",
     "@commitlint/config-conventional": "^17.6.7",
     "@graphql-codegen/cli": "^5.0.0",
