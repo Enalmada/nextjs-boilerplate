@@ -34,8 +34,8 @@ const graphiQL = {
 };
 
 const sentry = {
-  worker: "blob:"
-}
+  worker: 'blob:',
+};
 
 const contentSecurityPolicy = {
   contentSecurityPolicy: {
@@ -47,7 +47,7 @@ const contentSecurityPolicy = {
     'prefetch-src': false, // chrome warning
     'img-src': `${firebase.image}`,
     'font-src': `${graphiQL.font}`,
-    'worker-src': `${sentry.worker}`
+    'worker-src': `${sentry.worker}`,
   },
   referrerPolicy: 'origin-when-cross-origin',
   permissionsPolicy: {

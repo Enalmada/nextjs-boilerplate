@@ -40,7 +40,7 @@ export function addToCache<ReadQueryResponseT>(
 }
 
 export function removeFromCache<ReadQueryResponseT>(
-  toRemove: EntityObject | undefined,
+  toRemove: EntityObject | undefined | null,
   readQuery: DocumentNode,
   cache: ApolloCache<unknown>,
   entityName: keyof ReadQueryResponseT

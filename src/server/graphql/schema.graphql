@@ -6,8 +6,8 @@ scalar DateTime
 """The query mutation type."""
 type Mutation {
   createTask(input: MutationCreateTaskInput!): Task!
-  deleteTask(id: String!): Task!
-  updateTask(input: MutationUpdateTaskInput!): Task!
+  deleteTask(id: String!): Task
+  updateTask(input: MutationUpdateTaskInput!): Task
 }
 
 input MutationCreateTaskInput {

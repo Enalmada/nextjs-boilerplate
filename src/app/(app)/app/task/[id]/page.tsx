@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import BreadCrumb from '@/client/components/Breadcrumb';
 import TaskForm from '@/client/components/tasks/TaskForm';
 import { getRouteById } from '@/client/utils/routes';
@@ -18,7 +19,9 @@ export default function Page(props: Props) {
     <>
       <BreadCrumb routes={[getRouteById('Home'), getRouteById('Task')]} />
 
-      <TaskForm id={id} />
+      <Suspense>
+        <TaskForm id={id} />
+      </Suspense>
     </>
   );
 }

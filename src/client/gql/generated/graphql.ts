@@ -24,8 +24,8 @@ export type Scalars = {
 export type Mutation = {
   __typename?: 'Mutation';
   createTask: Task;
-  deleteTask: Task;
-  updateTask: Task;
+  deleteTask?: Maybe<Task>;
+  updateTask?: Maybe<Task>;
 };
 
 
@@ -121,14 +121,14 @@ export type UpdateTaskMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask: { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt: Date } };
+export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask?: { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt: Date } | null };
 
 export type DeleteTaskMutationVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask: { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt: Date } };
+export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask?: { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt: Date } | null };
 
 
 export const TasksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Tasks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tasks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"dueDate"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<TasksQuery, TasksQueryVariables>;
