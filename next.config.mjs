@@ -1,5 +1,6 @@
 // @ts-check
 import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from 'next/constants.js';
+import { withSentryConfig } from '@sentry/nextjs';
 
 import './src/env.mjs';
 
@@ -32,6 +33,10 @@ const graphiQL = {
   font: 'data:',
 };
 
+const sentry = {
+  worker: "blob:"
+}
+
 const contentSecurityPolicy = {
   contentSecurityPolicy: {
     mergeDefaultDirectives: true,
@@ -42,6 +47,7 @@ const contentSecurityPolicy = {
     'prefetch-src': false, // chrome warning
     'img-src': `${firebase.image}`,
     'font-src': `${graphiQL.font}`,
+    'worker-src': `${sentry.worker}`
   },
   referrerPolicy: 'origin-when-cross-origin',
   permissionsPolicy: {
@@ -105,11 +111,49 @@ const config = {
       dns: false,
       stream: false,
       crypto: false,
-      'pg-native': false
+      'pg-native': false,
     };
 
     return config;
   },
+};
+
+/**
+ * @param {import("next").NextConfig} config
+ */
+const withSentry = (config) => {
+  return withSentryConfig(
+    config,
+    {
+      // For all available options, see:
+      // https://github.com/getsentry/sentry-webpack-plugin#options
+
+      // Suppresses source map uploading logs during build
+      silent: true,
+
+      org: 'mentormyselfcom',
+      project: 't3-challenge',
+    },
+    {
+      // For all available options, see:
+      // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+
+      // Upload a larger set of source maps for prettier stack traces (increases build time)
+      widenClientFileUpload: true,
+
+      // Transpiles SDK to be compatible with IE11 (increases bundle size)
+      transpileClientSDK: true,
+
+      // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
+      tunnelRoute: '/monitoring',
+
+      // Hides source maps from generated client bundles
+      hideSourceMaps: true,
+
+      // Automatically tree-shake Sentry logger statements to reduce bundle size
+      disableLogger: true,
+    }
+  );
 };
 
 // @ts-ignore
@@ -120,7 +164,7 @@ export default async function configureNextConfig(phase) {
     const bundleAnalyzerConfig = {
       enabled: process.env.ANALYZE === 'true',
     };
-    return withAxiom(withBundleAnalyzer.default(bundleAnalyzerConfig)(config));
+    return withSentry(withAxiom(withBundleAnalyzer.default(bundleAnalyzerConfig)(config)));
   }
-  return withAxiom(config);
+  return withSentry(withAxiom(config));
 }

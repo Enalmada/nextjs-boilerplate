@@ -23,6 +23,7 @@ export const env = createEnv({
     AXIOM_DATASET: z.string().optional(),
   },
   client: {
+    NEXT_PUBLIC_APP_ENV: z.string(),
     NEXT_PUBLIC_REDIRECT_URL: z.string().url(),
     //.transform((s) => new URL(s)),
     NEXT_PUBLIC_GRAPHQL_ENDPOINT: z.string(),
@@ -33,6 +34,7 @@ export const env = createEnv({
     NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: z.string().min(1),
   },
   experimental__runtimeEnv: {
+    NEXT_PUBLIC_APP_ENV: process.env.NEXT_PUBLIC_APP_ENV,
     NEXT_PUBLIC_REDIRECT_URL: process.env.NEXT_PUBLIC_REDIRECT_URL,
     NEXT_PUBLIC_GRAPHQL_ENDPOINT: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
     NEXT_PUBLIC_FIREBASE_API_KEY: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
