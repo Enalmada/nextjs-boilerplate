@@ -1,21 +1,19 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { type NextRequest } from 'next/server';
 import { env } from '@/env.mjs';
-import { type RequestReport } from '@/lib/logging/log-util';
 import { NotAuthorizedError, NotFoundError } from '@/server/graphql/errors';
 import { modifiedHandleCreateOrGetUser } from '@/server/graphql/modifiedHandleCreateOrGetUser';
 import { schema } from '@/server/graphql/schema';
+import { type User } from '@/server/user/user.repository';
 import { useGenericAuth } from '@envelop/generic-auth';
 import { EnvelopArmorPlugin } from '@escape.tech/graphql-armor';
 // import { useAPQ } from '@graphql-yoga/plugin-apq';
 import { useCSRFPrevention } from '@graphql-yoga/plugin-csrf-prevention';
-import { type User } from '@prisma/client';
 import { GraphQLError } from 'graphql';
 import { createYoga, type Plugin, type YogaInitialContext } from 'graphql-yoga';
 
 export interface MyContextType {
   currentUser: User;
-  report: RequestReport; // RequestReport is not exported properly from axiom
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -57,21 +55,8 @@ export function makeYoga(graphqlEndpoint: string) {
       methods: ['POST'],
     },
     batching: true,
-    context: ({ request }: { request: NextRequest }) => {
-      // code from next-axios logger combining their api and edge RequestReport
-      // https://github.com/axiomhq/next-axiom/blob/00f97e0619aa7e47d91f4fe9b11cf5a72fdf6815/src/logger.ts
-      const report: RequestReport = {
-        startTime: new Date().getTime(),
-        ip: request.headers.get('x-forwarded-for') || request.ip,
-        region: request.geo?.region || process.env.VERCEL_REGION,
-        host: request.nextUrl.host || request.headers.get('host') || '',
-        method: request.method,
-        path: request.nextUrl.pathname || request.url,
-        scheme: request.nextUrl.protocol.replace(':', ''),
-        userAgent: request.headers.get('user-agent'),
-      };
-      return { report };
-    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    context: ({ request }: { request: NextRequest }) => {},
     // Although gql spec says everything should be 200, mapping some to semantic HTTP error codes
     // https://escape.tech/blog/graphql-errors-the-good-the-bad-and-the-ugly/
     maskedErrors: {

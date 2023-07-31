@@ -1,13 +1,12 @@
 // https://github.com/echobind/bisonapp/blob/canary/packages/create-bison-app/template/src/pages/api/health.ts
-import prisma from '@/server/db/db';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export function GET() {
   let databaseWorking = false;
 
   try {
-    await prisma.user.findFirst();
+    // TODO fill this in with something appropriate for serverless db
     databaseWorking = true;
   } catch (err) {}
 

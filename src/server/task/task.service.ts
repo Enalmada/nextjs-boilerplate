@@ -1,38 +1,28 @@
 import Logger from '@/lib/logging/log-util';
-import prisma from '@/server/db/db';
 import { NotAuthorizedError, NotFoundError } from '@/server/graphql/errors';
 import { type MyContextType } from '@/server/graphql/yoga';
+import { type User } from '@/server/user/user.repository';
 import authCheck from '@/server/utils/authCheck';
-import { Prisma, type User } from '@prisma/client';
 
-import TaskUncheckedCreateInput = Prisma.TaskUncheckedCreateInput;
-import TaskUncheckedUpdateInput = Prisma.TaskUncheckedUpdateInput;
+import taskRepo, { type TaskNew, type TaskUpdate } from './task.repository';
 
 export default class TaskService {
   private readonly logger = new Logger(TaskService.name);
 
-  tasks(user: User, ctx: MyContextType) {
+  async tasks(user: User, ctx: MyContextType) {
     this.logger.logMethodStart(this.tasks.name, ctx);
 
     if (!user) {
       throw new NotAuthorizedError(`user required to complete this operation`);
     }
 
-    return prisma.task.findMany({
-      where: {
-        userId: user.id,
-      },
-    });
+    return await taskRepo.findMany({ userId: user.id });
   }
 
   async task(user: User, id: string, ctx: MyContextType) {
     const logger = this.logger.logMethodStart(this.task.name, ctx);
 
-    const task = await prisma.task.findFirst({
-      where: {
-        id,
-      },
-    });
+    const task = await taskRepo.findFirst(id);
 
     if (!task) {
       logger.warn(`${user.id} trying to access task ${id} that doesn't exist`);
@@ -44,29 +34,25 @@ export default class TaskService {
     return task;
   }
 
-  async create(user: User, input: TaskUncheckedCreateInput, ctx: MyContextType) {
+  async create(user: User, input: TaskNew, ctx: MyContextType) {
     this.logger.logMethodStart(this.create.name, ctx, {
       data: { ...input },
     });
 
-    return prisma.task.create({
-      data: {
-        ...input,
-        userId: user.id,
-      },
+    return await taskRepo.create({
+      ...input,
+      updatedAt: new Date(),
+      createdAt: new Date(),
+      userId: user.id,
     });
   }
 
-  async update(user: User, input: { id: string } & TaskUncheckedUpdateInput, ctx: MyContextType) {
+  async update(user: User, input: { id: string } & TaskUpdate, ctx: MyContextType) {
     const logger = this.logger.logMethodStart(this.update.name, ctx, {
       data: { ...input },
     });
 
-    const task = await prisma.task.findFirst({
-      where: {
-        id: input.id,
-      },
-    });
+    const task = await taskRepo.findFirst(input.id);
 
     if (!task) {
       logger.warn(`${user.id} trying to access task ${input.id} that doesn't exist`);
@@ -75,24 +61,18 @@ export default class TaskService {
 
     authCheck(user, task.userId);
 
-    return prisma.task.update({
-      where: {
-        id: input.id,
-      },
-      data: {
-        ...input,
-      },
+    return taskRepo.update(input.id, {
+      ...input,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      userId: user.id,
     });
   }
 
   async delete(user: User, id: string, ctx: MyContextType) {
     const logger = this.logger.logMethodStart(this.delete.name, ctx);
 
-    const task = await prisma.task.findFirst({
-      where: {
-        id,
-      },
-    });
+    const task = await taskRepo.findFirst(id);
 
     if (!task) {
       logger.warn(`${user.id} trying to access task ${id} that doesn't exist`);
@@ -101,10 +81,6 @@ export default class TaskService {
 
     authCheck(user, task.userId);
 
-    return prisma.task.delete({
-      where: {
-        id,
-      },
-    });
+    return await taskRepo.delete(id);
   }
 }

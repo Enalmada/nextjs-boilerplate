@@ -21,19 +21,6 @@ export function getLogLevel(logger: string): string {
   return (env.LOG_LEVEL as string) || logLevels.get(logger) || logLevels.get('*') || 'info';
 }
 
-// When imported from next-axiom it comes from /src and causes tsc issues
-export interface RequestReport {
-  startTime: number;
-  statusCode?: number;
-  ip?: string;
-  region?: string;
-  path: string;
-  host: string;
-  method: string;
-  scheme: string;
-  userAgent?: string | null;
-}
-
 export default class Logger {
   private readonly loggerName: string;
   private readonly logger: AxiomLogger;
