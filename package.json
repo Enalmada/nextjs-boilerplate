@@ -28,7 +28,8 @@
     "start:dev": "next dev",
     "start:full": "pnpm docker:up && pnpm install && pnpm prisma:migrate && next dev",
     "updates": "pnpm outdated -r",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build"
+    "vercel-build": "prisma generate && prisma migrate deploy && next build",
+    "info": "dotenv -e ./.env.local -e ./.env.development pnpx next info"
   },
   "dependencies": {
     "@apollo/client": "3.8.0-rc.1",
@@ -73,7 +74,7 @@
     "graphql-yoga": "^4.0.3",
     "kysely": "^0.26.1",
     "lodash": "^4.17.21",
-    "next": "^13.4.12",
+    "next": "13.4.13-canary.7",
     "next-axiom": "1.0.0-rc.1",
     "next-firebase-auth-edge": "0.7.6",
     "next-safe": "^3.4.1",
