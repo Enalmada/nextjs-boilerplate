@@ -33,6 +33,7 @@
   "dependencies": {
     "@apollo/client": "3.8.0-rc.1",
     "@apollo/experimental-nextjs-app-support": "^0.4.1",
+    "@cloudflare/pages-plugin-sentry": "^1.1.1",
     "@envelop/generic-auth": "^6.0.0",
     "@escape.tech/graphql-armor": "^2.2.0",
     "@firebase/util": "^1.9.3",
