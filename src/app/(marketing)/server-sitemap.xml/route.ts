@@ -2,7 +2,6 @@
 import { env } from '@/env.mjs';
 import { getServerSideSitemap } from 'next-sitemap';
 
-export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
   // Method to source urls from cms
