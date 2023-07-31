@@ -1,6 +1,7 @@
 import Logger from '@/lib/logging/log-util';
-import prismaClient from '@/server/db/db';
-import { type User } from '@prisma/client';
+import { type User } from '@/server/user/user.repository';
+
+import userRepo from './user.repository';
 
 export default class UserService {
   static async createOrGetFirebaseUser(
@@ -14,15 +15,19 @@ export default class UserService {
     // EmailService.sendWelcome()
 
     // To avoid an unnecessary update, we need to find first and compare incoming attributes that might be different
-    const user = await prismaClient.user.findFirst({ where: { firebaseId } });
+    const user = await userRepo.findFirst({ firebaseId });
 
-    if (!user || user.email != email) {
-      !user ? logger.info('user created') : logger.info('user updated');
-      return prismaClient.user.upsert({
-        where: { firebaseId: firebaseId },
-        update: { firebaseId: firebaseId, email: email },
-        create: { firebaseId: firebaseId, email: email },
+    if (!user) {
+      logger.info('user created');
+      return userRepo.create({
+        firebaseId: firebaseId,
+        email: email,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       });
+    } else if (user.email != email) {
+      logger.info('user updated');
+      return userRepo.update(user.id, { email: email, updatedAt: new Date() });
     }
 
     return user;

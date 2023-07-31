@@ -1,7 +1,7 @@
 import { type NextRequest } from 'next/server';
 import { authConfig } from '@/lib/firebase/config/server-config';
+import { type User } from '@/server/user/user.repository';
 import UserService from '@/server/user/user.service';
-import { type User } from '@prisma/client';
 import { getFirebaseAuth } from 'next-firebase-auth-edge/lib/auth';
 
 export async function modifiedHandleCreateOrGetUser(req: NextRequest): Promise<User | null> {

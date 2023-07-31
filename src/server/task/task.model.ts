@@ -1,12 +1,17 @@
+import { TaskStatus, type DB } from '@/server/db/types';
 import { builder } from '@/server/graphql/builder';
 import TaskService from '@/server/task/task.service';
-import { TaskStatus } from '@prisma/client';
+import { type AllSelection } from 'kysely/dist/cjs/parser/select-parser';
+
+// https://github.com/chimame/graphql-yoga-worker-with-pothos
 
 builder.enumType(TaskStatus, {
   name: 'TaskStatus',
 });
 
-builder.prismaObject('Task', {
+export const TaskType = builder.objectRef<AllSelection<DB, 'task'>>('Task');
+
+TaskType.implement({
   fields: (t) => ({
     id: t.exposeID('id'),
     title: t.expose('title', {
@@ -31,10 +36,10 @@ builder.prismaObject('Task', {
 });
 
 builder.queryField('task', (t) =>
-  t.prismaField({
-    type: 'Task',
-    args: {
-      id: t.arg.id({ required: true }),
+  t.fieldWithInput({
+    type: TaskType,
+    input: {
+      id: t.input.id({ required: true }),
     },
     /*
     errors: {
@@ -43,16 +48,16 @@ builder.queryField('task', (t) =>
     },
      */
     nullable: true,
-    resolve: async (query, root, args, ctx) => {
-      return new TaskService().task(ctx.currentUser, args.id as string, ctx);
+    resolve: async (root, args, ctx) => {
+      return new TaskService().task(ctx.currentUser, args.input.id as string, ctx);
     },
   })
 );
 
 builder.queryField('tasks', (t) =>
-  t.prismaField({
-    type: ['Task'],
-    resolve: async (query, root, args, ctx) => {
+  t.field({
+    type: [TaskType],
+    resolve: async (root, args, ctx) => {
       if (!ctx.currentUser) {
         return [];
       }
@@ -63,8 +68,8 @@ builder.queryField('tasks', (t) =>
 );
 
 builder.mutationField('createTask', (t) =>
-  t.prismaFieldWithInput({
-    type: 'Task',
+  t.fieldWithInput({
+    type: TaskType,
     input: {
       title: t.input.field({ type: 'NonEmptyString', required: true }),
       description: t.input.string(),
@@ -72,10 +77,12 @@ builder.mutationField('createTask', (t) =>
       dueDate: t.input.field({ type: 'DateTime' }),
     },
     // errors: {},
-    resolve: async (query, root, args, ctx) => {
+    resolve: async (root, args, ctx) => {
       const input = {
         ...args.input,
         userId: ctx.currentUser.id,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       };
       return new TaskService().create(ctx.currentUser, input, ctx);
     },
@@ -83,8 +90,10 @@ builder.mutationField('createTask', (t) =>
 );
 
 builder.mutationField('updateTask', (t) =>
-  t.prismaFieldWithInput({
-    type: 'Task',
+  t.fieldWithInput({
+    type: TaskType,
+    nullable: true,
+
     input: {
       id: t.input.id({ required: false }),
       title: t.input.field({ type: 'NonEmptyString', required: true }),
@@ -97,11 +106,12 @@ builder.mutationField('updateTask', (t) =>
       types: [NotFoundError, UnauthorizedError],
     },
      */
-    resolve: async (query, root, args, ctx) => {
+    resolve: async (root, args, ctx) => {
       const input = {
         ...args.input,
         id: args.input.id as string,
         userId: ctx.currentUser.id,
+        updatedAt: new Date(),
       };
       return new TaskService().update(ctx.currentUser, input, ctx);
     },
@@ -109,8 +119,9 @@ builder.mutationField('updateTask', (t) =>
 );
 
 builder.mutationField('deleteTask', (t) =>
-  t.prismaField({
-    type: 'Task',
+  t.field({
+    type: TaskType,
+    nullable: true,
     args: {
       id: t.arg.string({ required: true }),
     },
@@ -119,7 +130,7 @@ builder.mutationField('deleteTask', (t) =>
       types: [NotFoundError, UnauthorizedError],
     },
      */
-    resolve: async (query, root, args, ctx) => {
+    resolve: async (root, args, ctx) => {
       return new TaskService().delete(ctx.currentUser, args.id, ctx);
     },
   })

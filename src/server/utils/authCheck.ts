@@ -1,5 +1,5 @@
 import { NotAuthorizedError } from '@/server/graphql/errors';
-import { type User } from '@prisma/client';
+import { type User } from '@/server/user/user.repository';
 
 export default function authCheck(user: User, id: string) {
   if (user.id !== id) {

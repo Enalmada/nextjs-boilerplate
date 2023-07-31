@@ -2,15 +2,10 @@
 // https://www.prisma.io/blog/e2e-type-safety-graphql-react-3-fbV2ZVIGWg#define-a-date-scalar-type
 import SchemaBuilder from '@pothos/core';
 import ErrorsPlugin from '@pothos/plugin-errors';
-import PrismaPlugin from '@pothos/plugin-prisma';
-import type PrismaTypes from '@pothos/plugin-prisma/generated';
 import WithInputPlugin from '@pothos/plugin-with-input';
-import { PrismaClient } from '@prisma/client';
 import { DateTimeResolver, NonEmptyStringResolver } from 'graphql-scalars';
 
 import { type MyContextType } from './yoga';
-
-const prisma = new PrismaClient({});
 
 // Complexity taken care of by armor. Use here if not there
 // https://escape.tech/graphql-armor/
@@ -28,7 +23,6 @@ const complexity = {
  */
 
 export const builder = new SchemaBuilder<{
-  PrismaTypes: PrismaTypes;
   Scalars: {
     DateTime: {
       Input: Date;
@@ -41,22 +35,13 @@ export const builder = new SchemaBuilder<{
   };
   Context: MyContextType;
 }>({
-  plugins: [ErrorsPlugin, PrismaPlugin, WithInputPlugin],
+  plugins: [ErrorsPlugin, WithInputPlugin],
   /*
   errorOptions: {
     directResult: true,
     defaultTypes: [Error],
   },
    */
-  prisma: {
-    client: prisma,
-    // defaults to false, uses /// comments from prisma schema as descriptions
-    // for object types, relations and exposed fields.
-    // descriptions can be omitted by setting description to false
-    exposeDescriptions: false,
-    // use where clause from prismaRelatedConnection for totalCount (will true by default in next major version)
-    filterConnectionTotalCount: true,
-  },
 });
 
 /*
