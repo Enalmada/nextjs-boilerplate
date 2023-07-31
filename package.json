@@ -139,5 +139,10 @@
   "engines": {
     "node": "18.x"
   },
-  "main": ""
+  "main": "",
+  "pnpm": {
+    "patchedDependencies": {
+      "pg@8.11.1": "patches/pg@8.11.1.patch"
+    }
+  }
 }

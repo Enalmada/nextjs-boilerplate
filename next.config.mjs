@@ -95,7 +95,7 @@ const config = {
     domains: ['avatars.githubusercontent.com', 'lh3.googleusercontent.com', 'robohash.org'],
   },
   webpack: (config) => {
-    // Remove kysely server deps.
+    // pg used by kysely config needs fixing on prod
     config.resolve.fallback = {
       ...config.resolve.fallback,
       path: false,
@@ -104,6 +104,7 @@ const config = {
       tls: false,
       dns: false,
       stream: false,
+      crypto: false
     };
 
     return config;
