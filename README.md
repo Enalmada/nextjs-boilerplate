@@ -9,12 +9,12 @@
 - Copy `.env.example` to `.env.local` and edit variables
 
 ## Development mode
-
-- `pnpm dev`
+- `pnpm dev:init` - brings up docker and graphql codegen watcher in addition to `pnpm dev`
+- `pnpm dev` - just the next.js dev experience
 
 ## Features
 
-🔥 React + Graphql + Prisma + Tailwind
+🔥 React + Graphql + Prisma Migrate + Kysely ORM + Tailwind
 
 ### Frontend
 
@@ -27,28 +27,26 @@
     -💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
 - 💖 [Apollo Client](https://www.apollographql.com/docs/react/) graphql (state management, subscriptions, etc)
   - Graphql code generation with [client preset](https://the-guild.dev/graphql/codegen/plugins/presets/preset-client)
-  - optimistic actions - instant update while network in process
 - 🔒 [firebase auth](https://github.com/awinogrodzki/next-firebase-auth-edge) edge compatible
 - react-hook-form for simple and high performance forms
-- 🗺️ Sitemap.xml and robots.txt with [next-sitemap](https://github.com/iamvishnusankar/next-sitemap)
 - 🤖 SEO, JSON-LD and Open Graph tags with Next metadata
+- [NextUI](https://nextui.org/) react component library 
 
 ### Backend
 
 - ⚡ [Next.js](https://nextjs.org) API routes. Fullstack and serverless friendly
-- 💉 [tsyringe](https://github.com/microsoft/tsyringe) Dependency Injection
 - Graphql
   - [yoga-server](https://the-guild.dev/graphql/yoga-server) serverless/edge compatible
-  - [TypeGraphQL](https://typegraphql.com/) "code first" typesafe graphql
+  - [Pothos](https://pothos-graphql.dev/) "code first" typesafe graphql
   - [Graphql Armor](https://escape.tech/graphql-armor/) security defaults
 - Database
-  - [Prisma](https://www.prisma.io/) ORM
-    - See prisma/schema.prisma for intuitive DB mapping
     - schema migrations with [Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate)
-  - [CockroachDB](https://www.prisma.io/docs/guides/database/cockroachdb) database (a next gen postgres)
+    - [kysely](https://kysely.dev/) typesafe sql query builder
+    - [postgres.js](https://github.com/porsager/postgres) fast postgres driver 
+    - [CockroachDB](https://www.prisma.io/docs/guides/database/cockroachdb) database (a next gen postgres)
 
 ### Dev Ops
-
+- error logging - sentry (see src/pages/\_app.js)
 - local and test db running in docker container
 - 🛠️ ️[fixpack](https://github.com/henrikjoreteg/fixpack) package.json normalization
 - 🚓 commit messages validated with Commitlint
@@ -59,7 +57,6 @@
 
 ### TODO
 
-- error logging - sentry (see src/pages/\_app.js)
   - https://nextjs.org/docs/app/building-your-application/routing/error-handling
 - e2e testing - Playwright
 - unit testing - ViTest (ViTest ui for convenient dev coverage review)
@@ -69,7 +66,6 @@
 - 👷 Run tests on pull request with GitHub Actions
 - 🎉 Storybook for UI development
 - 🎁 Automatic changelog generation with Semantic Release
-- validation - YEP is lightweight for client bundles
 - email templating - mjml
 - typesafe routes
 - PWA service worker config
@@ -79,8 +75,17 @@
 - localization - easier if everyone keeps english out of templates from the start
 - deployment - AWS App Runner or [Cloudflare pages](https://github.com/cloudflare/next-on-pages)
 - release-please https://github.com/googleapis/release-please
-
+- 🗺️ Sitemap.xml and robots.txt with [next-sitemap](https://github.com/iamvishnusankar/next-sitemap)
+- 💉 [tsyringe](https://github.com/microsoft/tsyringe) Dependency Injection
+- 
 ## Notes
+
+### Deployments
+Currently deployable to vercel.
+Probably works on https://docs.sst.dev/start/nextjs but needs confirmation
+Cloudflare pages is waiting on:
+- https://github.com/awinogrodzki/next-firebase-auth-edge/issues/69
+
 
 ### Graphql playground
 
@@ -93,8 +98,7 @@ cockroachdb with docker setup: https://gist.github.com/dbist/ebb1f39f580ad9d07c0
 admin-ui: http://127.0.0.1:8080
 
 ### To allow the same kube context to work on the host and the container:
-
-127.0.0.1 kubernetes.docker.internal
+Add this to hosts `127.0.0.1 kubernetes.docker.internal`
 
 ### Firebase
 
@@ -110,7 +114,6 @@ https://stackoverflow.com/questions/23243353/how-to-set-shell-for-npm-run-script
 
 use this site to generate: https://realfavicongenerator.net/
 
-## patching pg module
-
-Work around current error
+## pg module instead of postgres.js
+You will need to work around current next.js error
 https://github.com/brianc/node-postgres/issues/2980#issuecomment-1658765692

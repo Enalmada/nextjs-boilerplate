@@ -101,10 +101,10 @@ const config = {
   images: {
     domains: ['avatars.githubusercontent.com', 'lh3.googleusercontent.com', 'robohash.org'],
   },
+  /*
   webpack: (config) => {
-    // pg used by kysely config needs fixing on prod
-
-    // Cloudflare fixes
+    // I suspect most of this isn't necessary with postgres.js driver
+    // pg used previously by kysely config needs fixing on prod
     if (process.env.EDGE || process.env.CF_PAGES_URL) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -121,6 +121,7 @@ const config = {
 
     return config;
   },
+  */
 };
 
 /**
