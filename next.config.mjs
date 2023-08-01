@@ -102,27 +102,21 @@ const config = {
   },
   webpack: (config) => {
     // pg used by kysely config needs fixing on prod
-    /*
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      path: false,
-      fs: false,
-      net: false,
-      tls: false,
-      dns: false,
-      stream: false,
-      crypto: false,
-      'pg-native': false,
-    };
 
-     */
-
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      path: false,
-      fs: false,
-
-    };
+    // Cloudflare fixes
+    if (process.env.EDGE || process.env.CF_PAGES_URL) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        path: false,
+        fs: false,
+        net: false,
+        tls: false,
+        dns: false,
+        stream: false,
+        crypto: false,
+        'pg-native': false,
+      };
+    }
 
     return config;
   },
@@ -143,7 +137,6 @@ const withSentry = (config) => {
 
       org: 'mentormyselfcom',
       project: 't3-challenge',
-
     },
     {
       // For all available options, see:
@@ -163,8 +156,6 @@ const withSentry = (config) => {
 
       // Automatically tree-shake Sentry logger statements to reduce bundle size
       disableLogger: true,
-
-
     }
   );
 };

@@ -1,7 +1,6 @@
 import Header from '@/client/components/layout/app/Header';
 import { ApolloWrapper } from '@/client/gql/apollo-wrapper';
 import { ServerAuthProvider } from '@/lib/firebase/auth/server-auth-provider';
-import { cookies } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'edge';
@@ -24,12 +23,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-
-
-    const cookieStore = cookies()
-    console.log("cookie:" + JSON.stringify(cookieStore));
-
-    return (
+  return (
     <ServerAuthProvider>
       <ApolloWrapper>
         <AppLayout>{children}</AppLayout>

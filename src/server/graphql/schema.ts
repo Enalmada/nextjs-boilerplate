@@ -1,16 +1,19 @@
+/*
 import { writeFileSync } from 'fs';
 import path from 'path';
 import { env } from '@/env.mjs';
 import Logger from '@/lib/logging/log-util';
-import { builder } from '@/server/graphql/builder';
 import { lexicographicSortSchema, printSchema } from 'graphql';
+*/
+import { builder } from '@/server/graphql/builder';
+
 
 import '@/server/task/task.model';
 import '@/server/user/user.model';
 
 export const schema = builder.toSchema({});
 
-
+/*
 // On local, write a new schema file
 // https://pothos-graphql.dev/docs/guide/printing-schemas
 if (!process.env.EDGE && env.APP_ENV === 'local') {
@@ -27,4 +30,4 @@ if (!process.env.EDGE && env.APP_ENV === 'local') {
   }
 }
 
-
+ */

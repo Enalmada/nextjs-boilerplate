@@ -18,15 +18,15 @@ Sentry.init({
   beforeSend: (event, hint) => {
     // https://github.com/getsentry/sentry-javascript/issues/1600
     console.error(hint.originalException || hint.syntheticException); // eslint-disable-line no-console
-    if (process.env.NODE_ENV === "test") {
+    if (process.env.NODE_ENV === 'test') {
       return null; // this drops the event and nothing will be send to sentry
     }
 
     // keep this line separate to comment it out easily locally to watch errors
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === 'development') {
       return null; // this drops the event and nothing will be send to sentry
     }
 
     return event;
-  }
+  },
 });
