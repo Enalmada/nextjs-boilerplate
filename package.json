@@ -15,6 +15,7 @@
     "format": "prettier --log-level warn --write .",
     "format:check": "prettier --check .",
     "improve": "node openai.js --overwrite",
+    "info": "dotenv -e ./.env.local -e ./.env.development pnpx next info",
     "lint": "dotenv -e ./.env.local -e ./.env.development next lint  && pnpm format:check && && pnpm check-types",
     "lint:fix": "pnpm format && dotenv -e ./.env.local -e ./.env.development next lint --fix && pnpm check-types",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
@@ -29,7 +30,7 @@
     "start:full": "pnpm docker:up && pnpm install && pnpm prisma:migrate && next dev",
     "updates": "pnpm outdated -r",
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
-    "info": "dotenv -e ./.env.local -e ./.env.development pnpx next info"
+    "vercel:buildLocal": "dotenv -e ./.env.local npx vercel build"
   },
   "dependencies": {
     "@apollo/client": "3.8.0-rc.1",
