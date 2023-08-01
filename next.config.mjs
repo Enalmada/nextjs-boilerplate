@@ -5,6 +5,7 @@ import { withSentryConfig } from '@sentry/nextjs';
 import './src/env.mjs';
 
 import { withAxiom } from 'next-axiom';
+import * as nextSafe from 'next-safe';
 
 const isDev = process.env.NODE_ENV !== 'production';
 
