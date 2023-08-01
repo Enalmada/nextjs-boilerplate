@@ -3,6 +3,7 @@ import { ApolloWrapper } from '@/client/gql/apollo-wrapper';
 import { ServerAuthProvider } from '@/lib/firebase/auth/server-auth-provider';
 
 export const dynamic = 'force-dynamic';
+// export const runtime = 'edge';
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (

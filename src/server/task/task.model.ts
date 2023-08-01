@@ -36,10 +36,10 @@ TaskType.implement({
 });
 
 builder.queryField('task', (t) =>
-  t.fieldWithInput({
+  t.field({
     type: TaskType,
-    input: {
-      id: t.input.id({ required: true }),
+    args: {
+      id: t.arg.id({ required: true }),
     },
     /*
     errors: {
@@ -49,7 +49,7 @@ builder.queryField('task', (t) =>
      */
     nullable: true,
     resolve: async (root, args, ctx) => {
-      return new TaskService().task(ctx.currentUser, args.input.id as string, ctx);
+      return new TaskService().task(ctx.currentUser, args.id as string, ctx);
     },
   })
 );

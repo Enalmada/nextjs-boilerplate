@@ -15,10 +15,9 @@
     "format": "prettier --log-level warn --write .",
     "format:check": "prettier --check .",
     "improve": "node openai.js --overwrite",
+    "info": "dotenv -e ./.env.local -e ./.env.development pnpx next info",
     "lint": "dotenv -e ./.env.local -e ./.env.development next lint  && pnpm format:check && && pnpm check-types",
     "lint:fix": "pnpm format && dotenv -e ./.env.local -e ./.env.development next lint --fix && pnpm check-types",
-    "postbuild": "next-sitemap --config next-sitemap.config.cjs",
-    "postinstall": "prisma generate",
     "prepare": "husky install",
     "prisma:migrate": "dotenv -e ./.env.local -e ./.env.development prisma migrate dev",
     "prisma:reset": "dotenv -e ./.env.local -e ./.env.development prisma migrate reset dev",
@@ -28,7 +27,8 @@
     "start:dev": "next dev",
     "start:full": "pnpm docker:up && pnpm install && pnpm prisma:migrate && next dev",
     "updates": "pnpm outdated -r",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build"
+    "vercel-build": "prisma migrate deploy && next build",
+    "vercel:buildLocal": "dotenv -e ./.env.local pnpx vercel build"
   },
   "dependencies": {
     "@apollo/client": "3.8.0-rc.1",
@@ -61,6 +61,7 @@
     "@prisma/client": "^5.0.0",
     "@react-aria/ssr": "^3.7.0",
     "@react-aria/visually-hidden": "^3.8.2",
+    "@sentry/nextjs": "^7.61.0",
     "@t3-oss/env-nextjs": "^0.6.0",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
@@ -72,11 +73,10 @@
     "graphql-yoga": "^4.0.3",
     "kysely": "^0.26.1",
     "lodash": "^4.17.21",
-    "next": "^13.4.12",
+    "next": "13.4.13-canary.9",
     "next-axiom": "1.0.0-rc.1",
     "next-firebase-auth-edge": "0.7.6",
     "next-safe": "^3.4.1",
-    "next-sitemap": "^4.1.8",
     "next-themes": "^0.2.1",
     "pg": "^8.11.1",
     "react": "18.2.0",
@@ -136,7 +136,12 @@
   "license": "UNLICENSED",
   "private": true,
   "engines": {
-    "node": ">=18.16.0"
+    "node": "18.x"
   },
-  "main": ""
+  "main": "",
+  "pnpm": {
+    "patchedDependencies": {
+      "pg@8.11.1": "patches/pg@8.11.1.patch"
+    }
+  }
 }

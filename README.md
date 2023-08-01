@@ -109,3 +109,8 @@ https://stackoverflow.com/questions/23243353/how-to-set-shell-for-npm-run-script
 ### Favicon
 
 use this site to generate: https://realfavicongenerator.net/
+
+## patching pg module
+
+Work around current error
+https://github.com/brianc/node-postgres/issues/2980#issuecomment-1658765692
