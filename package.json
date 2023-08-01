@@ -28,15 +28,11 @@
     "start:full": "pnpm docker:up && pnpm install && pnpm prisma:migrate && next dev",
     "updates": "pnpm outdated -r",
     "vercel-build": "prisma migrate deploy && next build",
-    "vercel:buildLocal": "dotenv -e ./.env.local pnpx vercel build",
-    "cloudflare:build": "dotenv -e ./.env.local pnpx @cloudflare/next-on-pages",
-    "cloudflare:watch": "dotenv -e ./.env.local pnpx @cloudflare/next-on-pages --watch",
-    "cloudflare:run": "dotenv -e ./.env.local pnpx wrangler pages dev .vercel/output/static --compatibility-flag=nodejs_compat"
+    "vercel:buildLocal": "dotenv -e ./.env.local pnpx vercel build"
   },
   "dependencies": {
     "@apollo/client": "3.8.0-rc.1",
     "@apollo/experimental-nextjs-app-support": "^0.4.1",
-    "@cloudflare/pages-plugin-sentry": "^1.1.1",
     "@envelop/generic-auth": "^6.0.0",
     "@escape.tech/graphql-armor": "^2.2.0",
     "@firebase/util": "^1.9.3",
@@ -93,8 +89,6 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.4.0",
-    "@cloudflare/workers-types": "^4.20230724.0",
     "@commitlint/cli": "^17.6.7",
     "@commitlint/config-conventional": "^17.6.7",
     "@graphql-codegen/cli": "^5.0.0",
@@ -135,8 +129,7 @@
     "start-server-and-test": "^2.0.0",
     "tailwindcss": "^3.3.3",
     "ts-node": "^10.9.1",
-    "typescript": "^5.1.6",
-    "vercel": "^31.2.1"
+    "typescript": "^5.1.6"
   },
   "author": "Adam Lane <enalmada@gmail.com>",
   "description": "A boilerplate for next.js apps",

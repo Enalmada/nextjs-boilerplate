@@ -1,4 +1,5 @@
 // @ts-check
+import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from 'next/constants.js';
 import { withSentryConfig } from '@sentry/nextjs';
 
 import './src/env.mjs';
@@ -65,7 +66,7 @@ const contentSecurityPolicy = {
 const config = {
   poweredByHeader: false,
   reactStrictMode: true,
-  /*
+
   async headers() {
     return [
       {
@@ -75,7 +76,6 @@ const config = {
       },
     ];
   },
-   */
 
   /**
    * If you have the "experimental: { appDir: true }" setting enabled, then you
@@ -160,5 +160,15 @@ const withSentry = (config) => {
   );
 };
 
-export default withSentry(withAxiom(config));
+// @ts-ignore
+export default async function configureNextConfig(phase) {
+  if (phase === PHASE_DEVELOPMENT_SERVER || phase === PHASE_PRODUCTION_BUILD) {
+    const withBundleAnalyzer = await import('@next/bundle-analyzer');
 
+    const bundleAnalyzerConfig = {
+      enabled: process.env.ANALYZE === 'true',
+    };
+    return withSentry(withAxiom(withBundleAnalyzer.default(bundleAnalyzerConfig)(config)));
+  }
+  return withSentry(withAxiom(config));
+}

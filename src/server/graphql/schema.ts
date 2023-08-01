@@ -7,7 +7,6 @@ import { lexicographicSortSchema, printSchema } from 'graphql';
 */
 import { builder } from '@/server/graphql/builder';
 
-
 import '@/server/task/task.model';
 import '@/server/user/user.model';
 

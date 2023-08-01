@@ -33,8 +33,7 @@ const mapTokensToUser = (tokens: Tokens): User => {
 };
 
 export async function ServerAuthProvider({ children }: { children: React.ReactNode }) {
-  const cookieStore = cookies();
-  const tokens = await getTokens(cookieStore, authConfig);
+  const tokens = await getTokens(cookies(), authConfig);
   const user = tokens ? mapTokensToUser(tokens) : null;
 
   return <AuthProvider defaultUser={user}>{children}</AuthProvider>;
