@@ -102,6 +102,7 @@ const config = {
   },
   webpack: (config) => {
     // pg used by kysely config needs fixing on prod
+    /*
     config.resolve.fallback = {
       ...config.resolve.fallback,
       path: false,
@@ -112,6 +113,15 @@ const config = {
       stream: false,
       crypto: false,
       'pg-native': false,
+    };
+
+     */
+
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      path: false,
+      fs: false,
+
     };
 
     return config;
@@ -133,6 +143,7 @@ const withSentry = (config) => {
 
       org: 'mentormyselfcom',
       project: 't3-challenge',
+
     },
     {
       // For all available options, see:
@@ -152,6 +163,8 @@ const withSentry = (config) => {
 
       // Automatically tree-shake Sentry logger statements to reduce bundle size
       disableLogger: true,
+
+
     }
   );
 };
