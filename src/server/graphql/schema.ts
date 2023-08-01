@@ -10,9 +10,10 @@ import '@/server/user/user.model';
 
 export const schema = builder.toSchema({});
 
+
 // On local, write a new schema file
 // https://pothos-graphql.dev/docs/guide/printing-schemas
-if (env.APP_ENV === 'local') {
+if (!process.env.EDGE && env.APP_ENV === 'local') {
   const logger = new Logger('schema');
   try {
     const schema = builder.toSchema();
@@ -25,3 +26,5 @@ if (env.APP_ENV === 'local') {
     logger.error('Error writing schema file:', error);
   }
 }
+
+
