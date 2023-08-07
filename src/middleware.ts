@@ -32,6 +32,11 @@ export async function middleware(request: NextRequest) {
     serviceAccount: authConfig.serviceAccount,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/require-await
     handleValidToken: async ({ token, decodedToken }) => {
+      // Authenticated user should not be able to access /login, /register and /reset-password routes
+      // if (PUBLIC_PATHS.includes(request.nextUrl.pathname)) {
+      //  return redirectToHome(request);
+      // }
+
       return NextResponse.next();
     },
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -47,5 +52,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/((?!_next|favicon.ico|api).*)', '/api/login', '/api/logout'],
+  matcher: ['/', '/((?!_next|favicon.ico|api|.*\\.).*)', '/api/login', '/api/logout'],
 };

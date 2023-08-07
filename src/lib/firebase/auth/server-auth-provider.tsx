@@ -1,6 +1,7 @@
+import React from 'react';
 import { cookies } from 'next/headers';
 import { type Tokens } from 'next-firebase-auth-edge/lib/auth';
-import { filterStandardClaims } from 'next-firebase-auth-edge/lib/auth/tenant';
+import { filterStandardClaims } from 'next-firebase-auth-edge/lib/auth/claims';
 import { getTokens } from 'next-firebase-auth-edge/lib/next/tokens';
 
 import { authConfig } from '../config/server-config';

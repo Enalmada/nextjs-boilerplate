@@ -141,8 +141,8 @@ dependencies:
     specifier: 1.0.0-rc.1
     version: 1.0.0-rc.1(next@13.4.13-canary.9)(react@18.2.0)
   next-firebase-auth-edge:
-    specifier: 0.7.7
-    version: 0.7.7(next@13.4.13-canary.9)
+    specifier: 0.8.0
+    version: 0.8.0(next@13.4.13-canary.9)
   next-safe:
     specifier: ^3.4.1
     version: 3.4.1(next@13.4.13-canary.9)
@@ -2850,16 +2850,6 @@ packages:
     resolution: {integrity: sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==}
     engines: {node: '>=10.0.0'}
     dev: true
-
-  /@edge-runtime/ponyfill@2.3.0:
-    resolution: {integrity: sha512-vg59/jBV+geBqAs1hPgHk7R8VtXvR4zjlcJaQSKvh0Zt/PBFOZyqpsIqCKgNMDJlgF1BXUrusQSSNr212cXIhg==}
-    engines: {node: '>=14'}
-    dev: false
-
-  /@edge-runtime/primitives@2.1.2:
-    resolution: {integrity: sha512-SR04SMDybALlhIYIi0hiuEUwIl0b7Sn+RKwQkX6hydg4+AKMzBNDFhj2nqHDD1+xkHArV9EhmJIb6iGjShwSzg==}
-    engines: {node: '>=14'}
-    dev: false
 
   /@emotion/is-prop-valid@0.8.8:
     resolution: {integrity: sha512-u5WtneEAr5IDG2Wv65yhunPSMLIpuKsbuOktRojfrEiEvRyC85LgPMZI63cr7NUqT8ZIGdSVg8ZKGxIug4lXcA==}
@@ -14247,7 +14237,6 @@ packages:
 
   /jose@4.14.4:
     resolution: {integrity: sha512-j8GhLiKmUAh+dsFXlX1aJCbt5KMibuKb+d7j1JaOJG6s2UjX1PQlW+OKB/sD4a/5ZYF4RcmYmLSndOoU3Lt/3g==}
-    dev: true
 
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -15565,16 +15554,16 @@ packages:
       whatwg-fetch: 3.6.2
     dev: false
 
-  /next-firebase-auth-edge@0.7.7(next@13.4.13-canary.9):
-    resolution: {integrity: sha512-LtaOzRk/NHBaeHOLqsUZqXUqGl87YNDg90rg2TSP6HR5vU/9XyxRF+wbvrfP1DuUegbmNVFI+3UCCTpRHLF5tg==}
+  /next-firebase-auth-edge@0.8.0(next@13.4.13-canary.9):
+    resolution: {integrity: sha512-PShwa59txnqhNrWma0x4ps2qG/fkAiA0CXVpxPXhxnvTdsdwjDm0PdOOYODWivFMt/xQQhqL8ErTSk0Uw+/itw==}
     engines: {node: '>=16.0.0 <20.0.0', npm: '>=8.0.0 <10.0.0', yarn: '>=1.22.0 <2.0.0'}
     peerDependencies:
       next: ^13.4.2
     dependencies:
       '@changesets/cli': 2.26.2
-      '@edge-runtime/ponyfill': 2.3.0
-      '@edge-runtime/primitives': 2.1.2
       cookie: 0.5.0
+      encoding: 0.1.13
+      jose: 4.14.4
       next: 13.4.13-canary.9(@babel/core@7.22.9)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
     dev: false
 

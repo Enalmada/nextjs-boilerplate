@@ -2,7 +2,7 @@
 
 import { createContext, useContext } from 'react';
 import type { UserInfo } from 'firebase/auth';
-import { type Claims } from 'next-firebase-auth-edge/lib/auth/tenant';
+import { type Claims } from 'next-firebase-auth-edge/lib/auth/claims';
 
 export interface User extends Omit<UserInfo, 'providerId'> {
   idToken: string;

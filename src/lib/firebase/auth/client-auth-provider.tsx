@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { onIdTokenChanged, type User as FirebaseUser } from 'firebase/auth';
-import { filterStandardClaims } from 'next-firebase-auth-edge/lib/auth/tenant';
+import * as React from 'react';
+import { onIdTokenChanged, type User as FirebaseUser, type IdTokenResult } from 'firebase/auth';
+import { filterStandardClaims } from 'next-firebase-auth-edge/lib/auth/claims';
 
 import { AuthContext, type User } from './context';
 import { useFirebaseAuth } from './firebase';
@@ -12,12 +12,21 @@ export interface AuthProviderProps {
   children: React.ReactNode;
 }
 
+function toUser(user: FirebaseUser, idTokenResult: IdTokenResult): User {
+  return {
+    ...user,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment
+    customClaims: filterStandardClaims(idTokenResult.claims),
+    idToken: idTokenResult.token,
+  };
+}
+
 export const AuthProvider: React.FunctionComponent<AuthProviderProps> = ({
   defaultUser,
   children,
 }) => {
   const { getFirebaseAuth } = useFirebaseAuth();
-  const [user, setUser] = useState(defaultUser);
+  const [user, setUser] = React.useState(defaultUser);
 
   const handleIdTokenChanged = async (firebaseUser: FirebaseUser | null) => {
     if (!firebaseUser) {
@@ -26,17 +35,8 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = ({
     }
 
     const idTokenResult = await firebaseUser.getIdTokenResult();
-    await fetch('/api/login', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${idTokenResult.token}`,
-      },
-    });
-    setUser({
-      ...firebaseUser,
-      customClaims: filterStandardClaims(idTokenResult.claims),
-      idToken: idTokenResult.token,
-    });
+
+    setUser(toUser(firebaseUser, idTokenResult));
   };
 
   // eslint-disable-next-line @typescript-eslint/require-await
@@ -46,7 +46,7 @@ export const AuthProvider: React.FunctionComponent<AuthProviderProps> = ({
     return onIdTokenChanged(auth, handleIdTokenChanged);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     const unsubscribePromise = registerChangeListener();
 
     return () => {
