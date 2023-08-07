@@ -17,7 +17,7 @@ import {
 import { AcmeLogo } from './AcmeLogo.jsx';
 
 export default function App() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = React.useState<boolean | undefined>(false);
 
   const menuItems = [
     {

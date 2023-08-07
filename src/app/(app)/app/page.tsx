@@ -1,4 +1,6 @@
+import { Suspense } from 'react';
 import NextLink from 'next/link';
+import Loading from '@/app/(app)/app/loading';
 import TaskList from '@/client/components/tasks/TaskList';
 import { Button } from '@/client/ui/Button';
 import { getRouteById } from '@/client/utils/routes';
@@ -28,7 +30,9 @@ export default function Page() {
           New Task
         </Button>
       </div>
-      <TaskList />
+      <Suspense fallback={<Loading />}>
+        <TaskList />
+      </Suspense>
     </>
   );
 }

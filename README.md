@@ -9,6 +9,7 @@
 - Copy `.env.example` to `.env.local` and edit variables
 
 ## Development mode
+
 - `pnpm dev:init` - brings up docker and graphql codegen watcher in addition to `pnpm dev`
 - `pnpm dev` - just the next.js dev experience
 
@@ -30,7 +31,7 @@
 - 🔒 [firebase auth](https://github.com/awinogrodzki/next-firebase-auth-edge) edge compatible
 - react-hook-form for simple and high performance forms
 - 🤖 SEO, JSON-LD and Open Graph tags with Next metadata
-- [NextUI](https://nextui.org/) react component library 
+- [NextUI](https://nextui.org/) react component library
 
 ### Backend
 
@@ -40,12 +41,13 @@
   - [Pothos](https://pothos-graphql.dev/) "code first" typesafe graphql
   - [Graphql Armor](https://escape.tech/graphql-armor/) security defaults
 - Database
-    - schema migrations with [Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate)
-    - [kysely](https://kysely.dev/) typesafe sql query builder
-    - [postgres.js](https://github.com/porsager/postgres) fast postgres driver 
-    - [CockroachDB](https://www.prisma.io/docs/guides/database/cockroachdb) database (a next gen postgres)
+  - schema migrations with [Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate)
+  - [kysely](https://kysely.dev/) typesafe sql query builder
+  - [postgres.js](https://github.com/porsager/postgres) fast postgres driver
+  - [CockroachDB](https://www.prisma.io/docs/guides/database/cockroachdb) database (a next gen postgres)
 
 ### Dev Ops
+
 - error logging - sentry (see src/pages/\_app.js)
 - local and test db running in docker container
 - 🛠️ ️[fixpack](https://github.com/henrikjoreteg/fixpack) package.json normalization
@@ -57,7 +59,7 @@
 
 ### TODO
 
-  - https://nextjs.org/docs/app/building-your-application/routing/error-handling
+- https://nextjs.org/docs/app/building-your-application/routing/error-handling
 - e2e testing - Playwright
 - unit testing - ViTest (ViTest ui for convenient dev coverage review)
 - 💎 [CVA](https://cva.style/docs) - Create reusable css (css-in-js alternative)
@@ -77,15 +79,17 @@
 - release-please https://github.com/googleapis/release-please
 - 🗺️ Sitemap.xml and robots.txt with [next-sitemap](https://github.com/iamvishnusankar/next-sitemap)
 - 💉 [tsyringe](https://github.com/microsoft/tsyringe) Dependency Injection
-- 
+-
+
 ## Notes
 
 ### Deployments
+
 Currently deployable to vercel.
 Probably works on https://docs.sst.dev/start/nextjs but needs confirmation
 Cloudflare pages is waiting on:
-- https://github.com/awinogrodzki/next-firebase-auth-edge/issues/69
 
+- https://github.com/awinogrodzki/next-firebase-auth-edge/issues/69
 
 ### Graphql playground
 
@@ -98,6 +102,7 @@ cockroachdb with docker setup: https://gist.github.com/dbist/ebb1f39f580ad9d07c0
 admin-ui: http://127.0.0.1:8080
 
 ### To allow the same kube context to work on the host and the container:
+
 Add this to hosts `127.0.0.1 kubernetes.docker.internal`
 
 ### Firebase
@@ -115,5 +120,6 @@ https://stackoverflow.com/questions/23243353/how-to-set-shell-for-npm-run-script
 use this site to generate: https://realfavicongenerator.net/
 
 ## pg module instead of postgres.js
+
 You will need to work around current next.js error
 https://github.com/brianc/node-postgres/issues/2980#issuecomment-1658765692

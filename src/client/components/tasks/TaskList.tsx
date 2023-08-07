@@ -1,10 +1,19 @@
 'use client';
 
-import { Suspense } from 'react';
 import { TASKS } from '@/client/gql/queries-mutations';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 
-import Task from './Task';
+import Task, { TaskBody } from './Task';
+
+export const TaskListLoading = () => {
+  return (
+    <div className="grid grid-cols-1 gap-2">
+      <TaskBody key={1} />
+      <TaskBody key={2} />
+      <TaskBody key={3} />
+    </div>
+  );
+};
 
 export default function TaskList() {
   const { data, error } = useSuspenseQuery(TASKS);
@@ -20,11 +29,9 @@ export default function TaskList() {
 
   return (
     <div className="grid grid-cols-1 gap-2">
-      <Suspense>
-        {tasks.map((task) => {
-          return <Task task={task} key={task.id} />;
-        })}
-      </Suspense>
+      {tasks.map((task) => {
+        return <Task task={task} key={task.id} />;
+      })}
     </div>
   );
 }

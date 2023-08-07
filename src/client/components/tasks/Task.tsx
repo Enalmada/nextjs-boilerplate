@@ -1,11 +1,68 @@
 // import ReactTooltip from "react-tooltip";
+import React from 'react';
 import Link from 'next/link';
 import { TaskStatus, type Task } from '@/client/gql/generated/graphql';
 import { UPDATE_TASK } from '@/client/gql/queries-mutations';
+import { Skeleton } from '@/client/ui';
 import { Card } from '@/client/ui/Card';
 import { useMutation } from '@apollo/client';
 import { CardBody } from '@nextui-org/card';
+import { Checkbox } from '@nextui-org/checkbox';
 import { format } from 'date-fns';
+
+interface TaskBodyProps {
+  task?: Task;
+  handleUpdateTask?: React.MouseEventHandler<HTMLLabelElement>; // updated this line
+}
+
+export const TaskBody = (props: TaskBodyProps) => {
+  const { title, description, dueDate, status } = props.task || {};
+
+  const isLoaded = props.task !== undefined;
+
+  return (
+    <Card>
+      <CardBody>
+        <div className="flex">
+          <div className="flex w-full items-start">
+            <div>
+              <Skeleton isLoaded={isLoaded}>
+                <Checkbox
+                  size="lg"
+                  radius="none"
+                  defaultSelected={status === TaskStatus.Completed}
+                  onClick={props.handleUpdateTask}
+                />
+              </Skeleton>
+            </div>
+
+            <div className="ml-5 w-full">
+              <Skeleton isLoaded={isLoaded}>
+                <div className="flex items-center justify-between">
+                  <h2 className="-mt-1 text-lg font-semibold text-gray-900 dark:text-white">
+                    {title || '          uaouoea                          '}
+                  </h2>
+                  {dueDate && (
+                    <>
+                      Due:&nbsp;
+                      {format(new Date(dueDate), 'PP')}
+                    </>
+                  )}
+                </div>
+
+                {/* {clientSide && <ReactTooltip effect="solid" />} */}
+
+                <p className="mt-3 text-sm text-gray-700 dark:text-white">
+                  {description || '     uoaeuuo   '}
+                </p>
+              </Skeleton>
+            </div>
+          </div>
+        </div>
+      </CardBody>
+    </Card>
+  );
+};
 
 interface Props {
   task: Task;
@@ -19,7 +76,7 @@ const Task = (props: Props) => {
 
   const [updateTask, { error: updateTaskError }] = useMutation(UPDATE_TASK);
 
-  const handleUpdateTask = async (e: React.MouseEvent<HTMLInputElement>) => {
+  const handleUpdateTask = async (e: React.MouseEvent<HTMLLabelElement>) => {
     const input = {
       id: id,
       title: title,
@@ -43,41 +100,7 @@ const Task = (props: Props) => {
 
   return (
     <Link href={`/app/task/${id}`}>
-      <Card>
-        <CardBody>
-          <div className="flex">
-            <div className="flex w-full items-start">
-              <div>
-                <label className="inline-flex">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox h-5 w-5 cursor-pointer text-purple-600 dark:text-white"
-                    defaultChecked={status === TaskStatus.Completed}
-                    onClick={(e) => void handleUpdateTask(e)}
-                  />
-                </label>
-              </div>
-              <div className="ml-5 w-full">
-                <div className="flex items-center justify-between">
-                  <h2 className="-mt-1 text-lg font-semibold text-gray-900 dark:text-white">
-                    {title}
-                  </h2>
-                  {dueDate && (
-                    <>
-                      Due:&nbsp;
-                      {format(new Date(dueDate), 'PP')}
-                    </>
-                  )}
-                </div>
-
-                {/* {clientSide && <ReactTooltip effect="solid" />} */}
-
-                <p className="mt-3 text-sm text-gray-700 dark:text-white">{description}</p>
-              </div>
-            </div>
-          </div>
-        </CardBody>
-      </Card>
+      <TaskBody task={props.task} handleUpdateTask={(e) => void handleUpdateTask(e)} />
     </Link>
   );
 };

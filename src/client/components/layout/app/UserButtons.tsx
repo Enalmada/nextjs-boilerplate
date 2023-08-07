@@ -35,7 +35,7 @@ export default function UserButtons() {
                 isBordered
                 className="transition-transform"
                 color="secondary"
-                name={user.displayName || user.email}
+                name={user.displayName || user.email || undefined}
                 size="sm"
                 showFallback
                 fallback={

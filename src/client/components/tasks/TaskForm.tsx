@@ -40,7 +40,7 @@ interface Props {
 
 export default function TaskForm(props: Props) {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
 
   const { data, error } = useSuspenseQuery(TASK, {
     variables: { id: props.id || '' },
@@ -251,7 +251,7 @@ export default function TaskForm(props: Props) {
                     <Popover
                       placement="bottom"
                       showArrow={true}
-                      visible={isOpen}
+                      isOpen={isOpen}
                       onClose={() => setIsOpen(false)}
                     >
                       <PopoverTrigger>

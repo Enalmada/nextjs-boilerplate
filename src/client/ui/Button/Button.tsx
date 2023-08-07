@@ -4,8 +4,8 @@ import { Button as NextUIButton, type ButtonProps as NextUIButtonProps } from '@
 interface ButtonProps extends NextUIButtonProps {
   children: React.ReactNode;
   hoverIndication?: boolean;
-  color?: string;
-  radius?: string;
+  color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | undefined;
+  radius?: 'sm' | 'md' | 'lg' | 'none' | 'full' | undefined;
   className?: string;
 }
 
