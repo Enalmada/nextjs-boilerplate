@@ -47,3 +47,10 @@ root.crt
 
 # Sentry Auth Token
 .sentryclirc
+
+# sst
+.sst
+.build
+
+# opennext
+.open-next
