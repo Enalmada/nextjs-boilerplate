@@ -1,4 +1,4 @@
-import { getParamsAndSecrets } from '@/paramsAndSecrets';
+// import { getParamsAndSecrets } from '@/paramsAndSecrets';
 import { type SSTConfig } from 'sst';
 import { NextjsSite } from 'sst/constructs';
 
@@ -28,7 +28,7 @@ export default {
   stacks(app) {
     app.stack(function Site({ stack }) {
       const site = new NextjsSite(stack, 'site', {
-        bind: getParamsAndSecrets(stack),
+        // bind: getParamsAndSecrets(stack),
       });
 
       stack.addOutputs({
