@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { getRouteById } from '@/client/utils/routes';
 import { useAuth } from '@/lib/firebase/auth/context';
 
 export default function AuthButtons() {
@@ -19,7 +18,7 @@ export default function AuthButtons() {
         </Link>
       ) : (
         <Link
-          href={getRouteById('About').path}
+          href={'/about'}
           className={`inline-block px-4 py-2 text-black no-underline ${
             active ? 'font-bold no-underline' : 'hover:text-underline hover:text-gray-800'
           }`}

@@ -1,7 +1,8 @@
 // @ts-check
 import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from 'next/constants.js';
 import { withSentryConfig } from '@sentry/nextjs';
-// import './src/env.mjs';
+
+import './src/env.mjs';
 
 import { withAxiom } from 'next-axiom';
 import * as nextSafe from 'next-safe';

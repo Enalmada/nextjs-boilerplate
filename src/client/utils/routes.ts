@@ -1,5 +1,4 @@
 import { type NextPageContext } from 'next';
-import find from 'lodash/find';
 
 export interface NextPageContextExtended extends NextPageContext {
   isRedirecting: boolean;
@@ -109,11 +108,11 @@ export function replaceVariables(string: string, query: { id: string }): string 
 }
 
 export function getRoute(path: string): Route {
-  return find(routes, ['path', path]) || ({} as Route);
+  return routes.find((route) => route.path === path) || ({} as Route);
 }
 
 export function getRouteById(routeId: string): Route {
-  return find(routes, ['id', routeId]) || ({} as Route);
+  return routes.find((route) => route.id === routeId) || ({} as Route);
 }
 
 interface VariableType {
