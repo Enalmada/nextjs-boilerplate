@@ -25,7 +25,7 @@
     "review": "node openai.js",
     "reviewStaged": "sh reviewStaged.sh",
     "sst": "cross-env AWS_PROFILE=lbc-dev npx sst dev",
-    "sst:deploy:dev": "sst deploy --stage dev",
+    "sst:deploy:dev": "rm -rf .next && sst deploy --stage dev",
     "sst:login": "aws sso login --profile=lbc-dev",
     "start": "next start",
     "start:dev": "next dev",
