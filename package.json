@@ -141,7 +141,7 @@
     "prettier-plugin-tailwindcss": "^0.4.1",
     "prisma": "^5.1.0",
     "prisma-kysely": "^1.5.0",
-    "sst": "^2.23.14",
+    "sst": "^2.23.15",
     "start-server-and-test": "^2.0.0",
     "storybook": "^7.2.0",
     "storybook-dark-mode": "^3.0.1",

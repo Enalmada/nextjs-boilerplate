@@ -317,8 +317,8 @@ devDependencies:
     specifier: ^1.5.0
     version: 1.5.0(encoding@0.1.13)
   sst:
-    specifier: ^2.23.14
-    version: 2.23.14(@types/react@18.2.18)
+    specifier: ^2.23.15
+    version: 2.23.15(@types/react@18.2.18)
   start-server-and-test:
     specifier: ^2.0.0
     version: 2.0.0
@@ -20538,8 +20538,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /sst@2.23.14(@types/react@18.2.18):
-    resolution: {integrity: sha512-Nrx8xclLN7sR2fxcQQ9j44rRkxKFfuBqYfcML6Ez9OCBmKCzQidjHBkA4RsQBclzyR3hrZrL9RTob8BR46WO+Q==}
+  /sst@2.23.15(@types/react@18.2.18):
+    resolution: {integrity: sha512-wgZUvYXV1JMfRUF52kbS2d0AEkJrh2wLfjBhEX6J7hctOMwQVqMs5ehPCWNkl5cDra6ma7n8NKC5tnGd2nPYng==}
     hasBin: true
     peerDependencies:
       '@sls-next/lambda-at-edge': ^3.7.0
