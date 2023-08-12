@@ -35,6 +35,7 @@ const graphiQL = {
 
 const sentry = {
   worker: 'blob:',
+  connect: 'https://o32548.ingest.sentry.io/api/'
 };
 
 const contentSecurityPolicy = {
@@ -43,7 +44,7 @@ const contentSecurityPolicy = {
     'script-src': `${firebase.script} ${graphiQL.script} ${vercel.script} ${nextjs.script}`,
     'frame-src': `${firebase.connect} https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/ ${vercel.iframe}`,
     'style-src': `${graphiQL.style} ${nextjs.script}`,
-    'connect-src': `${firebase.connect}`,
+    'connect-src': `${firebase.connect} ${sentry.connect}`,
     'prefetch-src': false, // chrome warning
     'img-src': `${firebase.image}`,
     'font-src': `${graphiQL.font}`,
