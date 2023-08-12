@@ -28,13 +28,16 @@ const plugins: Array<Plugin<any, any, any>> = [
   // useAPQ(),
 ];
 
+/*
 if (env.APP_ENV != 'local') {
   plugins.push(
     useCSRFPrevention({
-      requestHeaders: ['Authorization'],
+      requestHeaders: ['authorization'],
     })
   );
 }
+
+ */
 
 export function makeYoga(graphqlEndpoint: string) {
   // Next.js Custom Route Handler: https://nextjs.org/docs/app/building-your-application/routing/router-handlers
@@ -51,7 +54,7 @@ export function makeYoga(graphqlEndpoint: string) {
       origin: env.NEXT_PUBLIC_REDIRECT_URL,
       //origin: process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : env.NEXT_PUBLIC_REDIRECT_URL,
       credentials: true,
-      allowedHeaders: ['Authorization'],
+      allowedHeaders: ['authorization'],
       methods: ['POST'],
     },
     batching: true,

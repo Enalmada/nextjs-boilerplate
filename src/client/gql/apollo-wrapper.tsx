@@ -36,7 +36,7 @@ function makeClient(userIdToken?: string) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       headers: {
         ...headers,
-        Authorization: userIdToken ? `${userIdToken}` : '',
+        authorization: userIdToken ? `${userIdToken}` : '',
       },
     };
   });
