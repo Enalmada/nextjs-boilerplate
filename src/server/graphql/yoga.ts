@@ -8,7 +8,7 @@ import { type User } from '@/server/user/user.repository';
 import { useGenericAuth } from '@envelop/generic-auth';
 import { EnvelopArmorPlugin } from '@escape.tech/graphql-armor';
 // import { useAPQ } from '@graphql-yoga/plugin-apq';
-import { useCSRFPrevention } from '@graphql-yoga/plugin-csrf-prevention';
+// import { useCSRFPrevention } from '@graphql-yoga/plugin-csrf-prevention';
 import { GraphQLError } from 'graphql';
 import { createYoga, type Plugin, type YogaInitialContext } from 'graphql-yoga';
 
