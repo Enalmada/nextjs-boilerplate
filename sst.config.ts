@@ -28,6 +28,9 @@ export default {
   stacks(app) {
     app.stack(function Site({ stack }) {
       const site = new NextjsSite(stack, 'site', {
+        environment: {
+          APP_ENV: process.env.APP_ENV!,
+        },
         // bind: getParamsAndSecrets(stack),
       });
 
