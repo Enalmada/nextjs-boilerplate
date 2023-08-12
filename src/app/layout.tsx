@@ -4,7 +4,8 @@ import { fontSans } from '@/client/styles/fonts';
 import { NextUIWrapper } from '@/client/ui/NextUIWrapper';
 import metadataConfig from '@/metadata.config';
 import clsx from 'clsx';
-import { AxiomWebVitals } from 'next-axiom';
+
+// import { AxiomWebVitals } from 'next-axiom';
 
 export const metadata = {
   ...metadataConfig,
@@ -23,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           fontSans.variable
         )}
       >
-        <AxiomWebVitals />
+        {/* <AxiomWebVitals /> */}
         <NextUIWrapper themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
           {children}
         </NextUIWrapper>
