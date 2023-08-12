@@ -31,7 +31,7 @@ const plugins: Array<Plugin<any, any, any>> = [
 if (env.APP_ENV != 'local') {
   plugins.push(
     useCSRFPrevention({
-      requestHeaders: ['authorization'],
+      requestHeaders: ['Authorization'],
     })
   );
 }
@@ -51,7 +51,7 @@ export function makeYoga(graphqlEndpoint: string) {
       origin: env.NEXT_PUBLIC_REDIRECT_URL,
       //origin: process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : env.NEXT_PUBLIC_REDIRECT_URL,
       credentials: true,
-      allowedHeaders: ['authorization'],
+      allowedHeaders: ['Authorization'],
       methods: ['POST'],
     },
     batching: true,
