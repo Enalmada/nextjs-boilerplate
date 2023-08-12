@@ -1,6 +1,7 @@
 // import { getParamsAndSecrets } from '@/paramsAndSecrets';
 import { type SSTConfig } from 'sst';
 import { NextjsSite } from 'sst/constructs';
+import { LayerVersion } from "aws-cdk-lib/aws-lambda";
 
 export default {
   config(input) {
@@ -49,6 +50,21 @@ export default {
         },
         // bind: getParamsAndSecrets(stack),
       });
+
+      if (!app.local) {
+        const sentry = LayerVersion.fromLayerVersionArn(
+            stack,
+            'SentryLayer',
+            `arn:aws:lambda:us-east-1:943013980633:layer:SentryNodeServerlessSDK:157`
+        );
+
+        stack.addDefaultFunctionLayers([sentry]);
+        stack.addDefaultFunctionEnv({
+          SENTRY_DSN: 'https://63b51c52e1f32bd4633bfeabf57d489b@o32548.ingest.sentry.io/4505625265438720',
+          SENTRY_TRACES_SAMPLE_RATE: '1.0',
+          NODE_OPTIONS: '-r @sentry/serverless/dist/awslambda-auto',
+        });
+      }
 
       stack.addOutputs({
         SiteUrl: site.url,
