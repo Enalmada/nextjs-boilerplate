@@ -28,6 +28,9 @@ export default {
   stacks(app) {
     app.stack(function Site({ stack }) {
       const site = new NextjsSite(stack, 'site', {
+        environment: {
+          SKIP_ENV_VALIDATION: process.env.SKIP_ENV_VALIDATION!,
+        },
         // bind: getParamsAndSecrets(stack),
       });
 
