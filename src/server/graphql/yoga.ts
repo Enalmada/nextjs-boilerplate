@@ -25,9 +25,11 @@ const plugins: Array<Plugin<any, any, any>> = [
     },
   }),
   EnvelopArmorPlugin(),
+  // commenting until queries can be prepopulated in correct format so there is no initial round trip fail
   // useAPQ(),
 ];
 
+// This is failing on SST in SSR likely due to case sensitivity
 /*
 if (env.APP_ENV != 'local') {
   plugins.push(

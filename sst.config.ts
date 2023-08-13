@@ -29,6 +29,8 @@ export default {
   stacks(app) {
     app.stack(function Site({ stack }) {
       const site = new NextjsSite(stack, 'site', {
+        // Although docs say this is for client side, I got errors without them
+        // https://docs.sst.dev/constructs/NextjsSite#client-side-environment-variables
         environment: {
           SKIP_ENV_VALIDATION: process.env.SKIP_ENV_VALIDATION!,
           APP_ENV: process.env.APP_ENV!,
@@ -61,8 +63,7 @@ export default {
 
         stack.addDefaultFunctionLayers([sentry]);
         stack.addDefaultFunctionEnv({
-          SENTRY_DSN:
-            'https://63b51c52e1f32bd4633bfeabf57d489b@o32548.ingest.sentry.io/4505625265438720',
+          SENTRY_DSN: process.env.SENTRY_DSN!,
           SENTRY_TRACES_SAMPLE_RATE: '1.0',
           NODE_OPTIONS: '-r @sentry/serverless/dist/awslambda-auto',
         });

@@ -35,7 +35,7 @@ const graphiQL = {
 
 const sentry = {
   worker: 'blob:',
-  connect: 'https://o32548.ingest.sentry.io'
+  connect: 'https://o32548.ingest.sentry.io',
 };
 
 const contentSecurityPolicy = {
@@ -75,30 +75,6 @@ const config = {
         source: '/:path*',
         // @ts-ignore
         headers: nextSafe.default({ ...contentSecurityPolicy, isDev }),
-      },
-      {
-        source: "/favicon.ico", // s-maxage=2, stale-while-revalidate=2592000
-        headers: [
-          {
-            key: "Cache-Control",
-            value:
-              process.env.APP_ENV !== "local"
-                ? "public,max-age=86400,immutable"
-                : "no-store, no-cache, must-revalidate, proxy-revalidate"
-          }
-        ]
-      },
-      {
-        source: "/site.webmanifest",  // default: public,max-age=0,s-maxage=31536000,must-revalidate
-        headers: [
-          {
-            key: "Cache-Control",
-            value:
-              process.env.APP_ENV !== "local"
-                ? "public,max-age=86400,immutable"
-                : "no-store, no-cache, must-revalidate, proxy-revalidate"
-          }
-        ]
       },
     ];
   },
