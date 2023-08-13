@@ -10,7 +10,7 @@ export const env = createEnv({
       .optional()
       .transform((value) => value === 'true'),
     NODE_ENV: z.enum(['development', 'test', 'production']),
-    APP_ENV: z.enum(['local', 'dev', 'staging', 'production']),
+    APP_ENV: z.enum(['local', 'development', 'staging', 'production']),
     DATABASE_URL: z.string().url(),
     FIREBASE_ADMIN_CLIENT_EMAIL: z.string().min(1),
     FIREBASE_ADMIN_PRIVATE_KEY: z.string().min(1),

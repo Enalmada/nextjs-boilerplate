@@ -2,7 +2,7 @@ import { Config, type Stack } from 'sst/constructs';
 
 export function getParamsAndSecrets(stack: Stack) {
   const paramConfig = {
-    APP_ENV: ['dev', 'staging', 'production'].includes(stack.stage) ? stack.stage : 'local',
+    APP_ENV: 'local',
     LOG_LEVEL: 'info',
     EDGE: 'false',
     REDIRECT_URL: (() => {
