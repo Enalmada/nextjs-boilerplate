@@ -21,7 +21,6 @@ import { Card, CardBody } from '@/client/ui/Card';
 import { InputControlled } from '@/client/ui/Input';
 import { TextareaControlled } from '@/client/ui/Input/Textarea';
 import { Radio, RadioGroupControlled } from '@/client/ui/Radio';
-import { getRouteById } from '@/client/utils/routes';
 import { useMutation } from '@apollo/client';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -95,7 +94,7 @@ export default function TaskForm(props: Props) {
       if (input.id) {
         const result = await updateTask({ variables: { input } });
         if (result.data) {
-          router.push(getRouteById('Home').path);
+          router.push('/app');
         }
       } else {
         const result = await createTask({
@@ -106,7 +105,7 @@ export default function TaskForm(props: Props) {
           },
         });
         if (result.data) {
-          router.push(getRouteById('Home').path);
+          router.push('/app');
         }
       }
     } catch (e) {
@@ -313,12 +312,7 @@ export default function TaskForm(props: Props) {
                     {id ? 'Save' : 'Create'}
                   </Button>
 
-                  <Button
-                    as={NextLink}
-                    href={getRouteById('Home').path}
-                    color={'default'}
-                    isDisabled={isSubmitting}
-                  >
+                  <Button as={NextLink} href={'/app'} color={'default'} isDisabled={isSubmitting}>
                     Cancel
                   </Button>
                 </div>
@@ -351,7 +345,7 @@ function DeleteTaskButton(props: DeleteTaskButtonProps) {
           void removeFromCache<TasksQuery>(data?.deleteTask, TASKS, cache, 'tasks');
         },
       });
-      router.push(getRouteById('Home').path);
+      router.push('/app');
     } catch (error) {
       // Handle the error appropriately, e.g., display error message or redirect to error page
       console.error('Error deleting task:', error);

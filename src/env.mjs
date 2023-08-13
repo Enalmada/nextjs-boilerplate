@@ -10,7 +10,7 @@ export const env = createEnv({
       .optional()
       .transform((value) => value === 'true'),
     NODE_ENV: z.enum(['development', 'test', 'production']),
-    APP_ENV: z.enum(['local', 'development', 'production']),
+    APP_ENV: z.enum(['local', 'development', 'staging', 'production']),
     DATABASE_URL: z.string().url(),
     FIREBASE_ADMIN_CLIENT_EMAIL: z.string().min(1),
     FIREBASE_ADMIN_PRIVATE_KEY: z.string().min(1),
@@ -26,7 +26,6 @@ export const env = createEnv({
     NEXT_PUBLIC_APP_ENV: z.string(),
     NEXT_PUBLIC_REDIRECT_URL: z.string().url(),
     //.transform((s) => new URL(s)),
-    NEXT_PUBLIC_GRAPHQL_ENDPOINT: z.string(),
     NEXT_PUBLIC_FIREBASE_API_KEY: z.string().min(1),
     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: z.string().min(1),
     NEXT_PUBLIC_FIREBASE_DATABASE_URL: z.string().url(),
@@ -36,7 +35,6 @@ export const env = createEnv({
   experimental__runtimeEnv: {
     NEXT_PUBLIC_APP_ENV: process.env.NEXT_PUBLIC_APP_ENV,
     NEXT_PUBLIC_REDIRECT_URL: process.env.NEXT_PUBLIC_REDIRECT_URL,
-    NEXT_PUBLIC_GRAPHQL_ENDPOINT: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
     NEXT_PUBLIC_FIREBASE_API_KEY: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
     NEXT_PUBLIC_FIREBASE_DATABASE_URL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,

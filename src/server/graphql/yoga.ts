@@ -8,7 +8,7 @@ import { type User } from '@/server/user/user.repository';
 import { useGenericAuth } from '@envelop/generic-auth';
 import { EnvelopArmorPlugin } from '@escape.tech/graphql-armor';
 // import { useAPQ } from '@graphql-yoga/plugin-apq';
-import { useCSRFPrevention } from '@graphql-yoga/plugin-csrf-prevention';
+// import { useCSRFPrevention } from '@graphql-yoga/plugin-csrf-prevention';
 import { GraphQLError } from 'graphql';
 import { createYoga, type Plugin, type YogaInitialContext } from 'graphql-yoga';
 
@@ -25,9 +25,12 @@ const plugins: Array<Plugin<any, any, any>> = [
     },
   }),
   EnvelopArmorPlugin(),
+  // commenting until queries can be prepopulated in correct format so there is no initial round trip fail
   // useAPQ(),
 ];
 
+// This is failing on SST in SSR likely due to case sensitivity
+/*
 if (env.APP_ENV != 'local') {
   plugins.push(
     useCSRFPrevention({
@@ -35,6 +38,8 @@ if (env.APP_ENV != 'local') {
     })
   );
 }
+
+ */
 
 export function makeYoga(graphqlEndpoint: string) {
   // Next.js Custom Route Handler: https://nextjs.org/docs/app/building-your-application/routing/router-handlers

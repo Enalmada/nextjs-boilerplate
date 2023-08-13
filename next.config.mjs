@@ -35,6 +35,7 @@ const graphiQL = {
 
 const sentry = {
   worker: 'blob:',
+  connect: 'https://o32548.ingest.sentry.io',
 };
 
 const contentSecurityPolicy = {
@@ -43,7 +44,7 @@ const contentSecurityPolicy = {
     'script-src': `${firebase.script} ${graphiQL.script} ${vercel.script} ${nextjs.script}`,
     'frame-src': `${firebase.connect} https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/ ${vercel.iframe}`,
     'style-src': `${graphiQL.style} ${nextjs.script}`,
-    'connect-src': `${firebase.connect}`,
+    'connect-src': `${firebase.connect} ${sentry.connect}`,
     'prefetch-src': false, // chrome warning
     'img-src': `${firebase.image}`,
     'font-src': `${graphiQL.font}`,
@@ -148,10 +149,10 @@ const withSentry = (config) => {
       widenClientFileUpload: true,
 
       // Transpiles SDK to be compatible with IE11 (increases bundle size)
-      transpileClientSDK: true,
+      // transpileClientSDK: true,
 
       // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
-      tunnelRoute: '/monitoring',
+      // tunnelRoute: '/monitoring',
 
       // Hides source maps from generated client bundles
       hideSourceMaps: true,
