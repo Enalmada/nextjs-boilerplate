@@ -62,7 +62,7 @@
 - https://nextjs.org/docs/app/building-your-application/routing/error-handling
 - e2e testing - Playwright
 - unit testing - ViTest (ViTest ui for convenient dev coverage review)
-- 💎 [CVA](https://cva.style/docs) - Create reusable css (css-in-js alternative)
+- 💎 [Tailwind Variants](https://www.tailwind-variants.org/) - Create reusable css (css-in-js alternative)
 - 🦺 Unit Testing with ViTest and React Testing Library
 - 🧪 E2E Testing with Playwright
 - 👷 Run tests on pull request with GitHub Actions
@@ -121,5 +121,19 @@ use this site to generate: https://realfavicongenerator.net/
 
 ## pg module instead of postgres.js
 
-You will need to work around current next.js error
+patches/pg@8.11.1.patch is to make it work for now
 https://github.com/brianc/node-postgres/issues/2980#issuecomment-1658765692
+
+## Edge firebase auth
+
+Currently getting error locally. Windows bug
+
+- error Error: Invariant: Method expects to have requestAsyncStorage, none available
+  at ServerAuthProvider (./src/lib/firebase/auth/server-auth-provider.tsx:36:162)
+  at stringify (<anonymous>)
+  https://github.com/vercel/next.js/issues/52176#issuecomment-1670113973
+
+## Cloudflare
+
+Run intellij from wsl
+https://www.reddit.com/r/IntelliJIDEA/comments/t5l3s6/comment/isdbh2y/?utm_source=share&utm_medium=web2x&context=3

@@ -54,3 +54,6 @@ root.crt
 
 # opennext
 .open-next
+
+# Cloudflare
+.dev.vars

@@ -11,6 +11,7 @@ import { EnvelopArmorPlugin } from '@escape.tech/graphql-armor';
 // import { useCSRFPrevention } from '@graphql-yoga/plugin-csrf-prevention';
 import { GraphQLError } from 'graphql';
 import { createYoga, type Plugin, type YogaInitialContext } from 'graphql-yoga';
+import { Logger } from 'next-axiom';
 
 export interface MyContextType {
   currentUser: User;
@@ -67,7 +68,7 @@ export function makeYoga(graphqlEndpoint: string) {
     maskedErrors: {
       // TODO use message to return 500 for remaining unexpected system errors
 
-      maskError(error, message) {
+      async maskError(error, message) {
         const cause = (error as GraphQLError).originalError;
 
         // Transform JS error objects into GraphQL errors
@@ -87,6 +88,11 @@ export function makeYoga(graphqlEndpoint: string) {
             },
           });
 
+        // TODO this should probably come from axiom request
+        const log = new Logger();
+        log.error(cause?.message || message);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        await log.flush();
         // Default to 500
         // Error is masked for security reasons
         // https://the-guild.dev/graphql/yoga-server/docs/features/error-masking

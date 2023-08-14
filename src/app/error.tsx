@@ -14,8 +14,8 @@ export default function GlobalError({
 
   useEffect(() => {
     // Log the error to an error reporting service
-    log.error(error.message, error);
-    console.error(error);
+    log.error(JSON.stringify(error));
+    console.error(error.message + ' ' + error.digest);
   }, [error, log]);
 
   return (

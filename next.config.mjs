@@ -90,6 +90,7 @@ const config = {
     defaultLocale: 'en',
   },
   experimental: {
+    serverActions: true,
     // To prevent certain packages from being included in the client bundle
     // https://codevoweb.com/setup-and-use-nextauth-in-nextjs-13-app-directory/
     // serverComponentsExternalPackages: ['@prisma/client', 'bcryptjs'],
@@ -102,11 +103,13 @@ const config = {
   images: {
     domains: ['avatars.githubusercontent.com', 'lh3.googleusercontent.com', 'robohash.org'],
   },
-  /*
+
   webpack: (config) => {
     // I suspect most of this isn't necessary with postgres.js driver
     // pg used previously by kysely config needs fixing on prod
-    if (process.env.EDGE || process.env.CF_PAGES_URL) {
+    if (process.env.NEXT_RUNTIME_NODE !== 'true') {
+      /*
+      // Necessary for pg driver
       config.resolve.fallback = {
         ...config.resolve.fallback,
         path: false,
@@ -118,11 +121,26 @@ const config = {
         crypto: false,
         'pg-native': false,
       };
+       */
+
+      // Necessary for postgres.js driver
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        os: false,
+        fs: false,
+        stream: false,
+        crypto: false,
+        tls: false,
+        net: false,
+      };
+    }
+
+    if (process.env.DISABLE_MINIMIZE) {
+      config.optimization.minimize = false;
     }
 
     return config;
   },
-  */
 };
 
 /**
