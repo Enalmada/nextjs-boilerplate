@@ -27,13 +27,13 @@
     ]
   },
   "include": [
-    "src/types/**/*.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.mjs",
     ".eslintrc.cjs",
     "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.cjs",
-    "**/*.mjs",
+    "*.cjs",
+    "*.mjs",
     ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules", "functions/**/*"]

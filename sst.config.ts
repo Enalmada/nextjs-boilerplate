@@ -1,3 +1,7 @@
+/*
+
+Uncomment to deploy to SST
+
 // import { getParamsAndSecrets } from '@/paramsAndSecrets';
 import { LayerVersion } from 'aws-cdk-lib/aws-lambda';
 import { type SSTConfig } from 'sst';
@@ -75,3 +79,4 @@ export default {
     });
   },
 } satisfies SSTConfig;
+*/

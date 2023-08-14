@@ -12,7 +12,7 @@ import { format } from 'date-fns';
 
 interface TaskBodyProps {
   task?: Task;
-  handleUpdateTask?: React.MouseEventHandler<HTMLLabelElement>; // updated this line
+  handleUpdateTask?: React.MouseEventHandler<HTMLInputElement>; // updated this line
 }
 
 export const TaskBody = (props: TaskBodyProps) => {
@@ -76,7 +76,7 @@ const Task = (props: Props) => {
 
   const [updateTask, { error: updateTaskError }] = useMutation(UPDATE_TASK);
 
-  const handleUpdateTask = async (e: React.MouseEvent<HTMLLabelElement>) => {
+  const handleUpdateTask = async (e: React.MouseEvent<HTMLInputElement>) => {
     const input = {
       id: id,
       title: title,

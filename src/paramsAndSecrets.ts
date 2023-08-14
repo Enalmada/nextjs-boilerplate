@@ -1,3 +1,7 @@
+/*
+
+// Uncomment to deploy to SST
+
 import { Config, type Stack } from 'sst/constructs';
 
 export function getParamsAndSecrets(stack: Stack) {
@@ -65,3 +69,4 @@ export function getParamsAndSecrets(stack: Stack) {
 
   return [...parameters, ...publicParameters, ...secrets];
 }
+*/
