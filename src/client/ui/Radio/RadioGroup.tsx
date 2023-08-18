@@ -1,9 +1,11 @@
+'use client';
+
 import React from 'react';
 import { type ControlProps } from '@/client/ui/Input/Input';
 import {
   RadioGroup as NextUIRadioGroup,
   type RadioGroupProps as NextUIRadioGroupProps,
-} from '@nextui-org/radio';
+} from '@nextui-org/react';
 import { Controller } from 'react-hook-form';
 
 interface RadioGroupProps extends NextUIRadioGroupProps {

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { MoonFilledIcon, SunFilledIcon } from '@/client/components/nextui/icons';
-import { useSwitch } from '@nextui-org/switch';
+import { useSwitch } from '@nextui-org/react';
 import { useIsSSR } from '@react-aria/ssr';
 import { VisuallyHidden } from '@react-aria/visually-hidden';
 import clsx, { type ClassValue } from 'clsx';

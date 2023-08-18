@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import NextLink from 'next/link';
-import { Button } from '@/client/ui/Button';
+import { Button } from '@/client/ui';
 import { getRouteById } from '@/client/utils/routes';
 
 export const metadata = {
@@ -36,7 +36,7 @@ const Hero = () => {
 
             <Button
               as={NextLink}
-              href={getRouteById('Home').path}
+              href={getRouteById('App').path}
               hoverIndication={false}
               radius="full"
               color="default"

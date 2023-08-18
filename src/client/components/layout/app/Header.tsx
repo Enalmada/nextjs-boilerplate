@@ -4,15 +4,15 @@ import React from 'react';
 import NextLink from 'next/link';
 import UserButtons from '@/client/components/layout/app/UserButtons';
 import { ThemeSwitch } from '@/client/components/nextui/theme-switch';
-import { Link } from '@nextui-org/link';
 import {
+  Link,
   NavbarBrand,
   NavbarContent,
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
   Navbar as NextUINavbar,
-} from '@nextui-org/navbar';
+} from '@nextui-org/react';
 
 import { AcmeLogo } from './AcmeLogo.jsx';
 

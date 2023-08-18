@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { Spinner } from '@/client/ui/Spinner';
+import { Spinner } from '@/client/ui';
 
 interface Props {
   children: ReactNode;

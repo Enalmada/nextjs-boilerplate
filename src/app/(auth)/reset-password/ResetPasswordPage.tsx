@@ -1,8 +1,6 @@
 'use client';
 
-import { Button } from '@/client/ui/Button';
-import { InputControlled } from '@/client/ui/Input';
-import Link from '@/client/ui/Link';
+import { Button, InputControlled, Link } from '@/client/ui';
 import { useFirebaseAuth } from '@/lib/firebase/auth/firebase';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { sendPasswordResetEmail } from 'firebase/auth';
@@ -12,6 +10,31 @@ import * as yup from 'yup';
 interface Props {
   redirect?: string;
 }
+
+export const Successful = ({ redirect }: Props) => {
+  return (
+    <>
+      <div
+        className="rounded-md border border-green-200 bg-green-50 p-4 text-sm text-green-600"
+        role="alert"
+      >
+        <span className="font-bold">Success!</span> Please check your email for further
+        instructions.
+      </div>
+
+      <div className="text-center">
+        <Link
+          size="sm"
+          className="ml-2 mt-5"
+          href={`/login` + (redirect ? `?redirect=${redirect}` : '')}
+        >
+          Return to login
+        </Link>
+      </div>
+    </>
+  );
+};
+
 export function ResetPasswordPage({ redirect }: Props) {
   // const params = useSearchParams();
   // TODO make sure forgot password page links back to login with redirect
@@ -56,27 +79,7 @@ export function ResetPasswordPage({ redirect }: Props) {
 
   return (
     <>
-      {isSubmitSuccessful && (
-        <>
-          <div
-            className="rounded-md border border-green-200 bg-green-50 p-4 text-sm text-green-600"
-            role="alert"
-          >
-            <span className="font-bold">Success!</span> Please check your email for further
-            instructions.
-          </div>
-
-          <div className="text-center">
-            <Link
-              size="sm"
-              className="ml-2 mt-5"
-              href={`/login` + (redirect ? `?redirect=${redirect}` : '')}
-            >
-              Return to login
-            </Link>
-          </div>
-        </>
-      )}
+      {isSubmitSuccessful && <Successful redirect={redirect} />}
       {!isSubmitSuccessful && (
         <>
           <div className="text-center">

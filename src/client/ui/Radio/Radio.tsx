@@ -1,5 +1,7 @@
+'use client';
+
 import React from 'react';
-import { Radio as NextUIRadio, type RadioProps as NextUIRadioProps } from '@nextui-org/radio';
+import { Radio as NextUIRadio, type RadioProps as NextUIRadioProps } from '@nextui-org/react';
 
 interface RadioProps extends NextUIRadioProps {
   size?: 'sm' | 'md' | 'lg';

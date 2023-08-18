@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import GoogleButton from '@/client/components/auth/GoogleButton';
 import PasswordForm from '@/client/components/auth/PasswordForm';
 import Redirecting from '@/client/components/auth/Redirecting';
-import Link from '@/client/ui/Link';
+import { Link } from '@/client/ui';
 
 interface Props {
   redirect?: string;

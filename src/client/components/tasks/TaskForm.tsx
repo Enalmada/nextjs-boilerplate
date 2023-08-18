@@ -16,16 +16,19 @@ import {
   removeFromCache,
 } from '@/client/gql/graphql-helpers';
 import { CREATE_TASK, DELETE_TASK, TASK, TASKS, UPDATE_TASK } from '@/client/gql/queries-mutations';
-import { Button } from '@/client/ui/Button';
-import { Card, CardBody } from '@/client/ui/Card';
-import { InputControlled } from '@/client/ui/Input';
-import { TextareaControlled } from '@/client/ui/Input/Textarea';
-import { Radio, RadioGroupControlled } from '@/client/ui/Radio';
+import {
+  Button,
+  Card,
+  CardBody,
+  InputControlled,
+  Radio,
+  RadioGroupControlled,
+  TextareaControlled,
+} from '@/client/ui';
 import { useMutation } from '@apollo/client';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button as NextUIButton } from '@nextui-org/button';
-import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover';
+import { Button as NextUIButton, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 import { format } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 import { Controller, useForm } from 'react-hook-form';
@@ -248,9 +251,10 @@ export default function TaskForm(props: Props) {
                 render={({ field: { onChange, value } }) => (
                   <>
                     <Popover
+                      isOpen={isOpen}
+                      onOpenChange={(open) => setIsOpen(open)}
                       placement="bottom"
                       showArrow={true}
-                      isOpen={isOpen}
                       onClose={() => setIsOpen(false)}
                     >
                       <PopoverTrigger>

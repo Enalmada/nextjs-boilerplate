@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { Button } from '@/client/ui/Button';
+import { Button } from '@/client/ui';
 import { useFirebaseAuth } from '@/lib/firebase/auth/firebase';
 import { useLoadingCallback } from 'react-loading-hook';
 

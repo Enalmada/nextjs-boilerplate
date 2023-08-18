@@ -1,6 +1,11 @@
-import { cx } from '../classNames';
-import styles from './ButtonGroup.module.css';
+'use client';
 
-export function ButtonGroup(props: JSX.IntrinsicElements['div']) {
-  return <div {...props} className={cx(styles.group, props.className)} />;
+import React from 'react';
+import {
+  ButtonGroup as NextUIButtonGroup,
+  type ButtonGroupProps as NextUIButtonGroupProps,
+} from '@nextui-org/react';
+
+export function ButtonGroup({ ...props }: NextUIButtonGroupProps) {
+  return <NextUIButtonGroup {...props}>{props.children}</NextUIButtonGroup>;
 }

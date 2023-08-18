@@ -8,106 +8,132 @@ export interface Route {
   id: string;
   path: string;
   name: string;
+  storybook?: string;
 }
 
 export const marketingRoutes: Route[] = [
   {
-    id: 'Index',
+    id: 'Home',
     path: '/',
     name: 'Home',
+    storybook: 'Pages/Marketing/Home',
   },
   {
     id: 'About',
     path: '/about',
     name: 'About Us',
+    storybook: 'Pages/Marketing/About',
   },
   {
     id: 'Blog',
     path: '/blog',
     name: 'Blog',
+    storybook: 'Pages/Marketing/Blog',
   },
   {
     id: 'Contact',
     path: '/contact',
     name: 'Contact Us',
+    storybook: 'Pages/Marketing/Contact',
   },
   {
     id: 'FAQ',
     path: '/faq',
     name: 'FAQ',
+    storybook: 'Pages/Marketing/FAQ',
   },
   {
     id: 'Privacy',
     path: '/privacy',
     name: 'Privacy Policy',
+    storybook: 'Pages/Marketing/Privacy',
   },
   {
     id: 'Terms',
     path: '/terms',
     name: 'Terms of Service',
+    storybook: 'Pages/Marketing/Terms',
+  },
+  {
+    id: 'Pricing',
+    path: '/pricing',
+    name: 'Pricing',
+    storybook: 'Pages/Marketing/Pricing',
   },
 ];
 
-export const appRoutes: Route[] = [
-  {
-    id: 'Home',
-    path: '/app',
-    name: 'Home',
-  },
-  {
-    id: 'Task',
-    path: '/app/task/[id]',
-    name: 'Task',
-  },
-  {
-    id: 'NewTask',
-    path: '/app/task/new',
-    name: 'New Task',
-  },
-  {
-    id: 'Account',
-    path: '/app/account',
-    name: 'Account',
-  },
-  {
-    id: 'Contact',
-    path: '/app/contact-us',
-    name: 'Contact Us',
-  },
-  {
-    id: 'ForgotPassword',
-    path: '/forgotPassword',
-    name: 'Forgot Password',
-  },
-  {
-    id: 'ForgotPasswordCompleted',
-    path: '/forgotPasswordCompleted',
-    name: 'Forgot Password Completed',
-  },
+export const authRoutes: Route[] = [
   {
     id: 'Login',
     path: '/login',
     name: 'Login',
+    storybook: 'Pages/Auth/Login',
   },
   {
     id: 'Logout',
     path: '/logout',
     name: 'Logout',
+    storybook: 'Pages/Auth/Logout',
+  },
+  {
+    id: 'Register',
+    path: '/register',
+    name: 'Register',
+    storybook: 'Pages/Auth/Register',
   },
   {
     id: 'MaintenanceMode',
     path: '/maintenance-mode',
     name: 'Maintenance Mode',
+    storybook: 'Pages/Auth/MaintenanceMode',
+  },
+  {
+    id: 'ResetPassword',
+    path: '/reset-password',
+    name: 'Forgot Password',
+    storybook: 'Pages/Auth/ResetPassword',
   },
 ];
 
-const routes = [...marketingRoutes, ...appRoutes];
+export const appRoutes: Route[] = [
+  {
+    id: 'App',
+    path: '/app',
+    name: 'App',
+    storybook: 'Pages/App/TaskList',
+  },
+  {
+    id: 'Task',
+    path: '/app/task/[id]',
+    name: 'Task',
+    storybook: 'Pages/App/Task',
+  },
+  {
+    id: 'NewTask',
+    path: '/app/task/new',
+    name: 'New Task',
+    storybook: 'Pages/App/NewTask',
+  },
+  {
+    id: 'Profile',
+    path: '/app/profile',
+    name: 'Account',
+    storybook: 'Pages/App/Profile',
+  },
+];
+
+const routes = [...marketingRoutes, ...authRoutes, ...appRoutes];
 
 export function replaceVariables(string: string, query: { id: string }): string {
   return string.replace('[id]', query.id);
 }
 
-export function getRoute(path: string): Route {
+export function getRoute(relativeUrl: string): Route {
+  // Use a dummy base URL to handle relative paths
+  const base = 'http://example.com';
+  // Get the path without query parameters
+  const path = new URL(relativeUrl, base).pathname;
+
   return routes.find((route) => route.path === path) || ({} as Route);
 }
 

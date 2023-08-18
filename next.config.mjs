@@ -1,11 +1,14 @@
 // @ts-check
 import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from 'next/constants.js';
 import { withSentryConfig } from '@sentry/nextjs';
+import nextRoutesConfig from 'nextjs-routes/config';
 
 import './src/env.mjs';
 
 import { withAxiom } from 'next-axiom';
 import * as nextSafe from 'next-safe';
+
+const withRoutes = nextRoutesConfig();
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -189,7 +192,9 @@ export default async function configureNextConfig(phase) {
     const bundleAnalyzerConfig = {
       enabled: process.env.ANALYZE === 'true',
     };
-    return withSentry(withAxiom(withBundleAnalyzer.default(bundleAnalyzerConfig)(config)));
+    return withSentry(
+      withAxiom(withRoutes(withBundleAnalyzer.default(bundleAnalyzerConfig)(config)))
+    );
   }
-  return withSentry(withAxiom(config));
+  return withSentry(withAxiom(withRoutes(config)));
 }

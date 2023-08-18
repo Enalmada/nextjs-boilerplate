@@ -18,7 +18,7 @@ import typePolicies from './typePolicies';
 // This decision impacts the shape of the response so you need to decide up front
 // to handle errors appropriately
 // https://www.apollographql.com/docs/react/data/error-handling/#graphql-error-policies
-const defaultOptions: DefaultOptions = {
+export const defaultOptions: DefaultOptions = {
   query: {
     fetchPolicy: 'cache-first',
     errorPolicy: 'all', // default "none"

@@ -57,3 +57,7 @@ root.crt
 
 # Cloudflare
 .dev.vars
+
+# Storybook
+build-storybook.log
+storybook-static

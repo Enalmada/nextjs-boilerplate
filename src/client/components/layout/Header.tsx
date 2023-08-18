@@ -3,16 +3,16 @@
 import React from 'react';
 import NextLink from 'next/link';
 import { ThemeSwitch } from '@/client/components/nextui/theme-switch';
-import { Button } from '@nextui-org/button';
-import { Link } from '@nextui-org/link';
 import {
+  Button,
+  Link,
   NavbarBrand,
   NavbarContent,
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
   Navbar as NextUINavbar,
-} from '@nextui-org/navbar';
+} from '@nextui-org/react';
 
 import { AcmeLogo } from './app/AcmeLogo.jsx';
 

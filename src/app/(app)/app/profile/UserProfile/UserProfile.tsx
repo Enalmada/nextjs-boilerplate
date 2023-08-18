@@ -1,39 +1,37 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
+import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Badge } from '@/client/ui/Badge';
-import { Button } from '@/client/ui/Button';
-import { ButtonGroup } from '@/client/ui/ButtonGroup';
-import { Card } from '@/client/ui/Card';
-import { LoadingIcon } from '@/client/ui/icons';
+import { Button, ButtonGroup, Card, CardBody } from '@/client/ui';
 import { useAuth } from '@/lib/firebase/auth/context';
 import { useFirebaseAuth } from '@/lib/firebase/auth/firebase';
 import { clientConfig } from '@/lib/firebase/config/client-config';
-import { signOut } from 'firebase/auth';
+import { Chip } from '@nextui-org/react';
 import { useLoadingCallback } from 'react-loading-hook';
-
-import styles from './UserProfile.module.css';
 
 interface UserProfileProps {
   count: number;
+}
+
+export function ProfileWrapper() {
+  return (
+    <div>
+      <nav>
+        <Button as={NextLink} href="/app">
+          Back to App
+        </Button>
+      </nav>
+      <h1>Profile page</h1>
+      <UserProfile count={0} />
+    </div>
+  );
 }
 
 export function UserProfile({ count }: UserProfileProps) {
   const router = useRouter();
   const { user } = useAuth();
   const { getFirebaseAuth } = useFirebaseAuth();
-  const [hasLoggedOut, setHasLoggedOut] = useState(false);
-  const [handleLogout, isLogoutLoading] = useLoadingCallback(async () => {
-    const auth = getFirebaseAuth();
-    await signOut(auth);
-    setHasLoggedOut(true);
-    await fetch('/api/logout', {
-      method: 'GET',
-    });
-    window.location.reload();
-  });
 
   const [handleClaims, isClaimsLoading] = useLoadingCallback(async () => {
     const auth = getFirebaseAuth();
@@ -48,68 +46,58 @@ export function UserProfile({ count }: UserProfileProps) {
     router.push(`${clientConfig.redirectUrl}?redirect_url=${window.location.href}`);
   }
 
-  if (!user && hasLoggedOut) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.section}>
-          <h3 className={styles.title}>
-            <span>You are being logged out...</span>
-            <LoadingIcon />
-          </h3>
-        </div>
-      </div>
-    );
-  }
-
   if (!user) {
     return null;
   }
 
   return (
-    <div className={styles.container}>
-      <Card className={styles.section}>
-        <h3 className={styles.title}>You are logged in as</h3>
-        <div className={styles.content}>
-          <div className={styles.avatar}>
-            {user.photoURL && <Image alt="" height="100" width="100" src={user.photoURL} />}
+    <>
+      <Card>
+        <CardBody>
+          <h3>You are logged in as</h3>
+          <div>
+            <div>
+              {user.photoURL && <Image alt="" height="100" width="100" src={user.photoURL} />}
+            </div>
+            <span>{user.email}</span>
           </div>
-          <span>{user.email}</span>
-        </div>
 
-        {!user.emailVerified && (
-          <div className={styles.content}>
-            <Badge>Email not verified.</Badge>
-          </div>
-        )}
+          {!user.emailVerified && (
+            <div>
+              <Chip>Email not verified.</Chip>
+            </div>
+          )}
+          {user.emailVerified && (
+            <div>
+              <Chip>Email verified.</Chip>
+            </div>
+          )}
 
-        <ButtonGroup>
-          <div className={styles.claims}>
+          <div>
             <h5>Custom claims</h5>
             <pre>{JSON.stringify(user.customClaims, undefined, 2)}</pre>
           </div>
-          <Button
-            isLoading={isClaimsLoading}
-            disabled={isClaimsLoading}
-            onPress={() => void handleClaims()}
-          >
-            Refresh custom user claims
-          </Button>
-          <Button
-            isLoading={isLogoutLoading}
-            disabled={isLogoutLoading}
-            onPress={() => void handleLogout()}
-          >
-            Log out
-          </Button>
-          <Button onPress={handleRedirect}>Redirect</Button>
-        </ButtonGroup>
+          <ButtonGroup>
+            <Button
+              isLoading={isClaimsLoading}
+              disabled={isClaimsLoading}
+              onPress={() => void handleClaims()}
+            >
+              Refresh custom user claims
+            </Button>
+            <Button onPress={handleRedirect}>Redirect</Button>
+          </ButtonGroup>
+        </CardBody>
       </Card>
-      <Card className={styles.section}>
-        <h3 className={styles.title}>
-          {/* defaultCount is updated by server */}
-          Counter: {count}
-        </h3>
+
+      <Card>
+        <CardBody>
+          <h3>
+            {/* defaultCount is updated by server */}
+            Counter: {count}
+          </h3>
+        </CardBody>
       </Card>
-    </div>
+    </>
   );
 }

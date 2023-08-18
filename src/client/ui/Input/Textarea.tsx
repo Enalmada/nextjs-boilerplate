@@ -1,9 +1,11 @@
+'use client';
+
 import React from 'react';
 import { type ControlProps } from '@/client/ui/Input/Input';
 import {
   Textarea as NextUITextarea,
   type TextAreaProps as NextUITextAreaProps,
-} from '@nextui-org/input';
+} from '@nextui-org/react';
 import { Controller } from 'react-hook-form';
 
 interface InputProps extends NextUITextAreaProps {

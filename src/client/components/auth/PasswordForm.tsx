@@ -1,13 +1,11 @@
 import React from 'react';
-import { Button } from '@/client/ui/Button';
+import { Button, InputControlled, Link } from '@/client/ui';
 import { HiddenIcon } from '@/client/ui/icons/HiddenIcon';
 import { VisibleIcon } from '@/client/ui/icons/VisibleIcon';
-import { InputControlled } from '@/client/ui/Input';
-import Link from '@/client/ui/Link';
 import { useFirebaseAuth } from '@/lib/firebase/auth/firebase';
 import { FirebaseError } from '@firebase/util';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Checkbox } from '@nextui-org/checkbox';
+import { Checkbox } from '@nextui-org/react';
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,

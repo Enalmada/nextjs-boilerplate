@@ -1,5 +1,5 @@
-import BreadCrumb from '@/client/components/Breadcrumb';
 import TaskForm from '@/client/components/tasks/TaskForm';
+import { Breadcrumb } from '@/client/ui';
 import { getRouteById } from '@/client/utils/routes';
 
 export const metadata = {
@@ -9,7 +9,7 @@ export const metadata = {
 export default function Page() {
   return (
     <>
-      <BreadCrumb routes={[getRouteById('Home'), getRouteById('NewTask')]} />
+      <Breadcrumb routes={[getRouteById('Home'), getRouteById('NewTask')]} />
       <TaskForm />
     </>
   );

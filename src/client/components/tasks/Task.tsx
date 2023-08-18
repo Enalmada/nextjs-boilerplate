@@ -3,11 +3,9 @@ import React from 'react';
 import Link from 'next/link';
 import { TaskStatus, type Task } from '@/client/gql/generated/graphql';
 import { UPDATE_TASK } from '@/client/gql/queries-mutations';
-import { Skeleton } from '@/client/ui';
-import { Card } from '@/client/ui/Card';
+import { Card, Skeleton } from '@/client/ui';
 import { useMutation } from '@apollo/client';
-import { CardBody } from '@nextui-org/card';
-import { Checkbox } from '@nextui-org/checkbox';
+import { CardBody, Checkbox } from '@nextui-org/react';
 import { format } from 'date-fns';
 
 interface TaskBodyProps {
@@ -40,7 +38,7 @@ export const TaskBody = (props: TaskBodyProps) => {
               <Skeleton isLoaded={isLoaded}>
                 <div className="flex items-center justify-between">
                   <h2 className="-mt-1 text-lg font-semibold text-gray-900 dark:text-white">
-                    {title || '          uaouoea                          '}
+                    {title}
                   </h2>
                   {dueDate && (
                     <>
@@ -52,9 +50,7 @@ export const TaskBody = (props: TaskBodyProps) => {
 
                 {/* {clientSide && <ReactTooltip effect="solid" />} */}
 
-                <p className="mt-3 text-sm text-gray-700 dark:text-white">
-                  {description || '     uoaeuuo   '}
-                </p>
+                <p className="mt-3 text-sm text-gray-700 dark:text-white">{description}</p>
               </Skeleton>
             </div>
           </div>
@@ -71,7 +67,7 @@ interface Props {
 // NOTE: ReactTooltip doesn't seem to be SSR friendly.  Doing some state shenagains
 // https://stackoverflow.com/questions/64079321/react-tooltip-and-next-js-ssr-issue
 // https://haodong.io/render-client-side-only-component-in-next-js
-const Task = (props: Props) => {
+export default function Task(props: Props) {
   const { id, title, description, dueDate, status } = props.task;
 
   const [updateTask, { error: updateTaskError }] = useMutation(UPDATE_TASK);
@@ -103,6 +99,4 @@ const Task = (props: Props) => {
       <TaskBody task={props.task} handleUpdateTask={(e) => void handleUpdateTask(e)} />
     </Link>
   );
-};
-
-export default Task;
+}

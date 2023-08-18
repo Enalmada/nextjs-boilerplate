@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import RootLayout from '@/app/(auth)/layout';
-import { Button } from '@/client/ui/Button';
+import { Button } from '@/client/ui';
 
 export const metadata = {
   title: 'Maintenance',

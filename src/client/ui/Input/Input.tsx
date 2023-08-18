@@ -1,5 +1,7 @@
+'use client';
+
 import React from 'react';
-import { Input as NextUIInput, type InputProps as NextUIInputProps } from '@nextui-org/input';
+import { Input as NextUIInput, type InputProps as NextUIInputProps } from '@nextui-org/react';
 import { Controller, type Control } from 'react-hook-form';
 
 interface InputProps extends NextUIInputProps {

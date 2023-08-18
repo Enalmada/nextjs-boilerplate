@@ -1,13 +1,8 @@
 import { type Metadata } from 'next';
 import { cookies } from 'next/headers';
-import NextLink from 'next/link';
-import { Button } from '@/client/ui/Button';
-import { ServerAuthProvider } from '@/lib/firebase/auth/server-auth-provider';
+import { ProfileWrapper } from '@/app/(app)/app/profile/UserProfile/UserProfile';
 import { authConfig } from '@/lib/firebase/config/server-config';
 import { getTokens } from 'next-firebase-auth-edge/lib/next/tokens';
-
-import styles from './page.module.css';
-import { UserProfile } from './UserProfile';
 
 // Generate customized metadata based on user cookies
 // https://nextjs.org/docs/app/building-your-application/optimizing/metadata
@@ -24,17 +19,5 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Profile() {
-  return (
-    <div className={styles.container}>
-      <nav className={styles.nav}>
-        <Button as={NextLink} href="/app">
-          Back to App
-        </Button>
-      </nav>
-      <h1 className={styles.title}>Profile page</h1>
-      <ServerAuthProvider>
-        <UserProfile count={0} />
-      </ServerAuthProvider>
-    </div>
-  );
+  return <ProfileWrapper />;
 }

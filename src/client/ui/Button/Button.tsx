@@ -1,5 +1,7 @@
+'use client';
+
 import React from 'react';
-import { Button as NextUIButton, type ButtonProps as NextUIButtonProps } from '@nextui-org/button';
+import { Button as NextUIButton, type ButtonProps as NextUIButtonProps } from '@nextui-org/react';
 
 interface ButtonProps extends NextUIButtonProps {
   children: React.ReactNode;

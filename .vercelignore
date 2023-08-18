@@ -5,8 +5,13 @@ examples
 .vscode
 .idea
 
+# SST
 .sst
 .open-next
 sst.config.ts
 sst-env.d.ts
 src/paramsAndSecrets.ts
+
+# Storybook
+# ReferenceError: Cannot access 'defaultExport' before initialization
+**/*.stories.tsx

@@ -1,4 +1,5 @@
-import Link from '@/client/ui/Link';
+import { Link } from '@/client/ui';
+import { getRouteById } from '@/client/utils/routes';
 import { config } from '@/metadata.config';
 
 const formEnabled = false;
@@ -32,8 +33,8 @@ const Footer = () => {
             <Title>Product</Title>
 
             <div className="mt-3 grid space-y-3">
-              <ListItem route="/faq">FAQ</ListItem>
-              <ListItem route="/pricing">Pricing</ListItem>
+              <ListItem route={getRouteById('FAQ').path}>FAQ</ListItem>
+              <ListItem route={getRouteById('Pricing').path}>Pricing</ListItem>
             </div>
           </div>
 
@@ -41,9 +42,9 @@ const Footer = () => {
             <Title>Company</Title>
 
             <div className="mt-3 grid space-y-3">
-              <ListItem route="/about">About</ListItem>
-              <ListItem route="/blog">Blog</ListItem>
-              <ListItem route="/contact">Contact Us</ListItem>
+              <ListItem route={getRouteById('About').path}>About</ListItem>
+              <ListItem route={getRouteById('Blog').path}>Blog</ListItem>
+              <ListItem route={getRouteById('Contact').path}>Contact Us</ListItem>
             </div>
           </div>
 
@@ -51,8 +52,8 @@ const Footer = () => {
             <Title>Legal</Title>
 
             <div className="mt-3 grid space-y-3">
-              <ListItem route="/terms">Terms and Conditions</ListItem>
-              <ListItem route="/privacy">Privacy Policy</ListItem>
+              <ListItem route={getRouteById('Terms').path}>Terms and Conditions</ListItem>
+              <ListItem route={getRouteById('Privacy').path}>Privacy Policy</ListItem>
             </div>
           </div>
 

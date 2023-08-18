@@ -1,7 +1,15 @@
 import { Inter } from 'next/font/google';
+import { getRoute } from '@/client/utils/routes';
+import { MockedProvider } from '@apollo/client/testing';
+import { NextSSRInMemoryCache } from '@apollo/experimental-nextjs-app-support/ssr';
 import { NextUIProvider } from '@nextui-org/system';
+import { action } from '@storybook/addon-actions';
+import { navigate } from '@storybook/addon-links';
 import { themes } from '@storybook/theming';
 
+import { defaultOptions } from '../src/client/gql/apollo-wrapper';
+import { globalMocks } from '../src/client/gql/globalMocks';
+import typePolicies from '../src/client/gql/typePolicies';
 import Style from './style';
 
 // https://nextjs.org/docs/app/building-your-application/optimizing/fonts#with-tailwind-css
@@ -11,8 +19,17 @@ export const fontSans = Inter({
   variable: '--font-sans',
 });
 
+// https://github.com/lifeiscontent/storybook-addon-apollo-client#known-issues
+// https://github.com/lifeiscontent/storybook-addon-apollo-client/issues/90
+const apolloCacheConfig = new NextSSRInMemoryCache({
+  resultCaching: false, // Doesn't seem to be working
+  typePolicies: typePolicies,
+});
+
 export const decorators = [
   (Story, { globals: { locale } }) => {
+    // clears the mocks completely
+    // apolloCacheConfig.reset().then();
     return (
       <NextUIProvider locale={locale}>
         <div className={`bg-dark font-sans ${fontSans.variable}`} lang={locale}>
@@ -25,6 +42,33 @@ export const decorators = [
 ];
 
 export const parameters = {
+  nextjs: {
+    appDirectory: true,
+    navigation: {
+      push(...args) {
+        // This logs to the Actions panel
+        action('nextNavigation.push')(...args);
+        // Navigate
+        const routeArgs = args[0];
+        const { storybook: storyId } = getRoute(routeArgs);
+        if (storyId) {
+          navigate({ storyId });
+        }
+      },
+    },
+  },
+  apolloClient: {
+    MockedProvider,
+    cache: apolloCacheConfig,
+    defaultOptions: {
+      ...defaultOptions,
+      query: {
+        ...defaultOptions.query,
+        fetchPolicy: 'no-cache', // Doesn't seem to be working
+      },
+    },
+    globalMocks: globalMocks,
+  },
   actions: { argTypesRegex: '^on[A-Z].*' },
   options: {
     storySort: {
