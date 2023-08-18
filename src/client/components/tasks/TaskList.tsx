@@ -30,7 +30,7 @@ const EmptyState = () => {
 };
 
 export default function TaskList() {
-  const [{ data, fetching, error }] = useQuery({ query: MY_TASKS });
+  const [{ data, fetching, error }] = useQuery({ query: TASKS });
 
   if (error) return <div>{`Error! ${error?.message}`}</div>;
   if (!data) return null;

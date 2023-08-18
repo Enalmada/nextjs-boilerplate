@@ -1,8 +1,8 @@
 // https://formidable.com/open-source/urql/docs/graphcache/cache-updates/#updating-many-unknown-links
 import { type Task } from '@/client/gql/generated/graphql';
+import schema from '@/client/gql/generated/schema.json';
 import { TASKS } from '@/client/gql/queries-mutations';
 import { cacheExchange } from '@urql/exchange-graphcache';
-import schema from '@/client/gql/generated/schema.json'
 
 export default cacheExchange({
   schema,

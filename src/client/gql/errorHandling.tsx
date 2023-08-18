@@ -1,3 +1,4 @@
+/*
 type ErrorType = {
   message: string;
 };
@@ -35,3 +36,4 @@ export const extractErrorMessages = (error?: unknown): string[] => {
 
   return errorMessages;
 };
+*/

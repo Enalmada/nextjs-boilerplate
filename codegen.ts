@@ -30,7 +30,7 @@ const config: CodegenConfig = {
     },
     './src/client/gql/generated/schema.json': {
       plugins: ['urql-introspection'],
-    }
+    },
   },
   // was triggering rebuild of Cloudflare watch
   // hooks: { afterAllFileWrite: ['prettier --write'] },

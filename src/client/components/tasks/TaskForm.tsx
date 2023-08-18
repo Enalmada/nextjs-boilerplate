@@ -34,6 +34,7 @@ import {
 import { useMutation, useQuery } from '@urql/next';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { Button as NextUIButton, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
+import { useMutation, useQuery } from '@urql/next';
 import format from 'date-fns/format';
 import { DayPicker } from 'react-day-picker';
 import { Controller, useForm } from 'react-hook-form';
@@ -49,7 +50,8 @@ export default function TaskForm(props: Props) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
 
-  const { data: dataQuery, error: errorQuery } = useSuspenseQuery<TaskQuery>(TASK, {
+  const [{ data: dataQuery, error: errorQuery }] = useQuery({
+    query: TASK,
     variables: { id: props.id || '' },
     pause: props.id === undefined,
   });
@@ -181,6 +183,10 @@ export default function TaskForm(props: Props) {
       <Card radius="sm" shadow="sm" className="max-w-sm sm:max-w-md md:max-w-lg">
         <CardBody>
           <div>
+            {createMutationError && formError([createMutationError.message])}
+            {updateMutationError && formError([updateMutationError.message])}
+
+            {/*
             {createMutationError && formError(extractErrorMessages(createMutationError))}
             {updateMutationError && formError(extractErrorMessages(updateMutationError))}
             {deleteMutationError && formError(extractErrorMessages(deleteMutationError))}

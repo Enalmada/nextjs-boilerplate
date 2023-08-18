@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { TaskStatus, type Task } from '@/client/gql/generated/graphql';
 import { UPDATE_TASK } from '@/client/gql/queries-mutations';
 import { Card, Skeleton } from '@/client/ui';
-import { useMutation } from '@apollo/client';
 import { CardBody, Checkbox } from '@nextui-org/react';
+import { useMutation } from '@urql/next';
 import format from 'date-fns/format';
 
 interface TaskBodyProps {

@@ -62,11 +62,6 @@
     "vercel:buildLocal": "dotenv -e ./.env.local pnpx vercel build"
   },
   "dependencies": {
-    "@urql/core": "^4.0.10",
-    "@urql/exchange-graphcache": "^6.1.4",
-    "@urql/exchange-persisted": "^4.0.0",
-    "@urql/next": "1.0.0-beta.2",
-    "urql": "^4.0.4",
     "@casl/ability": "^6.5.0",
     "@ducanh2912/next-pwa": "9.7.1",
     "@enalmada/drizzle-helpers": "^0.0.8",

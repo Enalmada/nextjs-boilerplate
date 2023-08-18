@@ -1,37 +1,32 @@
 // https://github.com/JoviDeCroock/urql/blob/next-13-package/examples/with-next/app/non-rsc/layout.tsx
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, type ReactNode } from 'react';
 // import { persistedExchange } from '@urql/exchange-persisted';
 import cacheExchange from '@/client/gql/cacheExchange';
 import { env } from '@/env.mjs';
-import { useAuth } from '@/lib/firebase/auth/hooks';
+import { useAuth } from '@/lib/firebase/auth/context';
 import { createClient, fetchExchange, ssrExchange, UrqlProvider } from '@urql/next';
 
-const isServerSide = typeof window === 'undefined';
+const ssr = ssrExchange();
 
-// The `ssrExchange` must be initialized with `isClient` and `initialState`
-
-const ssr = ssrExchange({
-  isClient: !isServerSide,
-  initialState: !isServerSide ? window.__URQL_DATA__ : undefined,
-});
-
-
-// const ssr = ssrExchange();
+interface Props {
+  children: ReactNode;
+}
 
 // you need to create a component to wrap your app in
-export function UrqlWrapper({ children }: React.PropsWithChildren) {
+export function UrqlWrapper({ children }: Props) {
   // Client is unique to tenant
   // https://formidable.com/open-source/urql/docs/advanced/authentication/#cache-invalidation-on-logout
   // https://github.com/urql-graphql/urql/issues/297
 
-  const { tenant } = useAuth();
-  const tenantIdToken = tenant?.idToken ?? null;
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { user } = useAuth();
+  const userIdToken = user?.idToken;
 
   const client = useMemo(() => {
     return createClient({
-      url: env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
+      url: env.NEXT_PUBLIC_REDIRECT_URL + '/api/graphql',
       exchanges: [
         cacheExchange,
         ssr,
@@ -49,11 +44,12 @@ export function UrqlWrapper({ children }: React.PropsWithChildren) {
           cache: 'no-store',
           // authorization header must always be passed for csrf prevention
           // https://the-guild.dev/graphql/yoga-server/docs/features/csrf-prevention
-          headers: { authorization: `${tenantIdToken || ''}` } };
+          headers: { authorization: `${userIdToken || ''}` },
+        };
       },
       requestPolicy: 'cache-first',
     });
-  }, [tenantIdToken]);
+  }, [userIdToken]);
 
   return (
     <UrqlProvider client={client} ssr={ssr}>
