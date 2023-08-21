@@ -6,14 +6,14 @@ export const serverConfig = {
   serviceAccount: {
     projectId: env.FIREBASE_PROJECT_ID,
     clientEmail: env.FIREBASE_ADMIN_CLIENT_EMAIL,
-    privateKey: env.FIREBASE_ADMIN_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    privateKey: env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, '\n'),
   },
 };
 
 export const authConfig = {
   apiKey: serverConfig.firebaseApiKey,
   cookieName: 'AuthToken',
-  cookieSignatureKeys: ['secret1', 'secret2'],
+  cookieSignatureKeys: [env.FIREBASE_SECRET1, env.FIREBASE_SECRET2],
   cookieSerializeOptions: {
     path: '/',
     httpOnly: true,

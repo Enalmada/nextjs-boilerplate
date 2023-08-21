@@ -69,6 +69,7 @@ const contentSecurityPolicy = {
 
 /** @type {import("next").NextConfig} */
 const config = {
+  output: 'standalone',
   poweredByHeader: false,
   reactStrictMode: true,
 
@@ -138,7 +139,7 @@ const config = {
       };
     }
 
-    if (process.env.DISABLE_MINIMIZE) {
+    if (process.env.DISABLE_MINIMIZE === 'true') {
       config.optimization.minimize = false;
     }
 

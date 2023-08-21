@@ -1,0 +1,65 @@
+options:
+# Default 1 cpu machine is 0.003 per min with 120 min free per day.  High cpu is 0.016 per min no free tier
+# using it went from 6-10 minutes to 6-? minutes so it doesn't seem worth it
+#  machineType: 'N1_HIGHCPU_8'
+  substitutionOption: ALLOW_LOOSE
+
+steps:
+  - id: 'Build'
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - '$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+      - '.'
+      - '-f'
+      - 'Dockerfile'
+      - '--build-arg'
+      - 'APP_ENV=$_APP_ENV'
+      - '--build-arg'
+      - 'REDIRECT_URL=$_REDIRECT_URL'
+      - '--build-arg'
+      - 'FIREBASE_PROJECT_ID=$_FIREBASE_PROJECT_ID'
+      - '--build-arg'
+      - 'FIREBASE_API_KEY=$_FIREBASE_API_KEY'
+      - '--build-arg'
+      - 'FIREBASE_AUTH_DOMAIN=$_FIREBASE_AUTH_DOMAIN'
+      - '--build-arg'
+      - 'FIREBASE_DATABASE_URL=$_FIREBASE_DATABASE_URL'
+      - '--build-arg'
+      - 'FIREBASE_MESSAGING_SENDER_ID=$_FIREBASE_MESSAGING_SENDER_ID'
+
+  - id: 'Push'
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+
+  - id: 'Deploy'
+    name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'services'
+      - 'update'
+      - '$_SERVICE_NAME'
+      - '--platform=managed'
+      - '--image=$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+      - '--labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID'
+      - '--region=$_DEPLOY_REGION'
+      - '--quiet'
+
+images:
+  - '$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+
+substitutions:
+  _DEPLOY_REGION: 'us-west1'
+  _AR_HOSTNAME: 'us-west1-docker.pkg.dev'
+  _PLATFORM: 'managed'
+  _SERVICE_NAME: 't3-challenge'
+  _TRIGGER_ID: '06d2cb7d-4346-4d96-9574-9b058b2eed49'
+
+tags:
+  - 'gcp-cloud-build-deploy-cloud-run'
+  - 'gcp-cloud-build-deploy-cloud-run-managed'
+  - 't3-challenge'

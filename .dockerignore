@@ -1,0 +1,26 @@
+Dockerfile
+.dockerignore
+node_modules
+npm-debug.log
+README.md
+.next
+.git
+
+# other build stuff
+.storybook
+functions
+examples
+.husky
+.vscode
+.idea
+
+# SST
+.sst
+.open-next
+sst.config.ts
+sst-env.d.ts
+src/paramsAndSecrets.ts
+
+# Storybook
+# ReferenceError: Cannot access 'defaultExport' before initialization
+**/*.stories.tsx
