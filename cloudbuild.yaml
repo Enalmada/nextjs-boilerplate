@@ -1,7 +1,7 @@
 options:
-# Default 1 cpu machine is 0.003 per min with 120 min free per day.  High cpu is 0.016 per min no free tier
-# using it went from 6-10 minutes to 6-? minutes so it doesn't seem worth it
-#  machineType: 'N1_HIGHCPU_8'
+  # Default 1 cpu machine is 0.003 per min with 120 min free per day.  High cpu is 0.016 per min no free tier
+  # using it went from 6-10 minutes to 6-? minutes so it doesn't seem worth it
+  #  machineType: 'N1_HIGHCPU_8'
   substitutionOption: ALLOW_LOOSE
 
 steps:

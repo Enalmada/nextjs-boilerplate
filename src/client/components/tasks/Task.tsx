@@ -68,7 +68,7 @@ interface Props {
 // https://stackoverflow.com/questions/64079321/react-tooltip-and-next-js-ssr-issue
 // https://haodong.io/render-client-side-only-component-in-next-js
 export default function Task(props: Props) {
-  const { id, title, description, dueDate, status } = props.task;
+  const { id, title, description, dueDate, status, version } = props.task;
 
   const [updateTask, { error: updateTaskError }] = useMutation(UPDATE_TASK);
 
@@ -79,13 +79,14 @@ export default function Task(props: Props) {
       description: description,
       dueDate: dueDate ? dueDate : undefined,
       status: status === TaskStatus.Active ? TaskStatus.Completed : TaskStatus.Active,
+      version: version,
     };
 
     try {
       e.stopPropagation();
       // use void to skip await in a void callback
       // https://github.com/typescript-eslint/typescript-eslint/issues/4619#issuecomment-1055614155
-      await updateTask({ variables: { input } });
+      await updateTask({ variables: { id, input } });
       if (updateTaskError) {
         console.error('Oh no!', updateTaskError.message);
       }

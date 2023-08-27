@@ -1,26 +1,49 @@
 version: '3.9'
 
 services:
-  crdb:
-    image: cockroachdb/cockroach:${CRDB_VERSION:-v23.1.2}
-    container_name: crdb
+  db:
+    image: 'postgres:15'
+    environment:
+      POSTGRES_PASSWORD: asdfasdf
+      POSTGRES_USER: postgres
     ports:
-      - '26257:26257'
-      - '8080:8080'
-    command: start-single-node --insecure
+      - '5432:5432'
     volumes:
-      - 'crdb-data:/cockroach/cockroach-data'
+      - 'db-data:/var/lib/postgresql/data'
+    networks:
+      - my_network
+    command: -p 5432
 
-  crdbTest:
-    image: cockroachdb/cockroach:${CRDB_VERSION:-v23.1.2}
-    container_name: crdbTest
+  dbTest:
+    image: 'postgres:15'
+    environment:
+      POSTGRES_PASSWORD: asdfasdf
+      POSTGRES_USER: postgres
     ports:
-      - '26258:26257'
-      - '8081:8088'
-    command: start-single-node --insecure
+      - '5433:5433'
     volumes:
-      - 'crdb-data-test:/cockroach/cockroach-data-test'
+      - 'db-data-test:/var/lib/postgresql/data'
+    networks:
+      - my_network
+    command: -p 5433
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - '5050:80'
+    volumes:
+      - 'pgadmin-data:/var/lib/pgadmin'
+    networks:
+      - my_network
 
 volumes:
-  crdb-data:
-  crdb-data-test:
+  db-data:
+  db-data-test:
+  pgadmin-data:
+
+networks:
+  my_network:
+    driver: bridge

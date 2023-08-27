@@ -2,10 +2,10 @@
 
 import { Button, InputControlled, Link } from '@/client/ui';
 import { useFirebaseAuth } from '@/lib/firebase/auth/firebase';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import * as z from 'zod';
 
 interface Props {
   redirect?: string;
@@ -46,8 +46,8 @@ export function ResetPasswordPage({ redirect }: Props) {
     email: string;
   };
 
-  const schema = yup.object().shape({
-    email: yup.string().required('valid email is required'),
+  const schema = z.object({
+    email: z.string().min(1, 'valid email is required'),
   });
 
   const {
@@ -56,7 +56,7 @@ export function ResetPasswordPage({ redirect }: Props) {
     control,
     setError,
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: zodResolver(schema),
     defaultValues: {
       email: '', // necessary for SSR to maintain controlled component
     },

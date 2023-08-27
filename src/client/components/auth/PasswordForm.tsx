@@ -4,7 +4,7 @@ import { HiddenIcon } from '@/client/ui/icons/HiddenIcon';
 import { VisibleIcon } from '@/client/ui/icons/VisibleIcon';
 import { useFirebaseAuth } from '@/lib/firebase/auth/firebase';
 import { FirebaseError } from '@firebase/util';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Checkbox } from '@nextui-org/react';
 import {
   createUserWithEmailAndPassword,
@@ -12,7 +12,7 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import * as z from 'zod';
 
 type SetLoggedFunction = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -33,9 +33,9 @@ export default function PasswordForm({ redirect, isSignIn, setHasLogged }: Props
 
   const { getFirebaseAuth } = useFirebaseAuth();
 
-  const schema = yup.object().shape({
-    email: yup.string().required('valid email is required'),
-    password: yup.string().required('valid password is required'),
+  const schema = z.object({
+    email: z.string().min(1, 'valid email is required'),
+    password: z.string().min(1, 'valid password is required'),
   });
 
   const {
@@ -44,7 +44,7 @@ export default function PasswordForm({ redirect, isSignIn, setHasLogged }: Props
     control,
     setError,
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: zodResolver(schema),
     defaultValues: {
       email: '', // necessary for SSR to maintain controlled component
       password: '', // necessary for SSR to maintain controlled component

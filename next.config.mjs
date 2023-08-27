@@ -108,12 +108,28 @@ const config = {
     domains: ['avatars.githubusercontent.com', 'lh3.googleusercontent.com', 'robohash.org'],
   },
 
-  webpack: (config) => {
+  webpack(config, { isServer }) {
+    // https://github.com/0no-co/graphql-web-lite  330k to 323k
+    // https://github.com/urql-graphql/urql/pull/3108
+    if (!isServer) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        graphql: 'graphql-web-lite',
+      };
+    }
+
+    // TODO - figure out how to fix this the real way
+    config.ignoreWarnings = [
+      {
+        message: /Critical dependency: the request of a dependency is an expression/,
+      },
+    ];
+
     // I suspect most of this isn't necessary with postgres.js driver
     // pg used previously by kysely config needs fixing on prod
     if (process.env.NEXT_RUNTIME_NODE !== 'true') {
       /*
-      // Necessary for pg driver
+      // Necessary for kysely && pg driver
       config.resolve.fallback = {
         ...config.resolve.fallback,
         path: false,
@@ -127,7 +143,7 @@ const config = {
       };
        */
 
-      // Necessary for postgres.js driver
+      // Necessary for kysely postgres.js driver
       config.resolve.fallback = {
         ...config.resolve.fallback,
         os: false,
@@ -139,6 +155,7 @@ const config = {
       };
     }
 
+    // To see Cloudflare compile errors more clearly locally
     if (process.env.DISABLE_MINIMIZE === 'true') {
       config.optimization.minimize = false;
     }

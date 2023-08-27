@@ -7,13 +7,14 @@ faker.seed(124);
 
 export function createRandomTask(id?: string): Task {
   return {
-    id: id || faker.string.uuid(),
+    id: id || faker.string.nanoid(),
     title: faker.lorem.words(2),
     description: faker.helpers.arrayElement([null, faker.lorem.sentence()]),
     dueDate: faker.helpers.arrayElement([null, faker.date.soon()]),
     status: faker.helpers.enumValue(TaskStatus),
     createdAt: faker.date.past(),
     updatedAt: faker.date.recent(),
+    version: 1,
     __typename: 'Task',
   };
 }

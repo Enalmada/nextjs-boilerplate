@@ -1,7 +1,7 @@
 import Logger from '@/lib/logging/log-util';
-import { type User } from '@/server/user/user.repository';
+import { type User } from '@/server/db/schema';
 
-import userRepo from './user.repository';
+import UserRepository from './user.repository';
 
 export default class UserService {
   static async createOrGetFirebaseUser(
@@ -15,11 +15,12 @@ export default class UserService {
     // EmailService.sendWelcome()
 
     // To avoid an unnecessary update, we need to find first and compare incoming attributes that might be different
-    const user = await userRepo.findFirst({ firebaseId });
+    const user = await UserRepository.findFirst({ firebaseId });
 
     if (!user) {
       logger.info('user created');
-      return userRepo.create({
+
+      return UserRepository.create({
         firebaseId: firebaseId,
         email: email,
         createdAt: new Date(),
@@ -27,7 +28,12 @@ export default class UserService {
       });
     } else if (user.email != email) {
       logger.info('user updated');
-      return userRepo.update(user.id, { email: email, updatedAt: new Date() });
+
+      return UserRepository.update(user.id, {
+        email: email,
+        updatedAt: new Date(),
+        version: user.version + 1,
+      });
     }
 
     return user;

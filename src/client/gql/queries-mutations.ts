@@ -24,6 +24,7 @@ export const TASKS = graphql(/* GraphQL */ `
       status
       createdAt
       updatedAt
+      version
     }
   }
 `);
@@ -65,6 +66,7 @@ export const TASK = graphql(/* GraphQL */ `
       status
       createdAt
       updatedAt
+      version
     }
   }
 `);
@@ -79,13 +81,14 @@ export const CREATE_TASK = graphql(/* GraphQL */ `
       status
       createdAt
       updatedAt
+      version
     }
   }
 `);
 
 export const UPDATE_TASK = graphql(/* GraphQL */ `
-  mutation UpdateTask($input: MutationUpdateTaskInput!) {
-    updateTask(input: $input) {
+  mutation UpdateTask($id: ID!, $input: MutationUpdateTaskInput!) {
+    updateTask(id: $id, input: $input) {
       id
       title
       description
@@ -93,12 +96,13 @@ export const UPDATE_TASK = graphql(/* GraphQL */ `
       status
       createdAt
       updatedAt
+      version
     }
   }
 `);
 
 export const DELETE_TASK = graphql(/* GraphQL */ `
-  mutation DeleteTask($id: String!) {
+  mutation DeleteTask($id: ID!) {
     deleteTask(id: $id) {
       id
       title
@@ -107,6 +111,7 @@ export const DELETE_TASK = graphql(/* GraphQL */ `
       status
       createdAt
       updatedAt
+      version
     }
   }
 `);

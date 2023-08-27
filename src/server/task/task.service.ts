@@ -1,86 +1,91 @@
 import Logger from '@/lib/logging/log-util';
-import { NotAuthorizedError, NotFoundError } from '@/server/graphql/errors';
+import { type Task, type TaskInput, type User } from '@/server/db/schema';
+import { NotAuthorizedError, NotFoundError, OptimisticLockError } from '@/server/graphql/errors';
 import { type MyContextType } from '@/server/graphql/yoga';
-import { type User } from '@/server/user/user.repository';
 import authCheck from '@/server/utils/authCheck';
 
-import taskRepo, { type TaskNew, type TaskUpdate } from './task.repository';
+import TaskRepository from './task.repository';
 
 export default class TaskService {
   private readonly logger = new Logger(TaskService.name);
 
   async tasks(user: User, ctx: MyContextType) {
-    this.logger.logMethodStart(this.tasks.name, ctx);
+    const logger = this.logger.logMethodStart(this.tasks.name, ctx);
 
     if (!user) {
-      throw new NotAuthorizedError(`user required to complete this operation`);
+      throw new NotAuthorizedError(`user required to complete this operation`, logger);
     }
 
-    return await taskRepo.findMany({ userId: user.id });
+    return TaskRepository.findMany({ userId: user.id });
   }
 
   async task(user: User, id: string, ctx: MyContextType) {
     const logger = this.logger.logMethodStart(this.task.name, ctx);
 
-    const task = await taskRepo.findFirst(id);
+    const task = await TaskRepository.findFirst({ id });
 
     if (!task) {
-      logger.warn(`${user.id} trying to access task ${id} that doesn't exist`);
-      throw new NotFoundError(`task ${id} not found`);
+      throw new NotFoundError(`task ${id} not found`, logger);
     }
 
-    authCheck(user, task.userId);
+    authCheck(user, task.userId, logger);
 
     return task;
   }
 
-  async create(user: User, input: TaskNew, ctx: MyContextType) {
+  async create(user: User, input: TaskInput, ctx: MyContextType): Promise<Task> {
     this.logger.logMethodStart(this.create.name, ctx, {
       data: { ...input },
     });
 
-    return await taskRepo.create({
+    return TaskRepository.create({
       ...input,
       updatedAt: new Date(),
       createdAt: new Date(),
+      version: 1,
       userId: user.id,
     });
   }
 
-  async update(user: User, input: { id: string } & TaskUpdate, ctx: MyContextType) {
+  async update(user: User, id: string, input: TaskInput, ctx: MyContextType): Promise<Task> {
     const logger = this.logger.logMethodStart(this.update.name, ctx, {
-      data: { ...input },
+      data: { id, ...input },
     });
 
-    const task = await taskRepo.findFirst(input.id);
+    const task = await TaskRepository.findFirst({ id });
 
     if (!task) {
-      logger.warn(`${user.id} trying to access task ${input.id} that doesn't exist`);
-      throw new NotFoundError(`task ${input.id} not found`);
+      throw new NotFoundError(`task ${id} not found`, logger);
     }
 
-    authCheck(user, task.userId);
+    if (task.version !== input.version) {
+      // TODO notify user that task has changed in another tab, device, or session.
+      throw new OptimisticLockError(
+        `Task has changed since loading.  Please reload and try again.`,
+        logger
+      );
+    }
 
-    return taskRepo.update(input.id, {
+    authCheck(user, task.userId, logger);
+
+    return TaskRepository.update(id, {
       ...input,
-      createdAt: new Date(),
       updatedAt: new Date(),
-      userId: user.id,
+      version: task.version + 1,
     });
   }
 
-  async delete(user: User, id: string, ctx: MyContextType) {
-    const logger = this.logger.logMethodStart(this.delete.name, ctx);
+  async delete(user: User, id: string, ctx: MyContextType): Promise<Task> {
+    const logger = this.logger.logMethodStart(this.delete.name, ctx, { taskId: id });
 
-    const task = await taskRepo.findFirst(id);
+    const task = await TaskRepository.findFirst({ id });
 
     if (!task) {
-      logger.warn(`${user.id} trying to access task ${id} that doesn't exist`);
-      throw new NotFoundError(`task ${id} not found`);
+      throw new NotFoundError(`Task ${id} not found`, logger);
     }
 
-    authCheck(user, task.userId);
+    authCheck(user, task.userId, logger);
 
-    return await taskRepo.delete(id);
+    return TaskRepository.delete(id);
   }
 }

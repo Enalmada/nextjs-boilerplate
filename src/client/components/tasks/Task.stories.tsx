@@ -1,5 +1,6 @@
 import { TaskBody } from '@/client/components/tasks/Task';
 import { TaskStatus } from '@/client/gql/generated/graphql';
+import { createRandomTask } from '@/client/gql/globalMocks';
 import type { Meta, StoryObj } from '@storybook/react';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -15,13 +16,7 @@ type Story = StoryObj<typeof TaskBody>;
 
 const defaultProps = {
   task: {
-    id: '12345',
-    title: 'title',
-    description: 'description',
-    dueDate: undefined,
-    status: TaskStatus.Active,
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    ...createRandomTask('12345'),
   },
 };
 export const Default: Story = {

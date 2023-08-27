@@ -1,7 +1,8 @@
-import { TaskStatus, type DB } from '@/server/db/types';
+import { TaskStatus, type Task, type TaskInput } from '@/server/db/schema';
 import { builder } from '@/server/graphql/builder';
 import TaskService from '@/server/task/task.service';
-import { type AllSelection } from 'kysely/dist/cjs/parser/select-parser';
+
+// import TaskService from '@/server/task/task.service';
 
 // https://github.com/chimame/graphql-yoga-worker-with-pothos
 
@@ -9,7 +10,7 @@ builder.enumType(TaskStatus, {
   name: 'TaskStatus',
 });
 
-export const TaskType = builder.objectRef<AllSelection<DB, 'task'>>('Task');
+export const TaskType = builder.objectRef<Task>('Task');
 
 TaskType.implement({
   fields: (t) => ({
@@ -20,7 +21,7 @@ TaskType.implement({
     description: t.exposeString('description', { nullable: true }),
     status: t.field({
       type: TaskStatus,
-      resolve: (task) => task.status as unknown as TaskStatus,
+      resolve: (task: Task) => task.status as unknown as TaskStatus,
     }),
     dueDate: t.expose('dueDate', {
       nullable: true,
@@ -32,6 +33,7 @@ TaskType.implement({
     updatedAt: t.expose('updatedAt', {
       type: 'DateTime',
     }),
+    version: t.exposeInt('version'),
   }),
 });
 
@@ -41,12 +43,6 @@ builder.queryField('task', (t) =>
     args: {
       id: t.arg.id({ required: true }),
     },
-    /*
-    errors: {
-      directResult: true,
-      types: [NotFoundError, UnauthorizedError],
-    },
-     */
     nullable: true,
     resolve: async (root, args, ctx) => {
       return new TaskService().task(ctx.currentUser, args.id as string, ctx);
@@ -62,7 +58,7 @@ builder.queryField('tasks', (t) =>
         return [];
       }
 
-      return await new TaskService().tasks(ctx.currentUser, ctx);
+      return new TaskService().tasks(ctx.currentUser, ctx);
     },
   })
 );
@@ -78,7 +74,7 @@ builder.mutationField('createTask', (t) =>
     },
     // errors: {},
     resolve: async (root, args, ctx) => {
-      const input = {
+      const input: TaskInput = {
         ...args.input,
         userId: ctx.currentUser.id,
         createdAt: new Date(),
@@ -93,27 +89,23 @@ builder.mutationField('updateTask', (t) =>
   t.fieldWithInput({
     type: TaskType,
     nullable: true,
-
+    args: {
+      id: t.arg.id({ required: true }),
+    },
     input: {
-      id: t.input.id({ required: false }),
       title: t.input.field({ type: 'NonEmptyString', required: true }),
       description: t.input.string(),
       status: t.input.field({ type: TaskStatus, required: true }),
       dueDate: t.input.field({ type: 'DateTime' }),
+      version: t.input.int({ required: true }),
     },
-    /*
-    errors: {
-      types: [NotFoundError, UnauthorizedError],
-    },
-     */
     resolve: async (root, args, ctx) => {
-      const input = {
+      const input: TaskInput = {
         ...args.input,
-        id: args.input.id as string,
         userId: ctx.currentUser.id,
         updatedAt: new Date(),
       };
-      return new TaskService().update(ctx.currentUser, input, ctx);
+      return new TaskService().update(ctx.currentUser, args.id as string, input, ctx);
     },
   })
 );
@@ -123,15 +115,10 @@ builder.mutationField('deleteTask', (t) =>
     type: TaskType,
     nullable: true,
     args: {
-      id: t.arg.string({ required: true }),
+      id: t.arg.id({ required: true }),
     },
-    /*
-    errors: {
-      types: [NotFoundError, UnauthorizedError],
-    },
-     */
     resolve: async (root, args, ctx) => {
-      return new TaskService().delete(ctx.currentUser, args.id, ctx);
+      return new TaskService().delete(ctx.currentUser, args.id as string, ctx);
     },
   })
 );

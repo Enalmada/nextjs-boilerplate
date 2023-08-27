@@ -24,7 +24,9 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true
   },
   "include": [
     "src/**/*.ts",

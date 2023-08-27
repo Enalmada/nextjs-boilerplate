@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1692733367145,
+      "tag": "0000_flippant_karnak",
+      "breakpoints": true
+    }
+  ]
+}

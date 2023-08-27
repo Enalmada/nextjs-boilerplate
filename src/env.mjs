@@ -1,6 +1,7 @@
 import { createEnv } from '@t3-oss/env-nextjs';
 import { z } from 'zod';
 
+// Why zod: https://colinhacks.com/essays/zod
 export const env = createEnv({
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   server: {
