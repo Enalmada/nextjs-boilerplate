@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { type NextRequest } from 'next/server';
-import { env } from '@/env.mjs';
 import { type User } from '@/server/db/schema';
 import { modifiedHandleCreateOrGetUser } from '@/server/graphql/modifiedHandleCreateOrGetUser';
 import { schema } from '@/server/graphql/schema';
@@ -34,7 +33,7 @@ const plugins: Array<Plugin<any, any, any>> = [
 
 // TODO This is failing on SST in SSR likely due to case sensitivity
 // TODO make graphiql work locally (likely by looking at another header always past or auth cookies first)
-if (env.APP_ENV != 'local') {
+if (process.env.APP_ENV != 'local') {
   plugins.push(
     useCSRFPrevention({
       requestHeaders: ['authorization'],
@@ -54,7 +53,7 @@ export function makeYoga(graphqlEndpoint: string) {
     // Yoga needs to know how to create a valid Next response
     fetchAPI: { Response },
     cors: {
-      origin: env.NEXT_PUBLIC_REDIRECT_URL,
+      origin: process.env.NEXT_PUBLIC_REDIRECT_URL,
       //origin: process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : env.NEXT_PUBLIC_REDIRECT_URL,
       credentials: true,
       allowedHeaders: ['authorization'],

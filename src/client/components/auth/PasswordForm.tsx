@@ -4,7 +4,7 @@ import { HiddenIcon } from '@/client/ui/icons/HiddenIcon';
 import { VisibleIcon } from '@/client/ui/icons/VisibleIcon';
 import { useFirebaseAuth } from '@/lib/firebase/auth/firebase';
 import { FirebaseError } from '@firebase/util';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { valibotResolver } from '@hookform/resolvers/valibot';
 import { Checkbox } from '@nextui-org/react';
 import {
   createUserWithEmailAndPassword,
@@ -12,7 +12,7 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { email, maxLength, minLength, object, string } from 'valibot';
 
 type SetLoggedFunction = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -33,9 +33,13 @@ export default function PasswordForm({ redirect, isSignIn, setHasLogged }: Props
 
   const { getFirebaseAuth } = useFirebaseAuth();
 
-  const schema = z.object({
-    email: z.string().min(1, 'valid email is required'),
-    password: z.string().min(1, 'valid password is required'),
+  const schema = object({
+    email: string([minLength(1, 'Please enter your email.'), email('valid email is required')]),
+    password: string([
+      minLength(1, 'Please enter your password.'),
+      minLength(8, 'Password must be at least 8 characters.'),
+      maxLength(64, 'Password must be 64 characters or less'),
+    ]),
   });
 
   const {
@@ -44,7 +48,7 @@ export default function PasswordForm({ redirect, isSignIn, setHasLogged }: Props
     control,
     setError,
   } = useForm({
-    resolver: zodResolver(schema),
+    resolver: valibotResolver(schema),
     defaultValues: {
       email: '', // necessary for SSR to maintain controlled component
       password: '', // necessary for SSR to maintain controlled component

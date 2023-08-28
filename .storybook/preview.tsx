@@ -2,7 +2,7 @@ import { Inter } from 'next/font/google';
 import { getRoute } from '@/client/utils/routes';
 import { MockedProvider } from '@apollo/client/testing';
 import { NextSSRInMemoryCache } from '@apollo/experimental-nextjs-app-support/ssr';
-import { NextUIProvider } from '@nextui-org/system';
+import { NextUIProvider } from '@nextui-org/react';
 import { action } from '@storybook/addon-actions';
 import { navigate } from '@storybook/addon-links';
 import { themes } from '@storybook/theming';

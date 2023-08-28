@@ -18,12 +18,12 @@ import {
 } from '@/client/ui';
 import { useMutation } from '@apollo/client';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { valibotResolver } from '@hookform/resolvers/valibot';
 import { Button as NextUIButton, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 import { format } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 import { Controller, useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { date, minLength, nullable, object, optional, string } from 'valibot';
 
 import 'react-day-picker/dist/style.css';
 
@@ -53,15 +53,14 @@ export default function TaskForm(props: Props) {
     title: string;
     description?: string;
     status: string;
-    dueDate?: string;
+    dueDate: Date | null;
   };
 
-  // TODO: dueDate should be date()  (form not submitting)
-  const schema = z.object({
-    title: z.string().min(1, 'Title is a required field'),
-    description: z.string(),
-    status: z.string().min(1, 'Status is a required field'),
-    dueDate: z.string(),
+  const schema = object({
+    title: string([minLength(1, 'Title is a required field')]),
+    description: optional(string()),
+    status: string(),
+    dueDate: nullable(date()),
   });
 
   const { id, title, description, dueDate, status, version } =
@@ -72,11 +71,11 @@ export default function TaskForm(props: Props) {
     handleSubmit,
     control,
   } = useForm({
-    resolver: zodResolver(schema),
+    resolver: valibotResolver(schema),
     defaultValues: {
-      title: title || '',
-      description: description || '',
-      dueDate: dueDate?.toString() || undefined,
+      title: title || '', // '' necessary for SSR to maintain controlled component
+      description: description || '', // '' necessary for SSR to maintain controlled component
+      dueDate: dueDate ? new Date(dueDate) : null,
       status: status || TaskStatus.Active,
     },
   });
@@ -85,7 +84,7 @@ export default function TaskForm(props: Props) {
     const input = {
       title: title,
       description: description,
-      dueDate: !dueDate || dueDate == '' ? null : new Date(dueDate),
+      dueDate: dueDate,
       status: status == 'ACTIVE' ? TaskStatus.Active : TaskStatus.Completed,
     };
 
@@ -213,7 +212,7 @@ export default function TaskForm(props: Props) {
                           mode="single"
                           selected={value ? new Date(value) : undefined}
                           onSelect={(date, selectedDay, activeModifiers, e) => {
-                            onChange(date);
+                            onChange(date || null);
                             (e.currentTarget as HTMLElement).blur(); // Close popover
                           }}
                         />
@@ -225,7 +224,7 @@ export default function TaskForm(props: Props) {
                         variant="ghost"
                         color="danger"
                         className={'mb-5'}
-                        onPress={() => onChange('')}
+                        onPress={() => onChange(null)}
                       >
                         Clear
                       </NextUIButton>

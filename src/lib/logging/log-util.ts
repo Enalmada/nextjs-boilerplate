@@ -2,7 +2,6 @@
 // https://giancarlobuomprisco.com/next/how-to-build-production-grade-nextjs-projects
 // https://levelup.gitconnected.com/better-logging-in-next-js-apps-with-pino-f973de4dd8dd
 // https://betterstack.com/community/guides/logging/how-to-install-setup-and-use-pino-to-log-node-js-applications/
-import { env } from '@/env.mjs';
 import { type MyContextType } from '@/server/graphql/yoga';
 import { Logger as AxiomLogger } from 'next-axiom';
 
@@ -18,7 +17,7 @@ import logLevelData from './log-level';
 const logLevels = new Map<string, string>(Object.entries(logLevelData));
 
 export function getLogLevel(logger: string): string {
-  return (env.LOG_LEVEL as string) || logLevels.get(logger) || logLevels.get('*') || 'info';
+  return (process.env.LOG_LEVEL as string) || logLevels.get(logger) || logLevels.get('*') || 'info';
 }
 
 export default class Logger {

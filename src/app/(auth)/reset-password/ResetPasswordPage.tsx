@@ -2,10 +2,10 @@
 
 import { Button, InputControlled, Link } from '@/client/ui';
 import { useFirebaseAuth } from '@/lib/firebase/auth/firebase';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { valibotResolver } from '@hookform/resolvers/valibot';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { email, object, string } from 'valibot';
 
 interface Props {
   redirect?: string;
@@ -46,8 +46,8 @@ export function ResetPasswordPage({ redirect }: Props) {
     email: string;
   };
 
-  const schema = z.object({
-    email: z.string().min(1, 'valid email is required'),
+  const schema = object({
+    email: string([email('valid email is required')]),
   });
 
   const {
@@ -56,7 +56,7 @@ export function ResetPasswordPage({ redirect }: Props) {
     control,
     setError,
   } = useForm({
-    resolver: zodResolver(schema),
+    resolver: valibotResolver(schema),
     defaultValues: {
       email: '', // necessary for SSR to maintain controlled component
     },

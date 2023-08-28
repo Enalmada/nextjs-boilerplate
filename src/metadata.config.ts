@@ -5,7 +5,6 @@ import {
   type ColorSchemeEnum,
   type ReferrerEnum,
 } from 'next/dist/lib/metadata/types/metadata-types';
-import { env } from '@/env.mjs';
 
 // Next.js auto icon generation instructions:
 // Use https://realfavicongenerator.net/ to generate icons and manifest
@@ -25,7 +24,7 @@ export const config = {
 export const basicFields: Metadata = {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  metadataBase: env.NEXT_PUBLIC_REDIRECT_URL,
+  metadataBase: process.env.NEXT_PUBLIC_REDIRECT_URL,
   title: {
     template: `%s | ${config.siteUrl}`,
     default: config.siteUrl, // a default is required when creating a template
@@ -43,7 +42,7 @@ export const basicFields: Metadata = {
   openGraph: {
     title: config.applicationName,
     description: config.description,
-    url: env.NEXT_PUBLIC_REDIRECT_URL,
+    url: process.env.NEXT_PUBLIC_REDIRECT_URL,
     siteName: config.siteUrl,
     locale: 'en_US',
     type: 'website',
@@ -60,7 +59,7 @@ export const basicFields: Metadata = {
     },
      */
     web: {
-      url: `${env.NEXT_PUBLIC_REDIRECT_URL}/app`,
+      url: `${process.env.NEXT_PUBLIC_REDIRECT_URL}/app`,
       should_fallback: true,
     },
   },

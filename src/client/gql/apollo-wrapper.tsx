@@ -1,7 +1,6 @@
 'use client';
 
 // ^ this file needs the "use client" pragma
-import { env } from '@/env.mjs';
 import { useAuth } from '@/lib/firebase/auth/context';
 import { ApolloLink, HttpLink, type DefaultOptions } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
@@ -45,7 +44,7 @@ function makeClient(userIdToken?: string) {
     // this needs to be an absolute url, as relative urls cannot be used in SSR
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     //uri: (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : env.NEXT_PUBLIC_REDIRECT_URL) + env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
-    uri: env.NEXT_PUBLIC_REDIRECT_URL + '/api/graphql',
+    uri: process.env.NEXT_PUBLIC_REDIRECT_URL + '/api/graphql',
     credentials: 'include',
     // you can disable result caching here if you want to
     // (this does not work if you are rendering your page with `export const dynamic = "force-static"`)

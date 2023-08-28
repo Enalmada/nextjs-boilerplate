@@ -1,57 +1,92 @@
 // @ts-check
 import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from 'next/constants.js';
 import { withSentryConfig } from '@sentry/nextjs';
-import nextRoutesConfig from 'nextjs-routes/config';
 
 import './src/env.mjs';
 
 import { withAxiom } from 'next-axiom';
 import * as nextSafe from 'next-safe';
+import nextRoutesConfig from 'nextjs-routes/config';
 
 const withRoutes = nextRoutesConfig();
 
 const isDev = process.env.NODE_ENV !== 'production';
 
+/**
+ * @typedef {Object} CspRule
+ * @property {string} [source] - Documentation source
+ * @property {string} [script]
+ * @property {string} [style]
+ * @property {string} [img]
+ * @property {string} [connect]
+ * @property {string} [font]
+ * @property {string} [object]
+ * @property {string} [media]
+ * @property {string} [frame]
+ * @property {string} [worker]
+ * @property {string} [manifest]
+ */
+
+/** @type {CspRule[]} */
 // https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid#cross_origin_opener_policy
-const firebase = {
-  script: 'https://apis.google.com/ https://accounts.google.com/gsi/client',
-  connect:
-    'https://accounts.google.com/gsi/ https://securetoken.googleapis.com https://identitytoolkit.googleapis.com',
-  image: 'https://lh3.googleusercontent.com',
-};
+const cspRules = [
+  {
+    source: 'firebase',
+    script: 'https://apis.google.com/ https://accounts.google.com/gsi/client',
+    connect:
+      'https://accounts.google.com/gsi/ https://securetoken.googleapis.com https://identitytoolkit.googleapis.com',
+    img: 'https://lh3.googleusercontent.com',
+    frame: `https://accounts.google.com/gsi/ https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/`,
+  },
+  {
+    source: 'vercel',
+    frame: 'https://vercel.live/',
+    script: 'https://vercel.live/_next-live/feedback/',
+  },
+  {
+    source: 'nextjs',
+    script: "'unsafe-inline'",
+    style: "'unsafe-inline'",
+  },
+  {
+    source: 'graphiQL',
+    style: 'https://unpkg.com/@graphql-yoga/',
+    script: 'https://unpkg.com/@graphql-yoga/',
+    font: 'data:',
+  },
+  {
+    source: 'sentry',
+    worker: 'blob:',
+    connect: 'https://o32548.ingest.sentry.io',
+  },
+];
 
-const vercel = {
-  iframe: 'https://vercel.live/',
-  script: 'https://vercel.live/_next-live/feedback/',
-};
+// Initialize an object to hold the dynamically generated CSP attributes
+const generatedCsp = {};
 
-const nextjs = {
-  script: "'unsafe-inline'",
-  style: "'unsafe-inline'", // prod wont load css without it
-};
+// Loop through each rule set in cspRules
+cspRules.forEach((rule) => {
+  // Loop through each key in a given rule set
+  for (const [key, value] of Object.entries(rule)) {
+    if (key !== 'source') {
+      const cspKey = `${key}-src`;
+      generatedCsp[cspKey] = (generatedCsp[cspKey] || '') + ' ' + value;
+    }
+  }
+});
 
-const graphiQL = {
-  style: 'https://unpkg.com/@graphql-yoga/',
-  script: 'https://unpkg.com/@graphql-yoga/',
-  font: 'data:',
-};
+// Trim leading and trailing spaces from each attribute
+for (const [key, value] of Object.entries(generatedCsp)) {
+  generatedCsp[key] = value.trim();
+}
 
-const sentry = {
-  worker: 'blob:',
-  connect: 'https://o32548.ingest.sentry.io',
-};
-
-const contentSecurityPolicy = {
+// Final contentSecurityPolicyTemplate with dynamic contentSecurityPolicy attribute
+// Default template: https://trezy.gitbook.io/next-safe/usage/configuration
+const contentSecurityPolicyTemplate = {
   contentSecurityPolicy: {
     mergeDefaultDirectives: true,
-    'script-src': `${firebase.script} ${graphiQL.script} ${vercel.script} ${nextjs.script}`,
-    'frame-src': `${firebase.connect} https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/ ${vercel.iframe}`,
-    'style-src': `${graphiQL.style} ${nextjs.script}`,
-    'connect-src': `${firebase.connect} ${sentry.connect}`,
+    ...generatedCsp,
     'prefetch-src': false, // chrome warning
-    'img-src': `${firebase.image}`,
-    'font-src': `${graphiQL.font}`,
-    'worker-src': `${sentry.worker}`,
   },
   referrerPolicy: 'origin-when-cross-origin',
   permissionsPolicy: {
@@ -78,7 +113,7 @@ const config = {
       {
         source: '/:path*',
         // @ts-ignore
-        headers: nextSafe.default({ ...contentSecurityPolicy, isDev }),
+        headers: nextSafe.default({ ...contentSecurityPolicyTemplate, isDev }),
       },
     ];
   },
