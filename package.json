@@ -54,6 +54,7 @@
   "dependencies": {
     "@apollo/client": "^3.8.1",
     "@apollo/experimental-nextjs-app-support": "^0.4.1",
+    "@ducanh2912/next-pwa": "^9.5.0",
     "@envelop/generic-auth": "^6.0.0",
     "@escape.tech/graphql-armor": "^2.2.0",
     "@firebase/util": "^1.9.3",
@@ -151,7 +152,8 @@
     "tailwindcss": "^3.3.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2",
-    "vitest": "^0.34.3"
+    "vitest": "^0.34.3",
+    "webpack": "^5.88.2"
   },
   "author": {
     "name": "Adam Lane",

@@ -66,6 +66,20 @@ export const basicFields: Metadata = {
   verification: {
     // google: undefined,
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: config.applicationName,
+    // startUpImage: [],
+  },
+  twitter: {
+    card: 'summary',
+    title: config.applicationName,
+    description: config.description,
+  },
+  formatDetection: {
+    telephone: false,
+  },
   /*
   twitter: {
     // card: 'summary_large_image',

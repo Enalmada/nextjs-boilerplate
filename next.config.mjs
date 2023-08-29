@@ -34,7 +34,7 @@ const cspRules = [
     source: 'firebase',
     script: 'https://apis.google.com/ https://accounts.google.com/gsi/client',
     connect:
-      'https://accounts.google.com/gsi/ https://securetoken.googleapis.com https://identitytoolkit.googleapis.com',
+      'https://accounts.google.com/gsi/ https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://lh3.googleusercontent.com',
     img: 'https://lh3.googleusercontent.com',
     frame: `https://accounts.google.com/gsi/ https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/`,
   },
@@ -260,8 +260,13 @@ export default async function configureNextConfig(phase) {
     const bundleAnalyzerConfig = {
       enabled: process.env.ANALYZE === 'true',
     };
+
+    const withPWA = (await import('@ducanh2912/next-pwa')).default({
+      dest: 'public',
+    });
+
     return withSentry(
-      withAxiom(withRoutes(withBundleAnalyzer.default(bundleAnalyzerConfig)(config)))
+      withPWA(withAxiom(withRoutes(withBundleAnalyzer.default(bundleAnalyzerConfig)(config))))
     );
   }
   return withSentry(withAxiom(withRoutes(config)));
