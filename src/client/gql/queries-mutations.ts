@@ -1,7 +1,7 @@
-import { graphql } from '@/client/gql/generated';
+// import { graphql } from '@/client/gql/generated';
+import { gql } from '@apollo/client';
 
-/*
-export const TASK_PARTS = graphql( `
+export const TASK_PARTS = gql`
   fragment TaskParts on Task {
     id
     title
@@ -10,24 +10,18 @@ export const TASK_PARTS = graphql( `
     status
     createdAt
     updatedAt
+    version
   }
-`);
-*/
+`;
 
-export const TASKS = graphql(/* GraphQL */ `
+export const TASKS = gql`
   query Tasks {
     tasks {
-      id
-      title
-      description
-      dueDate
-      status
-      createdAt
-      updatedAt
-      version
+      ...TaskParts
     }
   }
-`);
+  ${TASK_PARTS}
+`;
 
 /*
 export const TASK = graphql(`
@@ -56,62 +50,38 @@ export const TASK = graphql(`
 `);
  */
 
-export const TASK = graphql(/* GraphQL */ `
+export const TASK = gql`
   query Task($id: ID!) {
     task(id: $id) {
-      id
-      title
-      description
-      dueDate
-      status
-      createdAt
-      updatedAt
-      version
+      ...TaskParts
     }
   }
-`);
+  ${TASK_PARTS}
+`;
 
-export const CREATE_TASK = graphql(/* GraphQL */ `
+export const CREATE_TASK = gql`
   mutation CreateTask($input: MutationCreateTaskInput!) {
     createTask(input: $input) {
-      id
-      title
-      description
-      dueDate
-      status
-      createdAt
-      updatedAt
-      version
+      ...TaskParts
     }
   }
-`);
+  ${TASK_PARTS}
+`;
 
-export const UPDATE_TASK = graphql(/* GraphQL */ `
+export const UPDATE_TASK = gql`
   mutation UpdateTask($id: ID!, $input: MutationUpdateTaskInput!) {
     updateTask(id: $id, input: $input) {
-      id
-      title
-      description
-      dueDate
-      status
-      createdAt
-      updatedAt
-      version
+      ...TaskParts
     }
   }
-`);
+  ${TASK_PARTS}
+`;
 
-export const DELETE_TASK = graphql(/* GraphQL */ `
+export const DELETE_TASK = gql`
   mutation DeleteTask($id: ID!) {
     deleteTask(id: $id) {
-      id
-      title
-      description
-      dueDate
-      status
-      createdAt
-      updatedAt
-      version
+      ...TaskParts
     }
   }
-`);
+  ${TASK_PARTS}
+`;

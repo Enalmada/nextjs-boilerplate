@@ -74,7 +74,6 @@ export default function Task(props: Props) {
 
   const handleUpdateTask = async (e: React.MouseEvent<HTMLInputElement>) => {
     const input = {
-      id: id,
       title: title,
       description: description,
       dueDate: dueDate ? dueDate : undefined,

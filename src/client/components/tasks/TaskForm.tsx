@@ -4,7 +4,15 @@ import { Suspense, useState } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { extractErrorMessages } from '@/client/gql/errorHandling';
-import { TaskStatus, type Task, type TasksQuery } from '@/client/gql/generated/graphql';
+import {
+  TaskStatus,
+  type CreateTaskMutation,
+  type DeleteTaskMutation,
+  type Task,
+  type TaskQuery,
+  type TasksQuery,
+  type UpdateTaskMutation,
+} from '@/client/gql/generated/graphql';
 import { addToCache, removeFromCache } from '@/client/gql/graphql-helpers';
 import { CREATE_TASK, DELETE_TASK, TASK, TASKS, UPDATE_TASK } from '@/client/gql/queries-mutations';
 import {
@@ -35,7 +43,7 @@ export default function TaskForm(props: Props) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
 
-  const { data: dataQuery, error: errorQuery } = useSuspenseQuery(TASK, {
+  const { data: dataQuery, error: errorQuery } = useSuspenseQuery<TaskQuery>(TASK, {
     variables: { id: props.id || '' },
     skip: props.id === undefined,
   });
@@ -43,10 +51,10 @@ export default function TaskForm(props: Props) {
   // Create and Update loading is handled by form submitting
   // mutation error will render errors but not handle them
   // https://stackoverflow.com/questions/59465864/handling-errors-with-react-apollo-usemutation-hook
-  const [createTask, { error: createMutationError }] = useMutation(CREATE_TASK);
-  const [updateTask, { error: updateMutationError }] = useMutation(UPDATE_TASK);
+  const [createTask, { error: createMutationError }] = useMutation<CreateTaskMutation>(CREATE_TASK);
+  const [updateTask, { error: updateMutationError }] = useMutation<UpdateTaskMutation>(UPDATE_TASK);
   const [deleteTask, { error: deleteMutationError, loading: loadingDelete }] =
-    useMutation(DELETE_TASK);
+    useMutation<DeleteTaskMutation>(DELETE_TASK);
 
   // TODO: dueDate should be Date (form not submitting)
   type FormData = {

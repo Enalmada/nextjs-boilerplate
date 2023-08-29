@@ -1,5 +1,6 @@
 'use client';
 
+import { type TasksQuery } from '@/client/gql/generated/graphql';
 import { TASKS } from '@/client/gql/queries-mutations';
 import { Card, CardBody } from '@/client/ui';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
@@ -27,7 +28,7 @@ const EmptyState = () => {
 };
 
 export default function TaskList() {
-  const { data, error } = useSuspenseQuery(TASKS);
+  const { data, error } = useSuspenseQuery<TasksQuery>(TASKS);
 
   if (error) return <div>{`Error! ${error?.message}`}</div>;
   if (!data) return null;

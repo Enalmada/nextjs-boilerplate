@@ -1,5 +1,7 @@
 import { type CodegenConfig } from '@graphql-codegen/cli';
 
+// import { addTypenameSelectionDocumentTransform } from '@graphql-codegen/client-preset'
+
 const config: CodegenConfig = {
   schema: 'http://localhost:3000/api/graphql',
   documents: [
@@ -13,7 +15,12 @@ const config: CodegenConfig = {
       plugins: ['schema-ast'],
     },
     './src/client/gql/generated/': {
-      preset: 'client-preset',
+      preset: 'client',
+      presetConfig: {
+        fragmentMasking: false, // { unmaskFunctionName: 'getFragmentData' },
+        // persistedDocuments: true
+      },
+      // documentTransforms: [addTypenameSelectionDocumentTransform],
       config: {
         scalars: {
           DateTime: 'Date',

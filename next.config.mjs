@@ -61,12 +61,22 @@ const cspRules = [
   },
 ];
 
-// Initialize an object to hold the dynamically generated CSP attributes
+/**
+ * Initialize an object to hold the dynamically generated CSP attributes.
+ * @type {Object.<string, string>}
+ */
 const generatedCsp = {};
 
-// Loop through each rule set in cspRules
+/**
+ * Loop through each rule set in cspRules.
+ * @param {Object.<string, string>} rule - The current rule set being processed.
+ */
 cspRules.forEach((rule) => {
-  // Loop through each key in a given rule set
+  /**
+   * Loop through each key-value pair in a given rule set.
+   * @param {string} key - The attribute key for the CSP rule.
+   * @param {string} value - The attribute value for the CSP rule.
+   */
   for (const [key, value] of Object.entries(rule)) {
     if (key !== 'source') {
       const cspKey = `${key}-src`;
@@ -75,7 +85,9 @@ cspRules.forEach((rule) => {
   }
 });
 
-// Trim leading and trailing spaces from each attribute
+/**
+ * Trim leading and trailing spaces from each attribute in generatedCsp.
+ */
 for (const [key, value] of Object.entries(generatedCsp)) {
   generatedCsp[key] = value.trim();
 }
@@ -133,9 +145,10 @@ const config = {
     // To prevent certain packages from being included in the client bundle
     // https://codevoweb.com/setup-and-use-nextauth-in-nextjs-13-app-directory/
     // serverComponentsExternalPackages: ['@prisma/client', 'bcryptjs'],
-    /* currently crashing https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#swc-plugin
+    // currently crashing https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#swc-plugin v0.2.0
+    /*
     swcPlugins: [
-      ['@graphql-codegen/client-preset-swc-plugin', { artifactDirectory: './src/gql', gqlTagName: 'graphql' }]
+      ['@graphql-codegen/client-preset-swc-plugin', { artifactDirectory: './src/client/gql/generated', gqlTagName: 'gql' }]
     ]
      */
   },
@@ -146,12 +159,14 @@ const config = {
   webpack(config, { isServer }) {
     // https://github.com/0no-co/graphql-web-lite  330k to 323k
     // https://github.com/urql-graphql/urql/pull/3108
+    /* causing Cannot read properties of undefined (reading 'source') with gql tag
     if (!isServer) {
       config.resolve.alias = {
         ...config.resolve.alias,
         graphql: 'graphql-web-lite',
       };
     }
+    */
 
     // TODO - figure out how to fix this the real way
     config.ignoreWarnings = [

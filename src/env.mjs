@@ -1,23 +1,42 @@
+// @ts-check
+
 import { enumType, minLength, object, optional, safeParse, string } from 'valibot';
 
+/**
+ * @param {string} key - The key name for the required string.
+ * @returns {unknown} A Valibot object representing the required string.
+ */
 const required = (key) => string([minLength(1, `${key} required`)]);
 
+/**
+ * @param {any} schemaDefinition - The schema definition object.
+ * @returns {unknown} A Valibot object representing the created schema.
+ */
 const createEnvSchema = (schemaDefinition) => object(schemaDefinition);
 
+/**
+ * @param {any} schema - The Valibot schema to validate against.
+ * @param {Object.<string, string | undefined>} envVars - The environment variables to validate.
+ * @returns {any} The parsed environment variables if successful.
+ */
 function validateEnv(schema, envVars) {
-  if(process.env.SKIP_ENV_VALIDATION !== 'true') {
+  if (process.env.SKIP_ENV_VALIDATION !== 'true') {
     const parsed = safeParse(schema, envVars);
     if (!parsed.success) {
       const reducedIssues = reduceIssues(parsed.issues);
-      console.error("Issue with environment variables: " + JSON.stringify(reducedIssues));
+      console.error('Issue with environment variables: ' + JSON.stringify(reducedIssues));
       process.exit(1);
     }
     return parsed;
   }
 }
 
+/**
+ * @param {Array.<any>} issues - The list of issues to reduce.
+ * @returns {Array.<Object>} The reduced list of issues containing only the attribute, input, and message.
+ */
 function reduceIssues(issues) {
-  return issues.map(issue => ({
+  return issues.map((issue) => ({
     attribute: issue.path?.[0].key,
     input: issue.input,
     message: issue.message,
@@ -47,7 +66,9 @@ const clientSchema = createEnvSchema({
   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: required('NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN required'),
   NEXT_PUBLIC_FIREBASE_DATABASE_URL: required('NEXT_PUBLIC_FIREBASE_DATABASE_URL required'),
   NEXT_PUBLIC_FIREBASE_PROJECT_ID: required('NEXT_PUBLIC_FIREBASE_PROJECT_ID required'),
-  NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: required('NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID required'),
+  NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: required(
+    'NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID required'
+  ),
 });
 
 const serverEnv = validateEnv(serverSchema, {
@@ -76,9 +97,7 @@ const clientEnv = validateEnv(clientSchema, {
   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
 });
 
-
 export { serverEnv, clientEnv };
-
 
 /*
 old t3-oss which didn't compile to standalone, allow runtime variables.
