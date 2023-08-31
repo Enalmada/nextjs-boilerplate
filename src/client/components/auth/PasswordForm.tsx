@@ -162,7 +162,13 @@ export default function PasswordForm({ redirect, isSignIn, setHasLogged }: Props
           />
           {isSignIn && (
             <div className={'mb-5 flex justify-end'}>
-              <Link size="sm" href={`/reset-password` + (redirect ? `?redirect=${redirect}` : '')}>
+              <Link
+                size="sm"
+                href={{
+                  pathname: '/reset-password',
+                  query: { redirect: redirect },
+                }}
+              >
                 Forgot password?
               </Link>
             </div>

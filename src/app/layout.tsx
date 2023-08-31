@@ -15,9 +15,16 @@ export const metadata = {
   ],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+interface Props {
+  children: React.ReactNode;
+  params: {
+    locale: string;
+  };
+}
+
+export default function RootLayout({ children, params }: Props) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={params.locale} suppressHydrationWarning>
       <body
         className={clsx(
           'min-h-screen bg-background bg-slate-50 font-sans antialiased dark:bg-slate-900',

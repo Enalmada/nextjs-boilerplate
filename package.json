@@ -82,6 +82,7 @@
     "next": "^13.4.19",
     "next-axiom": "^1.0.0-rc.1",
     "next-firebase-auth-edge": "^0.8.3",
+    "next-intl": "3.0.0-beta.14",
     "next-safe": "^3.4.1",
     "next-themes": "^0.2.1",
     "nextjs-routes": "^2.0.1",

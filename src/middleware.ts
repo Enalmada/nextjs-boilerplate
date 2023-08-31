@@ -2,17 +2,30 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import matchesAnyItem from '@/client/utils/matchesAnyItem';
 import { authConfig } from '@/lib/firebase/config/server-config';
+import { locales, pathnames } from '@/lib/localization/navigation';
 import { authentication } from 'next-firebase-auth-edge/lib/next/middleware';
+import createIntlMiddleware from 'next-intl/middleware';
 
 const PUBLIC_PATHS = ['/register', '/login', '/reset-password'];
 const protectedMatcher = ['/app', '/app/(.)'];
+
+export const defaultLocale = 'en';
+
+// TODO consider const defaultLocale = request.headers.get('x-default-locale') || 'en';
+// https://next-intl-docs.vercel.app/docs/routing/middleware#composing-other-middlewares
+const intlMiddleware = createIntlMiddleware({
+  locales,
+  defaultLocale,
+  localeDetection: false,
+  pathnames,
+});
 
 function redirectToLogin(request: NextRequest) {
   if (
     PUBLIC_PATHS.includes(request.nextUrl.pathname) ||
     !matchesAnyItem(protectedMatcher, request.nextUrl.pathname)
   ) {
-    return NextResponse.next();
+    return intlMiddleware(request);
   }
 
   const url = request.nextUrl.clone();
@@ -37,15 +50,14 @@ export async function middleware(request: NextRequest) {
       //  return redirectToHome(request);
       // }
 
-      return NextResponse.next();
+      return intlMiddleware(request);
     },
     // eslint-disable-next-line @typescript-eslint/require-await
     handleInvalidToken: async () => {
       return redirectToLogin(request);
     },
-    // eslint-disable-next-line @typescript-eslint/require-await
+    // eslint-disable-next-line @typescript-eslint/require-await,@typescript-eslint/no-unused-vars
     handleError: async (error) => {
-      console.error('Unhandled authentication error', { error });
       return redirectToLogin(request);
     },
   });

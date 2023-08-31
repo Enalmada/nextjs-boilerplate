@@ -6,7 +6,9 @@ import { NextUIProvider } from '@nextui-org/react';
 import { action } from '@storybook/addon-actions';
 import { navigate } from '@storybook/addon-links';
 import { themes } from '@storybook/theming';
+import { NextIntlClientProvider } from 'next-intl';
 
+import messages from '../messages/en.json';
 import { defaultOptions } from '../src/client/gql/apollo-wrapper';
 import { globalMocks } from '../src/client/gql/globalMocks';
 import typePolicies from '../src/client/gql/typePolicies';
@@ -26,17 +28,23 @@ const apolloCacheConfig = new NextSSRInMemoryCache({
   typePolicies: typePolicies,
 });
 
+const selectedMessages = {
+  Index: messages.Index,
+};
+
 export const decorators = [
   (Story, { globals: { locale } }) => {
     // clears the mocks completely
     // apolloCacheConfig.reset().then();
     return (
-      <NextUIProvider locale={locale}>
-        <div className={`bg-dark font-sans ${fontSans.variable}`} lang={locale}>
-          <Style />
-          <Story />
-        </div>
-      </NextUIProvider>
+      <NextIntlClientProvider locale="en" messages={selectedMessages}>
+        <NextUIProvider locale={locale}>
+          <div className={`bg-dark font-sans ${fontSans.variable}`} lang={locale}>
+            <Style />
+            <Story />
+          </div>
+        </NextUIProvider>
+      </NextIntlClientProvider>
     );
   },
 ];

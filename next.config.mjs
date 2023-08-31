@@ -8,88 +8,120 @@ import { withAxiom } from 'next-axiom';
 import * as nextSafe from 'next-safe';
 import nextRoutesConfig from 'nextjs-routes/config';
 
-const withRoutes = nextRoutesConfig();
-
 const isDev = process.env.NODE_ENV !== 'production';
 
 /**
  * @typedef {Object} CspRule
- * @property {string} [source] - Documentation source
- * @property {string} [script]
- * @property {string} [style]
- * @property {string} [img]
- * @property {string} [connect]
- * @property {string} [font]
- * @property {string} [object]
- * @property {string} [media]
- * @property {string} [frame]
- * @property {string} [worker]
- * @property {string} [manifest]
+ * @property {string | boolean} [source] - Documentation source
+ * @property {string | boolean} [script-src]
+ * @property {string | boolean} [style-src]
+ * @property {string | boolean} [img-src]
+ * @property {string | boolean} [connect-src]
+ * @property {string | boolean} [font-src]
+ * @property {string | boolean} [object-src]
+ * @property {string | boolean} [media-src]
+ * @property {string | boolean} [frame-src]
+ * @property {string | boolean} [worker-src]
+ * @property {string | boolean} [manifest-src]
+ * @property {string | boolean } [prefetch-src]
+ * @property {string | boolean } [base-uri]
+ * @property {string | boolean } [child-src]
+ * @property {string | boolean } [default-src]
+ * @property {string | boolean } [form-action]
+ * @property {string | boolean } [frame-ancestors]
+ */
+
+/** @type {CspRule} */
+const defaultCsp = {
+  'base-uri': "'none'",
+  'child-src': "'none'",
+  'connect-src': "'self'",
+  'default-src': "'self'",
+  'font-src': "'self'",
+  'form-action': "'self'",
+  'frame-ancestors': "'none'",
+  'frame-src': "'none'",
+  'img-src': "'self'",
+  'manifest-src': "'self'",
+  'media-src': "'self'",
+  'object-src': "'none'",
+  'prefetch-src': "'self'",
+  'script-src': "'self'",
+  'style-src': "'self'",
+  'worker-src': "'self'",
+};
+
+/*
+Refused to connect to 'https://apis.google.com/js/api.js?onload=__iframefcb385535' because it violates the following Content Security Policy directive: "connect-src 'self' https://accounts.google.com/gsi/ https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://lh3.googleusercontent.com https://o32548.ingest.sentry.io webpack://*".
+
  */
 
 /** @type {CspRule[]} */
 // https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid#cross_origin_opener_policy
 const cspRules = [
+  { source: 'react-dev', 'object-src': 'data:' },
+  { source: 'chrome-warning', 'prefetch-src': false },
   {
     source: 'firebase',
-    script: 'https://apis.google.com/ https://accounts.google.com/gsi/client',
-    connect:
-      'https://accounts.google.com/gsi/ https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://lh3.googleusercontent.com',
-    img: 'https://lh3.googleusercontent.com',
-    frame: `https://accounts.google.com/gsi/ https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/`,
+    'script-src': 'https://apis.google.com/ https://accounts.google.com/gsi/client',
+    'connect-src':
+      'https://apis.google.com https://accounts.google.com/gsi/ https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://lh3.googleusercontent.com',
+    'img-src': 'https://lh3.googleusercontent.com',
+    'frame-src': `https://accounts.google.com/gsi/ https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/`,
   },
   {
     source: 'vercel',
-    frame: 'https://vercel.live/',
-    script: 'https://vercel.live/_next-live/feedback/',
+    'frame-src': 'https://vercel.live/',
+    'script-src': 'https://vercel.live/_next-live/feedback/',
   },
   {
     source: 'nextjs',
-    script: "'unsafe-inline'",
-    style: "'unsafe-inline'",
+    'script-src': "'unsafe-inline'",
+    'style-src': "'unsafe-inline'",
   },
   {
     source: 'graphiQL',
-    style: 'https://unpkg.com/@graphql-yoga/',
-    script: 'https://unpkg.com/@graphql-yoga/',
-    font: 'data:',
+    'style-src': 'https://unpkg.com/@graphql-yoga/',
+    'script-src': 'https://unpkg.com/@graphql-yoga/',
+    'font-src': 'data:',
+    'connect-src': 'https://unpkg.com',
+    'img-src': 'https://raw.githubusercontent.com',
   },
   {
     source: 'sentry',
-    worker: 'blob:',
-    connect: 'https://o32548.ingest.sentry.io',
+    'worker-src': 'blob:',
+    'connect-src': 'https://o32548.ingest.sentry.io',
   },
 ];
 
-/**
- * Initialize an object to hold the dynamically generated CSP attributes.
- * @type {Object.<string, string>}
- */
-const generatedCsp = {};
+/** @type {Record<string, string | boolean>} */
+const generatedCsp = { ...defaultCsp };
 
 /**
  * Loop through each rule set in cspRules.
  * @param {Object.<string, string>} rule - The current rule set being processed.
  */
 cspRules.forEach((rule) => {
-  /**
-   * Loop through each key-value pair in a given rule set.
-   * @param {string} key - The attribute key for the CSP rule.
-   * @param {string} value - The attribute value for the CSP rule.
-   */
   for (const [key, value] of Object.entries(rule)) {
     if (key !== 'source') {
-      const cspKey = `${key}-src`;
-      generatedCsp[cspKey] = (generatedCsp[cspKey] || '') + ' ' + value;
+      const cspKey = key;
+      if (typeof value === 'boolean') {
+        generatedCsp[cspKey] = value;
+      } else {
+        if (generatedCsp[cspKey] === "'none'") {
+          generatedCsp[cspKey] = value;
+        } else {
+          generatedCsp[cspKey] += ' ' + value;
+        }
+      }
     }
   }
 });
 
-/**
- * Trim leading and trailing spaces from each attribute in generatedCsp.
- */
 for (const [key, value] of Object.entries(generatedCsp)) {
-  generatedCsp[key] = value.trim();
+  if (typeof value === 'string') {
+    generatedCsp[key] = value.trim();
+  }
 }
 
 // Final contentSecurityPolicyTemplate with dynamic contentSecurityPolicy attribute
@@ -98,7 +130,6 @@ const contentSecurityPolicyTemplate = {
   contentSecurityPolicy: {
     mergeDefaultDirectives: true,
     ...generatedCsp,
-    'prefetch-src': false, // chrome warning
   },
   referrerPolicy: 'origin-when-cross-origin',
   permissionsPolicy: {
@@ -130,16 +161,6 @@ const config = {
     ];
   },
 
-  /**
-   * If you have the "experimental: { appDir: true }" setting enabled, then you
-   * must comment the below `i18n` config out.
-   *
-   * @see https://github.com/vercel/next.js/issues/41980
-   */
-  i18n: {
-    locales: ['en'],
-    defaultLocale: 'en',
-  },
   experimental: {
     serverActions: true,
     // To prevent certain packages from being included in the client bundle
@@ -252,6 +273,8 @@ const withSentry = (config) => {
   );
 };
 
+const withNextIntl = (await import('next-intl/plugin')).default('./src/lib/localization/i18n.ts');
+
 // @ts-ignore
 export default async function configureNextConfig(phase) {
   if (phase === PHASE_DEVELOPMENT_SERVER || phase === PHASE_PRODUCTION_BUILD) {
@@ -263,11 +286,16 @@ export default async function configureNextConfig(phase) {
 
     const withPWA = (await import('@ducanh2912/next-pwa')).default({
       dest: 'public',
+      buildExcludes: [
+        /\.map$/, // Exclude all .map files
+        /^((?!~offline).)*\.js$/, // Exclude all .js files that do not contain ~offline in the path
+        /(?<!\.p)\.woff2$/, // Exclude all .woff2 files that are not .p.woff2 (preloaded subset)
+      ],
     });
 
     return withSentry(
-      withPWA(withAxiom(withRoutes(withBundleAnalyzer.default(bundleAnalyzerConfig)(config))))
+      withNextIntl(withPWA(withAxiom(withBundleAnalyzer.default(bundleAnalyzerConfig)(config))))
     );
   }
-  return withSentry(withAxiom(withRoutes(config)));
+  return withSentry(withAxiom(withNextIntl(config)));
 }
