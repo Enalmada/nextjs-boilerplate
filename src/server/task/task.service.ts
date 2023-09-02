@@ -1,8 +1,8 @@
 import Logger from '@/lib/logging/log-util';
 import { type Task, type TaskInput, type User } from '@/server/db/schema';
-import { NotAuthorizedError, NotFoundError, OptimisticLockError } from '@/server/graphql/errors';
+import { NotFoundError, OptimisticLockError } from '@/server/graphql/errors';
 import { type MyContextType } from '@/server/graphql/yoga';
-import authCheck from '@/server/utils/authCheck';
+import { accessCheck } from '@/server/utils/accessCheck';
 
 import TaskRepository from './task.repository';
 
@@ -12,11 +12,11 @@ export default class TaskService {
   async tasks(user: User, ctx: MyContextType) {
     const logger = this.logger.logMethodStart(this.tasks.name, ctx);
 
-    if (!user) {
-      throw new NotAuthorizedError(`user required to complete this operation`, logger);
-    }
+    const criteria = { userId: user.id };
 
-    return TaskRepository.findMany({ userId: user.id });
+    accessCheck(logger, user, 'list', 'Task', criteria);
+
+    return TaskRepository.findMany(criteria);
   }
 
   async task(user: User, id: string, ctx: MyContextType) {
@@ -28,23 +28,27 @@ export default class TaskService {
       throw new NotFoundError(`task ${id} not found`, logger);
     }
 
-    authCheck(user, task.userId, logger);
+    accessCheck(logger, user, 'read', 'Task', task);
 
     return task;
   }
 
   async create(user: User, input: TaskInput, ctx: MyContextType): Promise<Task> {
-    this.logger.logMethodStart(this.create.name, ctx, {
+    const logger = this.logger.logMethodStart(this.create.name, ctx, {
       data: { ...input },
     });
 
-    return TaskRepository.create({
+    const createWith = {
       ...input,
       updatedAt: new Date(),
       createdAt: new Date(),
       version: 1,
       userId: user.id,
-    });
+    };
+
+    accessCheck(logger, user, 'create', 'Task', createWith);
+
+    return TaskRepository.create(createWith);
   }
 
   async update(user: User, id: string, input: TaskInput, ctx: MyContextType): Promise<Task> {
@@ -66,13 +70,15 @@ export default class TaskService {
       );
     }
 
-    authCheck(user, task.userId, logger);
+    accessCheck(logger, user, 'update', 'Task', task);
 
-    return TaskRepository.update(id, {
+    const updateWith = {
       ...input,
       updatedAt: new Date(),
       version: task.version + 1,
-    });
+    };
+
+    return TaskRepository.update(id, updateWith);
   }
 
   async delete(user: User, id: string, ctx: MyContextType): Promise<Task> {
@@ -84,7 +90,7 @@ export default class TaskService {
       throw new NotFoundError(`Task ${id} not found`, logger);
     }
 
-    authCheck(user, task.userId, logger);
+    accessCheck(logger, user, 'delete', 'Task', task);
 
     return TaskRepository.delete(id);
   }

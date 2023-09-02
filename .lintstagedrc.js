@@ -14,4 +14,5 @@ const buildPrettierCommand = (filenames) => `pnpm prettier --write ${filenames.j
 module.exports = {
   '*.{ts,tsx}': [buildPrettierCommand, buildEslintCommand],
   '**/*.(ts|tsx)': [tsc],
+  'src/server/db/schema.ts': 'pnpm drizzle:generate',
 };

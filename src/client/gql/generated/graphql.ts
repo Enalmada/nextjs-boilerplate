@@ -97,8 +97,14 @@ export type User = {
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name?: Maybe<Scalars['String']['output']>;
+  role: UserRole;
   version: Scalars['Int']['output'];
 };
+
+export enum UserRole {
+  Admin = 'ADMIN',
+  Member = 'MEMBER'
+}
 
 export type TaskPartsFragment = { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt: Date, version: number };
 

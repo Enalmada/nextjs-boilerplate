@@ -54,5 +54,11 @@ type User {
   email: String
   id: ID!
   name: String
+  role: UserRole!
   version: Int!
+}
+
+enum UserRole {
+  ADMIN
+  MEMBER
 }

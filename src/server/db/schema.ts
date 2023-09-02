@@ -19,12 +19,20 @@ const generateAuditingFields = () => {
   };
 };
 
+export enum UserRole {
+  MEMBER = 'MEMBER',
+  ADMIN = 'ADMIN',
+}
+
+export const UserRolesEnum = pgEnum('role', Object.values(UserRole) as [string, ...string[]]);
+
 export const UserTable = pgTable('user', {
   id: generateIdField('usr'),
   firebaseId: varchar('firebase_id').unique(),
   name: varchar('name', { length: 255 }),
   email: varchar('email', { length: 320 }),
   image: varchar('image', { length: 2083 }),
+  role: UserRolesEnum('role').default(UserRole.MEMBER).$type<UserRole>().notNull(),
   ...generateAuditingFields(),
 });
 
