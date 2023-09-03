@@ -4,11 +4,11 @@ import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button, ButtonGroup, Card, CardBody } from '@/client/ui';
-import { useLoadingCallback } from '@/client/utils/useLoadingCallback';
 import { useAuth } from '@/lib/firebase/auth/context';
 import { useFirebaseAuth } from '@/lib/firebase/auth/firebase';
 import { clientConfig } from '@/lib/firebase/config/client-config';
 import { Chip } from '@nextui-org/react';
+import { useLoadingCallback } from 'react-loading-hook';
 
 interface UserProfileProps {
   count: number;

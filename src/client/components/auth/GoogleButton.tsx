@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 import { Button } from '@/client/ui';
-import { useLoadingCallback } from '@/client/utils/useLoadingCallback';
 import { useFirebaseAuth } from '@/lib/firebase/auth/firebase';
+import { useLoadingCallback } from 'react-loading-hook';
 
 import { getGoogleProvider, loginWithProvider } from './firebase';
 

@@ -63,6 +63,8 @@ export async function middleware(request: NextRequest) {
   });
 }
 
+// TODO - consider ignoring matching prefetches (from next/link) and static asset
+// https://nextjs.org/docs/app/building-your-application/configuring/content-security-policy#adding-a-nonce-with-middleware
 export const config = {
   matcher: ['/', '/((?!_next|favicon.ico|api|.*\\.).*)', '/api/login', '/api/logout'],
 };
