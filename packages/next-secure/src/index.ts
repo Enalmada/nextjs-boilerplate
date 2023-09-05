@@ -3,10 +3,17 @@ function deepMerge<T extends object, S extends object>(target: T, source: S): T 
 
   if (isObject(target) && isObject(source)) {
     Object.keys(source).forEach((key) => {
+      // @ts-ignore
       if (isObject(source[key])) {
-        if (!(key in target)) Object.assign(output, { [key]: source[key] });
-        else output[key] = deepMerge(target[key], source[key]);
+        if (!(key in target)) {
+          // @ts-ignore
+          Object.assign(output, { [key]: source[key] });
+        } else {
+          // @ts-ignore
+          output[key] = deepMerge(target[key], source[key]);
+        }
       } else {
+        // @ts-ignore
         Object.assign(output, { [key]: source[key] });
       }
     });

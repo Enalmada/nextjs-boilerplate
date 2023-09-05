@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { db } from '@/server/db';
 import { and, eq } from 'drizzle-orm';
 import { type PgTableWithColumns } from 'drizzle-orm/pg-core';
 import { type RelationalQueryBuilder } from 'drizzle-orm/pg-core/query-builders/query';
+import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 
 type CriteriaType<T> = keyof T;
 
@@ -22,8 +22,9 @@ const buildWhereClause = <T>(criteria: Partial<T>, table: PgTableWithColumns<any
 };
 
 export const createRepo = <T extends { [key: string]: any }, TI extends { [key: string]: any }>(
+  db: PostgresJsDatabase<T>, // replace with the appropriate type for db
   table: PgTableWithColumns<any>,
-  queryBuilder: RelationalQueryBuilder<any, any>
+  queryBuilder: RelationalQueryBuilder<T, any>
 ) => {
   return {
     findFirst: async (criteria: Partial<T>): Promise<T> => {

@@ -6,7 +6,7 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import postgres from 'postgres';
 
-const runMigrate = async () => {
+const runMigrate = async (migrationsFolder: string) => {
   if (!process.env.DATABASE_URL) {
     throw new Error('DATABASE_URL is not defined');
   }
@@ -20,7 +20,7 @@ const runMigrate = async () => {
 
   const start = Date.now();
 
-  await migrate(db, { migrationsFolder: './src/server/db/migrate/migrations' });
+  await migrate(db, { migrationsFolder: migrationsFolder });
 
   const end = Date.now();
 
@@ -30,7 +30,7 @@ const runMigrate = async () => {
   process.exit(0);
 };
 
-runMigrate().catch((err) => {
+runMigrate(process.argv[2]!).catch((err) => {
   console.error('❌ Migration failed');
   console.error(err);
   process.exit(1);

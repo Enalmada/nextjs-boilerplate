@@ -1,7 +1,10 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+import { connectToDatabase } from 'drizzle-helpers';
+import { type PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 
 import * as schema from './schema';
 
-const client = postgres(process.env.DATABASE_URL!);
-export const db = drizzle(client, { schema });
+export const db: PostgresJsDatabase<typeof schema> = connectToDatabase<typeof schema>({
+  nodeEnv: process.env.NODE_ENV || 'development',
+  databaseUrl: process.env.DATABASE_URL!,
+  schema: schema,
+});

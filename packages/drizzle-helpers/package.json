@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "version": "0.0.1",
+  "name": "drizzle-helpers",
+  "description": "Shared UI components",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "peerDependencies": {
+    "drizzle-orm": "^0.28.5",
+    "postgres": "^3.3.5"
+  }
+}

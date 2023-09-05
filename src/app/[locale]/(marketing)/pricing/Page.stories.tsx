@@ -1,4 +1,4 @@
-import { MarketingLayout as Layout } from '@/app/[locale]/(marketing)/layout';
+import { MarketingLayout as Layout } from '@/app/[locale]/(marketing)/MarketingLayout';
 import Page from '@/app/[locale]/(marketing)/pricing/page';
 import type { Meta, StoryObj } from '@storybook/react';
 

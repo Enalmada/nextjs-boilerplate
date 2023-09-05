@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
-import Footer from '@/client/components/layout/Footer';
-import Header from '@/client/components/layout/Header';
+import { MarketingLayout } from '@/app/[locale]/(marketing)/MarketingLayout';
 import { NextIntlClientProvider, type AbstractIntlMessages } from 'next-intl';
 
 // Using the searchParams Pages prop will opt the page into dynamic rendering at request time.
@@ -9,18 +8,6 @@ export const dynamic = 'force-static';
 
 export function generateStaticParams() {
   return [{ locale: 'en' }, { locale: 'es' }, { locale: 'ru' }];
-}
-
-export function MarketingLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="relative flex h-screen flex-col">
-      <Header />
-      <div className="flex-grow bg-slate-50 dark:bg-slate-900">
-        <main className="container mx-auto max-w-7xl flex-grow px-6 pb-10 pt-10">{children}</main>
-      </div>
-      <Footer />
-    </div>
-  );
 }
 
 type Props = {

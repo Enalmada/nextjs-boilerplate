@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "version": "0.0.1",
+  "name": "env-valibot",
+  "description": "Shared UI components",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "peerDependencies": {
+    "valibot": "^0.13.1"
+  }
+}

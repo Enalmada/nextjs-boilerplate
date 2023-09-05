@@ -17,13 +17,17 @@ function deepMerge(target, source) {
     if (isObject(target) && isObject(source)) {
         Object.keys(source).forEach(function (key) {
             var _a, _b;
+            // @ts-ignore
             if (isObject(source[key])) {
-                if (!(key in target))
+                if (!(key in target)) { // @ts-ignore
                     Object.assign(output, (_a = {}, _a[key] = source[key], _a));
-                else
+                }
+                else { // @ts-ignore
                     output[key] = deepMerge(target[key], source[key]);
+                }
             }
             else {
+                // @ts-ignore
                 Object.assign(output, (_b = {}, _b[key] = source[key], _b));
             }
         });

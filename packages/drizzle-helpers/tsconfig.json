@@ -8,7 +8,8 @@
     "allowSyntheticDefaultImports": true,
     "module": "commonjs",
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts"],
   "exclude": ["dist", "node_modules", "**/*.spec.ts"]
