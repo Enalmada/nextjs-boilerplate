@@ -50,7 +50,6 @@ export const Default = {
     reportOnly: false,
   },
   frameOptions: 'DENY',
-  permissionsPolicy: {},
   permissionsPolicyDirectiveSupport: ['proposed', 'standard'],
   isDev: false,
   referrerPolicy: 'no-referrer',
@@ -85,8 +84,8 @@ export interface ContentSecurityPolicyTemplate {
     [key: string]: string | boolean;
   };
   referrerPolicy: string;
-  permissionsPolicy: {
-    [key: string]: string;
+  permissionsPolicy?: {
+    [key: string]: string | boolean;
   };
   permissionsPolicyDirectiveSupport: any[];
   isDev: boolean;

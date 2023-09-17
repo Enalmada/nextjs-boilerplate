@@ -1,8 +1,8 @@
 import { TaskStatus, type Task, type TaskInput } from '@/server/db/schema';
 import { builder } from '@/server/graphql/builder';
-import TaskService from '@/server/task/task.service';
+import TaskService, { type TasksInput } from '@/server/task/task.service';
 
-// import TaskService from '@/server/task/task.service';
+import { OrderInputType, PaginationInputType } from '../graphql/sortAndPagination';
 
 // https://github.com/chimame/graphql-yoga-worker-with-pothos
 
@@ -50,15 +50,49 @@ builder.queryField('task', (t) =>
   })
 );
 
-builder.queryField('tasks', (t) =>
-  t.field({
-    type: [TaskType],
-    resolve: async (root, args, ctx) => {
-      if (!ctx.currentUser) {
-        return [];
-      }
+export interface TaskPage {
+  hasMore: boolean;
+  tasks: Task[];
+}
 
-      return new TaskService().tasks(ctx.currentUser, ctx);
+export const TaskPageType = builder.objectRef<TaskPage>('TaskPage');
+
+TaskPageType.implement({
+  description: 'Type used for querying paginated tasks',
+  fields: (t) => ({
+    hasMore: t.exposeBoolean('hasMore'),
+    tasks: t.expose('tasks', { type: [TaskType] }),
+  }),
+});
+
+export interface TaskWhere {
+  id?: string;
+  title?: string;
+}
+
+export const TaskWhereInputType = builder.inputRef<TaskWhere>('TaskWhere');
+
+TaskWhereInputType.implement({
+  fields: (t) => ({
+    id: t.string(),
+    title: t.string(),
+  }),
+});
+
+builder.queryField('tasksPage', (t) =>
+  t.fieldWithInput({
+    type: TaskPageType,
+    input: {
+      where: t.input.field({ type: TaskWhereInputType, required: false }),
+      order: t.input.field({ type: OrderInputType, required: false }),
+      pagination: t.input.field({ type: PaginationInputType, required: false }),
+    },
+    resolve: async (root, args, ctx) => {
+      const page = await new TaskService().tasks(ctx.currentUser, args.input as TasksInput, ctx);
+      return {
+        hasMore: page.hasMore,
+        tasks: page.result,
+      };
     },
   })
 );

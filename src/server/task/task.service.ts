@@ -1,22 +1,28 @@
 import Logger from '@/lib/logging/log-util';
 import { type Task, type TaskInput, type User } from '@/server/db/schema';
 import { NotFoundError, OptimisticLockError } from '@/server/graphql/errors';
+import { sortAndPagination, type TableInput } from '@/server/graphql/sortAndPagination';
 import { type MyContextType } from '@/server/graphql/yoga';
 import { accessCheck } from '@/server/utils/accessCheck';
+import { type Page } from 'drizzle-helpers';
 
 import TaskRepository from './task.repository';
+
+export interface TasksInput extends TableInput {
+  where?: Partial<Task>;
+}
 
 export default class TaskService {
   private readonly logger = new Logger(TaskService.name);
 
-  async tasks(user: User, ctx: MyContextType) {
-    const logger = this.logger.logMethodStart(this.tasks.name, ctx);
+  async tasks(user: User, input: TasksInput | undefined, ctx: MyContextType): Promise<Page<Task>> {
+    const logger = this.logger.logMethodStart(this.tasks.name, ctx, { ...input });
 
-    const criteria = { userId: user.id };
+    accessCheck(logger, user, 'list', 'Task', input?.where);
 
-    accessCheck(logger, user, 'list', 'Task', criteria);
+    const { order, paging } = sortAndPagination(input);
 
-    return TaskRepository.findMany(criteria);
+    return TaskRepository.findPage({ criteria: input?.where, order, paging });
   }
 
   async task(user: User, id: string, ctx: MyContextType) {

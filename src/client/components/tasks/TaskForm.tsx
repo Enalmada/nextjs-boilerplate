@@ -8,13 +8,19 @@ import {
   TaskStatus,
   type CreateTaskMutation,
   type DeleteTaskMutation,
+  type MyTasksQuery,
   type Task,
   type TaskQuery,
-  type TasksQuery,
   type UpdateTaskMutation,
 } from '@/client/gql/generated/graphql';
 import { addToCache, removeFromCache } from '@/client/gql/graphql-helpers';
-import { CREATE_TASK, DELETE_TASK, TASK, TASKS, UPDATE_TASK } from '@/client/gql/queries-mutations';
+import {
+  CREATE_TASK,
+  DELETE_TASK,
+  MY_TASKS,
+  TASK,
+  UPDATE_TASK,
+} from '@/client/gql/queries-mutations';
 import {
   Button,
   Card,
@@ -28,7 +34,7 @@ import { useMutation } from '@apollo/client';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { Button as NextUIButton, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
-import { format } from 'date-fns';
+import format from 'date-fns/format';
 import { DayPicker } from 'react-day-picker';
 import { Controller, useForm } from 'react-hook-form';
 import { date, minLength, nullable, object, optional, string } from 'valibot';
@@ -114,7 +120,7 @@ export default function TaskForm(props: Props) {
         variables: { input },
         // optimisticResponse: optimisticResponseHelper<CreateTaskMutation>('createTask', input),
         update(cache, { data }) {
-          void addToCache<TasksQuery>(data?.createTask, TASKS, cache, 'tasks');
+          void addToCache<MyTasksQuery>(data?.createTask, MY_TASKS, cache, 'me.tasks');
         },
       });
       if (result.data) {
@@ -129,7 +135,7 @@ export default function TaskForm(props: Props) {
       // TODO when optimistic errors are handled
       // optimisticResponse: optimisticResponseHelper<DeleteTaskMutation>('deleteTask', props.task),
       update(cache, { data }) {
-        void removeFromCache<TasksQuery>(data?.deleteTask, TASKS, cache, 'tasks');
+        void removeFromCache<MyTasksQuery>(data?.deleteTask, MY_TASKS, cache, 'me.tasks');
       },
     });
     if (result.data) {

@@ -1,24 +1,25 @@
-import { TaskStatus, UserRole, type User } from '@/server/db/schema';
+import { TaskStatus, UserRole, type Task, type User } from '@/server/db/schema';
 import { NotAuthorizedError, OptimisticLockError } from '@/server/graphql/errors';
 import { type MyContextType } from '@/server/graphql/yoga';
+import { type Page } from 'drizzle-helpers';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import TaskService from './task.service';
 
-const mockTask = {
+const mockTask: Task = {
   id: 'tsk_1',
   title: 'Task 1',
-  description: undefined,
+  description: null,
   dueDate: new Date(),
   createdAt: new Date(),
   updatedAt: new Date(),
   status: TaskStatus.ACTIVE,
   version: 1,
-  userId: 'usr_random',
+  userId: 'usr_1',
 };
 
 const mockUser: User = {
-  id: 'usr_random',
+  id: 'usr_1',
   name: 'name',
   email: 'email@email.com',
   image: null,
@@ -29,11 +30,17 @@ const mockUser: User = {
   role: UserRole.MEMBER,
 };
 
+const mockPage: Page<Task> = {
+  hasMore: false,
+  result: [mockTask],
+};
+
 vi.mock('./task.repository', () => {
   return {
     default: {
       findFirst: vi.fn(() => mockTask),
       findMany: vi.fn(() => [mockTask]),
+      findPage: vi.fn(() => mockPage),
       create: vi.fn(() => mockTask),
       update: vi.fn(() => mockTask),
       delete: vi.fn(() => mockTask),
@@ -51,14 +58,24 @@ describe('TaskService', () => {
     it('should throw Error if no user is provided', async () => {
       const service = new TaskService();
       const ctx: MyContextType = { currentUser: null! };
-      await expect(service.tasks(null!, ctx)).rejects.toThrow(Error);
+      await expect(service.tasks(null!, undefined, ctx)).rejects.toThrow(Error);
     });
 
-    it('should return tasks for authorized users', async () => {
+    it('should throw NotAuthorizedError for member', async () => {
       const service = new TaskService();
       const ctx: MyContextType = { currentUser: mockUser };
-      const result = await service.tasks(mockUser, ctx);
-      expect(result).toEqual([mockTask]);
+      await expect(service.tasks(mockUser, undefined, ctx)).rejects.toThrow(NotAuthorizedError);
+    });
+
+    it('should return tasks for admin users', async () => {
+      const service = new TaskService();
+      const adminUser: User = {
+        ...mockUser,
+        role: UserRole.ADMIN,
+      };
+      const ctx: MyContextType = { currentUser: adminUser };
+      const result = await service.tasks(adminUser, undefined, ctx);
+      expect(result).toEqual(mockPage);
     });
   });
 

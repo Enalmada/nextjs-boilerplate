@@ -37,7 +37,8 @@
     "*.cjs",
     "*.mjs",
     ".next/types/**/*.ts",
-    "drizzle.config.ts"
+    "drizzle.config.ts",
+    "playwright.config.ts"
   ],
   "exclude": ["node_modules", "packages/**"]
 }

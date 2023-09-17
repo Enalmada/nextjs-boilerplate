@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,13 +50,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createRepo = void 0;
 /* eslint-disable @typescript-eslint/no-explicit-any */
 var drizzle_orm_1 = require("drizzle-orm");
-var buildWhereClause = function (criteria, table) {
-    var conditions = Object.keys(criteria)
-        .filter(function (key) { return criteria[key] !== undefined; })
-        .map(function (key) {
-        var criteriaType = key;
-        return (0, drizzle_orm_1.eq)(table[criteriaType], criteria[criteriaType]);
-    });
+var buildWhereClause = function (table, criteria) {
+    var conditions = criteria
+        ? Object.keys(criteria)
+            .filter(function (key) { return criteria[key] !== undefined; })
+            .map(function (key) {
+            var criteriaType = key;
+            return (0, drizzle_orm_1.eq)(table[criteriaType], criteria[criteriaType]);
+        })
+        : [];
     if (conditions.length === 1) {
         return conditions[0];
     }
@@ -53,21 +66,67 @@ var buildWhereClause = function (criteria, table) {
         return drizzle_orm_1.and.apply(void 0, conditions);
     }
 };
+var buildOrderByClause = function (table, order) {
+    if (!order)
+        return;
+    if (order.sortOrder === 'asc') {
+        // @ts-ignore
+        return [(0, drizzle_orm_1.asc)(table[order.sortBy])];
+    }
+    else {
+        // @ts-ignore
+        return [(0, drizzle_orm_1.desc)(table[order.sortBy])];
+    }
+};
+var DEFAULT_PAGE_SIZE = 20;
 var createRepo = function (db, // replace with the appropriate type for db
 table, queryBuilder) {
+    var queryMany = function (table, queryBuilder, config) { return __awaiter(void 0, void 0, void 0, function () {
+        var where, orderBy;
+        return __generator(this, function (_a) {
+            where = buildWhereClause(table, config === null || config === void 0 ? void 0 : config.criteria);
+            orderBy = buildOrderByClause(table, config === null || config === void 0 ? void 0 : config.order);
+            return [2 /*return*/, queryBuilder.findMany({
+                    where: where,
+                    orderBy: orderBy,
+                    limit: config === null || config === void 0 ? void 0 : config.limit,
+                    offset: config === null || config === void 0 ? void 0 : config.offset,
+                })];
+        });
+    }); };
     return {
         findFirst: function (criteria) { return __awaiter(void 0, void 0, void 0, function () {
             var where;
             return __generator(this, function (_a) {
-                where = buildWhereClause(criteria, table);
+                where = buildWhereClause(table, criteria);
                 return [2 /*return*/, queryBuilder.findFirst({ where: where })];
             });
         }); },
-        findMany: function (criteria) { return __awaiter(void 0, void 0, void 0, function () {
-            var where;
+        findMany: function (config) { return __awaiter(void 0, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                where = buildWhereClause(criteria, table);
-                return [2 /*return*/, queryBuilder.findMany({ where: where })];
+                return [2 /*return*/, queryMany(table, queryBuilder, config)];
+            });
+        }); },
+        findPage: function (config) { return __awaiter(void 0, void 0, void 0, function () {
+            var pageSize, currentPage, limit, offset, rawResult, hasMore, result;
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        pageSize = ((_a = config === null || config === void 0 ? void 0 : config.paging) === null || _a === void 0 ? void 0 : _a.pageSize) || DEFAULT_PAGE_SIZE;
+                        currentPage = (((_b = config === null || config === void 0 ? void 0 : config.paging) === null || _b === void 0 ? void 0 : _b.page) || 1) - 1;
+                        limit = pageSize + 1;
+                        offset = currentPage * pageSize;
+                        return [4 /*yield*/, queryMany(table, queryBuilder, __assign(__assign({}, config), { limit: limit, offset: offset }))];
+                    case 1:
+                        rawResult = _c.sent();
+                        hasMore = rawResult.length > pageSize;
+                        result = hasMore ? rawResult.slice(0, -1) : rawResult;
+                        return [2 /*return*/, {
+                                result: result,
+                                hasMore: hasMore,
+                            }];
+                }
             });
         }); },
         create: function (createWith) { return __awaiter(void 0, void 0, void 0, function () {

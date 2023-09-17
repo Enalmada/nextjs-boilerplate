@@ -1,9 +1,15 @@
 import Logger from '@/lib/logging/log-util';
 import { type User } from '@/server/db/schema';
+import { type MyContextType } from '@/server/graphql/yoga';
+import { accessCheck } from '@/server/utils/accessCheck';
+import { defineAbilitiesFor } from '@/server/utils/caslAbility';
+import { packRules } from '@casl/ability/extra';
 
 import UserRepository from './user.repository';
 
 export default class UserService {
+  private readonly logger = new Logger(UserService.name);
+
   static async createOrGetFirebaseUser(
     firebaseId: string,
     email: string | undefined
@@ -37,5 +43,29 @@ export default class UserService {
     }
 
     return user;
+  }
+
+  me(ctx: MyContextType) {
+    const logger = this.logger.logMethodStart(this.me.name, ctx);
+
+    const criteria = { id: ctx.currentUser.id };
+
+    accessCheck(logger, ctx.currentUser, 'read', 'User', criteria);
+
+    const ability = defineAbilitiesFor(ctx.currentUser);
+    const rules = JSON.stringify(packRules(ability.rules));
+
+    return {
+      ...ctx.currentUser,
+      rules,
+    };
+  }
+
+  async users(user: User, ctx: MyContextType) {
+    const logger = this.logger.logMethodStart(this.users.name, ctx);
+
+    accessCheck(logger, user, 'list', 'User', {});
+
+    return UserRepository.findMany();
   }
 }

@@ -3,7 +3,7 @@
 import SchemaBuilder from '@pothos/core';
 import ErrorsPlugin from '@pothos/plugin-errors';
 import WithInputPlugin from '@pothos/plugin-with-input';
-import { DateTimeResolver, NonEmptyStringResolver } from 'graphql-scalars';
+import { DateTimeResolver, JSONResolver, NonEmptyStringResolver } from 'graphql-scalars';
 
 import { type MyContextType } from './yoga';
 
@@ -22,11 +22,15 @@ const complexity = {
 };
  */
 
-export const builder = new SchemaBuilder<{
+export interface SchemaTypes {
   Scalars: {
     DateTime: {
       Input: Date;
       Output: Date;
+    };
+    JSON: {
+      Input: unknown;
+      Output: unknown;
     };
     NonEmptyString: {
       Input: string;
@@ -34,7 +38,11 @@ export const builder = new SchemaBuilder<{
     };
   };
   Context: MyContextType;
-}>({
+}
+
+export type TypesWithDefault = PothosSchemaTypes.ExtendDefaultTypes<SchemaTypes>;
+
+export const builder = new SchemaBuilder<SchemaTypes>({
   plugins: [ErrorsPlugin, WithInputPlugin],
   /*
   errorOptions: {
@@ -67,8 +75,9 @@ builder.objectType(NotFoundError, {
 });
  */
 
-builder.addScalarType('NonEmptyString', NonEmptyStringResolver, {});
 builder.addScalarType('DateTime', DateTimeResolver, {});
+builder.addScalarType('JSON', JSONResolver, {});
+builder.addScalarType('NonEmptyString', NonEmptyStringResolver, {});
 
 builder.queryType({
   description: 'The query root type.',

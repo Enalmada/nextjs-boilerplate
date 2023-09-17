@@ -19,10 +19,12 @@ function deepMerge(target, source) {
             var _a, _b;
             // @ts-ignore
             if (isObject(source[key])) {
-                if (!(key in target)) { // @ts-ignore
+                if (!(key in target)) {
+                    // @ts-ignore
                     Object.assign(output, (_a = {}, _a[key] = source[key], _a));
                 }
-                else { // @ts-ignore
+                else {
+                    // @ts-ignore
                     output[key] = deepMerge(target[key], source[key]);
                 }
             }
@@ -61,7 +63,6 @@ exports.Default = {
         reportOnly: false,
     },
     frameOptions: 'DENY',
-    permissionsPolicy: {},
     permissionsPolicyDirectiveSupport: ['proposed', 'standard'],
     isDev: false,
     referrerPolicy: 'no-referrer',

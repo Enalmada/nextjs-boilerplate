@@ -7,9 +7,9 @@ export function PageContent({ children }: PropsWithChildren) {
   return (
     <>
       <div>
-        <div className="my-2 w-full text-center text-2xl font-bold leading-tight text-gray-800 dark:text-white">
+        <h1 className="my-2 w-full text-center text-2xl font-bold leading-tight text-gray-800 dark:text-white">
           Task Manager
-        </div>
+        </h1>
         <div className="mb-4 w-full">
           <div className="gradient mx-auto my-0 h-1 w-64 rounded-t py-0 opacity-25"></div>
         </div>

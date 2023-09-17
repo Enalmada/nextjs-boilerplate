@@ -1,11 +1,11 @@
 'use client';
 
-import { type TasksQuery } from '@/client/gql/generated/graphql';
-import { TASKS } from '@/client/gql/queries-mutations';
+import { type MyTasksQuery, type Task } from '@/client/gql/generated/graphql';
+import { MY_TASKS } from '@/client/gql/queries-mutations';
 import { Card, CardBody } from '@/client/ui';
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 
-import Task, { TaskBody } from './Task';
+import TaskRender, { TaskBody } from './Task';
 
 export const TaskListLoading = () => {
   return (
@@ -28,13 +28,13 @@ const EmptyState = () => {
 };
 
 export default function TaskList() {
-  const { data, error } = useSuspenseQuery<TasksQuery>(TASKS);
+  const { data, error } = useSuspenseQuery<MyTasksQuery>(MY_TASKS);
 
   if (error) return <div>{`Error! ${error?.message}`}</div>;
   if (!data) return null;
 
   // TODO this should be sorted on server and paginated
-  const tasks = [...data.tasks].sort((a, b) => {
+  const tasks: Task[] = [...(data?.me?.tasks as Task[])].sort((a, b) => {
     // Turn your strings into dates, and then subtract them
     // to get a value that is either negative, positive, or zero.
     return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
@@ -47,7 +47,7 @@ export default function TaskList() {
   return (
     <div className="grid grid-cols-1 gap-2">
       {tasks.map((task) => {
-        return <Task task={task} key={task.id} />;
+        return <TaskRender task={task} key={task.id} />;
       })}
     </div>
   );

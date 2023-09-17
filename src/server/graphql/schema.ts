@@ -1,5 +1,6 @@
 import { builder } from '@/server/graphql/builder';
 
+import './sortAndPagination';
 import '@/server/task/task.model';
 import '@/server/user/user.model';
 

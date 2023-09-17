@@ -9,7 +9,7 @@ export function accessCheck(
   user: User,
   action: Action,
   subjectType: SubjectType,
-  criteria: object,
+  criteria: object = {},
   field?: string
 ) {
   const ability = defineAbilitiesFor(user);

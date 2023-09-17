@@ -122,7 +122,34 @@ export const appRoutes: Route[] = [
   },
 ];
 
-const routes = [...marketingRoutes, ...authRoutes, ...appRoutes];
+export const adminRoutes: Route[] = [
+  {
+    id: 'AdminHome',
+    path: '/admin',
+    name: 'Admin',
+    storybook: 'Pages/Admin/Home',
+  },
+  {
+    id: 'AdminUsers',
+    path: '/admin/users',
+    name: 'Users',
+    storybook: 'Pages/Admin/Users',
+  },
+  {
+    id: 'AdminTasks',
+    path: '/admin/tasks',
+    name: 'Tasks',
+    storybook: 'Pages/Admin/Tasks',
+  },
+  {
+    id: 'AdminTask',
+    path: '/admin/tasks/[id]',
+    name: 'Task',
+    storybook: 'Pages/Admin/Task',
+  },
+];
+
+const routes = [...marketingRoutes, ...authRoutes, ...appRoutes, ...adminRoutes];
 
 export function replaceVariables(string: string, query: { id: string }): string {
   return string.replace('[id]', query.id);

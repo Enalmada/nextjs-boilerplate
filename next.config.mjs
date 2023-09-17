@@ -5,8 +5,6 @@ import { generateCspTemplate } from 'next-secure';
 
 import './src/env.mjs';
 
-// import nextRoutesConfig from 'nextjs-routes/config';
-
 import { withAxiom } from 'next-axiom';
 import * as nextSafe from 'next-safe';
 
@@ -21,17 +19,17 @@ const cspConfig = {
   },
   // https://web.dev/referrer-best-practices/
   referrerPolicy: 'strict-origin-when-cross-origin',
+  // These "false" are included in proposed/standard but cause chrome noise.  Disabling for now.
   permissionsPolicy: {
-    accelerometer: 'none',
-    camera: 'none',
-    geolocation: 'none',
-    gyroscope: 'none',
-    magnetometer: 'none',
-    microphone: 'none',
-    payment: 'none',
-    usb: 'none',
+    'ambient-light-sensor': false,
+    battery: false,
+    'document-domain': false,
+    'execution-while-not-rendered': false,
+    'execution-while-out-of-viewport': false,
+    'navigation-override': false,
+    'speaker-selection': false,
   },
-  permissionsPolicyDirectiveSupport: [], // default causes tons of console noise
+  permissionsPolicyDirectiveSupport: ['proposed', 'standard'], // default causes tons of console noise
 };
 
 /** @type {import("next-secure").CspRule[]} */
@@ -56,6 +54,7 @@ const cspRules = [
   {
     description: 'nextjs',
     // NextJS requires 'unsafe-inline' in prod?!
+    // TODO - use nonce or hash.  next.js is working on improving this.  Revisit when they do.
     'script-src': "'unsafe-inline'",
     // https://github.com/vercel/next.js/issues/18557#issuecomment-727160210
     'style-src': "'unsafe-inline'",
@@ -80,6 +79,9 @@ const cspRules = [
 
 const contentSecurityPolicyTemplates = generateCspTemplate(cspConfig, cspRules);
 
+// next-safe adds legacy keys that are unnecessary and cause console noise
+const keysToRemove = ['Feature-Policy', 'X-Content-Security-Policy', 'X-WebKit-CSP'];
+
 /** @type {import("next").NextConfig} */
 const config = {
   output: 'standalone',
@@ -91,8 +93,11 @@ const config = {
       (/** @type {import("next-secure").ContentSecurityPolicyTemplate } */ template) => {
         return {
           source: template.source || '/:path*',
-          // @ts-ignore
-          headers: nextSafe.default({ ...template }),
+          headers: nextSafe
+            // @ts-ignore this works but typescript can't tell for some reason
+            .default({ ...template })
+            // TODO move all this into next-secure
+            .filter((/** @type {{ key: string; }} */ header) => !keysToRemove.includes(header.key)),
         };
       }
     );

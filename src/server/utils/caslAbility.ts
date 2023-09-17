@@ -7,7 +7,7 @@ import {
 } from '@casl/ability';
 
 export type Action = 'manage' | 'list' | 'read' | 'create' | 'update' | 'delete';
-export type SubjectType = 'Task' | 'all';
+export type SubjectType = 'Task' | 'User' | 'all';
 
 type AppAbilities = [
   Action,
@@ -20,24 +20,18 @@ type DefinePermissions = (user: User, builder: AbilityBuilder<AppAbility>) => vo
 type Roles = UserRole.MEMBER | UserRole.ADMIN;
 
 const rolePermissions: Record<Roles, DefinePermissions> = {
-  MEMBER(user, { can, cannot }) {
-    if (!user) {
-      cannot('manage', 'all');
-      return;
-    }
+  MEMBER(user, { can }) {
+    // USER
+    can('read', 'User', { id: user.id });
 
+    // TASK
     can('create', 'Task', { userId: user.id });
     can('list', 'Task', { userId: user.id });
     can('read', 'Task', { userId: user.id });
     can('update', 'Task', { userId: user.id });
     can('delete', 'Task', { userId: user.id });
   },
-  ADMIN(user, { can, cannot }) {
-    if (!user) {
-      cannot('manage', 'all');
-      return;
-    }
-
+  ADMIN(user, { can }) {
     can('manage', 'all');
   },
 };

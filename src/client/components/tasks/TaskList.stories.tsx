@@ -1,6 +1,6 @@
 import TaskList, { TaskListLoading } from '@/client/components/tasks/TaskList';
 import { globalMocks, tasks } from '@/client/gql/globalMocks';
-import { TASKS } from '@/client/gql/queries-mutations';
+import { MY_TASKS } from '@/client/gql/queries-mutations';
 import type { Meta, StoryObj } from '@storybook/react';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -40,7 +40,7 @@ Empty.parameters = {
     mocks: [
       {
         request: {
-          query: TASKS,
+          query: MY_TASKS,
         },
         result: {
           data: {

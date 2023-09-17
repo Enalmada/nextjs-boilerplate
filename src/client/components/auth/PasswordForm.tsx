@@ -187,7 +187,12 @@ export default function PasswordForm({ redirect, isSignIn, setHasLogged }: Props
             </Checkbox>
           )}
 
-          <Button type="submit" isLoading={isSubmitting} isDisabled={isSubmitSuccessful}>
+          <Button
+            data-testid="sign-in"
+            type="submit"
+            isLoading={isSubmitting}
+            isDisabled={isSubmitSuccessful}
+          >
             Sign in
           </Button>
         </div>

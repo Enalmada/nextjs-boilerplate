@@ -33,6 +33,12 @@ export const pathnames = {
     es: '/acerca-de',
     ru: `/o-nas`,
   },
+
+  // Admin
+  '/admin': '/admin',
+  '/admin/users': '/admin/users',
+  '/admin/tasks': '/admin/tasks',
+  '/admin/tasks/[id]': '/admin/tasks/[id]',
 } satisfies Pathnames<typeof locales>;
 
 const navigation = createLocalizedPathnamesNavigation({

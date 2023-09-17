@@ -3,6 +3,11 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
 """The query mutation type."""
 type Mutation {
   createTask(input: MutationCreateTaskInput!): Task!
@@ -28,10 +33,33 @@ input MutationUpdateTaskInput {
 """A string that cannot be passed as an empty value"""
 scalar NonEmptyString
 
+input OrderInput {
+  sortBy: String!
+  sortOrder: SortOrder!
+}
+
+input PaginationInput {
+  page: Int!
+  pageSize: Int!
+}
+
 """The query root type."""
 type Query {
+  me: User
   task(id: ID!): Task
-  tasks: [Task!]!
+  tasksPage(input: QueryTasksPageInput!): TaskPage!
+  users: [User!]
+}
+
+input QueryTasksPageInput {
+  order: OrderInput
+  pagination: PaginationInput
+  where: TaskWhere
+}
+
+enum SortOrder {
+  ASC
+  DESC
 }
 
 type Task {
@@ -45,16 +73,31 @@ type Task {
   version: Int!
 }
 
+"""Type used for querying paginated tasks"""
+type TaskPage {
+  hasMore: Boolean!
+  tasks: [Task!]!
+}
+
 enum TaskStatus {
   ACTIVE
   COMPLETED
 }
 
+input TaskWhere {
+  id: String
+  title: String
+}
+
 type User {
+  createdAt: DateTime!
   email: String
   id: ID!
   name: String
   role: UserRole!
+  rules: JSON
+  tasks: [Task!]
+  updatedAt: DateTime!
   version: Int!
 }
 

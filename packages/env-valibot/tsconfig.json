@@ -1,12 +1,19 @@
 {
   "compilerOptions": {
-    "strict": true,
+    "module": "commonjs",
+
     "declaration": true,
     "jsx": "react-jsx",
     "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "module": "commonjs",
+
+    // best practices
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+
+    // locations
     "outDir": "./dist",
     "rootDir": "./src"
   },

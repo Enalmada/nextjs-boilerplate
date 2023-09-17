@@ -1,6 +1,28 @@
 // import { graphql } from '@/client/gql/generated';
 import { gql } from '@apollo/client';
 
+export const USER_PARTS = gql`
+  fragment UserParts on User {
+    id
+    name
+    email
+    role
+    createdAt
+    updatedAt
+    version
+  }
+`;
+
+export const ME = gql`
+  query Me {
+    me {
+      ...UserParts
+      rules
+    }
+  }
+  ${USER_PARTS}
+`;
+
 export const TASK_PARTS = gql`
   fragment TaskParts on Task {
     id
@@ -14,12 +36,17 @@ export const TASK_PARTS = gql`
   }
 `;
 
-export const TASKS = gql`
-  query Tasks {
-    tasks {
-      ...TaskParts
+export const MY_TASKS = gql`
+  query MyTasks {
+    me {
+      ...UserParts
+      rules
+      tasks {
+        ...TaskParts
+      }
     }
   }
+  ${USER_PARTS}
   ${TASK_PARTS}
 `;
 
@@ -81,6 +108,28 @@ export const DELETE_TASK = gql`
   mutation DeleteTask($id: ID!) {
     deleteTask(id: $id) {
       ...TaskParts
+    }
+  }
+  ${TASK_PARTS}
+`;
+
+// ADMIN
+export const USERS = gql`
+  query Users {
+    users {
+      ...UserParts
+    }
+  }
+  ${USER_PARTS}
+`;
+
+export const TASKS_PAGE = gql`
+  query TasksPage($input: QueryTasksPageInput!) {
+    tasksPage(input: $input) {
+      hasMore
+      tasks {
+        ...TaskParts
+      }
     }
   }
   ${TASK_PARTS}

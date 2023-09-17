@@ -11,11 +11,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "valibot": "^0.13.1"
+  },
   "devDependencies": {
     "typescript": "^5.2.2"
-  },
-  "peerDependencies": {
-    "valibot": "^0.13.1"
   }
 }

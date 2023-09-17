@@ -1,15 +1,21 @@
 {
   "compilerOptions": {
-    "strict": true,
+    "module": "commonjs", // Drizzle has issues with esnext
+
     "declaration": true,
     "jsx": "react-jsx",
     "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "module": "commonjs",
+
+    // best practices
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+
+    // locations
     "outDir": "./dist",
-    "rootDir": "./src",
-    "skipLibCheck": true
+    "rootDir": "./src"
   },
   "include": ["src/**/*.ts"],
   "exclude": ["dist", "node_modules", "**/*.spec.ts"]

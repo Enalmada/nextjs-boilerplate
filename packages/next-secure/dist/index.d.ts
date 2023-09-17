@@ -21,7 +21,6 @@ export declare const Default: {
         reportOnly: boolean;
     };
     frameOptions: string;
-    permissionsPolicy: {};
     permissionsPolicyDirectiveSupport: string[];
     isDev: boolean;
     referrerPolicy: string;
@@ -54,8 +53,8 @@ export interface ContentSecurityPolicyTemplate {
         [key: string]: string | boolean;
     };
     referrerPolicy: string;
-    permissionsPolicy: {
-        [key: string]: string;
+    permissionsPolicy?: {
+        [key: string]: string | boolean;
     };
     permissionsPolicyDirectiveSupport: any[];
     isDev: boolean;

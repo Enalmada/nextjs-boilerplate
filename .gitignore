@@ -68,3 +68,7 @@ storybook-static
 **/public/worker**
 **/public/fallback**
 **/public/precache**
+
+# Playwright
+playwright/test-results/**
+playwright/.auth/**

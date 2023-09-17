@@ -7,6 +7,7 @@ describe('Permissions', () => {
   let user: User;
   let task: Task;
   let otherTask: Task;
+  let otherUser: User;
   let ability: AppAbility;
 
   describe('when user is an admin', () => {
@@ -17,6 +18,8 @@ describe('Permissions', () => {
 
     it('can do anything', () => {
       expect(ability.can('manage', 'all')).to.be.true;
+      expect(ability.can('list', subject('User', {}))).to.be.true;
+      expect(ability.can('list', subject('Task', {}))).to.be.true;
     });
   });
 
@@ -24,11 +27,14 @@ describe('Permissions', () => {
     beforeEach(() => {
       user = { id: 'usr_id', role: UserRole.MEMBER } as User;
       task = { userId: user.id } as Task;
+      otherUser = { id: 'usr_other' } as User;
       otherTask = { userId: 'usr_other' } as Task;
       ability = defineAbilitiesFor(user);
     });
 
     it('can crud own stuff', () => {
+      expect(ability.can('read', subject('User', user))).to.be.true;
+
       expect(ability.can('list', subject('Task', task))).to.be.true;
       expect(ability.can('read', subject('Task', task))).to.be.true;
       expect(ability.can('update', subject('Task', task))).to.be.true;
@@ -37,11 +43,17 @@ describe('Permissions', () => {
     });
 
     it('can not crud other stuff', () => {
+      expect(ability.can('read', subject('User', otherUser))).to.be.false;
+
       expect(ability.can('list', subject('Task', otherTask))).to.be.false;
       expect(ability.can('read', subject('Task', otherTask))).to.be.false;
       expect(ability.can('update', subject('Task', otherTask))).to.be.false;
       expect(ability.can('create', subject('Task', otherTask))).to.be.false;
       expect(ability.can('delete', subject('Task', otherTask))).to.be.false;
+
+      // Admin
+      expect(ability.can('list', subject('User', {}))).to.be.false;
+      expect(ability.can('list', subject('Task', {}))).to.be.false;
     });
   });
 });

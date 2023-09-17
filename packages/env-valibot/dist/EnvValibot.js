@@ -2,9 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateEnv = exports.createEnvSchema = exports.required = void 0;
 var valibot_1 = require("valibot");
-var required = function (key) {
-    return (0, valibot_1.string)([(0, valibot_1.minLength)(1, "".concat(key, " required"))]);
-};
+var required = function (key) { return (0, valibot_1.string)([(0, valibot_1.minLength)(1, "".concat(key, " required"))]); };
 exports.required = required;
 var createEnvSchema = function (schemaDefinition) {
     return (0, valibot_1.object)(schemaDefinition);

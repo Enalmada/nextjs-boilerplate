@@ -1,3 +1,3 @@
 import { connectToDatabase } from './DrizzleConnect';
-import { createRepo } from './DrizzleOrm';
-export { createRepo, connectToDatabase };
+import { createRepo, OrderBy, Page, Paging } from './DrizzleOrm';
+export { createRepo, connectToDatabase, OrderBy, Paging, Page };
