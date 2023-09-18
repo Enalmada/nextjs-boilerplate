@@ -84,7 +84,7 @@ export default function UserButtons() {
           <DropdownMenu
             aria-label="Profile Actions"
             variant="flat"
-            onAction={(key) => router.push(items[key]!)}
+            onAction={(key: React.Key) => router.push(items[key as string]!)}
           >
             <DropdownItem
               key="signed"
