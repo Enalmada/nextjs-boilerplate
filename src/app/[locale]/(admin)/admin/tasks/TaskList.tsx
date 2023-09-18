@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { TableWrapper, type PageDescriptor } from '@/client/admin/table/TableWrapper';
 import {
   SortOrder,
   type Task,
   type TasksPageQuery,
   type TasksPageQueryVariables,
-  type UserRole,
 } from '@/client/gql/generated/graphql';
 import { TASKS_PAGE } from '@/client/gql/queries-mutations';
 import { Button, InputControlled } from '@/client/ui';
@@ -18,18 +18,9 @@ import { useForm } from 'react-hook-form';
 import { object, string } from 'valibot';
 
 import { columns, renderTable } from './RenderTable';
-import { useRouter } from "next/navigation";
-
-export interface UserRow {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
-}
 
 export const TaskList = () => {
-
-  const router = useRouter()
+  const router = useRouter();
 
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: 'id',
@@ -75,7 +66,7 @@ export const TaskList = () => {
     });
   };
 
-  const linkFunction = (id: React.Key) => router.push(`/admin/tasks/${id}`)
+  const linkFunction = (id: React.Key) => router.push(`/admin/tasks/${id}`);
 
   const {
     data: dataQuery,
@@ -159,21 +150,21 @@ export const TaskList = () => {
         </form>
       </div>
       <div className="mx-auto w-full max-w-[95rem]">
-          <TableWrapper<Task>
-            sortDescriptor={sortDescriptor}
-            setSortDescriptor={setSortDescriptor}
-            columns={columns}
-            items={dataQuery?.tasksPage?.tasks || undefined}
-            renderRow={renderTable}
-            emptyContent={'No rows to display.'}
-            pagingDescriptor={{
-              pageDescriptor: pageDescriptor,
-              setPageDescriptor: setPageDescriptor,
-              hasMore: dataQuery?.tasksPage?.hasMore,
-            }}
-            isLoading={loading && !dataQuery }
-            linkFunction={linkFunction}
-          />
+        <TableWrapper<Task>
+          sortDescriptor={sortDescriptor}
+          setSortDescriptor={setSortDescriptor}
+          columns={columns}
+          items={dataQuery?.tasksPage?.tasks || undefined}
+          renderRow={renderTable}
+          emptyContent={'No rows to display.'}
+          pagingDescriptor={{
+            pageDescriptor: pageDescriptor,
+            setPageDescriptor: setPageDescriptor,
+            hasMore: dataQuery?.tasksPage?.hasMore,
+          }}
+          isLoading={loading && !dataQuery}
+          linkFunction={linkFunction}
+        />
       </div>
     </>
   );
