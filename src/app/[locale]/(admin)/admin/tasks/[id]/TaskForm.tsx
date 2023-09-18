@@ -201,7 +201,7 @@ export default function TaskForm(props: Props) {
                         <DayPicker
                           mode="single"
                           selected={value ? new Date(value) : undefined}
-                          onSelect={(date, selectedDay, activeModifiers, e) => {
+                          onSelect={(date, _selectedDay, _activeModifiers, e) => {
                             onChange(date || null);
                             (e.currentTarget as HTMLElement).blur(); // Close popover
                           }}
