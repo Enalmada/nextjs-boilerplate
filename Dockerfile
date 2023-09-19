@@ -89,6 +89,7 @@ USER nextjs
 # Copy build artifacts from the builder stage
 # Note that you must copy public and static into standalone manually
 # https://github.com/vercel/next.js/issues/50931#issuecomment-1581481834
+COPY --from=builder /app/node_modules/drizzle-helpers/dist/migrate ./
 COPY --from=builder /app/next.config.mjs ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
