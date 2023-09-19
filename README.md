@@ -42,7 +42,7 @@
   - [Graphql Armor](https://escape.tech/graphql-armor/) security defaults
 - Database
   - schema migrations with [Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate)
-  - [kysely](https://kysely.dev/) typesafe sql query builder
+  - [drizzle](https://kysely.dev/) typesafe sql query builder
   - [postgres.js](https://github.com/porsager/postgres) fast postgres driver
   - [CockroachDB](https://www.prisma.io/docs/guides/database/cockroachdb) database (a next gen postgres)
 
