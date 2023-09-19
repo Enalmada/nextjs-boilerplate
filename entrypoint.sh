@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Exit the script as soon as a command fails
+set -e
+
 # Create .env.production.local with all environment variables
 printenv > /app/.env.production.local
 

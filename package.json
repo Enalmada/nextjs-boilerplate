@@ -26,6 +26,7 @@
     "docker:up": "docker compose --env-file .env.local up -d --remove-orphans",
     "docker:build": "export $(cat .env.local | grep -v '^#' | grep -v '^FIREBASE_ADMIN_PRIVATE_KEY=' | xargs) && docker build --build-arg REDIRECT_URL --build-arg FIREBASE_PROJECT_ID --build-arg FIREBASE_API_KEY --build-arg FIREBASE_AUTH_DOMAIN --build-arg FIREBASE_DATABASE_URL --build-arg FIREBASE_MESSAGING_SENDER_ID --build-arg AXIOM_TOKEN --build-arg AXIOM_DATASET -t t3-challenge .",
     "docker:run": "docker run -p 3000:3000 --env-file .env.local t3-challenge",
+    "docker:logs": "docker logs -f $(docker ps --filter \"ancestor=t3-challenge\" --format \"{{.ID}}\" | head -n 1)",
     "drizzle:drop": "dotenv -e ./.env.local drizzle-kit drop",
     "drizzle:generate": "dotenv -e ./.env.local drizzle-kit generate:pg",
     "drizzle:migrate": "dotenv -e ./.env.local node node_modules/drizzle-helpers/dist/migrate ./src/server/db/migrations",

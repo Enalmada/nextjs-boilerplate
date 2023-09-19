@@ -86,10 +86,17 @@ RUN touch /app/.env.production.local && chown nextjs:nodejs /app/.env.production
 
 USER nextjs
 
+# Copy artifacts necessary for migration
+# TODO see if you can just do "bun migration/index.ts" and it just works
+COPY --from=builder /app/node_modules/drizzle-helpers/dist/migrate /app/node_modules/drizzle-helpers/dist/migrate
+COPY --from=builder /app/src/server/db/migrations /app/src/server/db/migrations
+COPY --from=builder /app/node_modules/dotenv /app/node_modules/dotenv
+COPY --from=builder /app/node_modules/drizzle-orm /app/node_modules/drizzle-orm
+COPY --from=builder /app/node_modules/postgres /app/node_modules/postgres
+
 # Copy build artifacts from the builder stage
 # Note that you must copy public and static into standalone manually
 # https://github.com/vercel/next.js/issues/50931#issuecomment-1581481834
-COPY --from=builder /app/node_modules/drizzle-helpers/dist/migrate ./
 COPY --from=builder /app/next.config.mjs ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
