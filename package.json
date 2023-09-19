@@ -28,7 +28,7 @@
     "docker:run": "docker run -p 3000:3000 --env-file .env.local t3-challenge",
     "drizzle:drop": "dotenv -e ./.env.local drizzle-kit drop",
     "drizzle:generate": "dotenv -e ./.env.local drizzle-kit generate:pg",
-    "drizzle:migrate": "dotenv -e ./.env.local -e ./.env.production.local node node_modules/drizzle-helpers/dist/migrate ./src/server/db/migrations",
+    "drizzle:migrate": "dotenv -e ./.env.local node node_modules/drizzle-helpers/dist/migrate ./src/server/db/migrations",
     "drizzle:migrate:prod": "node node_modules/drizzle-helpers/dist/migrate ./src/server/db/migrations",
     "drizzle:push": "drizzle-kit push:postgres",
     "format": "prettier --log-level warn --cache --write .",
