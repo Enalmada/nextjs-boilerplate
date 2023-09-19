@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "valibot": "^0.13.1"
+    "valibot": "^0.17.0"
   },
   "devDependencies": {
     "typescript": "^5.2.2"
