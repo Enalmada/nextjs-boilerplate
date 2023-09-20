@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { TableWrapper, type PageDescriptor } from '@/client/admin/table/TableWrapper';
 import {
   SortOrder,
   type Task,
@@ -14,6 +13,7 @@ import { Button, InputControlled } from '@/client/ui';
 import { useQuery } from '@apollo/client';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { type SortDescriptor } from '@nextui-org/react';
+import { TableWrapper, type PageDescriptor } from 'nextui-admin';
 import { useForm } from 'react-hook-form';
 import { object, string } from 'valibot';
 

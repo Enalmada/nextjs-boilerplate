@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "version": "0.0.1",
+  "name": "nextui-admin",
+  "description": "Shared UI components",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^18.2.0",
+    "next-themes": "^0.2.1",
+    "@nextui-org/react": "^2.1.13",
+    "next": "^13.5.2-canary.2",
+    "clsx": "^2.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}

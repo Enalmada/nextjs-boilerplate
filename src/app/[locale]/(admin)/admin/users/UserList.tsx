@@ -2,22 +2,15 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { TableWrapper, type PageDescriptor } from '@/client/admin/table/TableWrapper';
-import { type User, type UserRole, type UsersQuery } from '@/client/gql/generated/graphql';
+import { type User, type UsersQuery } from '@/client/gql/generated/graphql';
 import { USERS } from '@/client/gql/queries-mutations';
 import { Breadcrumb } from '@/client/ui';
 import { getRouteById } from '@/client/utils/routes';
 import { useSuspenseQuery } from '@apollo/client';
 import { Input } from '@nextui-org/react';
+import { TableWrapper, type PageDescriptor } from 'nextui-admin';
 
 import { columns, renderRow } from './RenderRow';
-
-export interface UserRow {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
-}
 
 export const UserList = () => {
   const router = useRouter();

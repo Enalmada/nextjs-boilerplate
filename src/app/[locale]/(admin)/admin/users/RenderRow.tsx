@@ -1,9 +1,9 @@
 /* eslint-disable no-console,@typescript-eslint/no-unsafe-assignment */
 import React, { type ReactNode } from 'react';
-import { EditIcon } from '@/client/admin/icons/table/edit-icon';
-import { type Column, type RenderRowProps } from '@/client/admin/table/TableWrapper';
 import { UserRole, type User } from '@/client/gql/generated/graphql';
 import { Chip, Tooltip, User as UserChip } from '@nextui-org/react';
+import { type Column, type RenderRowProps } from 'nextui-admin';
+import { BiEditAlt as EditIcon } from 'react-icons/bi';
 
 interface UserRenderRowProps extends RenderRowProps {
   item: User;
