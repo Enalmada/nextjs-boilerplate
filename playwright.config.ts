@@ -9,13 +9,15 @@ const baseURL = `http://localhost:${PORT}`;
 
 // Reference: https://playwright.dev/docs/test-configuration
 export default defineConfig({
-  // Timeout per test
-  timeout: 30 * 1000,
-  // dev page compilation can take more than default 5000 expect timeout
-  expect: { timeout: 20000 },
+  // Timeout per test (dev page compilation can take more than default)
+  timeout: 60 * 1000,
+  expect: { timeout: 60000 },
 
   // Test directory
   testDir: path.join(__dirname, 'src/e2e'),
+
+  // To not conflict with test|spec which bun and vitest default to running
+  testMatch: '*.play.ts',
 
   // On CI, if a test fails, retry it additional 2 times
   retries: process.env.CI ? 2 : 0,
@@ -32,7 +34,7 @@ export default defineConfig({
   // Run your local dev server before starting the tests:
   // https://playwright.dev/docs/test-advanced#launching-a-development-web-server-during-the-tests
   webServer: {
-    command: 'pnpm run dev:only',
+    command: 'bun run dev:only',
     url: baseURL,
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,

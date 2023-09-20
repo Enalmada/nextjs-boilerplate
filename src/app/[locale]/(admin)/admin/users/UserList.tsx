@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { TableWrapper, type PageDescriptor } from '@/client/admin/table/TableWrapper';
 import { type User, type UserRole, type UsersQuery } from '@/client/gql/generated/graphql';
 import { USERS } from '@/client/gql/queries-mutations';
@@ -19,10 +20,14 @@ export interface UserRow {
 }
 
 export const UserList = () => {
+  const router = useRouter();
+
   const [pageDescriptor, setPageDescriptor] = useState<PageDescriptor>({
     page: 1,
     pageSize: 50,
   });
+
+  const linkFunction = (id: React.Key) => router.push(`/admin/tasks/${id}`);
 
   const { data: dataQuery, error: errorQuery } = useSuspenseQuery<UsersQuery>(USERS);
   if (errorQuery) return <div>{`Error! ${errorQuery.message}`}</div>;
@@ -53,6 +58,7 @@ export const UserList = () => {
             setPageDescriptor: setPageDescriptor,
             hasMore: true,
           }}
+          linkFunction={linkFunction}
         />
       </div>
     </div>

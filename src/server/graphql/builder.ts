@@ -1,7 +1,6 @@
 // https://pothos-graphql.dev/docs/plugins/prisma
 // https://www.prisma.io/blog/e2e-type-safety-graphql-react-3-fbV2ZVIGWg#define-a-date-scalar-type
 import SchemaBuilder from '@pothos/core';
-import ErrorsPlugin from '@pothos/plugin-errors';
 import WithInputPlugin from '@pothos/plugin-with-input';
 import { DateTimeResolver, JSONResolver, NonEmptyStringResolver } from 'graphql-scalars';
 
@@ -43,7 +42,7 @@ export interface SchemaTypes {
 export type TypesWithDefault = PothosSchemaTypes.ExtendDefaultTypes<SchemaTypes>;
 
 export const builder = new SchemaBuilder<SchemaTypes>({
-  plugins: [ErrorsPlugin, WithInputPlugin],
+  plugins: [WithInputPlugin],
   /*
   errorOptions: {
     directResult: true,

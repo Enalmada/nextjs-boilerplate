@@ -62,7 +62,7 @@ export const TableWrapper = <T extends unknown>(
     setSortDescriptor,
     pagingDescriptor,
     isLoading,
-      linkFunction,
+    linkFunction,
   } = props;
 
   const { pageDescriptor, setPageDescriptor, hasMore } = pagingDescriptor || {};

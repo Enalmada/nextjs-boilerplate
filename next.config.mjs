@@ -1,4 +1,5 @@
 // @ts-check
+// noinspection JSFileReferences
 import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from 'next/constants.js';
 import { withSentryConfig } from '@sentry/nextjs';
 import { generateCspTemplate } from 'next-secure';
@@ -82,6 +83,7 @@ const contentSecurityPolicyTemplates = generateCspTemplate(cspConfig, cspRules);
 // next-safe adds legacy keys that are unnecessary and cause console noise
 const keysToRemove = ['Feature-Policy', 'X-Content-Security-Policy', 'X-WebKit-CSP'];
 
+// noinspection JSUnusedLocalSymbols
 /** @type {import("next").NextConfig} */
 const config = {
   output: 'standalone',
@@ -215,6 +217,7 @@ const withSentry = (config) => {
   );
 };
 
+// @ts-ignore
 const withNextIntl = (await import('next-intl/plugin')).default('./src/lib/localization/i18n.ts');
 
 // @ts-ignore
