@@ -1,5 +1,3 @@
-import 'nextui-admin/src/sidebar/sidebar.styles.ts';
-
 import React from 'react';
 import { type User } from '@/client/gql/generated/graphql';
 import {
@@ -19,7 +17,6 @@ import {
   BiSolidUser as UserIcon,
   BiSolidBox as ViewIcon,
 } from 'react-icons/bi';
-
 
 const sidebarConfig: SidebarSectionConfig[] = [
   {

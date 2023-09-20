@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import { type User, type UsersQuery } from '@/client/gql/generated/graphql';
 import { USERS } from '@/client/gql/queries-mutations';
@@ -8,17 +8,14 @@ import { Breadcrumb } from '@/client/ui';
 import { getRouteById } from '@/client/utils/routes';
 import { useSuspenseQuery } from '@apollo/client';
 import { Input } from '@nextui-org/react';
-import { TableWrapper, type PageDescriptor } from 'nextui-admin';
+import { useTableWrapper } from 'nextui-admin';
 
 import { columns, renderRow } from './RenderRow';
 
 export const UserList = () => {
   const router = useRouter();
 
-  const [pageDescriptor, setPageDescriptor] = useState<PageDescriptor>({
-    page: 1,
-    pageSize: 50,
-  });
+  const { TableWrapperComponent } = useTableWrapper<User>();
 
   const linkFunction = (id: React.Key) => router.push(`/admin/tasks/${id}`);
 
@@ -41,16 +38,12 @@ export const UserList = () => {
         </div>
       </div>
       <div className="mx-auto w-full max-w-[95rem]">
-        <TableWrapper<User>
+        <TableWrapperComponent
           columns={columns}
           items={dataQuery?.users || undefined}
           renderRow={renderRow}
           emptyContent={'No rows to display.'}
-          pagingDescriptor={{
-            pageDescriptor: pageDescriptor,
-            setPageDescriptor: setPageDescriptor,
-            hasMore: true,
-          }}
+          hasMore={true}
           linkFunction={linkFunction}
         />
       </div>

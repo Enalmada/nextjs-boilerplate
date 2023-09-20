@@ -16,8 +16,7 @@ var jsx_runtime_1 = require("react/jsx-runtime");
 var react_1 = require("@nextui-org/react");
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 var TableWrapper = function (props) {
-    var columns = props.columns, items = props.items, renderRow = props.renderRow, emptyContent = props.emptyContent, sortDescriptor = props.sortDescriptor, setSortDescriptor = props.setSortDescriptor, pagingDescriptor = props.pagingDescriptor, isLoading = props.isLoading, linkFunction = props.linkFunction;
-    var _a = pagingDescriptor || {}, pageDescriptor = _a.pageDescriptor, setPageDescriptor = _a.setPageDescriptor, hasMore = _a.hasMore;
+    var columns = props.columns, items = props.items, renderRow = props.renderRow, emptyContent = props.emptyContent, sortDescriptor = props.sortDescriptor, setSortDescriptor = props.setSortDescriptor, pageDescriptor = props.pageDescriptor, setPageDescriptor = props.setPageDescriptor, hasMore = props.hasMore, isLoading = props.isLoading, linkFunction = props.linkFunction;
     var handleSortChange = function (sortDescriptor) {
         if (setSortDescriptor) {
             setSortDescriptor(sortDescriptor);

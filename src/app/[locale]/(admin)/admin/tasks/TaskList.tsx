@@ -12,8 +12,7 @@ import { TASKS_PAGE } from '@/client/gql/queries-mutations';
 import { Button, InputControlled } from '@/client/ui';
 import { useQuery } from '@apollo/client';
 import { valibotResolver } from '@hookform/resolvers/valibot';
-import { type SortDescriptor } from '@nextui-org/react';
-import { TableWrapper, type PageDescriptor } from 'nextui-admin';
+import { useTableWrapper } from 'nextui-admin';
 import { useForm } from 'react-hook-form';
 import { object, string } from 'valibot';
 
@@ -22,15 +21,7 @@ import { columns, renderTable } from './RenderTable';
 export const TaskList = () => {
   const router = useRouter();
 
-  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: 'id',
-    direction: 'descending',
-  });
-
-  const [pageDescriptor, setPageDescriptor] = useState<PageDescriptor>({
-    page: 1,
-    pageSize: 50,
-  });
+  const { TableWrapperComponent, sortDescriptor, pageDescriptor } = useTableWrapper<Task>();
 
   type FormData = {
     id?: string;
@@ -150,18 +141,12 @@ export const TaskList = () => {
         </form>
       </div>
       <div className="mx-auto w-full max-w-[95rem]">
-        <TableWrapper<Task>
-          sortDescriptor={sortDescriptor}
-          setSortDescriptor={setSortDescriptor}
+        <TableWrapperComponent
           columns={columns}
           items={dataQuery?.tasksPage?.tasks || undefined}
           renderRow={renderTable}
           emptyContent={'No rows to display.'}
-          pagingDescriptor={{
-            pageDescriptor: pageDescriptor,
-            setPageDescriptor: setPageDescriptor,
-            hasMore: dataQuery?.tasksPage?.hasMore,
-          }}
+          hasMore={dataQuery?.tasksPage?.hasMore}
           isLoading={loading && !dataQuery}
           linkFunction={linkFunction}
         />

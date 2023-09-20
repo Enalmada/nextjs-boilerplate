@@ -12,8 +12,9 @@ import {
   type PageDescriptor,
   type RenderRowProps,
 } from './table/TableWrapper';
+import { useTableWrapper } from './table/useTableWrapper';
 
-export { Layout, TableWrapper };
+export { Layout, TableWrapper, useTableWrapper };
 export type {
   SidebarSectionConfig,
   AdminNavHeader,
