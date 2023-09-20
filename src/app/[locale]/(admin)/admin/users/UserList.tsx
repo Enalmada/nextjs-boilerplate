@@ -17,8 +17,6 @@ export const UserList = () => {
 
   const { TableWrapperComponent } = useTableWrapper<User>();
 
-  const linkFunction = (id: React.Key) => router.push(`/admin/tasks/${id}`);
-
   const { data: dataQuery, error: errorQuery } = useSuspenseQuery<UsersQuery>(USERS);
   if (errorQuery) return <div>{`Error! ${errorQuery.message}`}</div>;
 
@@ -44,7 +42,7 @@ export const UserList = () => {
           renderRow={renderRow}
           emptyContent={'No rows to display.'}
           hasMore={true}
-          linkFunction={linkFunction}
+          linkFunction={(id: React.Key) => router.push(`/admin/tasks/${id}`)}
         />
       </div>
     </div>

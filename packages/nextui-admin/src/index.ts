@@ -1,3 +1,5 @@
+import { SortDescriptor } from '@nextui-org/react';
+
 import { Layout } from './layout/layout';
 import {
   type DropdownItemConfig,
@@ -15,6 +17,7 @@ import {
 import { useTableWrapper } from './table/useTableWrapper';
 
 export { Layout, TableWrapper, useTableWrapper };
+
 export type {
   SidebarSectionConfig,
   AdminNavHeader,
@@ -22,8 +25,7 @@ export type {
   DropdownItemConfig,
   UserConfig,
   PageDescriptor,
+  SortDescriptor,
   Column,
   RenderRowProps,
 };
-
-export * from './sidebar/sidebar.styles';

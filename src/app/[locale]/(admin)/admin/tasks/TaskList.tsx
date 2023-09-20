@@ -2,15 +2,14 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAdminPageQuery } from '@/client/admin/useAdminPageQuery';
 import {
-  SortOrder,
   type Task,
   type TasksPageQuery,
   type TasksPageQueryVariables,
 } from '@/client/gql/generated/graphql';
 import { TASKS_PAGE } from '@/client/gql/queries-mutations';
 import { Button, InputControlled } from '@/client/ui';
-import { useQuery } from '@apollo/client';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useTableWrapper } from 'nextui-admin';
 import { useForm } from 'react-hook-form';
@@ -57,29 +56,14 @@ export const TaskList = () => {
     });
   };
 
-  const linkFunction = (id: React.Key) => router.push(`/admin/tasks/${id}`);
-
   const {
     data: dataQuery,
     loading,
     error: errorQuery,
-  } = useQuery<TasksPageQuery, TasksPageQueryVariables>(TASKS_PAGE, {
-    fetchPolicy: 'cache-and-network', // cache-and-network for changes and deletes
-    variables: {
-      input: {
-        where: {
-          ...taskWhere,
-        },
-        order: {
-          sortBy: sortDescriptor.column as string,
-          sortOrder: sortDescriptor.direction === 'ascending' ? SortOrder.Asc : SortOrder.Desc,
-        },
-        pagination: {
-          page: pageDescriptor.page,
-          pageSize: pageDescriptor.pageSize,
-        },
-      },
-    },
+  } = useAdminPageQuery<FormData, TasksPageQuery, TasksPageQueryVariables>(TASKS_PAGE, {
+    input: taskWhere,
+    sortDescriptor,
+    pageDescriptor,
   });
 
   if (errorQuery) return <div>{`Error! ${errorQuery.message}`}</div>;
@@ -148,7 +132,7 @@ export const TaskList = () => {
           emptyContent={'No rows to display.'}
           hasMore={dataQuery?.tasksPage?.hasMore}
           isLoading={loading && !dataQuery}
-          linkFunction={linkFunction}
+          linkFunction={(id: React.Key) => router.push(`/admin/tasks/${id}`)}
         />
       </div>
     </>

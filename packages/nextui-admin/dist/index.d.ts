@@ -5,5 +5,5 @@ import { type SidebarSectionConfig } from './sidebar/sidebar';
 import { TableWrapper, type Column, type PageDescriptor, type RenderRowProps } from './table/TableWrapper';
 import { useTableWrapper } from './table/useTableWrapper';
 export { Layout, TableWrapper, useTableWrapper };
-export type { SidebarSectionConfig, AdminNavHeader, UserDropdownConfig, DropdownItemConfig, UserConfig, PageDescriptor, Column, RenderRowProps, };
-export * from './sidebar/sidebar.styles';
+import { SortDescriptor } from "@nextui-org/react";
+export type { SidebarSectionConfig, AdminNavHeader, UserDropdownConfig, DropdownItemConfig, UserConfig, PageDescriptor, SortDescriptor, Column, RenderRowProps, };
