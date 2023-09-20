@@ -6,7 +6,7 @@ on:
       - develop
   pull_request:
     branches:
-      - develop  
+      - develop
 
 jobs:
   build-and-test:
@@ -29,4 +29,4 @@ jobs:
 
       # Run tests
       - name: Run Tests
-        run: bun run test
+        run: bun run test:unit
