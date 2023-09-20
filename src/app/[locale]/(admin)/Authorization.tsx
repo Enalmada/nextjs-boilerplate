@@ -6,25 +6,31 @@ import {
   type MongoQuery,
   type Subject,
   type SubjectRawRule,
+  type SubjectType,
 } from '@casl/ability';
-import { unpackRules } from '@casl/ability/extra';
+import { unpackRules, type PackRule } from '@casl/ability/extra';
+import { type MongoAbility } from '@casl/ability';
 
 interface Props {
   me?: User | null;
 }
 
+function hasManageAll(me: User | null | undefined, ability: MongoAbility): boolean {
+  if (!me?.rules) return false;
+  return ability.can('manage', 'all');
+}
+
 export default function Authorization({ me }: Props) {
-  // eslint-disable-next-line  @typescript-eslint/no-unnecessary-type-assertion
-  const rules = me?.rules ? JSON.parse(me.rules as string) : undefined;
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const unpackedRules = unpackRules(rules);
+  const ability = createMongoAbility();
 
-  const ability = createMongoAbility().update(
-    unpackedRules as SubjectRawRule<string, ExtractSubjectType<Subject>, MongoQuery>[]
-  );
+  if (me?.rules) {
+    // TODO make me.rules the real type
+    const rules = JSON.parse(me.rules as string) as PackRule<SubjectRawRule<string, SubjectType, unknown>>[];
+    const unpackedRules = unpackRules(rules) as SubjectRawRule<string, ExtractSubjectType<Subject>, MongoQuery>[];
+    ability.update(unpackedRules);
+  }
 
-  if (ability.cannot('manage', 'all')) {
+  if (!hasManageAll(me, ability)) {
     redirect('/');
   }
 
