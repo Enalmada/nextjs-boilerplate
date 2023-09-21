@@ -21,7 +21,7 @@ export const UserList = () => {
   if (errorQuery) return <div>{`Error! ${errorQuery.message}`}</div>;
 
   return (
-    <div className="mx-auto my-14 flex w-full max-w-[95rem] flex-col gap-4">
+    <>
       <Breadcrumb routes={[getRouteById('AdminHome'), getRouteById('Users')]} />
 
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -45,6 +45,6 @@ export const UserList = () => {
           linkFunction={(id: React.Key) => router.push(`/admin/tasks/${id}`)}
         />
       </div>
-    </div>
+    </>
   );
 };
