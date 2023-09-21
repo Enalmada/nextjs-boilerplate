@@ -1,7 +1,5 @@
-'use client';
-
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useMemo } from 'react';
+import { redirect } from 'next/navigation';
 import { type User } from '@/client/gql/generated/graphql';
 import {
   createMongoAbility,
@@ -9,29 +7,33 @@ import {
   type MongoQuery,
   type Subject,
   type SubjectRawRule,
+  type SubjectType,
 } from '@casl/ability';
 import { unpackRules, type PackRule } from '@casl/ability/extra';
 
 export const useAuthorization = (me?: User | null) => {
-  const router = useRouter(); // For redirecting
-
-  useEffect(() => {
+  const hasAuthorization = useMemo(() => {
     const ability = createMongoAbility();
 
-    const updateAbility = () => {
-      if (!me?.rules) return false;
+    if (!me?.rules) return false;
 
-      const rules = JSON.parse(me.rules as string) as PackRule<
-        SubjectRawRule<string, ExtractSubjectType<Subject>, MongoQuery>
-      >[];
-      const unpackedRules = unpackRules(rules);
-      ability.update(unpackedRules);
+    const rules = JSON.parse(me.rules as string) as PackRule<
+        SubjectRawRule<string, SubjectType, unknown>
+    >[];
+    const unpackedRules = unpackRules(rules) as SubjectRawRule<
+        string,
+        ExtractSubjectType<Subject>,
+        MongoQuery
+    >[];
 
-      return ability.can('manage', 'all');
-    };
+    ability.update(unpackedRules);
 
-    if (!updateAbility()) {
-      router.push('/');
+    return ability.can('manage', 'all');
+  }, [me?.rules]);
+
+  useEffect(() => {
+    if (!hasAuthorization) {
+      redirect('/');
     }
-  }, [router, me]);
+  }, [hasAuthorization]);
 };
