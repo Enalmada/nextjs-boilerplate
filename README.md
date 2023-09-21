@@ -137,3 +137,9 @@ Currently getting error locally. Windows bug
 
 Run intellij from wsl
 https://www.reddit.com/r/IntelliJIDEA/comments/t5l3s6/comment/isdbh2y/?utm_source=share&utm_medium=web2x&context=3
+
+# Git
+To cleanup branches, run this to create an alias that will find them:
+`git config --global alias.branch-prune '!git fetch -p && for b in $(git for-each-ref --format='\''%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)'\'' refs/heads); do git branch -d $b; done'`
+Then run this to delete them safely
+`git branch-prune`
