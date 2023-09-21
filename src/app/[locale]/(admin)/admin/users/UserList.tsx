@@ -1,33 +1,21 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
-import { TableWrapper, type PageDescriptor } from '@/client/admin/table/TableWrapper';
-import { type User, type UserRole, type UsersQuery } from '@/client/gql/generated/graphql';
+import { type User, type UsersQuery } from '@/client/gql/generated/graphql';
 import { USERS } from '@/client/gql/queries-mutations';
 import { Breadcrumb } from '@/client/ui';
 import { getRouteById } from '@/client/utils/routes';
 import { useSuspenseQuery } from '@apollo/client';
 import { Input } from '@nextui-org/react';
+import { useTableWrapper } from 'nextui-admin';
 
 import { columns, renderRow } from './RenderRow';
-
-export interface UserRow {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
-}
 
 export const UserList = () => {
   const router = useRouter();
 
-  const [pageDescriptor, setPageDescriptor] = useState<PageDescriptor>({
-    page: 1,
-    pageSize: 50,
-  });
-
-  const linkFunction = (id: React.Key) => router.push(`/admin/tasks/${id}`);
+  const { TableWrapperComponent } = useTableWrapper<User>();
 
   const { data: dataQuery, error: errorQuery } = useSuspenseQuery<UsersQuery>(USERS);
   if (errorQuery) return <div>{`Error! ${errorQuery.message}`}</div>;
@@ -48,17 +36,13 @@ export const UserList = () => {
         </div>
       </div>
       <div className="mx-auto w-full max-w-[95rem]">
-        <TableWrapper<User>
+        <TableWrapperComponent
           columns={columns}
           items={dataQuery?.users || undefined}
           renderRow={renderRow}
           emptyContent={'No rows to display.'}
-          pagingDescriptor={{
-            pageDescriptor: pageDescriptor,
-            setPageDescriptor: setPageDescriptor,
-            hasMore: true,
-          }}
-          linkFunction={linkFunction}
+          hasMore={true}
+          linkFunction={(id: React.Key) => router.push(`/admin/tasks/${id}`)}
         />
       </div>
     </div>

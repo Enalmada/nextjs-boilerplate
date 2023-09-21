@@ -48,6 +48,10 @@ export default class UserService {
   me(ctx: MyContextType) {
     const logger = this.logger.logMethodStart(this.me.name, ctx);
 
+    if (!ctx.currentUser) {
+      return undefined;
+    }
+
     const criteria = { id: ctx.currentUser.id };
 
     accessCheck(logger, ctx.currentUser, 'read', 'User', criteria);

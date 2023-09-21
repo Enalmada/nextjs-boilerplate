@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from 'react';
 import { redirect } from 'next/navigation';
 import { type User } from '@/client/gql/generated/graphql';
 import {
@@ -6,27 +7,33 @@ import {
   type MongoQuery,
   type Subject,
   type SubjectRawRule,
+  type SubjectType,
 } from '@casl/ability';
-import { unpackRules } from '@casl/ability/extra';
+import { unpackRules, type PackRule } from '@casl/ability/extra';
 
-interface Props {
-  me?: User | null;
-}
+export const useAuthorization = (me?: User | null) => {
+  const hasAuthorization = useMemo(() => {
+    const ability = createMongoAbility();
 
-export default function Authorization({ me }: Props) {
-  // eslint-disable-next-line  @typescript-eslint/no-unnecessary-type-assertion
-  const rules = me?.rules ? JSON.parse(me.rules as string) : undefined;
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const unpackedRules = unpackRules(rules);
+    if (!me?.rules) return false;
 
-  const ability = createMongoAbility().update(
-    unpackedRules as SubjectRawRule<string, ExtractSubjectType<Subject>, MongoQuery>[]
-  );
+    const rules = JSON.parse(me.rules as string) as PackRule<
+        SubjectRawRule<string, SubjectType, unknown>
+    >[];
+    const unpackedRules = unpackRules(rules) as SubjectRawRule<
+        string,
+        ExtractSubjectType<Subject>,
+        MongoQuery
+    >[];
 
-  if (ability.cannot('manage', 'all')) {
-    redirect('/');
-  }
+    ability.update(unpackedRules);
 
-  return <></>;
-}
+    return ability.can('manage', 'all');
+  }, [me?.rules]);
+
+  useEffect(() => {
+    if (!hasAuthorization) {
+      redirect('/');
+    }
+  }, [hasAuthorization]);
+};

@@ -2,18 +2,16 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { TableWrapper, type PageDescriptor } from '@/client/admin/table/TableWrapper';
+import { useAdminPageQuery } from '@/client/admin/useAdminPageQuery';
 import {
-  SortOrder,
   type Task,
   type TasksPageQuery,
   type TasksPageQueryVariables,
 } from '@/client/gql/generated/graphql';
 import { TASKS_PAGE } from '@/client/gql/queries-mutations';
 import { Button, InputControlled } from '@/client/ui';
-import { useQuery } from '@apollo/client';
 import { valibotResolver } from '@hookform/resolvers/valibot';
-import { type SortDescriptor } from '@nextui-org/react';
+import { useTableWrapper } from 'nextui-admin';
 import { useForm } from 'react-hook-form';
 import { object, string } from 'valibot';
 
@@ -22,15 +20,7 @@ import { columns, renderTable } from './RenderTable';
 export const TaskList = () => {
   const router = useRouter();
 
-  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: 'id',
-    direction: 'descending',
-  });
-
-  const [pageDescriptor, setPageDescriptor] = useState<PageDescriptor>({
-    page: 1,
-    pageSize: 50,
-  });
+  const { TableWrapperComponent, sortDescriptor, pageDescriptor } = useTableWrapper<Task>();
 
   type FormData = {
     id?: string;
@@ -66,29 +56,14 @@ export const TaskList = () => {
     });
   };
 
-  const linkFunction = (id: React.Key) => router.push(`/admin/tasks/${id}`);
-
   const {
     data: dataQuery,
     loading,
     error: errorQuery,
-  } = useQuery<TasksPageQuery, TasksPageQueryVariables>(TASKS_PAGE, {
-    fetchPolicy: 'cache-and-network', // cache-and-network for changes and deletes
-    variables: {
-      input: {
-        where: {
-          ...taskWhere,
-        },
-        order: {
-          sortBy: sortDescriptor.column as string,
-          sortOrder: sortDescriptor.direction === 'ascending' ? SortOrder.Asc : SortOrder.Desc,
-        },
-        pagination: {
-          page: pageDescriptor.page,
-          pageSize: pageDescriptor.pageSize,
-        },
-      },
-    },
+  } = useAdminPageQuery<FormData, TasksPageQuery, TasksPageQueryVariables>(TASKS_PAGE, {
+    input: taskWhere,
+    sortDescriptor,
+    pageDescriptor,
   });
 
   if (errorQuery) return <div>{`Error! ${errorQuery.message}`}</div>;
@@ -150,20 +125,14 @@ export const TaskList = () => {
         </form>
       </div>
       <div className="mx-auto w-full max-w-[95rem]">
-        <TableWrapper<Task>
-          sortDescriptor={sortDescriptor}
-          setSortDescriptor={setSortDescriptor}
+        <TableWrapperComponent
           columns={columns}
           items={dataQuery?.tasksPage?.tasks || undefined}
           renderRow={renderTable}
           emptyContent={'No rows to display.'}
-          pagingDescriptor={{
-            pageDescriptor: pageDescriptor,
-            setPageDescriptor: setPageDescriptor,
-            hasMore: dataQuery?.tasksPage?.hasMore,
-          }}
+          hasMore={dataQuery?.tasksPage?.hasMore}
           isLoading={loading && !dataQuery}
-          linkFunction={linkFunction}
+          linkFunction={(id: React.Key) => router.push(`/admin/tasks/${id}`)}
         />
       </div>
     </>

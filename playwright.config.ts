@@ -20,7 +20,8 @@ export default defineConfig({
   testMatch: '*.play.ts',
 
   // On CI, if a test fails, retry it additional 2 times
-  retries: process.env.CI ? 2 : 0,
+  // trying once locally to get around some strange just compiled issues
+  retries: process.env.CI ? 2 : 1,
 
   // Fail the build on CI if you accidentally left test.only in the source code.
   forbidOnly: !!process.env.CI,

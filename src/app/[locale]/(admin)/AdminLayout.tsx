@@ -1,13 +1,13 @@
 import React from 'react';
+import { type User } from '@/client/gql/generated/graphql';
 import {
+  Layout,
   type AdminNavHeader,
   type DropdownItemConfig,
   type SidebarSectionConfig,
   type UserConfig,
   type UserDropdownConfig,
-} from '@/client/admin';
-import { Layout } from '@/client/admin/layout/layout';
-import { type User } from '@/client/gql/generated/graphql';
+} from 'nextui-admin';
 import {
   BiBuildingHouse as AcmeIcon,
   BiCode as CodeIcon,

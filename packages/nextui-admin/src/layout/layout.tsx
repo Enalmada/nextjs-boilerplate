@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import { type UserDropdownConfig } from '@/client/admin';
 
 import { useLockedBody } from '../hooks/useBodyLock';
 import { NavbarWrapper } from '../navbar/navbar';
+import { type UserDropdownConfig } from '../navbar/user-dropdown';
 import { type AdminNavHeader } from '../sidebar/companies-dropdown';
 import { SidebarWrapper, type SidebarSectionConfig } from '../sidebar/sidebar';
 import { SidebarContext } from './layout-context';
