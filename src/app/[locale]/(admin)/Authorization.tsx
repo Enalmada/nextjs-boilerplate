@@ -1,4 +1,7 @@
-import { redirect } from 'next/navigation';
+'use client';
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { type User } from '@/client/gql/generated/graphql';
 import {
   createMongoAbility,
@@ -6,41 +9,29 @@ import {
   type MongoQuery,
   type Subject,
   type SubjectRawRule,
-  type SubjectType,
 } from '@casl/ability';
-import type { MongoAbility } from '@casl/ability';
 import { unpackRules, type PackRule } from '@casl/ability/extra';
 
-interface Props {
-  me?: User | null;
-}
+export const useAuthorization = (me?: User | null) => {
+  const router = useRouter(); // For redirecting
 
-function hasManageAll(ability: MongoAbility): boolean {
-  return ability.can('manage', 'all');
-}
+  useEffect(() => {
+    const ability = createMongoAbility();
 
-export default function Authorization({ me }: Props) {
-  const ability = createMongoAbility();
+    const updateAbility = () => {
+      if (!me?.rules) return false;
 
-  const updateAbility = () => {
-    if (!me?.rules) return false;
+      const rules = JSON.parse(me.rules as string) as PackRule<
+        SubjectRawRule<string, ExtractSubjectType<Subject>, MongoQuery>
+      >[];
+      const unpackedRules = unpackRules(rules);
+      ability.update(unpackedRules);
 
-    const rules = JSON.parse(me.rules as string) as PackRule<
-      SubjectRawRule<string, SubjectType, unknown>
-    >[];
-    const unpackedRules = unpackRules(rules) as SubjectRawRule<
-      string,
-      ExtractSubjectType<Subject>,
-      MongoQuery
-    >[];
-    ability.update(unpackedRules);
+      return ability.can('manage', 'all');
+    };
 
-    return hasManageAll(ability);
-  };
-
-  if (!updateAbility()) {
-    redirect('/');
-  }
-
-  return null;
-}
+    if (!updateAbility()) {
+      router.push('/');
+    }
+  }, [router, me]);
+};
