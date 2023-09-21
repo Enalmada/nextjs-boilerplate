@@ -8,31 +8,39 @@ import {
   type SubjectRawRule,
   type SubjectType,
 } from '@casl/ability';
+import type { MongoAbility } from '@casl/ability';
 import { unpackRules, type PackRule } from '@casl/ability/extra';
-import { type MongoAbility } from '@casl/ability';
 
 interface Props {
   me?: User | null;
 }
 
-function hasManageAll(me: User | null | undefined, ability: MongoAbility): boolean {
-  if (!me?.rules) return false;
+function hasManageAll(ability: MongoAbility): boolean {
   return ability.can('manage', 'all');
 }
 
 export default function Authorization({ me }: Props) {
   const ability = createMongoAbility();
 
-  if (me?.rules) {
-    // TODO make me.rules the real type
-    const rules = JSON.parse(me.rules as string) as PackRule<SubjectRawRule<string, SubjectType, unknown>>[];
-    const unpackedRules = unpackRules(rules) as SubjectRawRule<string, ExtractSubjectType<Subject>, MongoQuery>[];
-    ability.update(unpackedRules);
-  }
+  const updateAbility = () => {
+    if (!me?.rules) return false;
 
-  if (!hasManageAll(me, ability)) {
+    const rules = JSON.parse(me.rules as string) as PackRule<
+      SubjectRawRule<string, SubjectType, unknown>
+    >[];
+    const unpackedRules = unpackRules(rules) as SubjectRawRule<
+      string,
+      ExtractSubjectType<Subject>,
+      MongoQuery
+    >[];
+    ability.update(unpackedRules);
+
+    return hasManageAll(ability);
+  };
+
+  if (!updateAbility()) {
     redirect('/');
   }
 
-  return <></>;
+  return null;
 }
