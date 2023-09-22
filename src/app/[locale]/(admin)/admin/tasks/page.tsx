@@ -10,9 +10,9 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <div className="mx-auto my-5 flex w-full max-w-[95rem] flex-col gap-4">
+    <>
       <Breadcrumb routes={[getRouteById('AdminHome'), getRouteById('AdminTasks')]} />
       <TaskList />
-    </div>
+    </>
   );
 }
