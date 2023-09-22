@@ -2,20 +2,20 @@
 
 ## Getting Started
 
-- Install [node](https://nodejs.org/en/download)
+- Install [node](https://nodejs.org/en/download) (necessary to build/run next.js)
 - Install Docker or Rancher Desktop ([recommended](https://codeengineered.com/blog/2022/docker-desktop-vs-rancher-desktop/))
-- Install package manager. pnpm ([recommended](https://www.atatus.com/blog/npm-vs-yarn-vs-pnpm/))
-  - `npm install -g pnpm`
+- Install package manager. bun ([recommended](https://bun.sh/))
+  - `npm install -g bun`
 - Copy `.env.example` to `.env.local` and edit variables
 
 ## Development mode
 
-- `pnpm dev:init` - brings up docker and graphql codegen watcher in addition to `pnpm dev`
-- `pnpm dev` - just the next.js dev experience
+- `bun dev` - brings up docker and graphql codegen watcher in addition to `bun dev`
+- `pnpm dev:init` - just the next.js dev experience
 
 ## Features
 
-🔥 React + Graphql + Prisma Migrate + Kysely ORM + Tailwind
+🔥 React + Graphql + Drizzle (Migrate + ORM) + Tailwind
 
 ### Frontend
 
@@ -25,26 +25,33 @@
   - 📏 [ESLint and Prettier](https://nextjs.org/docs/pages/building-your-application/configuring/eslint#lint-staged) on commit with Husky
   - ⚙️ [Bundler Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
   - 🎯 [Absolute imports](https://nextjs.org/docs/pages/building-your-application/configuring/absolute-imports-and-module-aliases) - No more spaghetti imports
-    -💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
+  -💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
+  - [next-secure](https://github.com/Enalmada/next-secure) secure header settings
+  - [env-valibot](https://github.com/Enalmada/env-valibot) environment variable validation
 - 💖 [Apollo Client](https://www.apollographql.com/docs/react/) graphql (state management, subscriptions, etc)
   - Graphql code generation with [client preset](https://the-guild.dev/graphql/codegen/plugins/presets/preset-client)
 - 🔒 [firebase auth](https://github.com/awinogrodzki/next-firebase-auth-edge) edge compatible
 - react-hook-form for simple and high performance forms
 - 🤖 SEO, JSON-LD and Open Graph tags with Next metadata
 - [NextUI](https://nextui.org/) react component library
+  - [NextUI-Admin](https://github.com/Enalmada/nextui-admin) admin layout and table components
+  - [Tailwind Variants](https://www.tailwind-variants.org/) - Create reusable css (css-in-js alternative)
+- 🎉 [Storybook](https://storybook.js.org/) for component driven UI development
+- [next-pwa](https://github.com/DuCanhGH/next-pwa) service worker with optimized configuration
+- [next-intl](https://next-intl-docs.vercel.app/) localization with app directory and [middleware](/src/middleware.ts)
 
 ### Backend
 
 - ⚡ [Next.js](https://nextjs.org) API routes. Fullstack and serverless friendly
 - Graphql
   - [yoga-server](https://the-guild.dev/graphql/yoga-server) serverless/edge compatible
-  - [Pothos](https://pothos-graphql.dev/) "code first" typesafe graphql
+  - [Pothos](https://pothos-graphql.dev/) "code first" typesafe graphql models
   - [Graphql Armor](https://escape.tech/graphql-armor/) security defaults
 - Database
-  - schema migrations with [Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate)
-  - [drizzle](https://kysely.dev/) typesafe sql query builder
+  - [drizzle](https://orm.drizzle.team/) db migrations and typesafe sql query builder
+    - [drizzle-helpers](https://github.com/Enalmada/drizzle-helpers) optimized connection, migration, and ORM functions
   - [postgres.js](https://github.com/porsager/postgres) fast postgres driver
-  - [CockroachDB](https://www.prisma.io/docs/guides/database/cockroachdb) database (a next gen postgres)
+  - [CockroachDB](https://www.sprinkledata.com/blogs/cockroachdb-vs-postgresql-a-comprehensive-comparison)
 
 ### Dev Ops
 
@@ -56,40 +63,41 @@
   - file review `pnpm review <file>`
   - file improve `pnpm improve <file>`
   - [PR code review](https://github.com/anc95/ChatGPT-CodeReview)
+- [Playwright](https://playwright.dev/) e2e tests
+- [ViTest](https://vitest.dev/) unit tests
+- [GitHub Actions](https://github.com/features/actions) tests
 
-### TODO
+### TODO (potentially)
 
-- https://nextjs.org/docs/app/building-your-application/routing/error-handling
-- e2e testing - Playwright
-- unit testing - ViTest (ViTest ui for convenient dev coverage review)
-- 💎 [Tailwind Variants](https://www.tailwind-variants.org/) - Create reusable css (css-in-js alternative)
-- 🦺 Unit Testing with ViTest and React Testing Library
-- 🧪 E2E Testing with Playwright
-- 👷 Run tests on pull request with GitHub Actions
-- 🎉 Storybook for UI development
-- 🎁 Automatic changelog generation with Semantic Release
-- email templating - mjml
-- typesafe routes
-- PWA service worker config
-- graphql endpoint post uses csrf
-- graphql subscriptions (multi device real time)
+- error handling [review](https://nextjs.org/docs/app/building-your-application/routing/error-handling)
+- Automatic changelog generation with Semantic Release
+- email templating with mjml
+- typesafe routes (may already be done through next-intl)
+- graphql enhancements
+  - endpoint post uses csrf
+  - graphql subscriptions (multi device real time)
+  - persisted queries
 - analytics
-- localization - easier if everyone keeps english out of templates from the start
-- deployment - AWS App Runner or [Cloudflare pages](https://github.com/cloudflare/next-on-pages)
-- release-please https://github.com/googleapis/release-please
-- 🗺️ Sitemap.xml and robots.txt with [next-sitemap](https://github.com/iamvishnusankar/next-sitemap)
-- 💉 [tsyringe](https://github.com/microsoft/tsyringe) Dependency Injection
--
+- Sitemap.xml and robots.txt with [next-sitemap](https://github.com/iamvishnusankar/next-sitemap)
 
 ## Notes
 
 ### Deployments
 
-Currently deployable to vercel.
-Probably works on https://docs.sst.dev/start/nextjs but needs confirmation
-Cloudflare pages is waiting on:
+Strongly recommend deploying to Vercel until the cost at scale is prohibitive.
+When you need other solutions:
 
-- https://github.com/awinogrodzki/next-firebase-auth-edge/issues/69
+- [Cloud Run](https://cloud.google.com/run) serverless containerized deployment
+  - see [cloudbuild.yaml](/cloudbuild.yaml) and [Dockerfile](/Dockerfile)
+
+- [SST](https://docs.sst.dev/start/nextjs)
+  - for those already in and experienced with AWS.
+  - next.js releases seem to constantly break latest SST release in ways that are not clearly announced. 
+
+- Cloudflare [Next-On-Pages](https://github.com/cloudflare/next-on-pages)
+  - ideal for marketing sites.  Still maturing rapidly for anything beyond that, check their github issues.
+  - Sentry not supported at time of writing (but discussions are in progress).
+  - next-on-pages deployed on special workers so capabilities are not always comparable to workers 
 
 ### Graphql playground
 

@@ -183,7 +183,6 @@
     "node": ">=18.x"
   },
   "main": "",
-  "readme": "ERROR: No README data found!",
   "trustedDependencies": [
     "@sentry/nextjs",
     "@sentry/cli"
