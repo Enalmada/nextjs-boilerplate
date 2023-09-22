@@ -2,7 +2,7 @@
 import React, { type ReactNode } from 'react';
 import { TaskStatus, type Task } from '@/client/gql/generated/graphql';
 import { Chip, Tooltip } from '@nextui-org/react';
-import { type Column, type RenderRowProps } from 'nextui-admin';
+import { type Column, type RenderRowProps } from '@enalmada/nextui-admin';
 import { BiEditAlt as EditIcon } from 'react-icons/bi';
 
 interface TaskRenderRowProps extends RenderRowProps {

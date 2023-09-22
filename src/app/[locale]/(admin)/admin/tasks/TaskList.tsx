@@ -11,7 +11,7 @@ import {
 import { TASKS_PAGE } from '@/client/gql/queries-mutations';
 import { Button, InputControlled } from '@/client/ui';
 import { valibotResolver } from '@hookform/resolvers/valibot';
-import { useTableWrapper } from 'nextui-admin';
+import { useTableWrapper } from '@enalmada/nextui-admin';
 import { useForm } from 'react-hook-form';
 import { object, string } from 'valibot';
 

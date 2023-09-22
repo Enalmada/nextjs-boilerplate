@@ -7,7 +7,7 @@ import {
   type SidebarSectionConfig,
   type UserConfig,
   type UserDropdownConfig,
-} from 'nextui-admin';
+} from '@enalmada/nextui-admin';
 import {
   BiBuildingHouse as AcmeIcon,
   BiCode as CodeIcon,
