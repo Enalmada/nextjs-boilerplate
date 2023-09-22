@@ -101,9 +101,7 @@ export default function AdminLayout({ me, children }: Props) {
       adminNavHeader={adminNavHeader}
       userDropdownConfig={userDropdownConfig}
     >
-      <div className="mx-auto my-5 flex w-full max-w-[95rem] flex-col gap-4">
-        {children}
-      </div>
+      <div className="mx-auto my-5 flex w-full max-w-[95rem] flex-col gap-4">{children}</div>
     </Layout>
   );
 }

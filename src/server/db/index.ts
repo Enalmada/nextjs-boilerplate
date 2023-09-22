@@ -1,4 +1,4 @@
-import { connectToDatabase } from 'drizzle-helpers';
+import { connectToDatabase } from '@enalmada/drizzle-helpers';
 import { type PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 
 import * as schema from './schema';

@@ -1,5 +1,5 @@
 import { builder } from '@/server/graphql/builder';
-import { type OrderBy, type Paging } from 'drizzle-helpers';
+import { type OrderBy, type Paging } from '@enalmada/drizzle-helpers';
 
 export enum SortOrder {
   'ASC' = 'ASC',
