@@ -69,6 +69,7 @@
 
 ### TODO (potentially)
 
+- better env file handling between a team than .env.local.
 - error handling [review](https://nextjs.org/docs/app/building-your-application/routing/error-handling)
 - Automatic changelog generation with Semantic Release
 - email templating with mjml
