@@ -18,12 +18,12 @@ export const useAuthorization = (me?: User | null) => {
     if (!me?.rules) return false;
 
     const rules = JSON.parse(me.rules as string) as PackRule<
-        SubjectRawRule<string, SubjectType, unknown>
+      SubjectRawRule<string, SubjectType, unknown>
     >[];
     const unpackedRules = unpackRules(rules) as SubjectRawRule<
-        string,
-        ExtractSubjectType<Subject>,
-        MongoQuery
+      string,
+      ExtractSubjectType<Subject>,
+      MongoQuery
     >[];
 
     ability.update(unpackedRules);

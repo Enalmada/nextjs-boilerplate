@@ -1,5 +1,5 @@
 // @ts-check
-import { createEnvSchema, required, validateEnv } from 'env-valibot';
+import { createEnvSchema, required, validateEnv } from '@enalmada/env-valibot';
 import { enumType, optional, string } from 'valibot';
 
 const serverSchema = createEnvSchema({

@@ -1,5 +1,5 @@
 import { useQuery, type DocumentNode, type OperationVariables } from '@apollo/client';
-import { type PageDescriptor, type SortDescriptor } from 'nextui-admin';
+import { type PageDescriptor, type SortDescriptor } from '@enalmada/nextui-admin';
 
 type UseAdminPageQueryProps<T> = {
   input: T;

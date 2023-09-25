@@ -32,8 +32,6 @@ volumes:
 networks:
   my_network:
     driver: bridge
-
-
 # Use postgres
 # potentially helpful scripts
 # "pgadmin": "cmd.exe /C start http://127.0.0.1:5050",

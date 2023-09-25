@@ -4,7 +4,7 @@ import { NotFoundError, OptimisticLockError } from '@/server/graphql/errors';
 import { sortAndPagination, type TableInput } from '@/server/graphql/sortAndPagination';
 import { type MyContextType } from '@/server/graphql/yoga';
 import { accessCheck } from '@/server/utils/accessCheck';
-import { type Page } from 'drizzle-helpers';
+import { type Page } from '@enalmada/drizzle-helpers';
 
 import TaskRepository from './task.repository';
 
