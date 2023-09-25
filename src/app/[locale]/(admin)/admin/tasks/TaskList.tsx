@@ -10,8 +10,8 @@ import {
 } from '@/client/gql/generated/graphql';
 import { TASKS_PAGE } from '@/client/gql/queries-mutations';
 import { Button, InputControlled } from '@/client/ui';
-import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useTableWrapper } from '@enalmada/nextui-admin';
+import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useForm } from 'react-hook-form';
 import { object, string } from 'valibot';
 

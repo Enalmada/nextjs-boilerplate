@@ -25,7 +25,7 @@
   - 📏 [ESLint and Prettier](https://nextjs.org/docs/pages/building-your-application/configuring/eslint#lint-staged) on commit with Husky
   - ⚙️ [Bundler Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
   - 🎯 [Absolute imports](https://nextjs.org/docs/pages/building-your-application/configuring/absolute-imports-and-module-aliases) - No more spaghetti imports
-  -💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
+    -💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
   - [next-secure](https://github.com/Enalmada/next-secure) secure header settings
   - [env-valibot](https://github.com/Enalmada/env-valibot) environment variable validation
 - 💖 [Apollo Client](https://www.apollographql.com/docs/react/) graphql (state management, subscriptions, etc)
@@ -89,16 +89,18 @@ Strongly recommend deploying to Vercel until the cost at scale is prohibitive.
 When you need other solutions:
 
 - [Cloud Run](https://cloud.google.com/run) serverless containerized deployment
+
   - see [cloudbuild.yaml](/cloudbuild.yaml) and [Dockerfile](/Dockerfile)
 
 - [SST](https://docs.sst.dev/start/nextjs)
+
   - for those already in and experienced with AWS.
-  - next.js releases seem to constantly break latest SST release in ways that are not clearly announced. 
+  - next.js releases seem to constantly break latest SST release in ways that are not clearly announced.
 
 - Cloudflare [Next-On-Pages](https://github.com/cloudflare/next-on-pages)
-  - ideal for marketing sites.  Still maturing rapidly for anything beyond that, check their github issues.
+  - ideal for marketing sites. Still maturing rapidly for anything beyond that, check their github issues.
   - Sentry not supported at time of writing (but discussions are in progress).
-  - next-on-pages deployed on special workers so capabilities are not always comparable to workers 
+  - next-on-pages deployed on special workers so capabilities are not always comparable to workers
 
 ### Graphql playground
 

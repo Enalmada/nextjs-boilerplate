@@ -7,8 +7,8 @@ import { USERS } from '@/client/gql/queries-mutations';
 import { Breadcrumb } from '@/client/ui';
 import { getRouteById } from '@/client/utils/routes';
 import { useSuspenseQuery } from '@apollo/client';
+import { useTableWrapper } from '@enalmada/nextui-admin';
 import { Input } from '@nextui-org/react';
-import { useTableWrapper } from 'nextui-admin';
 
 import { columns, renderRow } from './RenderRow';
 
