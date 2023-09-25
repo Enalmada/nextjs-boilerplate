@@ -1,5 +1,5 @@
 {
-  "name": "t3-challenge",
+  "name": "nextjs-boilerplate",
   "version": "0.1.0",
   "scripts": {
     "analyze": "cross-env ANALYZE=true bun run buildLocal",
@@ -22,9 +22,9 @@
     "dev:only": "next dev",
     "docker:build": "export $(cat .env.local | grep -v '^#' | grep -v '^FIREBASE_ADMIN_PRIVATE_KEY=' | xargs) && docker build --build-arg REDIRECT_URL --build-arg FIREBASE_PROJECT_ID --build-arg FIREBASE_API_KEY --build-arg FIREBASE_AUTH_DOMAIN --build-arg FIREBASE_DATABASE_URL --build-arg FIREBASE_MESSAGING_SENDER_ID --build-arg AXIOM_TOKEN --build-arg AXIOM_DATASET -t t3-challenge .",
     "docker:down": "docker compose --env-file .env.local down",
-    "docker:logs": "docker logs -f $(docker ps --filter \"ancestor=t3-challenge\" --format \"{{.ID}}\" | head -n 1)",
+    "docker:logs": "docker logs -f $(docker ps --filter \"ancestor=nextjs-boilerplate\" --format \"{{.ID}}\" | head -n 1)",
     "docker:prune": "docker system prune",
-    "docker:run": "docker run -p 3000:3000 --env-file .env.local t3-challenge",
+    "docker:run": "docker run -p 3000:3000 --env-file .env.local nextjs-boilerplate",
     "docker:up": "docker compose --env-file .env.local up -d --remove-orphans",
     "drizzle:drop": "dotenv -e ./.env.local drizzle-kit drop",
     "drizzle:generate": "dotenv -e ./.env.local drizzle-kit generate:pg",
@@ -113,6 +113,7 @@
     "valibot": "^0.17.1"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.26.2",
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
     "@faker-js/faker": "^8.1.0",
@@ -177,9 +178,8 @@
     "name": "Adam Lane"
   },
   "description": "A boilerplate for next.js apps",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "private": true,
-  "_id": "t3-challenge@0.1.0",
   "engines": {
     "node": ">=18.x"
   },

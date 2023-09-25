@@ -193,7 +193,7 @@ const withSentry = (config) => {
       silent: true,
 
       org: 'mentormyselfcom',
-      project: 't3-challenge',
+      project: 'nextjs-boilerplate',
     },
     {
       // For all available options, see:
