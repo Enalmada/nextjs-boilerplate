@@ -25,7 +25,7 @@ export default {
     }
 
     return {
-      name: 't3-challenge',
+      name: 'nextjs-boilerplate',
       region: 'us-east-1',
       profile: profileName,
     };
