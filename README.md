@@ -94,13 +94,15 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 - [ ] analytics
 - [ ] Sitemap.xml and robots.txt with [next-sitemap](https://github.com/iamvishnusankar/next-sitemap)
 - [ ] Cloudflare next-on-pages verification.  Had sentry bugs that [issue](https://github.com/cloudflare/next-on-pages/issues/420) says is fixed now.
-- [ ] vitest with bun vs node.  There were bugs that are [being worked on](https://github.com/oven-sh/bun/issues/4145#issuecomment-1725759116).
-  - can't switch tests completely to bun until it has [module mock](https://github.com/oven-sh/bun/issues/5394) support
 - [ ] figure out a good way for demo to get into /admin side of things 
 - [ ] setup dependency checking on github actions with Renovate
 - [ ] playwright tests 
   - [ ] running with github actions 
   - [ ] on admin  
+
+- [ ] vitest with bun vs node.  There were bugs that are [being worked on](https://github.com/oven-sh/bun/issues/4145#issuecomment-1725759116).
+  - blocked by [module mock](https://github.com/oven-sh/bun/issues/5394) support
+- [ ] playwright tests using bun - blocked
 
 ## Alternatives and Inspiration
 
