@@ -9,8 +9,6 @@ import metadataConfig from '@/metadata.config';
 import clsx from 'clsx';
 import { NextIntlClientProvider, type AbstractIntlMessages } from 'next-intl';
 
-export const runtime = 'edge';
-
 type Props = {
   children: React.ReactNode;
   params?: {
