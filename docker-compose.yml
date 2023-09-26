@@ -1,3 +1,5 @@
+# https://gist.github.com/dbist/ebb1f39f580ad9d07c04c3a3377e2bff
+# admin-ui with `bun crdb:admin` or http://127.0.0.1:8080
 version: '3.9'
 
 services:
@@ -32,7 +34,7 @@ volumes:
 networks:
   my_network:
     driver: bridge
-# Use postgres
+# If you want to use postgres (neon, supabase, etc)
 # potentially helpful scripts
 # "pgadmin": "cmd.exe /C start http://127.0.0.1:5050",
 # "pgadmin:win": "start http://127.0.0.1:5050",
@@ -41,7 +43,7 @@ networks:
 #
 #services:
 #  db:
-#    image: 'postgres:15'
+#    image: 'postgres:16'
 #    environment:
 #      POSTGRES_PASSWORD: asdfasdf
 #      POSTGRES_USER: postgres
@@ -54,7 +56,7 @@ networks:
 #    command: -p 5432
 #
 #  dbTest:
-#    image: 'postgres:15'
+#    image: 'postgres:16'
 #    environment:
 #      POSTGRES_PASSWORD: asdfasdf
 #      POSTGRES_USER: postgres
