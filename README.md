@@ -88,6 +88,7 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 - Cloudflare next-on-pages verification.  Had sentry bugs that [issue](https://github.com/cloudflare/next-on-pages/issues/420) says is fixed now.
 - vitest with bun vs node.  There were bugs that are [being worked on](https://github.com/oven-sh/bun/issues/4145#issuecomment-1725759116).
   - can't switch tests completely to bun until it has [module mock](https://github.com/oven-sh/bun/issues/5394) support
+- figure out a good way for demo to get into /admin side of things 
 
 ## Alternatives and Inspiration
 
