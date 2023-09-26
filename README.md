@@ -1,5 +1,9 @@
 # nextjs-boilerplate
 
+
+
+Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
+
 ## Getting Started
 
 - Install [node](https://nodejs.org/en/download) (necessary to build/run next.js)
@@ -59,27 +63,31 @@
 - local and test db running in docker container
 - 🛠️ ️[fixpack](https://github.com/henrikjoreteg/fixpack) package.json normalization
 - 🚓 commit messages validated with Commitlint
-- ChatGPT Integration
-  - file review `pnpm review <file>`
-  - file improve `pnpm improve <file>`
-  - [PR code review](https://github.com/anc95/ChatGPT-CodeReview)
 - [Playwright](https://playwright.dev/) e2e tests
 - [ViTest](https://vitest.dev/) unit tests
 - [GitHub Actions](https://github.com/features/actions) tests
 
 ### TODO (potentially)
 
-- strict-dynamic CSP in middleware
-- better env file handling between a team than .env.local.
+- switch hasty todo list to github tracking
+- urql (vs apollo client) due to smaller size.  Normalized cache not working and needs triage.
+- strict-dynamic CSP in middleware vs next.config.js headers
+  - remove static from auth pages so it gets dynamic csp headers 
+- better env file handling between a team than .env.local.  There must be something better.
 - error handling [review](https://nextjs.org/docs/app/building-your-application/routing/error-handling)
 - email templating with mjml
-- typesafe routes (may already be done through next-intl)
+- typesafe routes vs strings 
+  - kinda started in routes.js but needs more work 
+  - may already be handled by next-intl
 - graphql enhancements
   - endpoint post uses csrf
   - graphql subscriptions (multi device real time)
   - persisted queries
 - analytics
 - Sitemap.xml and robots.txt with [next-sitemap](https://github.com/iamvishnusankar/next-sitemap)
+- Cloudflare next-on-pages verification.  Had sentry bugs that [issue](https://github.com/cloudflare/next-on-pages/issues/420) says is fixed now.
+- vitest with bun vs node.  There were bugs that are [being worked on](https://github.com/oven-sh/bun/issues/4145#issuecomment-1725759116).
+  - can't switch tests completely to bun until it has [module mock](https://github.com/oven-sh/bun/issues/5394) support
 
 ## Alternatives and Inspiration
 
