@@ -1,21 +1,28 @@
 # nextjs-boilerplate
 
-
+* place to prototype how new technologies might be used optimally
+* catch issues/errors with interactions in other tech.  
+* reference template for personal/professional projects
 
 Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 
 ## Getting Started
 
-- Install [node](https://nodejs.org/en/download) (necessary to build/run next.js)
-- Install Docker or Rancher Desktop ([recommended](https://codeengineered.com/blog/2022/docker-desktop-vs-rancher-desktop/))
+- Install [node](https://nodejs.org/en/download) lts+. Node necessary to build/run next.js
+- Install Docker engine. Rancher Desktop ([recommended](https://codeengineered.com/blog/2022/docker-desktop-vs-rancher-desktop/))
 - Install package manager. bun ([recommended](https://bun.sh/))
   - `npm install -g bun`
-- Copy `.env.example` to `.env.local` and edit variables
+- Copy `.env.example` to `.env.local` and edit variables (app should come up with default values but you will need real values for auth to work)
+- `bun dev`
 
-## Development mode
+## Development
 
-- `bun dev` - migrations, package check, docker, graphql codegen watcher then `next dev`
+- `bun dev` - package check, docker (db), migrations, graphql codegen watcher, `next dev`
 - `bun dev:init` - just the next.js dev server
+
+## Testing
+
+- `bun run test` - vitest unit tests, playwright e2e tests
 
 ## Features
 
@@ -68,34 +75,37 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 - [GitHub Actions](https://github.com/features/actions) tests
 
 ### TODO (potentially)
-
-- switch hasty todo list to github tracking
-- urql (vs apollo client) due to smaller size.  Normalized cache not working and needs triage.
-- strict-dynamic CSP in middleware vs next.config.js headers
+- [ ] figure out how to stop the `Sentry CLI binary not found` build messages
+- [ ] figure out why startup taking so long, possibly the PWA script build and needs disable in avg
+- [ ] switch hasty todo list to github tracking
+- [ ] urql (vs apollo client) due to smaller size.  Normalized cache not working and needs triage.
+- [ ] strict-dynamic CSP in middleware vs next.config.js headers
   - remove static from auth pages so it gets dynamic csp headers 
-- better env file handling between a team than .env.local.  There must be something better.
-- error handling [review](https://nextjs.org/docs/app/building-your-application/routing/error-handling)
-- email templating with mjml
-- typesafe routes vs strings 
+- [ ] better env file handling between a team than .env.local.  There must be something better.
+- [ ] error handling [review](https://nextjs.org/docs/app/building-your-application/routing/error-handling)
+- [ ] email templating with mjml
+- [ ] typesafe routes vs strings 
   - kinda started in routes.js but needs more work 
   - may already be handled by next-intl
-- graphql enhancements
-  - endpoint post uses csrf
-  - graphql subscriptions (multi device real time)
-  - persisted queries
-- analytics
-- Sitemap.xml and robots.txt with [next-sitemap](https://github.com/iamvishnusankar/next-sitemap)
-- Cloudflare next-on-pages verification.  Had sentry bugs that [issue](https://github.com/cloudflare/next-on-pages/issues/420) says is fixed now.
-- vitest with bun vs node.  There were bugs that are [being worked on](https://github.com/oven-sh/bun/issues/4145#issuecomment-1725759116).
+- [ ] graphql enhancements
+  - [ ] endpoint post uses csrf
+  - [ ] graphql subscriptions (multi device real time)
+  - [ ] persisted queries
+- [ ] analytics
+- [ ] Sitemap.xml and robots.txt with [next-sitemap](https://github.com/iamvishnusankar/next-sitemap)
+- [ ] Cloudflare next-on-pages verification.  Had sentry bugs that [issue](https://github.com/cloudflare/next-on-pages/issues/420) says is fixed now.
+- [ ] vitest with bun vs node.  There were bugs that are [being worked on](https://github.com/oven-sh/bun/issues/4145#issuecomment-1725759116).
   - can't switch tests completely to bun until it has [module mock](https://github.com/oven-sh/bun/issues/5394) support
-- figure out a good way for demo to get into /admin side of things 
-- setup dependency checking on github actions with Renovate
-- playwright tests running with each build and across admin
+- [ ] figure out a good way for demo to get into /admin side of things 
+- [ ] setup dependency checking on github actions with Renovate
+- [ ] playwright tests 
+  - [ ] running with github actions 
+  - [ ] on admin  
 
 ## Alternatives and Inspiration
 
 - [BisonApp](https://github.com/echobind/bisonapp) - Worth reading [why they use tRPC](https://echobind.com/post/why-we-ditched-graphql-for-trpc). I believe gql is still better for corporate projects and [this](https://wundergraph.com/blog/trpc_vs_graphql) is worth a read..
-- [T3 App](https://create.t3.gg/) - highly recommended starting point
+- [T3 App](https://create.t3.gg/) - highly recommended starting point until you understand the pros/cons of other tech options
 - [next-13-app-router-with-trpc](https://github.com/solaldunckel/next-13-app-router-with-trpc) - some patterns to consider.
 
 ## Notes
@@ -169,11 +179,11 @@ https://github.com/brianc/node-postgres/issues/2980#issuecomment-1658765692
 
 # Git branches cleanup
 
-To cleanup branches, I am using this alias:
-`git config --global alias.branch-prune '!git fetch -p && for b in $(git for-each-ref --format='\''%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)'\'' refs/heads); do git branch -d $b; done'`
-Then run this to delete them safely
-`git branch-prune`
-~ https://stackoverflow.com/a/61204370/1502448
+To cleanup branches, I am using this alias: `git config --global alias.branch-prune '!git fetch -p && for b in $(git for-each-ref --format='\''%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)'\'' refs/heads); do git branch -d $b; done'`
+
+Then run this to delete them safely `git branch-prune`
+
+Reference https://stackoverflow.com/a/61204370/1502448
 
 ## Contributing
 
