@@ -135,6 +135,7 @@ When you need other solutions:
   - ideal for marketing sites. Still maturing rapidly for anything beyond that, check their github issues.
   - Sentry not supported at time of writing (but discussions are in progress).
   - next-on-pages deployed on special workers so capabilities are not always comparable to workers
+  - bun [limited support](https://community.cloudflare.com/t/no-bun-support-how/554291)
 
 ### Graphql playground
 
