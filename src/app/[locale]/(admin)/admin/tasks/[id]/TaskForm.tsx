@@ -97,11 +97,11 @@ export default function TaskForm(props: Props) {
     };
 
     const result = await updateTask({
-        id,
-        input: {
-          ...input,
-          version,
-        },
+      id,
+      input: {
+        ...input,
+        version,
+      },
     });
 
     if (result.data) {

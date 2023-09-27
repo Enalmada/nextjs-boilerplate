@@ -27,6 +27,7 @@ export const useAdminPageQuery = <T, Q, V extends { [prop: string]: unknown }>(
         },
       },
     } as unknown as V,
+    requestPolicy: 'cache-and-network', // Added this line for cache-and-network behavior
   });
 
   return {
