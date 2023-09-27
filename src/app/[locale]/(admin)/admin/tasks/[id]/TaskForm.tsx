@@ -10,6 +10,7 @@ import {
   type Task,
   type TaskQuery,
   type UpdateTaskMutation,
+  type UpdateTaskMutationVariables,
 } from '@/client/gql/generated/graphql';
 import { DELETE_TASK, TASK, UPDATE_TASK } from '@/client/gql/queries-mutations';
 import {
@@ -21,10 +22,9 @@ import {
   RadioGroupControlled,
   TextareaControlled,
 } from '@/client/ui';
-import { useMutation } from '@apollo/client';
-import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { Button as NextUIButton, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
+import { useMutation, useQuery } from '@urql/next';
 import format from 'date-fns/format';
 import { DayPicker } from 'react-day-picker';
 import { Controller, useForm } from 'react-hook-form';
@@ -40,16 +40,20 @@ export default function TaskForm(props: Props) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
 
-  const { data: dataQuery, error: errorQuery } = useSuspenseQuery<TaskQuery>(TASK, {
+  const [{ data: dataQuery, error: errorQuery }] = useQuery<TaskQuery>({
+    query: TASK,
     variables: { id: props.id || '' },
-    skip: props.id === undefined,
+    pause: props.id === undefined,
   });
 
   // Create and Update loading is handled by form submitting
   // mutation error will render errors but not handle them
   // https://stackoverflow.com/questions/59465864/handling-errors-with-react-apollo-usemutation-hook
-  const [updateTask, { error: updateMutationError }] = useMutation<UpdateTaskMutation>(UPDATE_TASK);
-  const [deleteTask, { error: deleteMutationError, loading: loadingDelete }] =
+  const [{ error: updateMutationError }, updateTask] = useMutation<
+    UpdateTaskMutation,
+    UpdateTaskMutationVariables
+  >(UPDATE_TASK);
+  const [{ error: deleteMutationError, fetching: loadingDelete }, deleteTask] =
     useMutation<DeleteTaskMutation>(DELETE_TASK);
 
   // TODO: dueDate should be Date (form not submitting)
@@ -93,14 +97,13 @@ export default function TaskForm(props: Props) {
     };
 
     const result = await updateTask({
-      variables: {
         id,
         input: {
           ...input,
           version,
         },
-      },
     });
+
     if (result.data) {
       router.push('/admin/tasks');
     }
@@ -108,7 +111,7 @@ export default function TaskForm(props: Props) {
 
   const handleDelete = async () => {
     const result = await deleteTask({
-      variables: { id },
+      id,
       // TODO when optimistic errors are handled
       // optimisticResponse: optimisticResponseHelper<DeleteTaskMutation>('deleteTask', props.task),
       //update(cache, { data }) {

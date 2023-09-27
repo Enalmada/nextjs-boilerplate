@@ -10,14 +10,20 @@ export default cacheExchange({
     Mutation: {
       createTask(result, _args, cache) {
         cache.updateQuery({ query: MY_TASKS }, (data: MyTasksQuery | null) => {
-          result && data?.me?.tasks?.push(result.createTask as Task);
+          if (result && data?.me?.tasks) {
+            // Instead of pushing to the existing array, create a new array
+            const updatedTasks = [...data.me.tasks, result.createTask as Task];
+            return { ...data, me: { ...data.me, tasks: updatedTasks } };
+          }
           return data;
         });
       },
       deleteTask(_result, args, cache) {
         cache.updateQuery({ query: MY_TASKS }, (data: MyTasksQuery | null) => {
           if (data?.me?.tasks) {
-            data.me.tasks = data?.me?.tasks.filter((task) => task.id !== args.id);
+            // Instead of filtering the existing array, create a new array
+            const updatedTasks = data.me.tasks.filter((task) => task.id !== args.id);
+            return { ...data, me: { ...data.me, tasks: updatedTasks } };
           }
           return data;
         });

@@ -95,20 +95,18 @@ export default function TaskForm(props: Props) {
 
     if (dataQuery?.task) {
       const result = await updateTask({
-        variables: {
           id,
           input: {
             ...input,
             version,
           },
-        },
       });
       if (result.data) {
         router.push('/app');
       }
     } else {
       const result = await createTask({
-        variables: { input },
+        input,
         // optimisticResponse: optimisticResponseHelper<CreateTaskMutation>('createTask', input),
         // update(cache, { data }) {
         //  void addToCache<MyTasksQuery>(data?.createTask, MY_TASKS, cache, 'me.tasks');
@@ -122,7 +120,7 @@ export default function TaskForm(props: Props) {
 
   const handleDelete = async () => {
     const result = await deleteTask({
-      variables: { id },
+      id,
       // TODO when optimistic errors are handled
       // optimisticResponse: optimisticResponseHelper<DeleteTaskMutation>('deleteTask', props.task),
       // update(cache, { data }) {

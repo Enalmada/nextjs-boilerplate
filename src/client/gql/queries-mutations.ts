@@ -1,5 +1,5 @@
 // import { graphql } from '@/client/gql/generated';
-import { gql } from '@apollo/client';
+import { gql } from '@urql/next';
 
 export const USER_PARTS = gql`
   fragment UserParts on User {

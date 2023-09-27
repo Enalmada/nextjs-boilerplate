@@ -1,5 +1,6 @@
-import { useQuery, type DocumentNode, type OperationVariables } from '@apollo/client';
 import { type PageDescriptor, type SortDescriptor } from '@enalmada/nextui-admin';
+import { useQuery } from '@urql/next';
+import { type DocumentNode } from 'graphql';
 
 type UseAdminPageQueryProps<T> = {
   input: T;
@@ -7,12 +8,12 @@ type UseAdminPageQueryProps<T> = {
   pageDescriptor: PageDescriptor;
 };
 
-export const useAdminPageQuery = <T, Q, V extends OperationVariables>(
+export const useAdminPageQuery = <T, Q, V extends { [prop: string]: unknown }>(
   query: DocumentNode,
   { input, sortDescriptor, pageDescriptor }: UseAdminPageQueryProps<T>
 ) => {
-  const { data, loading, error } = useQuery<Q, V>(query, {
-    fetchPolicy: 'cache-and-network',
+  const [{ data, fetching: loading, error }] = useQuery<Q, V>({
+    query: query,
     variables: {
       input: {
         where: { ...input },

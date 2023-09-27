@@ -7,7 +7,6 @@ import cacheExchange from '@/client/gql/cacheExchange';
 import { useAuth } from '@/lib/firebase/auth/context';
 import { createClient, fetchExchange, ssrExchange, UrqlProvider } from '@urql/next';
 
-const ssr = ssrExchange();
 
 interface Props {
   children: ReactNode;
@@ -23,8 +22,10 @@ export function UrqlWrapper({ children }: Props) {
   const { user } = useAuth();
   const userIdToken = user?.idToken;
 
-  const client = useMemo(() => {
-    return createClient({
+  const [client, ssr] = useMemo(() => {
+    const ssr = ssrExchange();
+
+    const client = createClient({
       url: process.env.NEXT_PUBLIC_REDIRECT_URL + '/api/graphql',
       exchanges: [
         cacheExchange,
@@ -48,6 +49,8 @@ export function UrqlWrapper({ children }: Props) {
       },
       requestPolicy: 'cache-first',
     });
+
+    return [client, ssr];
   }, [userIdToken]);
 
   return (
