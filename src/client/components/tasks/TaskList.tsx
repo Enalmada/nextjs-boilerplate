@@ -30,10 +30,10 @@ const EmptyState = () => {
 };
 
 export default function TaskList() {
-  const [{ data, fetching, error }] = useQuery({ query: TASKS });
+  const [{ data, fetching, error }] = useQuery<MyTasksQuery>({ query: MY_TASKS });
 
   if (error) return <div>{`Error! ${error?.message}`}</div>;
-  if (!data) return null;
+  if (!data && fetching) return null;
 
   // TODO this should be sorted on server and paginated
   const tasks: Task[] = [...(data?.me?.tasks as Task[])].sort((a, b) => {

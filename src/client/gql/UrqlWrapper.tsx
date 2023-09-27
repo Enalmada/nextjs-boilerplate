@@ -4,7 +4,6 @@
 import { useMemo, type ReactNode } from 'react';
 // import { persistedExchange } from '@urql/exchange-persisted';
 import cacheExchange from '@/client/gql/cacheExchange';
-import { env } from '@/env.mjs';
 import { useAuth } from '@/lib/firebase/auth/context';
 import { createClient, fetchExchange, ssrExchange, UrqlProvider } from '@urql/next';
 
@@ -26,7 +25,7 @@ export function UrqlWrapper({ children }: Props) {
 
   const client = useMemo(() => {
     return createClient({
-      url: env.NEXT_PUBLIC_REDIRECT_URL + '/api/graphql',
+      url: process.env.NEXT_PUBLIC_REDIRECT_URL + '/api/graphql',
       exchanges: [
         cacheExchange,
         ssr,

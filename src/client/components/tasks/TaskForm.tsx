@@ -3,24 +3,15 @@
 import { Suspense, useState } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
-import { extractErrorMessages } from '@/client/gql/errorHandling';
 import {
   TaskStatus,
   type CreateTaskMutation,
   type DeleteTaskMutation,
-  type MyTasksQuery,
   type Task,
   type TaskQuery,
   type UpdateTaskMutation,
 } from '@/client/gql/generated/graphql';
-import { addToCache, removeFromCache } from '@/client/gql/graphql-helpers';
-import {
-  CREATE_TASK,
-  DELETE_TASK,
-  MY_TASKS,
-  TASK,
-  UPDATE_TASK,
-} from '@/client/gql/queries-mutations';
+import { CREATE_TASK, DELETE_TASK, TASK, UPDATE_TASK } from '@/client/gql/queries-mutations';
 import {
   Button,
   Card,
@@ -30,8 +21,6 @@ import {
   RadioGroupControlled,
   TextareaControlled,
 } from '@/client/ui';
-
-import { useMutation, useQuery } from '@urql/next';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { Button as NextUIButton, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 import { useMutation, useQuery } from '@urql/next';
@@ -50,7 +39,7 @@ export default function TaskForm(props: Props) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
 
-  const [{ data: dataQuery, error: errorQuery }] = useQuery({
+  const [{ data: dataQuery, error: errorQuery }] = useQuery<TaskQuery>({
     query: TASK,
     variables: { id: props.id || '' },
     pause: props.id === undefined,
@@ -61,7 +50,7 @@ export default function TaskForm(props: Props) {
   // https://stackoverflow.com/questions/59465864/handling-errors-with-react-apollo-usemutation-hook
   const [{ error: createMutationError }, createTask] = useMutation<CreateTaskMutation>(CREATE_TASK);
   const [{ error: updateMutationError }, updateTask] = useMutation<UpdateTaskMutation>(UPDATE_TASK);
-  const [{ error: deleteMutationError, loading: loadingDelete }, deleteTask] =
+  const [{ error: deleteMutationError, fetching: loadingDelete }, deleteTask] =
     useMutation<DeleteTaskMutation>(DELETE_TASK);
 
   // TODO: dueDate should be Date (form not submitting)
@@ -121,9 +110,9 @@ export default function TaskForm(props: Props) {
       const result = await createTask({
         variables: { input },
         // optimisticResponse: optimisticResponseHelper<CreateTaskMutation>('createTask', input),
-        update(cache, { data }) {
-          void addToCache<MyTasksQuery>(data?.createTask, MY_TASKS, cache, 'me.tasks');
-        },
+        // update(cache, { data }) {
+        //  void addToCache<MyTasksQuery>(data?.createTask, MY_TASKS, cache, 'me.tasks');
+        // },
       });
       if (result.data) {
         router.push('/app');
@@ -185,11 +174,7 @@ export default function TaskForm(props: Props) {
           <div>
             {createMutationError && formError([createMutationError.message])}
             {updateMutationError && formError([updateMutationError.message])}
-
-            {/*
-            {createMutationError && formError(extractErrorMessages(createMutationError))}
-            {updateMutationError && formError(extractErrorMessages(updateMutationError))}
-            {deleteMutationError && formError(extractErrorMessages(deleteMutationError))}
+            {deleteMutationError && formError([deleteMutationError.message])}
 
             <form onSubmit={(event) => void handleSubmit(onSubmit)(event)}>
               <InputControlled

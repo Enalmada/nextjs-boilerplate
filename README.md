@@ -138,7 +138,7 @@ When you need other solutions:
   - next-on-pages deployed on special workers so capabilities are not always comparable to workers
   - bun [limited support](https://community.cloudflare.com/t/no-bun-support-how/554291)
   - apollo client next.js needs some tweaking [issue](https://github.com/apollographql/apollo-client-nextjs/issues/102)
-  - links don't seem to work unless page was SSR generated in latest testing.  Possibly related to [issue](https://github.com/cloudflare/next-on-pages/issues/469#issuecomment-1736301503)
+  - links don't seem to work unless page was SSR generated in latest testing. Possibly related to [issue](https://github.com/cloudflare/next-on-pages/issues/469#issuecomment-1736301503)
 
 ### Graphql playground
 
@@ -151,8 +151,8 @@ CockroachDB was chosen for combination of free tier, postgres compatability, and
 Some cons
 
 - it doesn't offer edge compatability
-- it [isn't officially supported in drizzle yet](https://github.com/drizzle-team/drizzle-orm/issues/845). Migrations with `DO $$` need to be manually converted to `IF NOT EXISTS` 
-until [issue](https://github.com/cockroachdb/cockroach/issues/107345) is fixed.  
+- it [isn't officially supported in drizzle yet](https://github.com/drizzle-team/drizzle-orm/issues/845). Migrations with `DO $$` need to be manually converted to `IF NOT EXISTS`
+  until [issue](https://github.com/cockroachdb/cockroach/issues/107345) is fixed.
 
 Alternatives:
 
