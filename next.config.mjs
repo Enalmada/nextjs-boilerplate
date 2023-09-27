@@ -168,7 +168,6 @@ const config = {
         tls: false,
         net: false,
       };
-
     }
 
     // To see Cloudflare compile errors more clearly locally
