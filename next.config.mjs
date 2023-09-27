@@ -158,7 +158,7 @@ const config = {
       };
        */
 
-      // Necessary for kysely postgres.js driver
+      // Necessary for postgres.js driver
       config.resolve.fallback = {
         ...config.resolve.fallback,
         os: false,
@@ -168,6 +168,7 @@ const config = {
         tls: false,
         net: false,
       };
+
     }
 
     // To see Cloudflare compile errors more clearly locally
