@@ -158,7 +158,7 @@ const config = {
       };
        */
 
-      // Necessary for kysely postgres.js driver
+      // Necessary for postgres.js driver
       config.resolve.fallback = {
         ...config.resolve.fallback,
         os: false,

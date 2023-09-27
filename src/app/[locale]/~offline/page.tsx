@@ -3,6 +3,9 @@
 import { useRouter } from 'next/navigation';
 import { Button, Card, CardBody } from '@/client/ui';
 
+// Uncomment for Cloudflare next-on-pages (required) or Vercel edge
+// export const runtime = 'edge';
+
 export default function Page() {
   const router = useRouter();
 

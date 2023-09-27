@@ -1,8 +1,8 @@
 # nextjs-boilerplate
 
-* place to prototype how new technologies might be used optimally
-* catch issues/errors with interactions in other tech.  
-* reference template for personal/professional projects
+- place to prototype how new technologies might be used optimally
+- catch issues/errors with interactions in other tech.
+- reference template for personal/professional projects
 
 Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 
@@ -75,17 +75,18 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 - [GitHub Actions](https://github.com/features/actions) tests
 
 ### TODO (potentially)
+
 - [ ] figure out how to stop the `Sentry CLI binary not found` build messages
 - [ ] figure out why startup taking so long, possibly the PWA script build and needs disable in avg
 - [ ] switch hasty todo list to github tracking
-- [ ] urql (vs apollo client) due to smaller size.  Normalized cache not working and needs triage.
+- [ ] urql (vs apollo client) due to smaller size. Normalized cache not working and needs triage.
 - [ ] strict-dynamic CSP in middleware vs next.config.js headers
-  - remove static from auth pages so it gets dynamic csp headers 
-- [ ] better env file handling between a team than .env.local.  There must be something better.
+  - remove static from auth pages so it gets dynamic csp headers
+- [ ] better env file handling between a team than .env.local. There must be something better.
 - [ ] error handling [review](https://nextjs.org/docs/app/building-your-application/routing/error-handling)
 - [ ] email templating with mjml
-- [ ] typesafe routes vs strings 
-  - kinda started in routes.js but needs more work 
+- [ ] typesafe routes vs strings
+  - kinda started in routes.js but needs more work
   - may already be handled by next-intl
 - [ ] graphql enhancements
   - [ ] endpoint post uses csrf
@@ -93,14 +94,15 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
   - [ ] persisted queries
 - [ ] analytics
 - [ ] Sitemap.xml and robots.txt with [next-sitemap](https://github.com/iamvishnusankar/next-sitemap)
-- [ ] Cloudflare next-on-pages verification.  Had sentry bugs that [issue](https://github.com/cloudflare/next-on-pages/issues/420) says is fixed now.
-- [ ] figure out a good way for demo to get into /admin side of things 
+- [ ] Cloudflare next-on-pages verification. Had sentry bugs that [issue](https://github.com/cloudflare/next-on-pages/issues/420) says is fixed now.
+- [ ] figure out a good way for demo to get into /admin side of things
 - [ ] setup dependency checking on github actions with Renovate
-- [ ] playwright tests 
-  - [ ] running with github actions 
-  - [ ] on admin  
+- [ ] playwright tests
 
-- [ ] vitest with bun vs node.  There were bugs that are [being worked on](https://github.com/oven-sh/bun/issues/4145#issuecomment-1725759116).
+  - [ ] running with github actions
+  - [ ] on admin
+
+- [ ] vitest with bun vs node. There were bugs that are [being worked on](https://github.com/oven-sh/bun/issues/4145#issuecomment-1725759116).
   - blocked by [module mock](https://github.com/oven-sh/bun/issues/5394) support
 - [ ] playwright tests using bun - blocked
 
@@ -132,9 +134,11 @@ When you need other solutions:
   - next.js releases seem to constantly break latest SST release in ways that are not clearly announced.
 
 - Cloudflare [Next-On-Pages](https://github.com/cloudflare/next-on-pages)
-  - ideal for marketing sites. Still maturing rapidly for anything beyond that, check their github issues.
-  - Sentry not supported at time of writing (but discussions are in progress).
+  - ideal for static marketing sites in single language. Still maturing rapidly for anything beyond that, check their github issues.
   - next-on-pages deployed on special workers so capabilities are not always comparable to workers
+  - bun [limited support](https://community.cloudflare.com/t/no-bun-support-how/554291)
+  - apollo client next.js needs some tweaking [issue](https://github.com/apollographql/apollo-client-nextjs/issues/102)
+  - links don't seem to work unless page was SSR generated in latest testing.  Possibly related to [issue](https://github.com/cloudflare/next-on-pages/issues/469#issuecomment-1736301503)
 
 ### Graphql playground
 
@@ -147,7 +151,8 @@ CockroachDB was chosen for combination of free tier, postgres compatability, and
 Some cons
 
 - it doesn't offer edge compatability
-- it isn't officially supported in drizzle yet. Migrations with `DO $$` need to be manually converted to `IF NOT EXISTS`
+- it [isn't officially supported in drizzle yet](https://github.com/drizzle-team/drizzle-orm/issues/845). Migrations with `DO $$` need to be manually converted to `IF NOT EXISTS` 
+until [issue](https://github.com/cockroachdb/cockroach/issues/107345) is fixed.  
 
 Alternatives:
 
