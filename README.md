@@ -76,6 +76,7 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 
 ### TODO (potentially)
 
+- [ ] [csrf with yoga](https://the-guild.dev/graphql/yoga-server/docs/features/csrf-prevention)
 - [ ] figure out how to stop the `Sentry CLI binary not found` build messages
 - [ ] figure out why startup taking so long, possibly the PWA script build and needs disable in avg
 - [ ] switch hasty todo list to github tracking

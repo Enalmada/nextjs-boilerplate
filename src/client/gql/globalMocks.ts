@@ -33,6 +33,7 @@ export function createRandomMe(id?: string): User {
     createdAt: faker.date.past(),
     updatedAt: faker.date.recent(),
     version: 1,
+    tasks: [],
     __typename: 'User',
   };
 }

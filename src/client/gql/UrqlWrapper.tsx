@@ -11,7 +11,6 @@ interface Props {
   children: ReactNode;
 }
 
-// you need to create a component to wrap your app in
 export function UrqlWrapper({ children }: Props) {
   // Client is unique to tenant
   // https://formidable.com/open-source/urql/docs/advanced/authentication/#cache-invalidation-on-logout
@@ -22,10 +21,8 @@ export function UrqlWrapper({ children }: Props) {
   const userIdToken = user?.idToken;
 
   const [client, ssr] = useMemo(() => {
-    if (process.env.APP_ENV === 'local') {
-      // eslint-disable-next-line no-console
-      console.log('UrqlWrapper rendering' + Math.random());
-    }
+    const isSSR = typeof window === 'undefined';
+
     const ssr = ssrExchange();
 
     const client = createClient({
@@ -34,27 +31,26 @@ export function UrqlWrapper({ children }: Props) {
         cacheExchange,
         ssr,
         /*
-        persistedExchange({
-          preferGetForPersistedQueries: false,
-        }),
-           */
+ persistedExchange({
+   preferGetForPersistedQueries: false,
+ }),
+    */
         fetchExchange,
       ],
       suspense: true,
       fetchOptions: () => {
         return {
-          // avoid running into cached fetches with server-components
-          cache: 'no-store',
-          // authorization header must always be passed for csrf prevention
-          // https://the-guild.dev/graphql/yoga-server/docs/features/csrf-prevention
-          headers: { authorization: `${userIdToken || ''}` },
+          headers: isSSR ? { authorization: `${userIdToken || ''}` } : undefined,
         };
       },
       requestPolicy: 'cache-first',
     });
 
     return [client, ssr];
-  }, [userIdToken]);
+    // userIdToken is only added server so it doesn't need to be a memo dep
+    // adding it will cause list tasks to be re rendered client side
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <UrqlProvider client={client} ssr={ssr}>

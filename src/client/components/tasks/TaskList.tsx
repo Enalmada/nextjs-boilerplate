@@ -33,7 +33,9 @@ export default function TaskList() {
   const [{ data, error }] = useQuery<MyTasksQuery>({ query: MY_TASKS });
 
   if (error) return <div>{`Error! ${error?.message}`}</div>;
-  if (!data) return null;
+
+  // It is possible for tasks to be null until it is populated to to ME query not calling it
+  if (!data?.me?.tasks) return <TaskListLoading />;
 
   if (!data?.me?.tasks || data?.me?.tasks.length === 0) {
     return <EmptyState />;

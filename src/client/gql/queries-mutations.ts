@@ -31,9 +31,13 @@ export const ME = gql`
     me {
       ...UserParts
       rules
+      tasks {
+        ...TaskParts
+      }
     }
   }
   ${USER_PARTS}
+  ${TASK_PARTS}
 `;
 
 export const MY_TASKS = gql`
