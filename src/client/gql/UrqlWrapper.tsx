@@ -1,12 +1,11 @@
 // https://github.com/JoviDeCroock/urql/blob/next-13-package/examples/with-next/app/non-rsc/layout.tsx
 'use client';
 
-import { useMemo, type ReactNode } from 'react';
+import { useEffect, useMemo, type ReactNode } from 'react';
 // import { persistedExchange } from '@urql/exchange-persisted';
 import cacheExchange from '@/client/gql/cacheExchange';
 import { useAuth } from '@/lib/firebase/auth/context';
 import { createClient, fetchExchange, ssrExchange, UrqlProvider } from '@urql/next';
-
 
 interface Props {
   children: ReactNode;

@@ -1,6 +1,11 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
-import { type User } from '@/client/gql/generated/graphql';
+import { useAuthorization } from '@/app/[locale]/(admin)/Authorization';
+import AdminLoading from '@/app/[locale]/(admin)/loading';
+import { type MeQuery } from '@/client/gql/generated/graphql';
+import { ME } from '@/client/gql/queries-mutations';
 import {
   Layout,
   type AdminNavHeader,
@@ -10,6 +15,7 @@ import {
   type UserDropdownConfig,
 } from '@enalmada/nextui-admin';
 import { Avatar } from '@nextui-org/react';
+import { useQuery } from '@urql/next';
 import {
   BiBuildingHouse as AcmeIcon,
   BiCode as CodeIcon,
@@ -82,10 +88,20 @@ const items: DropdownItemConfig[] = [
 ];
 
 interface Props {
-  me?: User | null;
   children: React.ReactNode;
 }
-export default function AdminLayout({ me, children }: Props) {
+export default function AdminLayout({ children }: Props) {
+  const [{ data: dataQuery, error: errorQuery }] = useQuery<MeQuery>({
+    query: ME,
+    requestPolicy: 'cache-first',
+  });
+
+  useAuthorization(dataQuery?.me);
+
+  if (errorQuery) return <div>{`Error! ${errorQuery.message}`}</div>;
+
+  const me = dataQuery?.me;
+
   const user: UserConfig = {
     displayName: me?.name || 'unavailable',
     email: me?.email || 'unavailable',
@@ -137,6 +153,10 @@ export default function AdminLayout({ me, children }: Props) {
     user,
     items,
   };
+
+  if (!me) {
+    return <AdminLoading />;
+  }
 
   return (
     <Layout
