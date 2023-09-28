@@ -15,6 +15,7 @@ export const metadata = {
   title: 'Task',
 };
 
+// TODO - this use of Suspense should be loading.ts instead
 export default function Page(props: Props) {
   const id = props.params.id;
   return (

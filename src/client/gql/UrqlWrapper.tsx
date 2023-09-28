@@ -22,6 +22,12 @@ export function UrqlWrapper({ children }: Props) {
 
   const [client, ssr] = useMemo(() => {
     const isSSR = typeof window === 'undefined';
+    if (process.env.NODE_ENV == 'development') {
+      // If you miss a suspense boundary then urql will infinite loop.
+      // Watching for it is currently the best way to catch it.
+      // eslint-disable-next-line no-console
+      console.log('UrqlWrapper initializing')
+    }
 
     const ssr = ssrExchange();
 

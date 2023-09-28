@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
@@ -166,7 +166,6 @@ export default function TaskForm(props: Props) {
   };
 
   return (
-    <Suspense>
       <Card radius="sm" shadow="sm" className="max-w-sm sm:max-w-md md:max-w-lg">
         <CardBody>
           <div>
@@ -284,6 +283,5 @@ export default function TaskForm(props: Props) {
           </div>
         </CardBody>
       </Card>
-    </Suspense>
   );
 }
