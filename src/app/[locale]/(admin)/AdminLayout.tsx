@@ -91,10 +91,7 @@ interface Props {
   children: React.ReactNode;
 }
 export default function AdminLayout({ children }: Props) {
-  const [{ data: dataQuery, error: errorQuery }] = useQuery<MeQuery>({
-    query: ME,
-    requestPolicy: 'cache-first',
-  });
+  const [{ data: dataQuery, error: errorQuery }] = useQuery<MeQuery>({ query: ME });
 
   useAuthorization(dataQuery?.me);
 

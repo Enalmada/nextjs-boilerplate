@@ -30,10 +30,14 @@ const EmptyState = () => {
 };
 
 export default function TaskList() {
-  const [{ data, fetching, error }] = useQuery<MyTasksQuery>({ query: MY_TASKS });
+  const [{ data, error }] = useQuery<MyTasksQuery>({ query: MY_TASKS });
 
   if (error) return <div>{`Error! ${error?.message}`}</div>;
-  if (!data && fetching) return null;
+  if (!data) return null;
+
+  if (!data?.me?.tasks || data?.me?.tasks.length === 0) {
+    return <EmptyState />;
+  }
 
   // TODO this should be sorted on server and paginated
   const tasks: Task[] = [...(data?.me?.tasks as Task[])].sort((a, b) => {
@@ -41,10 +45,6 @@ export default function TaskList() {
     // to get a value that is either negative, positive, or zero.
     return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
   });
-
-  if (tasks.length === 0) {
-    return <EmptyState />;
-  }
 
   return (
     <div className="grid grid-cols-1 gap-2">

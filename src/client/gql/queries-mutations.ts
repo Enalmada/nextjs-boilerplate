@@ -13,16 +13,6 @@ export const USER_PARTS = gql`
   }
 `;
 
-export const ME = gql`
-  query Me {
-    me {
-      ...UserParts
-      rules
-    }
-  }
-  ${USER_PARTS}
-`;
-
 export const TASK_PARTS = gql`
   fragment TaskParts on Task {
     id
@@ -34,6 +24,16 @@ export const TASK_PARTS = gql`
     updatedAt
     version
   }
+`;
+
+export const ME = gql`
+  query Me {
+    me {
+      ...UserParts
+      rules
+    }
+  }
+  ${USER_PARTS}
 `;
 
 export const MY_TASKS = gql`

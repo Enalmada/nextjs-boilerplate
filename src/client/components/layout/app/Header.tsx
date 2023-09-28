@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import NextLink from 'next/link';
 import UserButtons from '@/client/components/layout/app/UserButtons';
 import { ThemeSwitch } from '@/client/components/nextui/theme-switch';
@@ -73,7 +73,9 @@ export default function App() {
 
       <NavbarContent justify="end">
         <ThemeSwitch id="menu" />
-        <UserButtons />
+        <Suspense>
+          <UserButtons />
+        </Suspense>
       </NavbarContent>
       <NavbarMenu>
         {menuItems.map((item, index) => (

@@ -1,7 +1,7 @@
 // https://github.com/JoviDeCroock/urql/blob/next-13-package/examples/with-next/app/non-rsc/layout.tsx
 'use client';
 
-import { useEffect, useMemo, type ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
 // import { persistedExchange } from '@urql/exchange-persisted';
 import cacheExchange from '@/client/gql/cacheExchange';
 import { useAuth } from '@/lib/firebase/auth/context';
@@ -22,6 +22,10 @@ export function UrqlWrapper({ children }: Props) {
   const userIdToken = user?.idToken;
 
   const [client, ssr] = useMemo(() => {
+    if (process.env.APP_ENV === 'local') {
+      // eslint-disable-next-line no-console
+      console.log('UrqlWrapper rendering' + Math.random());
+    }
     const ssr = ssrExchange();
 
     const client = createClient({

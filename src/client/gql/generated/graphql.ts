@@ -155,12 +155,12 @@ export enum UserRole {
 
 export type UserPartsFragment = { __typename?: 'User', id: string, name?: string | null, email?: string | null, role: UserRole, createdAt: Date, updatedAt: Date, version: number };
 
+export type TaskPartsFragment = { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt: Date, version: number };
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', rules?: any | null, id: string, name?: string | null, email?: string | null, role: UserRole, createdAt: Date, updatedAt: Date, version: number } | null };
-
-export type TaskPartsFragment = { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt: Date, version: number };
 
 export type MyTasksQueryVariables = Exact<{ [key: string]: never; }>;
 
