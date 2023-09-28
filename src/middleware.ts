@@ -7,7 +7,7 @@ import { authentication } from 'next-firebase-auth-edge/lib/next/middleware';
 import createIntlMiddleware from 'next-intl/middleware';
 
 const PUBLIC_PATHS = ['/register', '/login', '/reset-password'];
-const protectedMatcher = ['/app', '/app/(.)'];
+const protectedMatcher = ['/app', '/app/(.)', '/admin', '/admin/(.)'];
 
 export const defaultLocale = 'en';
 
@@ -63,8 +63,13 @@ export async function middleware(request: NextRequest) {
   });
 }
 
-// TODO - consider ignoring matching prefetches (from next/link) and static asset
-// https://nextjs.org/docs/app/building-your-application/configuring/content-security-policy#adding-a-nonce-with-middleware
 export const config = {
   matcher: ['/', '/((?!_next|favicon.ico|api|.*\\.).*)', '/api/login', '/api/logout'],
+  // source for ignoring prefetches
+  // https://github.com/vercel/next.js/blob/canary/examples/with-strict-csp/middleware.js
+  // https://nextjs.org/docs/app/building-your-application/configuring/content-security-policy#adding-a-nonce-with-middleware
+  missing: [
+    { type: 'header', key: 'next-router-prefetch' },
+    { type: 'header', key: 'purpose', value: 'prefetch' },
+  ],
 };
