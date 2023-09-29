@@ -26,7 +26,7 @@ export function UrqlWrapper({ children }: Props) {
       // If you miss a suspense boundary then urql will infinite loop.
       // Watching for it is currently the best way to catch it.
       // eslint-disable-next-line no-console
-      console.log('UrqlWrapper initializing')
+      console.log('UrqlWrapper initializing');
     }
 
     const ssr = ssrExchange();

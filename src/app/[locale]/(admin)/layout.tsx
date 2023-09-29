@@ -6,7 +6,5 @@ import AdminLayout from '@/app/[locale]/(admin)/AdminLayout';
 export const dynamic = 'force-dynamic';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-      <AdminLayout>{children}</AdminLayout>
-  );
+  return <AdminLayout>{children}</AdminLayout>;
 }

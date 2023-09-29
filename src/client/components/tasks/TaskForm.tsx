@@ -166,122 +166,117 @@ export default function TaskForm(props: Props) {
   };
 
   return (
-      <Card radius="sm" shadow="sm" className="max-w-sm sm:max-w-md md:max-w-lg">
-        <CardBody>
-          <div>
-            {createMutationError && formError([createMutationError.message])}
-            {updateMutationError && formError([updateMutationError.message])}
-            {deleteMutationError && formError([deleteMutationError.message])}
+    <Card radius="sm" shadow="sm" className="max-w-sm sm:max-w-md md:max-w-lg">
+      <CardBody>
+        <div>
+          {createMutationError && formError([createMutationError.message])}
+          {updateMutationError && formError([updateMutationError.message])}
+          {deleteMutationError && formError([deleteMutationError.message])}
 
-            <form onSubmit={(event) => void handleSubmit(onSubmit)(event)}>
-              <InputControlled
-                name="title"
-                control={control}
-                label="Title"
-                errors={errors}
-                className={'mb-5 mt-5'}
-              />
+          <form onSubmit={(event) => void handleSubmit(onSubmit)(event)}>
+            <InputControlled
+              name="title"
+              control={control}
+              label="Title"
+              errors={errors}
+              className={'mb-5 mt-5'}
+            />
 
-              <TextareaControlled
-                name="description"
-                control={control}
-                label="Description"
-                minRows={2}
-                errors={errors}
-                className={'mb-5'}
-              />
+            <TextareaControlled
+              name="description"
+              control={control}
+              label="Description"
+              minRows={2}
+              errors={errors}
+              className={'mb-5'}
+            />
 
-              <Controller
-                name={'dueDate'}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <>
-                    <Popover
-                      isOpen={isOpen}
-                      onOpenChange={(open) => setIsOpen(open)}
-                      placement="bottom"
-                      showArrow={true}
-                      onClose={() => setIsOpen(false)}
-                    >
-                      <PopoverTrigger>
-                        <NextUIButton color="default" className={'mb-5 mr-3'}>
-                          Due Date:&nbsp;
-                          {value ? `${format(new Date(value), 'PP')}` : 'none'}
-                        </NextUIButton>
-                      </PopoverTrigger>
-                      <PopoverContent>
-                        <DayPicker
-                          mode="single"
-                          selected={value ? new Date(value) : undefined}
-                          onSelect={(date, selectedDay, activeModifiers, e) => {
-                            onChange(date || null);
-                            (e.currentTarget as HTMLElement).blur(); // Close popover
-                          }}
-                        />
-                      </PopoverContent>
-                    </Popover>
-
-                    {value && (
-                      <NextUIButton
-                        variant="ghost"
-                        color="danger"
-                        className={'mb-5'}
-                        onPress={() => onChange(null)}
-                      >
-                        Clear
+            <Controller
+              name={'dueDate'}
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <>
+                  <Popover
+                    isOpen={isOpen}
+                    onOpenChange={(open) => setIsOpen(open)}
+                    placement="bottom"
+                    showArrow={true}
+                    onClose={() => setIsOpen(false)}
+                  >
+                    <PopoverTrigger>
+                      <NextUIButton color="default" className={'mb-5 mr-3'}>
+                        Due Date:&nbsp;
+                        {value ? `${format(new Date(value), 'PP')}` : 'none'}
                       </NextUIButton>
-                    )}
-                  </>
-                )}
-              />
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <DayPicker
+                        mode="single"
+                        selected={value ? new Date(value) : undefined}
+                        onSelect={(date, selectedDay, activeModifiers, e) => {
+                          onChange(date || null);
+                          (e.currentTarget as HTMLElement).blur(); // Close popover
+                        }}
+                      />
+                    </PopoverContent>
+                  </Popover>
 
-              <RadioGroupControlled
-                isDisabled={false}
-                onChange={undefined}
-                color={'primary'}
-                size={'md'}
-                disableAnimation={false}
-                control={control}
-                name="status"
-                label="Status"
-                orientation="horizontal"
-                errors={errors}
-              >
-                <Radio value={TaskStatus.Active}>Active</Radio>
-                <Radio value={TaskStatus.Completed}>Completed</Radio>
-              </RadioGroupControlled>
+                  {value && (
+                    <NextUIButton
+                      variant="ghost"
+                      color="danger"
+                      className={'mb-5'}
+                      onPress={() => onChange(null)}
+                    >
+                      Clear
+                    </NextUIButton>
+                  )}
+                </>
+              )}
+            />
 
-              <div className={'mt-10 flex justify-between'}>
-                <div className={'flex justify-center'}>
-                  <Button
-                    color={'primary'}
-                    type="submit"
-                    isLoading={isSubmitting}
-                    className={'mr-5'}
-                  >
-                    {id ? 'Save' : 'Create'}
-                  </Button>
+            <RadioGroupControlled
+              isDisabled={false}
+              onChange={undefined}
+              color={'primary'}
+              size={'md'}
+              disableAnimation={false}
+              control={control}
+              name="status"
+              label="Status"
+              orientation="horizontal"
+              errors={errors}
+            >
+              <Radio value={TaskStatus.Active}>Active</Radio>
+              <Radio value={TaskStatus.Completed}>Completed</Radio>
+            </RadioGroupControlled>
 
-                  <Button as={NextLink} href={'/app'} color={'default'} isDisabled={isSubmitting}>
-                    Cancel
-                  </Button>
-                </div>
+            <div className={'mt-10 flex justify-between'}>
+              <div className={'flex justify-center'}>
+                <Button color={'primary'} type="submit" isLoading={isSubmitting} className={'mr-5'}>
+                  {id ? 'Save' : 'Create'}
+                </Button>
 
-                {dataQuery?.task && (
-                  <Button
-                    type="button"
-                    color="danger"
-                    className="rounded bg-red-600 p-5 py-2 font-bold text-white shadow-lg transition duration-200 hover:bg-red-700 hover:shadow-xl"
-                    onPress={() => void handleDelete()}
-                    isLoading={loadingDelete}
-                  >
-                    Delete
-                  </Button>
-                )}
+                <Button as={NextLink} href={'/app'} color={'default'} isDisabled={isSubmitting}>
+                  Cancel
+                </Button>
               </div>
-            </form>
-          </div>
-        </CardBody>
-      </Card>
+
+              {dataQuery?.task && (
+                <Button
+                  type="button"
+                  color="danger"
+                  className="rounded bg-red-600 p-5 py-2 font-bold text-white shadow-lg transition duration-200 hover:bg-red-700 hover:shadow-xl"
+                  onPress={() => void handleDelete()}
+                  isLoading={loadingDelete}
+                >
+                  Delete
+                </Button>
+              )}
+            </div>
+          </form>
+        </div>
+      </CardBody>
+    </Card>
   );
 }

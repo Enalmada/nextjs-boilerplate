@@ -39,7 +39,6 @@ plugins.push(
   })
 );
 
-
 export function makeYoga(graphqlEndpoint: string) {
   // Next.js Custom Route Handler: https://nextjs.org/docs/app/building-your-application/routing/router-handlers
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
