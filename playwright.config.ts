@@ -67,6 +67,18 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         storageState: 'playwright/.auth/user.json',
+        launchOptions: {
+          // force GPU hardware acceleration (confirm by removing skip from gpu.play.ts)
+          // https://dev.to/perrocontodo/run-playwright-tests-with-hardware-acceleration-on-a-gpu-enabled-ec2-instance-with-docker-support-4j2
+          args: [
+            '--enable-features=Vulkan,UseSkiaRenderer',
+            '--use-vulkan=swiftshader',
+            '--enable-unsafe-webgpu',
+            '--disable-vulkan-fallback-to-gl-for-testing',
+            '--dignore-gpu-blocklist',
+            '--use-angle=vulkan',
+          ],
+        },
       },
       dependencies: ['setup'],
     },
