@@ -122,16 +122,16 @@ const config = {
   },
 
   webpack(config, { isServer }) {
+    // Make sure all web modules are using graphql-web-lite for min size (following urql)
     // https://github.com/0no-co/graphql-web-lite  330k to 323k
     // https://github.com/urql-graphql/urql/pull/3108
-    /* causing Cannot read properties of undefined (reading 'source') with gql tag
     if (!isServer) {
       config.resolve.alias = {
         ...config.resolve.alias,
         graphql: 'graphql-web-lite',
       };
     }
-    */
+
 
     // TODO - figure out how to fix this the real way
     config.ignoreWarnings = [
@@ -140,23 +140,9 @@ const config = {
       },
     ];
 
-    // I suspect most of this isn't necessary with postgres.js driver
+    // The following is for edge testing
     // pg used previously by kysely config needs fixing on prod
     if (process.env.NEXT_RUNTIME_NODE !== 'true') {
-      /*
-      // Necessary for kysely && pg driver
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        path: false,
-        fs: false,
-        net: false,
-        tls: false,
-        dns: false,
-        stream: false,
-        crypto: false,
-        'pg-native': false,
-      };
-       */
 
       // Necessary for postgres.js driver
       config.resolve.fallback = {
@@ -171,6 +157,7 @@ const config = {
     }
 
     // To see Cloudflare compile errors more clearly locally
+    // Should probably just be default in .dev.vars
     if (process.env.DISABLE_MINIMIZE === 'true') {
       config.optimization.minimize = false;
     }
@@ -229,6 +216,8 @@ export default async function configureNextConfig(phase) {
       enabled: process.env.ANALYZE === 'true',
     };
 
+    // See following for why these buildExcludes:
+    // https://github.com/DuCanhGH/next-pwa/issues/101#issue-1919711481
     const withPWA = (await import('@ducanh2912/next-pwa')).default({
       dest: 'public',
       buildExcludes: [
