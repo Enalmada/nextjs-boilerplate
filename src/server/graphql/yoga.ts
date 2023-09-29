@@ -31,15 +31,14 @@ const plugins: Array<Plugin<any, any, any>> = [
   // useAPQ(),
 ];
 
-// TODO This is failing on SST in SSR likely due to case sensitivity
-// TODO make graphiql work locally (likely by looking at another header always past or auth cookies first)
-if (process.env.APP_ENV != 'local') {
-  plugins.push(
-    useCSRFPrevention({
-      requestHeaders: ['authorization'],
-    })
-  );
-}
+// Warning - This is failing on SST in SSR. case sensitivity?
+// TODO This header needs to be added to codegen.ts
+plugins.push(
+  useCSRFPrevention({
+    requestHeaders: ['x-graphql-yoga-csrf'],
+  })
+);
+
 
 export function makeYoga(graphqlEndpoint: string) {
   // Next.js Custom Route Handler: https://nextjs.org/docs/app/building-your-application/routing/router-handlers
@@ -56,7 +55,7 @@ export function makeYoga(graphqlEndpoint: string) {
       origin: process.env.NEXT_PUBLIC_REDIRECT_URL,
       //origin: process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : env.NEXT_PUBLIC_REDIRECT_URL,
       credentials: true,
-      allowedHeaders: ['authorization'],
+      allowedHeaders: ['x-graphql-yoga-csrf', 'authorization'],
       methods: ['POST'],
     },
     batching: true,

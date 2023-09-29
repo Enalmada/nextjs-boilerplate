@@ -32,12 +32,14 @@ const mockUser: User = {
   version: 1,
   role: UserRole.MEMBER,
   firebaseId: 'random',
-  image: 'bla',
+  image: 'bla'
 };
 
+// children and extra
 const mockServerMe = {
   ...mockUser,
   rules: { id: 'usr_1' },
+  tasks: null
 };
 
 vi.mock('@/server/graphql/modifiedHandleCreateOrGetUser', () => {
@@ -97,6 +99,7 @@ describe('Yoga Tests', () => {
   test('execute query operation', async () => {
     const result = await executeOperation<MeQuery, MeQueryVariables>(ME, undefined, {
       authorization: 'bla',
+      'x-graphql-yoga-csrf': 'true'
     });
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     //const clonedMockTasks = mockTasks.map(({ userId, ...rest }) => rest);

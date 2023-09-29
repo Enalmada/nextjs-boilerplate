@@ -3,7 +3,15 @@ import { type CodegenConfig } from '@graphql-codegen/cli';
 // import { addTypenameSelectionDocumentTransform } from '@graphql-codegen/client-preset'
 
 const config: CodegenConfig = {
-  schema: 'http://localhost:3000/api/graphql',
+  schema: [
+    {
+      'http://localhost:3000/api/graphql': {
+        headers: {
+          'x-graphql-yoga-csrf': 'true',
+        },
+      },
+    },
+  ],
   documents: [
     'src/server/graphql/(builder|schema).ts',
     'src/server/**/*.model.ts',
@@ -17,7 +25,8 @@ const config: CodegenConfig = {
     './src/client/gql/generated/': {
       preset: 'client',
       presetConfig: {
-        fragmentMasking: false, // { unmaskFunctionName: 'getFragmentData' },
+        fragmentMasking: false,
+        // { unmaskFunctionName: 'getFragmentData' },
         // persistedDocuments: true
       },
       // documentTransforms: [addTypenameSelectionDocumentTransform],

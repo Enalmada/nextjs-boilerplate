@@ -45,8 +45,19 @@ export function UrqlWrapper({ children }: Props) {
       ],
       suspense: true,
       fetchOptions: () => {
+        const headers: Record<string, string> = {
+          // https://the-guild.dev/graphql/yoga-server/docs/features/csrf-prevention
+          'x-graphql-yoga-csrf': 'true',
+        };
+
+        // Use default cookies for client auth and userIdToken only for SSR
+        // TODO consider pushing from cookies rather than useAuth()
+        if (isSSR && userIdToken) {
+          headers.authorization = userIdToken;
+        }
+
         return {
-          headers: isSSR ? { authorization: `${userIdToken || ''}` } : undefined,
+          headers,
         };
       },
       requestPolicy: 'cache-first',
