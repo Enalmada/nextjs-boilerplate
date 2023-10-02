@@ -112,6 +112,7 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 - [BisonApp](https://github.com/echobind/bisonapp) - Worth reading [why they use tRPC](https://echobind.com/post/why-we-ditched-graphql-for-trpc). I believe gql is still better for corporate projects and [this](https://wundergraph.com/blog/trpc_vs_graphql) is worth a read..
 - [T3 App](https://create.t3.gg/) - highly recommended starting point until you understand the pros/cons of other tech options
 - [next-13-app-router-with-trpc](https://github.com/solaldunckel/next-13-app-router-with-trpc) - some patterns to consider.
+- [BaseJump](https://github.com/Enalmada/basejump) supabase starter
 
 ## Notes
 
