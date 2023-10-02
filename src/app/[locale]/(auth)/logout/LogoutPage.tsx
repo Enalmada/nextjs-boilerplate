@@ -23,7 +23,7 @@ export default function LogoutPage() {
 
         window.location.replace('/');
       } catch (error) {
-        console.error('Error clearing Apollo Client cache:', error);
+        console.error('Error clearing client cache:', error);
       }
     };
 

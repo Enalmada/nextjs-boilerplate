@@ -132,7 +132,6 @@ const config = {
       };
     }
 
-
     // TODO - figure out how to fix this the real way
     config.ignoreWarnings = [
       {
@@ -143,7 +142,6 @@ const config = {
     // The following is for edge testing
     // pg used previously by kysely config needs fixing on prod
     if (process.env.NEXT_RUNTIME_NODE !== 'true') {
-
       // Necessary for postgres.js driver
       config.resolve.fallback = {
         ...config.resolve.fallback,

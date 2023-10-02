@@ -28,11 +28,13 @@ export function createRandomTask(id?: string): Task {
 export function createRandomMe(id?: string): User {
   return {
     id: id || 'usr_' + faker.string.nanoid(),
+    name: faker.person.fullName(),
     email: faker.internet.email(),
     role: faker.helpers.enumValue(UserRole),
     createdAt: faker.date.past(),
     updatedAt: faker.date.recent(),
     version: 1,
+    rules: '[["manage","all"]]',
     tasks: [],
     __typename: 'User',
   };
@@ -45,11 +47,13 @@ export const tasks = (count = 5) =>
 
 // Due date needs to be null vs undefined or apollo mock is losing it.
 // https://www.apollographql.com/docs/react/errors/#%7B%22version%22%3A%223.8.1%22%2C%22message%22%3A10%2C%22args%22%3A%5B%5D%7D
-const meQuery: MyTasksQuery = {
-  me: {
-    ...createRandomMe(),
-    tasks: tasks(5),
-  },
+export const meQuery = (count = 5): MyTasksQuery => {
+  return {
+    me: {
+      ...createRandomMe(),
+      tasks: tasks(count),
+    },
+  };
 };
 
 export const globalMocks = [

@@ -169,7 +169,7 @@
     "prettier-plugin-tailwindcss": "^0.5.4",
     "start-server-and-test": "^2.0.1",
     "storybook": "^7.4.5",
-    "storybook-addon-apollo-client": "^5.0.0",
+    "storybook-addon-mock": "^4.3.0",
     "storybook-dark-mode": "^3.0.1",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2",

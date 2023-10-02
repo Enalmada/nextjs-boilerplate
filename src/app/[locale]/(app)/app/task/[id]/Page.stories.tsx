@@ -9,7 +9,7 @@ const meta: Meta<typeof Page> = {
   argTypes: {},
   render: () => (
     <AppLayout>
-      <Page params={{ id: 'fakeid' }} />
+      <Page params={{ id: 'tsk_1' }} />
     </AppLayout>
   ),
   parameters: {

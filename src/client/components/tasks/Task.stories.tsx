@@ -16,7 +16,7 @@ type Story = StoryObj<typeof TaskBody>;
 
 const defaultProps = {
   task: {
-    ...createRandomTask('12345'),
+    ...createRandomTask('tsk_1'),
   },
 };
 export const Default: Story = {

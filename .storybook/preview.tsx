@@ -1,17 +1,15 @@
 import { Inter } from 'next/font/google';
+import cacheExchange from '@/client/gql/cacheExchange';
 import { getRoute } from '@/client/utils/routes';
-import { MockedProvider } from '@apollo/client/testing';
-import { NextSSRInMemoryCache } from '@apollo/experimental-nextjs-app-support/ssr';
 import { NextUIProvider } from '@nextui-org/react';
 import { action } from '@storybook/addon-actions';
 import { navigate } from '@storybook/addon-links';
 import { themes } from '@storybook/theming';
+import { createClient, fetchExchange, ssrExchange, UrqlProvider } from '@urql/next';
 import { NextIntlClientProvider } from 'next-intl';
 
 import messages from '../messages/en.json';
-import { defaultOptions } from '../src/client/gql/apollo-wrapper';
-import { globalMocks } from '../src/client/gql/globalMocks';
-import typePolicies from '../src/client/gql/typePolicies';
+import { meQuery } from '../src/client/gql/globalMocks';
 import Style from './style';
 
 // https://nextjs.org/docs/app/building-your-application/optimizing/fonts#with-tailwind-css
@@ -21,35 +19,78 @@ export const fontSans = Inter({
   variable: '--font-sans',
 });
 
-// https://github.com/lifeiscontent/storybook-addon-apollo-client#known-issues
-// https://github.com/lifeiscontent/storybook-addon-apollo-client/issues/90
-const apolloCacheConfig = new NextSSRInMemoryCache({
-  resultCaching: false, // Doesn't seem to be working
-  typePolicies: typePolicies,
-});
-
 const selectedMessages = {
   Index: messages.Index,
 };
+
+const ssr = ssrExchange();
+
+const mockedClient = createClient({
+  exchanges: [cacheExchange, ssr, fetchExchange],
+  url: 'http://localhost:3001/api/graphql',
+  requestPolicy: 'network-only',
+  suspense: true,
+});
 
 export const decorators = [
   (Story, { globals: { locale } }) => {
     // clears the mocks completely
     // apolloCacheConfig.reset().then();
     return (
-      <NextIntlClientProvider locale="en" messages={selectedMessages}>
-        <NextUIProvider locale={locale}>
-          <div className={`bg-dark font-sans ${fontSans.variable}`} lang={locale}>
-            <Style />
-            <Story />
-          </div>
-        </NextUIProvider>
-      </NextIntlClientProvider>
+      <UrqlProvider client={mockedClient} ssr={ssr}>
+        <NextIntlClientProvider locale="en" messages={selectedMessages}>
+          <NextUIProvider locale={locale}>
+            <div className={`bg-dark font-sans ${fontSans.variable}`} lang={locale}>
+              <Style />
+              <Story />
+            </div>
+          </NextUIProvider>
+        </NextIntlClientProvider>
+      </UrqlProvider>
     );
   },
 ];
 
 export const parameters = {
+  mockAddonConfigs: {
+    globalMockData: [
+      {
+        url: 'http://localhost:3001/api/graphql',
+        method: 'POST',
+        status: 200,
+        response: (request) => {
+          const { body, _searchParams } = request;
+          const parsedBody = JSON.parse(body);
+
+          if (parsedBody.operationName === 'MyTasks') {
+            return {
+              data: {
+                ...meQuery(),
+              },
+            };
+          }
+          return {
+            data: {
+              ...meQuery(),
+            },
+          };
+        },
+
+        /*
+        response: {
+          data: {
+            ...meQuery()
+          },
+        },
+
+         */
+      },
+    ],
+    ignoreQueryParams: true, // Whether or not to ignore query parameters globally
+    refreshStoryOnUpdate: true, // This property re-renders the story if there's any data changes
+    disableUsingOriginal: true, // This property disables the toggle (on/off) option to use the original endpoint
+    disable: false, // This property disables the panel from all the stories
+  },
   nextjs: {
     appDirectory: true,
     navigation: {
@@ -64,18 +105,6 @@ export const parameters = {
         }
       },
     },
-  },
-  apolloClient: {
-    MockedProvider,
-    cache: apolloCacheConfig,
-    defaultOptions: {
-      ...defaultOptions,
-      query: {
-        ...defaultOptions.query,
-        fetchPolicy: 'no-cache', // Doesn't seem to be working
-      },
-    },
-    globalMocks: globalMocks,
   },
   actions: { argTypesRegex: '^on[A-Z].*' },
   options: {
