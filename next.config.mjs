@@ -205,7 +205,9 @@ const withSentry = (config) => {
 // @ts-ignore
 const withNextIntl = (await import('next-intl/plugin')).default('./src/lib/localization/i18n.ts');
 
-// @ts-ignore
+/**
+ * @param {string} phase
+ */
 export default async function configureNextConfig(phase) {
   if (phase === PHASE_DEVELOPMENT_SERVER || phase === PHASE_PRODUCTION_BUILD) {
     const withBundleAnalyzer = await import('@next/bundle-analyzer');

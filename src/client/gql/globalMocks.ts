@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access  */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access  */
 import {
   TaskStatus,
   UserRole,
@@ -64,9 +64,11 @@ export const globalMocks: Mock[] = [
     request: {
       query: ME,
     },
-    result: {
-      data: {
-        ...meQuery(),
+    response: {
+      result: {
+        data: {
+          ...meQuery(),
+        },
       },
     },
   },
@@ -74,9 +76,11 @@ export const globalMocks: Mock[] = [
     request: {
       query: MY_TASKS,
     },
-    result: {
-      data: {
-        ...meQuery(),
+    response: {
+      result: {
+        data: {
+          ...meQuery(),
+        },
       },
     },
   },
@@ -85,22 +89,31 @@ export const globalMocks: Mock[] = [
       query: TASK,
       variables: { id: 'tsk_1' },
     },
-    result: {
-      data: {
-        task: {
-          ...createRandomTask('tsk_1'),
+    response: {
+      result: {
+        data: {
+          task: {
+            ...createRandomTask('tsk_1'),
+          },
         },
       },
     },
   },
 ];
 
+type RequestMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
 type Mock = {
   request: {
     query: DocumentNode;
     variables?: Operation['variables'];
+    method?: RequestMethod;
   };
-  result: Partial<OperationResult>;
+  response: {
+    status?: number; // http status codes, optional with default of 200
+    delay?: number; // milliseconds, optional
+    result: Partial<OperationResult>;
+  };
 };
 
 // TODO - consider just using lodash for the following.
@@ -137,23 +150,44 @@ const getOperationNameFromQuery = (query: DocumentNode): string | undefined => {
 
 export const findDataByOperationNameAndVariables = (
   operationName: string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  variables: { [key: string]: any }
+  variables: { [key: string]: any },
+  requestMethod: RequestMethod
 ) => {
   const mock = globalMocks.find((mock: Mock) => {
     const mockOperationName = getOperationNameFromQuery(mock.request.query);
-    return mockOperationName === operationName && deepEqual(mock.request.variables, variables);
+    const mockMethod = mock.request.method || 'POST'; // Default to POST if not specified
+    return (
+        mockOperationName === operationName &&
+        deepEqual(mock.request.variables, variables) &&
+        mockMethod === requestMethod
+    );
   });
 
-  return mock
-    ? mock.result
-    : {
-        errors: [
-          {
-            message: `No mock available for operation: ${operationName} and variables: ${JSON.stringify(
-              variables
-            )}`,
-          },
-        ],
-      };
+  if (mock) {
+    return {
+      method: mock.request.method || 'POST', // If for some reason it's undefined, default here
+      status: mock.response.status || 200,
+      delay: mock.response.delay,
+      ...mock.response.result,
+    };
+  }
+
+  return {
+    status: 400,
+    errors: [
+      {
+        message: `No mock available for operation: ${operationName} with method: ${requestMethod} and variables: ${JSON.stringify(
+          variables
+        )}`,
+      },
+    ],
+  };
+};
+
+export type MockRequest = {
+  body: any;
+  method: RequestMethod;
+  url: string;
+  signal?: any; // replace `any` with the proper type if known
+  searchParams?: { [key: string]: string };
 };

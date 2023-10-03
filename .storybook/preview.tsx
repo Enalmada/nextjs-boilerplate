@@ -9,9 +9,7 @@ import { createClient, fetchExchange, ssrExchange, UrqlProvider } from '@urql/ne
 import { NextIntlClientProvider } from 'next-intl';
 
 import messages from '../messages/en.json';
-import {
-  findDataByOperationNameAndVariables,
-} from '../src/client/gql/globalMocks';
+import { findDataByOperationNameAndVariables, MockRequest } from '../src/client/gql/globalMocks';
 import Style from './style';
 
 // https://nextjs.org/docs/app/building-your-application/optimizing/fonts#with-tailwind-css
@@ -27,7 +25,7 @@ const selectedMessages = {
 
 const ssr = ssrExchange();
 
-const GRAPHQL_API = 'http://localhost:3001/api/graphql'
+const GRAPHQL_API = 'http://localhost:3001/api/graphql';
 
 const mockedClient = createClient({
   exchanges: [cacheExchange, ssr, fetchExchange],
@@ -60,15 +58,17 @@ export const parameters = {
     globalMockData: [
       {
         url: GRAPHQL_API,
-        method: 'POST',
-        status: 200,
-        response: (request: { body: any; _searchParams: any }) => {
-          const { body, _searchParams } = request;
+        method: 'POST', // Generally, GraphQL uses POST for its requests. Adjust if necessary.
+        status: 200, // A common status for OK responses. Adjust based on your needs.
+        response: (request: MockRequest) => {
+          const { body } = request;
           const parsedBody = JSON.parse(body);
           return findDataByOperationNameAndVariables(
-            parsedBody.operationName,
-            parsedBody.variables
+              parsedBody.operationName,
+              parsedBody.variables,
+              'POST' // Assuming GraphQL always uses POST.
           );
+  
         },
       },
     ],
