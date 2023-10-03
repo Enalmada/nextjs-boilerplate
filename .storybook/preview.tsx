@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google';
 import cacheExchange from '@/client/gql/cacheExchange';
 import { getRoute } from '@/client/utils/routes';
+import { globalMockUrql } from '@enalmada/storybook-addon-mock-urql';
 import { NextUIProvider } from '@nextui-org/react';
 import { action } from '@storybook/addon-actions';
 import { navigate } from '@storybook/addon-links';
@@ -9,11 +10,7 @@ import { createClient, fetchExchange, ssrExchange, UrqlProvider } from '@urql/ne
 import { NextIntlClientProvider } from 'next-intl';
 
 import messages from '../messages/en.json';
-import {
-  findDataByOperationNameAndVariables, globalMocks, globalMockUrql,
-  MockRequest,
-  transformGroupedMocksToMockData
-} from '../src/client/gql/globalMocks';
+import { globalMocks } from '../src/client/gql/globalMocks';
 import Style from './style';
 
 // https://nextjs.org/docs/app/building-your-application/optimizing/fonts#with-tailwind-css
@@ -62,7 +59,7 @@ export const parameters = {
     globalMockData: globalMockUrql(globalMocks, {
       url: 'http://localhost:3001/api/graphql',
       method: 'POST',
-      status: 200
+      status: 200,
     }),
     ignoreQueryParams: true, // Whether or not to ignore query parameters globally
     refreshStoryOnUpdate: true, // This property re-renders the story if there's any data changes
