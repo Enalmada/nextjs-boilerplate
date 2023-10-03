@@ -105,6 +105,7 @@ type RequestMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 type Mock = {
   request: {
+    url?: string;
     query: DocumentNode;
     variables?: Operation['variables'];
     method?: RequestMethod;
@@ -148,40 +149,74 @@ const getOperationNameFromQuery = (query: DocumentNode): string | undefined => {
   return operationNode?.name?.value;
 };
 
-export const findDataByOperationNameAndVariables = (
-  operationName: string,
-  variables: { [key: string]: any },
-  requestMethod: RequestMethod
-) => {
-  const mock = globalMocks.find((mock: Mock) => {
-    const mockOperationName = getOperationNameFromQuery(mock.request.query);
-    const mockMethod = mock.request.method || 'POST'; // Default to POST if not specified
-    return (
-        mockOperationName === operationName &&
-        deepEqual(mock.request.variables, variables) &&
-        mockMethod === requestMethod
-    );
+export const groupMocksByMethodAndStatus = (globalMocks: Mock[]): Map<string, Map<string, Mock[]>> => {
+  const groupedMocks = new Map<string, Map<string, Mock[]>>();
+
+  globalMocks.forEach(mock => {
+    const apiUrl = mock.request.url || '';  // Default value or take it from the mock
+    const methodStatusKey = `${mock.request.method || 'POST'}-${mock.response.status || 200}`;
+
+    if (!groupedMocks.has(apiUrl)) {
+      groupedMocks.set(apiUrl, new Map());
+    }
+
+    const methodStatusMap = groupedMocks.get(apiUrl);
+
+    if (!methodStatusMap!.has(methodStatusKey)) {
+      methodStatusMap!.set(methodStatusKey, []);
+    }
+
+    methodStatusMap!.get(methodStatusKey)!.push(mock);
   });
 
-  if (mock) {
-    return {
-      method: mock.request.method || 'POST', // If for some reason it's undefined, default here
-      status: mock.response.status || 200,
-      delay: mock.response.delay,
-      ...mock.response.result,
-    };
-  }
+  return groupedMocks;
+};
 
-  return {
-    status: 400,
-    errors: [
-      {
-        message: `No mock available for operation: ${operationName} with method: ${requestMethod} and variables: ${JSON.stringify(
-          variables
-        )}`,
-      },
-    ],
-  };
+interface TransformConfig {
+  url: string;
+  method?: RequestMethod;
+  status?: number;
+}
+
+export const globalMockUrql = (globalMocks: Mock[], config: TransformConfig): any[] => {
+  const groupedMocks = groupMocksByMethodAndStatus(globalMocks);
+  const mockData: any[] = [];
+
+  groupedMocks.forEach((methodStatusMap, apiUrl) => {
+    methodStatusMap.forEach((mocks, key) => {
+      const [defaultMethod, defaultStatusStr] = key.split('-');
+      const method = config.method || defaultMethod as RequestMethod;
+      const status = config.status || (defaultStatusStr ? parseInt(defaultStatusStr, 10) : 200);
+
+      mockData.push({
+        url: apiUrl || config.url,  // Use the apiUrl or default to the one in config
+        method: method,
+        status: status,
+        response: (request: MockRequest) => {
+          for (const mock of mocks) {
+            const mockOperationName = getOperationNameFromQuery(mock.request.query);
+
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            const parsedBody = typeof request.body === 'string' ? JSON.parse(request.body) : request.body;
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            const { operationName, variables } = parsedBody;
+
+            if (mockOperationName === operationName &&
+                deepEqual(mock.request.variables, variables) &&
+                method === request.method) {
+              return {
+                ...mock.response.result,
+                status: status,
+                delay: mock.response.delay
+              };
+            }
+          }
+        }
+      });
+    });
+  });
+
+  return mockData;
 };
 
 export type MockRequest = {

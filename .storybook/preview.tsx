@@ -9,7 +9,11 @@ import { createClient, fetchExchange, ssrExchange, UrqlProvider } from '@urql/ne
 import { NextIntlClientProvider } from 'next-intl';
 
 import messages from '../messages/en.json';
-import { findDataByOperationNameAndVariables, MockRequest } from '../src/client/gql/globalMocks';
+import {
+  findDataByOperationNameAndVariables, globalMocks, globalMockUrql,
+  MockRequest,
+  transformGroupedMocksToMockData
+} from '../src/client/gql/globalMocks';
 import Style from './style';
 
 // https://nextjs.org/docs/app/building-your-application/optimizing/fonts#with-tailwind-css
@@ -55,23 +59,11 @@ export const decorators = [
 
 export const parameters = {
   mockAddonConfigs: {
-    globalMockData: [
-      {
-        url: GRAPHQL_API,
-        method: 'POST', // Generally, GraphQL uses POST for its requests. Adjust if necessary.
-        status: 200, // A common status for OK responses. Adjust based on your needs.
-        response: (request: MockRequest) => {
-          const { body } = request;
-          const parsedBody = JSON.parse(body);
-          return findDataByOperationNameAndVariables(
-              parsedBody.operationName,
-              parsedBody.variables,
-              'POST' // Assuming GraphQL always uses POST.
-          );
-  
-        },
-      },
-    ],
+    globalMockData: globalMockUrql(globalMocks, {
+      url: 'http://localhost:3001/api/graphql',
+      method: 'POST',
+      status: 200
+    }),
     ignoreQueryParams: true, // Whether or not to ignore query parameters globally
     refreshStoryOnUpdate: true, // This property re-renders the story if there's any data changes
     disableUsingOriginal: true, // This property disables the toggle (on/off) option to use the original endpoint
