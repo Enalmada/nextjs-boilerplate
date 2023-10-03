@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access  */
 import {
   TaskStatus,
   UserRole,
@@ -5,8 +6,10 @@ import {
   type Task,
   type User,
 } from '@/client/gql/generated/graphql';
-import { MY_TASKS, TASK } from '@/client/gql/queries-mutations';
+import { ME, MY_TASKS, TASK } from '@/client/gql/queries-mutations';
 import { faker } from '@faker-js/faker';
+import { type Operation, type OperationResult } from '@urql/core';
+import { type DocumentNode, type OperationDefinitionNode } from 'graphql';
 
 // Chromatic (storybook review tool) needs a consistent seed
 faker.seed(124);
@@ -35,7 +38,7 @@ export function createRandomMe(id?: string): User {
     updatedAt: faker.date.recent(),
     version: 1,
     rules: '[["manage","all"]]',
-    tasks: [],
+    tasks: null,
     __typename: 'User',
   };
 }
@@ -56,28 +59,101 @@ export const meQuery = (count = 5): MyTasksQuery => {
   };
 };
 
-export const globalMocks = [
+export const globalMocks: Mock[] = [
+  {
+    request: {
+      query: ME,
+    },
+    result: {
+      data: {
+        ...meQuery(),
+      },
+    },
+  },
   {
     request: {
       query: MY_TASKS,
     },
     result: {
       data: {
-        ...meQuery,
+        ...meQuery(),
       },
     },
   },
   {
     request: {
       query: TASK,
-      variables: { id: 'tsk_id' },
+      variables: { id: 'tsk_1' },
     },
     result: {
       data: {
         task: {
-          ...createRandomTask('tsk_id'),
+          ...createRandomTask('tsk_1'),
         },
       },
     },
   },
 ];
+
+type Mock = {
+  request: {
+    query: DocumentNode;
+    variables?: Operation['variables'];
+  };
+  result: Partial<OperationResult>;
+};
+
+// TODO - consider just using lodash for the following.
+// Trying to avoid dependencies for 1 off
+// import isEqual from 'lodash/isEqual';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const deepEqual = (a: any, b: any): boolean => {
+  if ((a == null || Object.keys(a).length === 0) && (b == null || Object.keys(b).length === 0))
+    return true;
+  if (a == null || Object.keys(a).length === 0 || b == null || Object.keys(b).length === 0)
+    return false;
+  if (typeof a !== 'object' || typeof b !== 'object') return a === b;
+
+  const keysA = Object.keys(a);
+  const keysB = new Set(Object.keys(b));
+
+  if (keysA.length !== keysB.size) return false;
+
+  for (const key of keysA) {
+    if (!keysB.has(key)) return false;
+    if (!deepEqual(a[key], b[key])) return false;
+  }
+
+  return true;
+};
+
+const getOperationNameFromQuery = (query: DocumentNode): string | undefined => {
+  const operationNode = query.definitions.find(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
+    (def): def is OperationDefinitionNode => def.kind === 'OperationDefinition'
+  );
+  return operationNode?.name?.value;
+};
+
+export const findDataByOperationNameAndVariables = (
+  operationName: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  variables: { [key: string]: any }
+) => {
+  const mock = globalMocks.find((mock: Mock) => {
+    const mockOperationName = getOperationNameFromQuery(mock.request.query);
+    return mockOperationName === operationName && deepEqual(mock.request.variables, variables);
+  });
+
+  return mock
+    ? mock.result
+    : {
+        errors: [
+          {
+            message: `No mock available for operation: ${operationName} and variables: ${JSON.stringify(
+              variables
+            )}`,
+          },
+        ],
+      };
+};

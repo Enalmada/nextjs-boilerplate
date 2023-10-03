@@ -9,7 +9,9 @@ import { createClient, fetchExchange, ssrExchange, UrqlProvider } from '@urql/ne
 import { NextIntlClientProvider } from 'next-intl';
 
 import messages from '../messages/en.json';
-import { meQuery } from '../src/client/gql/globalMocks';
+import {
+  findDataByOperationNameAndVariables,
+} from '../src/client/gql/globalMocks';
 import Style from './style';
 
 // https://nextjs.org/docs/app/building-your-application/optimizing/fonts#with-tailwind-css
@@ -25,9 +27,11 @@ const selectedMessages = {
 
 const ssr = ssrExchange();
 
+const GRAPHQL_API = 'http://localhost:3001/api/graphql'
+
 const mockedClient = createClient({
   exchanges: [cacheExchange, ssr, fetchExchange],
-  url: 'http://localhost:3001/api/graphql',
+  url: GRAPHQL_API,
   requestPolicy: 'network-only',
   suspense: true,
 });
@@ -55,35 +59,17 @@ export const parameters = {
   mockAddonConfigs: {
     globalMockData: [
       {
-        url: 'http://localhost:3001/api/graphql',
+        url: GRAPHQL_API,
         method: 'POST',
         status: 200,
-        response: (request) => {
+        response: (request: { body: any; _searchParams: any }) => {
           const { body, _searchParams } = request;
           const parsedBody = JSON.parse(body);
-
-          if (parsedBody.operationName === 'MyTasks') {
-            return {
-              data: {
-                ...meQuery(),
-              },
-            };
-          }
-          return {
-            data: {
-              ...meQuery(),
-            },
-          };
+          return findDataByOperationNameAndVariables(
+            parsedBody.operationName,
+            parsedBody.variables
+          );
         },
-
-        /*
-        response: {
-          data: {
-            ...meQuery()
-          },
-        },
-
-         */
       },
     ],
     ignoreQueryParams: true, // Whether or not to ignore query parameters globally
