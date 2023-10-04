@@ -26,12 +26,6 @@ export function UrqlWrapper({ isLoggedIn, cookie, children }: Props) {
   // https://github.com/urql-graphql/urql/issues/297
 
   const [client, ssr] = useMemo(() => {
-    if (process.env.NODE_ENV == 'development') {
-      // If you miss a suspense boundary then urql will infinite loop.
-      // Watching for it is currently the best way to catch it.
-      // eslint-disable-next-line no-console
-      console.log('UrqlWrapper initializing');
-    }
 
     // Although no current operations are async, it is a required attribute
     // eslint-disable-next-line @typescript-eslint/require-await
