@@ -35,7 +35,7 @@ const plugins: Array<Plugin<any, any, any>> = [
 // TODO This header needs to be added to codegen.ts
 plugins.push(
   useCSRFPrevention({
-    requestHeaders: ['x-graphql-yoga-csrf'],
+    requestHeaders: ['x-graphql-csrf'],
   })
 );
 
