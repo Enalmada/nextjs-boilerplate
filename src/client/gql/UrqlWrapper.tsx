@@ -4,24 +4,20 @@
 import { useMemo, type ReactNode } from 'react';
 // import { persistedExchange } from '@urql/exchange-persisted';
 import cacheExchange from '@/client/gql/cacheExchange';
-import { useAuth } from '@/lib/firebase/auth/context';
-import { createClient, fetchExchange, ssrExchange, UrqlProvider } from '@urql/next';
+import { type CombinedError, createClient, fetchExchange, type Operation, ssrExchange, UrqlProvider } from '@urql/next';
+import { authExchange, type AuthUtilities } from '@urql/exchange-auth';
 
 interface Props {
+  cookie?: string | null;
   children: ReactNode;
 }
 
-export function UrqlWrapper({ children }: Props) {
+export function UrqlWrapper({ cookie, children }: Props) {
   // Client is unique to tenant
   // https://formidable.com/open-source/urql/docs/advanced/authentication/#cache-invalidation-on-logout
   // https://github.com/urql-graphql/urql/issues/297
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { user } = useAuth();
-  const userIdToken = user?.idToken;
-
   const [client, ssr] = useMemo(() => {
-    const isSSR = typeof window === 'undefined';
     if (process.env.NODE_ENV == 'development') {
       // If you miss a suspense boundary then urql will infinite loop.
       // Watching for it is currently the best way to catch it.
@@ -29,12 +25,34 @@ export function UrqlWrapper({ children }: Props) {
       console.log('UrqlWrapper initializing');
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
+    const auth = authExchange(async (utilities: AuthUtilities) => {
+
+      return {
+        addAuthToOperation(operation: Operation) {
+          const isSSR = typeof window === 'undefined';
+
+          if (!isSSR || !cookie) return operation;
+
+          // Add cookies during SSR since they are not automatically passed along
+          return utilities.appendHeaders(operation, {
+            cookie,
+          });
+        },
+        didAuthError(error: CombinedError) {
+          return error.graphQLErrors.some((e) => e.extensions?.code === 'UNAUTHORIZED');
+        },
+        refreshAuth: async () => {},
+      };
+    });
+
     const ssr = ssrExchange();
 
     const client = createClient({
       url: process.env.NEXT_PUBLIC_REDIRECT_URL + '/api/graphql',
       exchanges: [
         cacheExchange,
+        auth,
         ssr,
         /*
  persistedExchange({
@@ -44,28 +62,18 @@ export function UrqlWrapper({ children }: Props) {
         fetchExchange,
       ],
       suspense: true,
-      fetchOptions: () => {
-        const headers: Record<string, string> = {
-          // https://the-guild.dev/graphql/yoga-server/docs/features/csrf-prevention
-          'x-graphql-csrf': 'true',
-        };
-
-        // Use default cookies for client auth and userIdToken only for SSR
-        // TODO consider pushing from cookies rather than useAuth()
-        if (isSSR && userIdToken) {
-          headers.authorization = userIdToken;
-        }
-
-        return {
-          headers,
-        };
-      },
       requestPolicy: 'cache-first',
+      fetchOptions: {
+        headers: {
+          // https://the-guild.dev/graphql/yoga-server/docs/features/csrf-prevention
+          'x-graphql-csrf': 'true'
+        },
+      },
     });
 
     return [client, ssr];
-    // userIdToken is only added server so it doesn't need to be a memo dep
-    // adding it will cause list tasks to be re rendered client side
+
+    // adding cookies will cause unnecessary rerender as it can change for same user
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

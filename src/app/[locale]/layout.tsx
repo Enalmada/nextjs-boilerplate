@@ -8,6 +8,7 @@ import { ServerAuthProvider } from '@/lib/firebase/auth/server-auth-provider';
 import metadataConfig from '@/metadata.config';
 import clsx from 'clsx';
 import { NextIntlClientProvider, type AbstractIntlMessages } from 'next-intl';
+import { headers } from 'next/headers'
 
 type Props = {
   children: React.ReactNode;
@@ -26,7 +27,8 @@ export const metadata = {
 
 export default async function LocaleLayout({ children, params = { locale: 'en' } }: Props) {
   const { locale = 'en' } = params;
-
+  const headersList = headers()
+  const cookie = headersList.get('cookie')
   let messages: AbstractIntlMessages;
 
   try {
@@ -46,7 +48,7 @@ export default async function LocaleLayout({ children, params = { locale: 'en' }
       >
         {/* <AxiomWebVitals /> */}
         <ServerAuthProvider>
-          <UrqlWrapper>
+          <UrqlWrapper cookie={cookie} >
             <NextIntlClientProvider locale={locale} messages={messages}>
               <NextUIWrapper themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
                 {children}
