@@ -54,7 +54,7 @@ export function makeYoga(graphqlEndpoint: string) {
       origin: process.env.NEXT_PUBLIC_REDIRECT_URL,
       //origin: process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : env.NEXT_PUBLIC_REDIRECT_URL,
       credentials: true,
-      allowedHeaders: ['x-graphql-yoga-csrf', 'authorization'],
+      allowedHeaders: ['x-graphql-csrf', 'authorization'],
       methods: ['POST'],
     },
     batching: true,
@@ -62,6 +62,11 @@ export function makeYoga(graphqlEndpoint: string) {
     context: ({ request }: { request: NextRequest }) => {},
     // Although gql spec says everything should be 200, mapping some to semantic HTTP error codes
     // https://escape.tech/blog/graphql-errors-the-good-the-bad-and-the-ugly/
+    graphiql: {
+      headers: JSON.stringify({
+        'x-graphql-csrf': 'true',
+      }),
+    },
     maskedErrors: {
       maskError(error, message, isDev) {
         if (error instanceof GraphQLError) {

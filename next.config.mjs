@@ -211,7 +211,6 @@ const withNextIntl = (await import('next-intl/plugin')).default('./src/lib/local
  * @param {string} phase
  */
 export default async function configureNextConfig(phase) {
-
   // Push configured plugins into array
   const plugins = [withNextIntl, withSentry, withAxiom];
 

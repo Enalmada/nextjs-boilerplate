@@ -7,7 +7,7 @@ const config: CodegenConfig = {
     {
       'http://localhost:3000/api/graphql': {
         headers: {
-          'x-graphql-yoga-csrf': 'true',
+          'x-graphql-csrf': 'true',
         },
       },
     },
