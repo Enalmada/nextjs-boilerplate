@@ -4,15 +4,23 @@
 import { useMemo, type ReactNode } from 'react';
 // import { persistedExchange } from '@urql/exchange-persisted';
 import cacheExchange from '@/client/gql/cacheExchange';
-import { type CombinedError, createClient, fetchExchange, type Operation, ssrExchange, UrqlProvider } from '@urql/next';
 import { authExchange, type AuthUtilities } from '@urql/exchange-auth';
+import {
+  createClient,
+  fetchExchange,
+  ssrExchange,
+  UrqlProvider,
+  type CombinedError,
+  type Operation,
+} from '@urql/next';
 
 interface Props {
+  isLoggedIn: boolean;
   cookie?: string | null;
   children: ReactNode;
 }
 
-export function UrqlWrapper({ cookie, children }: Props) {
+export function UrqlWrapper({ isLoggedIn, cookie, children }: Props) {
   // Client is unique to tenant
   // https://formidable.com/open-source/urql/docs/advanced/authentication/#cache-invalidation-on-logout
   // https://github.com/urql-graphql/urql/issues/297
@@ -25,9 +33,9 @@ export function UrqlWrapper({ cookie, children }: Props) {
       console.log('UrqlWrapper initializing');
     }
 
+    // Although no current operations are async, it is a required attribute
     // eslint-disable-next-line @typescript-eslint/require-await
     const auth = authExchange(async (utilities: AuthUtilities) => {
-
       return {
         addAuthToOperation(operation: Operation) {
           const isSSR = typeof window === 'undefined';
@@ -40,9 +48,10 @@ export function UrqlWrapper({ cookie, children }: Props) {
           });
         },
         didAuthError(error: CombinedError) {
+          // TODO review if this is ever triggered and how to respond
           return error.graphQLErrors.some((e) => e.extensions?.code === 'UNAUTHORIZED');
         },
-        refreshAuth: async () => {},
+        refreshAuth: async () => {}, // no-op but refreshAuth is required param
       };
     });
 
@@ -66,7 +75,7 @@ export function UrqlWrapper({ cookie, children }: Props) {
       fetchOptions: {
         headers: {
           // https://the-guild.dev/graphql/yoga-server/docs/features/csrf-prevention
-          'x-graphql-csrf': 'true'
+          'x-graphql-csrf': 'true',
         },
       },
     });
@@ -75,7 +84,7 @@ export function UrqlWrapper({ cookie, children }: Props) {
 
     // adding cookies will cause unnecessary rerender as it can change for same user
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <UrqlProvider client={client} ssr={ssr}>

@@ -1,14 +1,12 @@
 import '@/client/styles/index.css';
 
 import { notFound } from 'next/navigation';
-import { UrqlWrapper } from '@/client/gql/UrqlWrapper';
 import { fontSans } from '@/client/styles/fonts';
 import { NextUIWrapper } from '@/client/ui/NextUIWrapper';
 import { ServerAuthProvider } from '@/lib/firebase/auth/server-auth-provider';
 import metadataConfig from '@/metadata.config';
 import clsx from 'clsx';
 import { NextIntlClientProvider, type AbstractIntlMessages } from 'next-intl';
-import { headers } from 'next/headers'
 
 type Props = {
   children: React.ReactNode;
@@ -27,8 +25,6 @@ export const metadata = {
 
 export default async function LocaleLayout({ children, params = { locale: 'en' } }: Props) {
   const { locale = 'en' } = params;
-  const headersList = headers()
-  const cookie = headersList.get('cookie')
   let messages: AbstractIntlMessages;
 
   try {
@@ -48,13 +44,11 @@ export default async function LocaleLayout({ children, params = { locale: 'en' }
       >
         {/* <AxiomWebVitals /> */}
         <ServerAuthProvider>
-          <UrqlWrapper cookie={cookie} >
-            <NextIntlClientProvider locale={locale} messages={messages}>
-              <NextUIWrapper themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
-                {children}
-              </NextUIWrapper>
-            </NextIntlClientProvider>
-          </UrqlWrapper>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <NextUIWrapper themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
+              {children}
+            </NextUIWrapper>
+          </NextIntlClientProvider>
         </ServerAuthProvider>
       </body>
     </html>
