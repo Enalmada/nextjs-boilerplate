@@ -2,9 +2,9 @@
 'use client';
 
 import { useMemo, type ReactNode } from 'react';
-// import { persistedExchange } from '@urql/exchange-persisted';
 import cacheExchange from '@/client/gql/cacheExchange';
 import { authExchange, type AuthUtilities } from '@urql/exchange-auth';
+import { persistedExchange } from '@urql/exchange-persisted';
 import {
   createClient,
   fetchExchange,
@@ -57,11 +57,11 @@ export function UrqlWrapper({ isLoggedIn, cookie, children }: Props) {
         cacheExchange,
         auth,
         ssr,
-        /*
- persistedExchange({
-   preferGetForPersistedQueries: false,
- }),
-    */
+        persistedExchange({
+          enforcePersistedQueries: false,
+          preferGetForPersistedQueries: false,
+          enableForMutation: true,
+        }),
         fetchExchange,
       ],
       suspense: true,

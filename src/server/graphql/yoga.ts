@@ -5,14 +5,11 @@ import { modifiedHandleCreateOrGetUser } from '@/server/graphql/modifiedHandleCr
 import { schema } from '@/server/graphql/schema';
 import { useGenericAuth } from '@envelop/generic-auth';
 import { EnvelopArmorPlugin } from '@escape.tech/graphql-armor';
+import { useAPQ } from '@graphql-yoga/plugin-apq';
 import { useCSRFPrevention } from '@graphql-yoga/plugin-csrf-prevention';
-// import { useAPQ } from '@graphql-yoga/plugin-apq';
-// import { useCSRFPrevention } from '@graphql-yoga/plugin-csrf-prevention';
 import { GraphQLError } from 'graphql';
 import { createYoga, maskError, type Plugin, type YogaInitialContext } from 'graphql-yoga';
 import { Logger } from 'next-axiom';
-
-// import { Logger } from 'next-axiom';
 
 export interface MyContextType {
   currentUser: User;
@@ -27,8 +24,7 @@ const plugins: Array<Plugin<any, any, any>> = [
     },
   }),
   EnvelopArmorPlugin(),
-  // commenting until queries can be prepopulated in correct format so there is no initial round trip fail
-  // useAPQ(),
+  useAPQ(),
 ];
 
 // Warning - This is failing on SST in SSR. case sensitivity?

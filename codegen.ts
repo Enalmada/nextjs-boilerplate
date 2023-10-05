@@ -1,6 +1,5 @@
 import { type CodegenConfig } from '@graphql-codegen/cli';
-
-// import { addTypenameSelectionDocumentTransform } from '@graphql-codegen/client-preset'
+import { addTypenameSelectionDocumentTransform } from '@graphql-codegen/client-preset';
 
 const config: CodegenConfig = {
   schema: [
@@ -27,9 +26,12 @@ const config: CodegenConfig = {
       presetConfig: {
         fragmentMasking: false,
         // { unmaskFunctionName: 'getFragmentData' },
-        // persistedDocuments: true
+        // persistedDocuments: {
+        //  // https://github.com/dotansimha/graphql-code-generator/pull/9353
+        //  hashAlgorithm: 'sha256',
+        // },
       },
-      // documentTransforms: [addTypenameSelectionDocumentTransform],
+      documentTransforms: [addTypenameSelectionDocumentTransform],
       config: {
         scalars: {
           DateTime: 'Date',
