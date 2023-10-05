@@ -26,7 +26,6 @@ export function UrqlWrapper({ isLoggedIn, cookie, children }: Props) {
   // https://github.com/urql-graphql/urql/issues/297
 
   const [client, ssr] = useMemo(() => {
-
     // Although no current operations are async, it is a required attribute
     // eslint-disable-next-line @typescript-eslint/require-await
     const auth = authExchange(async (utilities: AuthUtilities) => {
@@ -57,11 +56,15 @@ export function UrqlWrapper({ isLoggedIn, cookie, children }: Props) {
         cacheExchange,
         auth,
         ssr,
+        /*
+        // Fills console with ERR GraphQLError: PersistedQueryNotFound
+        // TODO figure out how to avoid console errors with this on
         persistedExchange({
           enforcePersistedQueries: false,
           preferGetForPersistedQueries: false,
           enableForMutation: true,
         }),
+         */
         fetchExchange,
       ],
       suspense: true,

@@ -31,7 +31,8 @@ const config: CodegenConfig = {
         //  hashAlgorithm: 'sha256',
         // },
       },
-      documentTransforms: [addTypenameSelectionDocumentTransform],
+      // causes missing _typename lint er
+      // documentTransforms: [addTypenameSelectionDocumentTransform],
       config: {
         scalars: {
           DateTime: 'Date',

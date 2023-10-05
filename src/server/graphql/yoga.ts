@@ -67,6 +67,17 @@ export function makeYoga(graphqlEndpoint: string) {
       maskError(error, message, isDev) {
         if (error instanceof GraphQLError) {
           if (error?.extensions?.code) {
+            if (error?.extensions?.code === 'PERSISTED_QUERY_NOT_FOUND') {
+              // Modify the status code from 404 which shows in console to something more benign
+              return {
+                ...error,
+                extensions: {
+                  ...error.extensions,
+                  http: { ...error.extensions.http, status: 200 },
+                },
+              };
+            }
+
             return error;
           }
 
