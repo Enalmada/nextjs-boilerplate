@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { extractErrorMessages } from '@/client/gql/errorHandling';
@@ -10,6 +10,7 @@ import {
   type Task,
   type TaskQuery,
   type UpdateTaskMutation,
+  type UpdateTaskMutationVariables,
 } from '@/client/gql/generated/graphql';
 import { DELETE_TASK, TASK, UPDATE_TASK } from '@/client/gql/queries-mutations';
 import {
@@ -21,10 +22,9 @@ import {
   RadioGroupControlled,
   TextareaControlled,
 } from '@/client/ui';
-import { useMutation } from '@apollo/client';
-import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { Button as NextUIButton, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
+import { useMutation, useQuery } from '@urql/next';
 import format from 'date-fns/format';
 import { DayPicker } from 'react-day-picker';
 import { Controller, useForm } from 'react-hook-form';
@@ -40,16 +40,20 @@ export default function TaskForm(props: Props) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
 
-  const { data: dataQuery, error: errorQuery } = useSuspenseQuery<TaskQuery>(TASK, {
+  const [{ data: dataQuery, error: errorQuery }] = useQuery<TaskQuery>({
+    query: TASK,
     variables: { id: props.id || '' },
-    skip: props.id === undefined,
+    pause: props.id === undefined,
   });
 
   // Create and Update loading is handled by form submitting
   // mutation error will render errors but not handle them
   // https://stackoverflow.com/questions/59465864/handling-errors-with-react-apollo-usemutation-hook
-  const [updateTask, { error: updateMutationError }] = useMutation<UpdateTaskMutation>(UPDATE_TASK);
-  const [deleteTask, { error: deleteMutationError, loading: loadingDelete }] =
+  const [{ error: updateMutationError }, updateTask] = useMutation<
+    UpdateTaskMutation,
+    UpdateTaskMutationVariables
+  >(UPDATE_TASK);
+  const [{ error: deleteMutationError, fetching: loadingDelete }, deleteTask] =
     useMutation<DeleteTaskMutation>(DELETE_TASK);
 
   // TODO: dueDate should be Date (form not submitting)
@@ -93,14 +97,13 @@ export default function TaskForm(props: Props) {
     };
 
     const result = await updateTask({
-      variables: {
-        id,
-        input: {
-          ...input,
-          version,
-        },
+      id,
+      input: {
+        ...input,
+        version,
       },
     });
+
     if (result.data) {
       router.push('/admin/tasks');
     }
@@ -108,7 +111,7 @@ export default function TaskForm(props: Props) {
 
   const handleDelete = async () => {
     const result = await deleteTask({
-      variables: { id },
+      id,
       // TODO when optimistic errors are handled
       // optimisticResponse: optimisticResponseHelper<DeleteTaskMutation>('deleteTask', props.task),
       //update(cache, { data }) {
@@ -154,128 +157,121 @@ export default function TaskForm(props: Props) {
   };
 
   return (
-    <Suspense>
-      <Card radius="sm" shadow="sm" className="max-w-sm sm:max-w-md md:max-w-lg">
-        <CardBody>
-          <div>
-            {updateMutationError && formError(extractErrorMessages(updateMutationError))}
-            {deleteMutationError && formError(extractErrorMessages(deleteMutationError))}
+    <Card radius="sm" shadow="sm" className="max-w-sm sm:max-w-md md:max-w-lg">
+      <CardBody>
+        <div>
+          {updateMutationError && formError(extractErrorMessages(updateMutationError))}
+          {deleteMutationError && formError(extractErrorMessages(deleteMutationError))}
 
-            <form onSubmit={(event) => void handleSubmit(onSubmit)(event)}>
-              <InputControlled
-                name="title"
-                control={control}
-                label="Title"
-                errors={errors}
-                className={'mb-5 mt-5'}
-              />
+          <form onSubmit={(event) => void handleSubmit(onSubmit)(event)}>
+            <InputControlled
+              name="title"
+              control={control}
+              label="Title"
+              errors={errors}
+              className={'mb-5 mt-5'}
+            />
 
-              <TextareaControlled
-                name="description"
-                control={control}
-                label="Description"
-                minRows={2}
-                errors={errors}
-                className={'mb-5'}
-              />
+            <TextareaControlled
+              name="description"
+              control={control}
+              label="Description"
+              minRows={2}
+              errors={errors}
+              className={'mb-5'}
+            />
 
-              <Controller
-                name={'dueDate'}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <>
-                    <Popover
-                      isOpen={isOpen}
-                      onOpenChange={(open) => setIsOpen(open)}
-                      placement="bottom"
-                      showArrow={true}
-                      onClose={() => setIsOpen(false)}
-                    >
-                      <PopoverTrigger>
-                        <NextUIButton color="default" className={'mb-5 mr-3'}>
-                          Due Date:&nbsp;
-                          {value ? `${format(new Date(value), 'PP')}` : 'none'}
-                        </NextUIButton>
-                      </PopoverTrigger>
-                      <PopoverContent>
-                        <DayPicker
-                          mode="single"
-                          selected={value ? new Date(value) : undefined}
-                          onSelect={(date, _selectedDay, _activeModifiers, e) => {
-                            onChange(date || null);
-                            (e.currentTarget as HTMLElement).blur(); // Close popover
-                          }}
-                        />
-                      </PopoverContent>
-                    </Popover>
-
-                    {value && (
-                      <NextUIButton
-                        variant="ghost"
-                        color="danger"
-                        className={'mb-5'}
-                        onPress={() => onChange(null)}
-                      >
-                        Clear
+            <Controller
+              name={'dueDate'}
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <>
+                  <Popover
+                    isOpen={isOpen}
+                    onOpenChange={(open) => setIsOpen(open)}
+                    placement="bottom"
+                    showArrow={true}
+                    onClose={() => setIsOpen(false)}
+                  >
+                    <PopoverTrigger>
+                      <NextUIButton color="default" className={'mb-5 mr-3'}>
+                        Due Date:&nbsp;
+                        {value ? `${format(new Date(value), 'PP')}` : 'none'}
                       </NextUIButton>
-                    )}
-                  </>
-                )}
-              />
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <DayPicker
+                        mode="single"
+                        selected={value ? new Date(value) : undefined}
+                        onSelect={(date, _selectedDay, _activeModifiers, e) => {
+                          onChange(date || null);
+                          (e.currentTarget as HTMLElement).blur(); // Close popover
+                        }}
+                      />
+                    </PopoverContent>
+                  </Popover>
 
-              <RadioGroupControlled
-                isDisabled={false}
-                onChange={undefined}
-                color={'primary'}
-                size={'md'}
-                disableAnimation={false}
-                control={control}
-                name="status"
-                label="Status"
-                orientation="horizontal"
-                errors={errors}
-              >
-                <Radio value={TaskStatus.Active}>Active</Radio>
-                <Radio value={TaskStatus.Completed}>Completed</Radio>
-              </RadioGroupControlled>
+                  {value && (
+                    <NextUIButton
+                      variant="ghost"
+                      color="danger"
+                      className={'mb-5'}
+                      onPress={() => onChange(null)}
+                    >
+                      Clear
+                    </NextUIButton>
+                  )}
+                </>
+              )}
+            />
 
-              <div className={'mt-10 flex justify-between'}>
-                <div className={'flex justify-center'}>
-                  <Button
-                    color={'primary'}
-                    type="submit"
-                    isLoading={isSubmitting}
-                    className={'mr-5'}
-                  >
-                    {id ? 'Save' : 'Create'}
-                  </Button>
+            <RadioGroupControlled
+              isDisabled={false}
+              onChange={undefined}
+              color={'primary'}
+              size={'md'}
+              disableAnimation={false}
+              control={control}
+              name="status"
+              label="Status"
+              orientation="horizontal"
+              errors={errors}
+            >
+              <Radio value={TaskStatus.Active}>Active</Radio>
+              <Radio value={TaskStatus.Completed}>Completed</Radio>
+            </RadioGroupControlled>
 
-                  <Button
-                    as={NextLink}
-                    href={'/admin/tasks'}
-                    color={'default'}
-                    isDisabled={isSubmitting}
-                  >
-                    Cancel
-                  </Button>
-                </div>
+            <div className={'mt-10 flex justify-between'}>
+              <div className={'flex justify-center'}>
+                <Button color={'primary'} type="submit" isLoading={isSubmitting} className={'mr-5'}>
+                  {id ? 'Save' : 'Create'}
+                </Button>
 
-                {dataQuery?.task && (
-                  <Button
-                    type="button"
-                    color="danger"
-                    className="rounded bg-red-600 p-5 py-2 font-bold text-white shadow-lg transition duration-200 hover:bg-red-700 hover:shadow-xl"
-                    onPress={() => void handleDelete()}
-                    isLoading={loadingDelete}
-                  >
-                    Delete
-                  </Button>
-                )}
+                <Button
+                  as={NextLink}
+                  href={'/admin/tasks'}
+                  color={'default'}
+                  isDisabled={isSubmitting}
+                >
+                  Cancel
+                </Button>
               </div>
-            </form>
-          </div>
-        </CardBody>
-      </Card>
-    </Suspense>
+
+              {dataQuery?.task && (
+                <Button
+                  type="button"
+                  color="danger"
+                  className="rounded bg-red-600 p-5 py-2 font-bold text-white shadow-lg transition duration-200 hover:bg-red-700 hover:shadow-xl"
+                  onPress={() => void handleDelete()}
+                  isLoading={loadingDelete}
+                >
+                  Delete
+                </Button>
+              )}
+            </div>
+          </form>
+        </div>
+      </CardBody>
+    </Card>
   );
 }

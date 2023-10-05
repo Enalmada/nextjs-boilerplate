@@ -1,10 +1,26 @@
-import { type ApolloError } from '@apollo/client';
+export const extractErrorMessages = (error?: unknown): string[] => {
+  if (!error) {
+    return [];
+  }
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  if (error.message) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return [error.message];
+  }
+
+  return ['errorHandling TBD'];
+};
+
+/*
 type ErrorType = {
   message: string;
 };
 
-export const extractErrorMessages = (error?: ApolloError): string[] => {
+export const extractErrorMessages = (error?: unknown): string[] => {
   if (!error) {
     return [];
   }
@@ -37,3 +53,4 @@ export const extractErrorMessages = (error?: ApolloError): string[] => {
 
   return errorMessages;
 };
+*/

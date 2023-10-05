@@ -1,5 +1,6 @@
 import React from 'react';
 import { cookies } from 'next/headers';
+import { UrqlWrapper } from '@/client/gql/UrqlWrapper';
 import { type Tokens } from 'next-firebase-auth-edge/lib/auth';
 import { filterStandardClaims } from 'next-firebase-auth-edge/lib/auth/claims';
 import { getTokens } from 'next-firebase-auth-edge/lib/next/tokens';
@@ -33,9 +34,19 @@ const mapTokensToUser = (tokens: Tokens): User => {
   };
 };
 
+// I would prefer AuthProvider and UrqlWrapper separate but I would need to create
+// a ServerUrqlWrapper that immediately fetches the same data (tokens and cookies).
+// feels like a waste so combining for now.
 export async function ServerAuthProvider({ children }: { children: React.ReactNode }) {
-  const tokens = await getTokens(cookies(), authConfig);
+  const cookieStore = cookies();
+  const tokens = await getTokens(cookieStore, authConfig);
   const user = tokens ? mapTokensToUser(tokens) : null;
 
-  return <AuthProvider defaultUser={user}>{children}</AuthProvider>;
+  return (
+    <AuthProvider defaultUser={user}>
+      <UrqlWrapper isLoggedIn={!user} cookie={cookieStore.toString()}>
+        {children}
+      </UrqlWrapper>
+    </AuthProvider>
+  );
 }

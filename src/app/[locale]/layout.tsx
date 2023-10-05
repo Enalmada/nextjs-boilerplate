@@ -1,7 +1,6 @@
 import '@/client/styles/index.css';
 
 import { notFound } from 'next/navigation';
-import { ApolloWrapper } from '@/client/gql/apollo-wrapper';
 import { fontSans } from '@/client/styles/fonts';
 import { NextUIWrapper } from '@/client/ui/NextUIWrapper';
 import { ServerAuthProvider } from '@/lib/firebase/auth/server-auth-provider';
@@ -26,7 +25,6 @@ export const metadata = {
 
 export default async function LocaleLayout({ children, params = { locale: 'en' } }: Props) {
   const { locale = 'en' } = params;
-
   let messages: AbstractIntlMessages;
 
   try {
@@ -46,13 +44,11 @@ export default async function LocaleLayout({ children, params = { locale: 'en' }
       >
         {/* <AxiomWebVitals /> */}
         <ServerAuthProvider>
-          <ApolloWrapper>
-            <NextIntlClientProvider locale={locale} messages={messages}>
-              <NextUIWrapper themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
-                {children}
-              </NextUIWrapper>
-            </NextIntlClientProvider>
-          </ApolloWrapper>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <NextUIWrapper themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
+              {children}
+            </NextUIWrapper>
+          </NextIntlClientProvider>
         </ServerAuthProvider>
       </body>
     </html>

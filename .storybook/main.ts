@@ -8,7 +8,7 @@ const config: StorybookConfig = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     'storybook-dark-mode',
-    'storybook-addon-apollo-client',
+    'storybook-addon-mock',
     {
       name: '@storybook/addon-styling',
       options: {

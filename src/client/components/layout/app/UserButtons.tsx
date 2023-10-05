@@ -2,6 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
+import { UserRole, type MeQuery } from '@/client/gql/generated/graphql';
+import { ME } from '@/client/gql/queries-mutations';
 import { useAuth } from '@/lib/firebase/auth/context';
 import {
   Avatar,
@@ -12,16 +14,40 @@ import {
   DropdownTrigger,
   NavbarItem,
 } from '@nextui-org/react';
+import { useQuery } from '@urql/next';
 
 export default function UserButtons() {
-  const { user } = useAuth();
   const router = useRouter();
+  const { user: authUser } = useAuth();
+
+  const [{ data: dataQuery }] = useQuery<MeQuery>({ query: ME });
+
+  const user = dataQuery?.me;
 
   const items: Record<string, string> = {
     signed: '/app/profile',
     profile: '/app/profile',
     logout: '/logout',
+    admin: '/admin',
   };
+
+  const menuItems = [
+    <DropdownItem key="signed" className="h-14 gap-2" textValue={`Signed in as: ${user?.email}`}>
+      <p className="font-semibold">Signed in as</p>
+      <p className="font-semibold">{user?.email}</p>
+    </DropdownItem>,
+    <DropdownItem key="profile">Profile</DropdownItem>,
+  ];
+
+  if (user?.role === UserRole.Admin) {
+    menuItems.push(<DropdownItem key="admin">Admin</DropdownItem>);
+  }
+
+  menuItems.push(
+    <DropdownItem key="logout" color="danger">
+      Log Out
+    </DropdownItem>
+  );
 
   return (
     <>
@@ -40,16 +66,16 @@ export default function UserButtons() {
                 isBordered
                 className="transition-transform"
                 color="secondary"
-                name={user.displayName || user.email || undefined}
+                name={user.name || user.email || undefined}
                 size="sm"
                 showFallback
                 fallback={
                   <span className="inline-block h-[2.375rem] w-[2.375rem] overflow-hidden rounded-full bg-gray-100">
-                    {user.photoURL && (
-                      <Image alt="" height="100" width="100" unoptimized src={user.photoURL} />
+                    {authUser?.photoURL && (
+                      <Image alt="" height="100" width="100" unoptimized src={authUser?.photoURL} />
                     )}
                     {/* from preline https://preline.co/docs/avatar.html#placeholder-icon*/}
-                    {!user.photoURL && (
+                    {!authUser?.photoURL && (
                       <svg
                         className="h-full w-full text-gray-300"
                         width="16"
@@ -86,18 +112,7 @@ export default function UserButtons() {
             variant="flat"
             onAction={(key: React.Key) => router.push(items[key as string]!)}
           >
-            <DropdownItem
-              key="signed"
-              className="h-14 gap-2"
-              textValue={`Signed in as: ${user.email}`}
-            >
-              <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">{user.email}</p>
-            </DropdownItem>
-            <DropdownItem key="profile">Profile</DropdownItem>
-            <DropdownItem key="logout" color="danger">
-              Log Out
-            </DropdownItem>
+            {menuItems}
           </DropdownMenu>
         </Dropdown>
       )}

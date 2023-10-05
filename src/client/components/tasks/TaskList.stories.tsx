@@ -1,6 +1,4 @@
 import TaskList, { TaskListLoading } from '@/client/components/tasks/TaskList';
-import { globalMocks, tasks } from '@/client/gql/globalMocks';
-import { MY_TASKS } from '@/client/gql/queries-mutations';
 import type { Meta, StoryObj } from '@storybook/react';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
@@ -21,35 +19,12 @@ export const Default: Story = {
   args: {},
 };
 
-Default.parameters = {
-  apolloClient: {
-    mocks: [...globalMocks],
-  },
-};
-
 export const Loading: Story = {
   render: () => <TaskListLoading />,
 };
 
 export const Empty: Story = {
   args: {},
-};
-
-Empty.parameters = {
-  apolloClient: {
-    mocks: [
-      {
-        request: {
-          query: MY_TASKS,
-        },
-        result: {
-          data: {
-            tasks: tasks(0),
-          },
-        },
-      },
-    ],
-  },
 };
 
 // Can't get network error to work

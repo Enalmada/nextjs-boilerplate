@@ -83,9 +83,10 @@ const contentSecurityPolicyTemplates = generateCspTemplate(cspConfig, cspRules);
 // next-safe adds legacy keys that are unnecessary and cause console noise
 const keysToRemove = ['Feature-Policy', 'X-Content-Security-Policy', 'X-WebKit-CSP'];
 
+// As a best practice, all plugins have their own config and nextConfig is just for next.js
 // noinspection JSUnusedLocalSymbols
 /** @type {import("next").NextConfig} */
-const config = {
+const nextConfig = {
   output: 'standalone',
   poweredByHeader: false,
   reactStrictMode: true,
@@ -122,16 +123,15 @@ const config = {
   },
 
   webpack(config, { isServer }) {
+    // Make sure all web modules are using graphql-web-lite for min size (following urql)
     // https://github.com/0no-co/graphql-web-lite  330k to 323k
     // https://github.com/urql-graphql/urql/pull/3108
-    /* causing Cannot read properties of undefined (reading 'source') with gql tag
     if (!isServer) {
       config.resolve.alias = {
         ...config.resolve.alias,
         graphql: 'graphql-web-lite',
       };
     }
-    */
 
     // TODO - figure out how to fix this the real way
     config.ignoreWarnings = [
@@ -140,24 +140,9 @@ const config = {
       },
     ];
 
-    // I suspect most of this isn't necessary with postgres.js driver
+    // The following is for edge testing
     // pg used previously by kysely config needs fixing on prod
     if (process.env.NEXT_RUNTIME_NODE !== 'true') {
-      /*
-      // Necessary for kysely && pg driver
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        path: false,
-        fs: false,
-        net: false,
-        tls: false,
-        dns: false,
-        stream: false,
-        crypto: false,
-        'pg-native': false,
-      };
-       */
-
       // Necessary for postgres.js driver
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -171,6 +156,7 @@ const config = {
     }
 
     // To see Cloudflare compile errors more clearly locally
+    // Should probably just be default in .dev.vars
     if (process.env.DISABLE_MINIMIZE === 'true') {
       config.optimization.minimize = false;
     }
@@ -217,30 +203,38 @@ const withSentry = (config) => {
   );
 };
 
+// TODO figure out how to not get error with .default
 // @ts-ignore
 const withNextIntl = (await import('next-intl/plugin')).default('./src/lib/localization/i18n.ts');
 
-// @ts-ignore
+/**
+ * @param {string} phase
+ */
 export default async function configureNextConfig(phase) {
-  if (phase === PHASE_DEVELOPMENT_SERVER || phase === PHASE_PRODUCTION_BUILD) {
+  // Push configured plugins into array
+  const plugins = [withNextIntl, withSentry, withAxiom];
+
+  if (process.env.ANALYZE === 'true') {
     const withBundleAnalyzer = await import('@next/bundle-analyzer');
+    plugins.push(withBundleAnalyzer.default({ enabled: true }));
+  }
 
-    const bundleAnalyzerConfig = {
-      enabled: process.env.ANALYZE === 'true',
-    };
-
+  // Only load libraries necessary for building during dev or prod build (not runtime)
+  if (phase === PHASE_DEVELOPMENT_SERVER || phase === PHASE_PRODUCTION_BUILD) {
     const withPWA = (await import('@ducanh2912/next-pwa')).default({
       dest: 'public',
       buildExcludes: [
+        // See following for why these buildExcludes:
+        // https://github.com/DuCanhGH/next-pwa/issues/101#issue-1919711481
         /\.map$/, // Exclude all .map files
         /^((?!~offline).)*\.js$/, // Exclude all .js files that do not contain ~offline in the path
         /(?<!\.p)\.woff2$/, // Exclude all .woff2 files that are not .p.woff2 (preloaded subset)
       ],
     });
 
-    return withSentry(
-      withNextIntl(withPWA(withAxiom(withBundleAnalyzer.default(bundleAnalyzerConfig)(config))))
-    );
+    plugins.push(withPWA);
   }
-  return withSentry(withAxiom(withNextIntl(config)));
+
+  // https://github.com/cyrilwanner/next-compose-plugins/issues/59#issuecomment-1230325393
+  return plugins.reduce((acc, next) => next(acc), nextConfig);
 }

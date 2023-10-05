@@ -14,8 +14,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  fragment UserParts on User {\n    id\n    name\n    email\n    role\n    createdAt\n    updatedAt\n    version\n  }\n": types.UserPartsFragmentDoc,
-    "\n  query Me {\n    me {\n      ...UserParts\n      rules\n    }\n  }\n  \n": types.MeDocument,
     "\n  fragment TaskParts on Task {\n    id\n    title\n    description\n    dueDate\n    status\n    createdAt\n    updatedAt\n    version\n  }\n": types.TaskPartsFragmentDoc,
+    "\n  query Me {\n    me {\n      ...UserParts\n      rules\n      tasks {\n        ...TaskParts\n      }\n    }\n  }\n  \n  \n": types.MeDocument,
     "\n  query MyTasks {\n    me {\n      ...UserParts\n      rules\n      tasks {\n        ...TaskParts\n      }\n    }\n  }\n  \n  \n": types.MyTasksDocument,
     "\n  query Task($id: ID!) {\n    task(id: $id) {\n      ...TaskParts\n    }\n  }\n  \n": types.TaskDocument,
     "\n  mutation CreateTask($input: MutationCreateTaskInput!) {\n    createTask(input: $input) {\n      ...TaskParts\n    }\n  }\n  \n": types.CreateTaskDocument,
@@ -46,11 +46,11 @@ export function graphql(source: "\n  fragment UserParts on User {\n    id\n    n
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Me {\n    me {\n      ...UserParts\n      rules\n    }\n  }\n  \n"): (typeof documents)["\n  query Me {\n    me {\n      ...UserParts\n      rules\n    }\n  }\n  \n"];
+export function graphql(source: "\n  fragment TaskParts on Task {\n    id\n    title\n    description\n    dueDate\n    status\n    createdAt\n    updatedAt\n    version\n  }\n"): (typeof documents)["\n  fragment TaskParts on Task {\n    id\n    title\n    description\n    dueDate\n    status\n    createdAt\n    updatedAt\n    version\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  fragment TaskParts on Task {\n    id\n    title\n    description\n    dueDate\n    status\n    createdAt\n    updatedAt\n    version\n  }\n"): (typeof documents)["\n  fragment TaskParts on Task {\n    id\n    title\n    description\n    dueDate\n    status\n    createdAt\n    updatedAt\n    version\n  }\n"];
+export function graphql(source: "\n  query Me {\n    me {\n      ...UserParts\n      rules\n      tasks {\n        ...TaskParts\n      }\n    }\n  }\n  \n  \n"): (typeof documents)["\n  query Me {\n    me {\n      ...UserParts\n      rules\n      tasks {\n        ...TaskParts\n      }\n    }\n  }\n  \n  \n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

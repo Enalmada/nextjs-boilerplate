@@ -1,5 +1,9 @@
+// Import this to use fragments in pages
 // import { graphql } from '@/client/gql/generated';
-import { gql } from '@apollo/client';
+
+// Although docs imply to use `@urql/next`, `@urql/core` in necessary for
+// the way the yoga tests are currently written.  Will error getting query in vite without this.
+import { gql } from '@urql/core';
 
 export const USER_PARTS = gql`
   fragment UserParts on User {
@@ -13,16 +17,6 @@ export const USER_PARTS = gql`
   }
 `;
 
-export const ME = gql`
-  query Me {
-    me {
-      ...UserParts
-      rules
-    }
-  }
-  ${USER_PARTS}
-`;
-
 export const TASK_PARTS = gql`
   fragment TaskParts on Task {
     id
@@ -34,6 +28,20 @@ export const TASK_PARTS = gql`
     updatedAt
     version
   }
+`;
+
+export const ME = gql`
+  query Me {
+    me {
+      ...UserParts
+      rules
+      tasks {
+        ...TaskParts
+      }
+    }
+  }
+  ${USER_PARTS}
+  ${TASK_PARTS}
 `;
 
 export const MY_TASKS = gql`

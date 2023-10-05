@@ -2,17 +2,16 @@
 
 import { useEffect } from 'react';
 import { useFirebaseAuth } from '@/lib/firebase/auth/firebase';
-import { useApolloClient } from '@apollo/client';
 import { signOut } from 'firebase/auth';
 
 export default function LogoutPage() {
-  const client = useApolloClient();
   const { getFirebaseAuth } = useFirebaseAuth();
 
   useEffect(() => {
     const clearCache = async () => {
       try {
-        await client.clearStore();
+        // Urql cache is unique to tenant and will be cleared when it changes
+        // https://formidable.com/open-source/urql/docs/advanced/authentication/#cache-invalidation-on-logout
         const auth = getFirebaseAuth();
         await signOut(auth);
         await fetch('/api/logout', {
@@ -24,7 +23,7 @@ export default function LogoutPage() {
 
         window.location.replace('/');
       } catch (error) {
-        console.error('Error clearing Apollo Client cache:', error);
+        console.error('Error clearing client cache:', error);
       }
     };
 

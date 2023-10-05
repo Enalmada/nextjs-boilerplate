@@ -39,7 +39,7 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
     -💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
   - [next-secure](https://github.com/Enalmada/next-secure) secure headers helper for next.config.js
   - [env-valibot](https://github.com/Enalmada/env-valibot) environment variable validation using valibot
-- 💖 [Apollo Client](https://www.apollographql.com/docs/react/) graphql (state management, subscriptions, etc)
+- 💖 [Urql Client](https://formidable.com/open-source/urql/) graphql (state management, subscriptions, etc)
   - Graphql code generation with [client preset](https://the-guild.dev/graphql/codegen/plugins/presets/preset-client)
 - 🔒 [firebase auth](https://github.com/awinogrodzki/next-firebase-auth-edge) edge compatible
 - [react-hook-form](https://react-hook-form.com/) for simple and high performance forms
@@ -76,10 +76,10 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 
 ### TODO (potentially)
 
+- [ ] [csrf with yoga](https://the-guild.dev/graphql/yoga-server/docs/features/csrf-prevention)
 - [ ] figure out how to stop the `Sentry CLI binary not found` build messages
 - [ ] figure out why startup taking so long, possibly the PWA script build and needs disable in avg
 - [ ] switch hasty todo list to github tracking
-- [ ] urql (vs apollo client) due to smaller size. Normalized cache not working and needs triage.
 - [ ] strict-dynamic CSP in middleware vs next.config.js headers
   - remove static from auth pages so it gets dynamic csp headers
 - [ ] better env file handling between a team than .env.local. There must be something better.
@@ -111,6 +111,7 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 - [BisonApp](https://github.com/echobind/bisonapp) - Worth reading [why they use tRPC](https://echobind.com/post/why-we-ditched-graphql-for-trpc). I believe gql is still better for corporate projects and [this](https://wundergraph.com/blog/trpc_vs_graphql) is worth a read..
 - [T3 App](https://create.t3.gg/) - highly recommended starting point until you understand the pros/cons of other tech options
 - [next-13-app-router-with-trpc](https://github.com/solaldunckel/next-13-app-router-with-trpc) - some patterns to consider.
+- [BaseJump](https://github.com/Enalmada/basejump) supabase starter
 
 ## Notes
 
@@ -138,7 +139,7 @@ When you need other solutions:
   - next-on-pages deployed on special workers so capabilities are not always comparable to workers
   - bun [limited support](https://community.cloudflare.com/t/no-bun-support-how/554291)
   - apollo client next.js needs some tweaking [issue](https://github.com/apollographql/apollo-client-nextjs/issues/102)
-  - links don't seem to work unless page was SSR generated in latest testing.  Possibly related to [issue](https://github.com/cloudflare/next-on-pages/issues/469#issuecomment-1736301503)
+  - links don't seem to work unless page was SSR generated in latest testing. Possibly related to [issue](https://github.com/cloudflare/next-on-pages/issues/469#issuecomment-1736301503)
 
 ### Graphql playground
 
@@ -151,8 +152,8 @@ CockroachDB was chosen for combination of free tier, postgres compatability, and
 Some cons
 
 - it doesn't offer edge compatability
-- it [isn't officially supported in drizzle yet](https://github.com/drizzle-team/drizzle-orm/issues/845). Migrations with `DO $$` need to be manually converted to `IF NOT EXISTS` 
-until [issue](https://github.com/cockroachdb/cockroach/issues/107345) is fixed.  
+- it [isn't officially supported in drizzle yet](https://github.com/drizzle-team/drizzle-orm/issues/845). Migrations with `DO $$` need to be manually converted to `IF NOT EXISTS`
+  until [issue](https://github.com/cockroachdb/cockroach/issues/107345) is fixed.
 
 Alternatives:
 

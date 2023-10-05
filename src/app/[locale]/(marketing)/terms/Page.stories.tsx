@@ -1,5 +1,5 @@
 import { MarketingLayout as Layout } from '@/app/[locale]/(marketing)/MarketingLayout';
-import Page from '@/app/[locale]/(marketing)/privacy/page';
+import Page from '@/app/[locale]/(marketing)/terms/page';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Page> = {

@@ -5,14 +5,11 @@ import { modifiedHandleCreateOrGetUser } from '@/server/graphql/modifiedHandleCr
 import { schema } from '@/server/graphql/schema';
 import { useGenericAuth } from '@envelop/generic-auth';
 import { EnvelopArmorPlugin } from '@escape.tech/graphql-armor';
+import { useAPQ } from '@graphql-yoga/plugin-apq';
 import { useCSRFPrevention } from '@graphql-yoga/plugin-csrf-prevention';
-// import { useAPQ } from '@graphql-yoga/plugin-apq';
-// import { useCSRFPrevention } from '@graphql-yoga/plugin-csrf-prevention';
 import { GraphQLError } from 'graphql';
 import { createYoga, maskError, type Plugin, type YogaInitialContext } from 'graphql-yoga';
 import { Logger } from 'next-axiom';
-
-// import { Logger } from 'next-axiom';
 
 export interface MyContextType {
   currentUser: User;
@@ -27,19 +24,16 @@ const plugins: Array<Plugin<any, any, any>> = [
     },
   }),
   EnvelopArmorPlugin(),
-  // commenting until queries can be prepopulated in correct format so there is no initial round trip fail
-  // useAPQ(),
+  useAPQ(),
 ];
 
-// TODO This is failing on SST in SSR likely due to case sensitivity
-// TODO make graphiql work locally (likely by looking at another header always past or auth cookies first)
-if (process.env.APP_ENV != 'local') {
-  plugins.push(
-    useCSRFPrevention({
-      requestHeaders: ['authorization'],
-    })
-  );
-}
+// Warning - This is failing on SST in SSR. case sensitivity?
+// TODO This header needs to be added to codegen.ts
+plugins.push(
+  useCSRFPrevention({
+    requestHeaders: ['x-graphql-csrf'],
+  })
+);
 
 export function makeYoga(graphqlEndpoint: string) {
   // Next.js Custom Route Handler: https://nextjs.org/docs/app/building-your-application/routing/router-handlers
@@ -56,7 +50,7 @@ export function makeYoga(graphqlEndpoint: string) {
       origin: process.env.NEXT_PUBLIC_REDIRECT_URL,
       //origin: process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : env.NEXT_PUBLIC_REDIRECT_URL,
       credentials: true,
-      allowedHeaders: ['authorization'],
+      allowedHeaders: ['x-graphql-csrf', 'authorization'],
       methods: ['POST'],
     },
     batching: true,
@@ -64,10 +58,26 @@ export function makeYoga(graphqlEndpoint: string) {
     context: ({ request }: { request: NextRequest }) => {},
     // Although gql spec says everything should be 200, mapping some to semantic HTTP error codes
     // https://escape.tech/blog/graphql-errors-the-good-the-bad-and-the-ugly/
+    graphiql: {
+      headers: JSON.stringify({
+        'x-graphql-csrf': 'true',
+      }),
+    },
     maskedErrors: {
       maskError(error, message, isDev) {
         if (error instanceof GraphQLError) {
           if (error?.extensions?.code) {
+            if (error?.extensions?.code === 'PERSISTED_QUERY_NOT_FOUND') {
+              // Modify the status code from 404 which shows in console to something more benign
+              return {
+                ...error,
+                extensions: {
+                  ...error.extensions,
+                  http: { ...error.extensions.http, status: 200 },
+                },
+              };
+            }
+
             return error;
           }
 
