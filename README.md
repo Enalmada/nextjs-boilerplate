@@ -115,6 +115,12 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 
 ## Notes
 
+### Turbo
+Waiting for it to work 
+Issues with middleware https://github.com/vercel/next.js/issues/42921
+issues with next-intl https://github.com/amannn/next-intl/issues/250
+general https://github.com/vercel/next.js/issues/49174
+
 ### Bun vs pnpm
 
 Recommend pnpm for projects that need stability.  
