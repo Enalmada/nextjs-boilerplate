@@ -4,7 +4,6 @@
 import { useMemo, type ReactNode } from 'react';
 import cacheExchange from '@/client/gql/cacheExchange';
 import { authExchange, type AuthUtilities } from '@urql/exchange-auth';
-import { persistedExchange } from '@urql/exchange-persisted';
 import {
   createClient,
   fetchExchange,

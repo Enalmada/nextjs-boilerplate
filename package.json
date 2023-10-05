@@ -164,7 +164,7 @@
     "eslint-config-next": "^13.5.4",
     "eslint-config-prettier": "^9.0.0",
     "fixpack": "^4.0.0",
-    "happy-dom": "^12.8.0",
+    "happy-dom": "^12.9.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "postcss": "^8.4.31",
