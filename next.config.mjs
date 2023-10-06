@@ -1,13 +1,12 @@
 // @ts-check
 // noinspection JSFileReferences
 import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from 'next/constants.js';
-import { generateCspTemplate } from '@enalmada/next-secure';
+import { generateCspTemplates } from '@enalmada/next-secure';
 import { withSentryConfig } from '@sentry/nextjs';
 
 import './src/env.mjs';
 
 import { withAxiom } from 'next-axiom';
-import * as nextSafe from 'next-safe';
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -78,10 +77,7 @@ const cspRules = [
   },
 ];
 
-const contentSecurityPolicyTemplates = generateCspTemplate(cspConfig, cspRules);
-
-// next-safe adds legacy keys that are unnecessary and cause console noise
-const keysToRemove = ['Feature-Policy', 'X-Content-Security-Policy', 'X-WebKit-CSP'];
+const contentSecurityPolicyTemplates = generateCspTemplates(cspConfig, cspRules);
 
 // As a best practice, all plugins have their own config and nextConfig is just for next.js
 // noinspection JSUnusedLocalSymbols
@@ -92,18 +88,7 @@ const nextConfig = {
   reactStrictMode: true,
 
   async headers() {
-    return contentSecurityPolicyTemplates.map(
-      (/** @type {import("@enalmada/next-secure").ContentSecurityPolicyTemplate } */ template) => {
-        return {
-          source: template.source || '/:path*',
-          headers: nextSafe
-            // @ts-ignore this works but typescript can't tell for some reason
-            .default({ ...template })
-            // TODO move all this into @enalmada/next-secure
-            .filter((/** @type {{ key: string; }} */ header) => !keysToRemove.includes(header.key)),
-        };
-      }
-    );
+    return [...contentSecurityPolicyTemplates];
   },
 
   experimental: {
@@ -208,6 +193,18 @@ const withSentry = (config) => {
 const withNextIntl = (await import('next-intl/plugin')).default('./src/lib/localization/i18n.ts');
 
 /**
+ * Applies an array of plugin functions to a configuration object.
+ * https://github.com/cyrilwanner/next-compose-plugins/issues/59#issuecomment-1230325393
+ *
+ * @param {Object} config - The initial configuration object.
+ * @param {Array<Function>} plugins - An array of plugin functions.
+ * @returns {Object} - The final configuration after applying all plugins.
+ */
+function applyPlugins(config, plugins) {
+  return plugins.reduce((acc, plugin) => plugin(acc), config);
+}
+
+/**
  * @param {string} phase
  */
 export default async function configureNextConfig(phase) {
@@ -222,6 +219,7 @@ export default async function configureNextConfig(phase) {
   // Only load libraries necessary for building during dev or prod build (not runtime)
   if (phase === PHASE_DEVELOPMENT_SERVER || phase === PHASE_PRODUCTION_BUILD) {
     const withPWA = (await import('@ducanh2912/next-pwa')).default({
+      disable: process.env.APP_ENV === 'local',
       dest: 'public',
       buildExcludes: [
         // See following for why these buildExcludes:
@@ -235,6 +233,5 @@ export default async function configureNextConfig(phase) {
     plugins.push(withPWA);
   }
 
-  // https://github.com/cyrilwanner/next-compose-plugins/issues/59#issuecomment-1230325393
-  return plugins.reduce((acc, next) => next(acc), nextConfig);
+  return applyPlugins(nextConfig, plugins);
 }
