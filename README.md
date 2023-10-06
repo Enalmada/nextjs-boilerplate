@@ -76,9 +76,6 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 
 ### TODO (potentially)
 
-- [ ] [csrf with yoga](https://the-guild.dev/graphql/yoga-server/docs/features/csrf-prevention)
-- [ ] figure out how to stop the `Sentry CLI binary not found` build messages
-- [ ] figure out why startup taking so long, possibly the PWA script build and needs disable in avg
 - [ ] switch hasty todo list to github tracking
 - [ ] strict-dynamic CSP in middleware vs next.config.js headers
   - remove static from auth pages so it gets dynamic csp headers
@@ -98,7 +95,6 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 - [ ] figure out a good way for demo to get into /admin side of things
 - [ ] setup dependency checking on github actions with Renovate
 - [ ] playwright tests
-
   - [ ] running with github actions
   - [ ] on admin
 
@@ -116,10 +112,11 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 ## Notes
 
 ### Turbo
-Waiting for it to work 
-Issues with middleware https://github.com/vercel/next.js/issues/42921
-issues with next-intl https://github.com/amannn/next-intl/issues/250
-general https://github.com/vercel/next.js/issues/49174
+
+Waiting for it to work
+* issues with middleware https://github.com/vercel/next.js/issues/42921
+* issues with next-intl https://github.com/amannn/next-intl/issues/250
+* general https://github.com/vercel/next.js/issues/49174
 
 ### Bun vs pnpm
 
