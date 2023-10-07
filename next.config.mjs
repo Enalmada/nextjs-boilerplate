@@ -193,23 +193,18 @@ const withSentry = (config) => {
 const withNextIntl = (await import('next-intl/plugin')).default('./src/lib/localization/i18n.ts');
 
 /**
- * Applies an array of plugin functions to a configuration object.
- * https://github.com/cyrilwanner/next-compose-plugins/issues/59#issuecomment-1230325393
- *
- * @param {Object} config - The initial configuration object.
- * @param {Array<Function>} plugins - An array of plugin functions.
- * @returns {Object} - The final configuration after applying all plugins.
- */
-function applyPlugins(config, plugins) {
-  return plugins.reduce((acc, plugin) => plugin(acc), config);
-}
-
-/**
  * @param {string} phase
+ * @param {import('next').NextConfig} defaultConfig
  */
-export default async function configureNextConfig(phase) {
+export default async function configureNextConfig(phase, { defaultConfig }) {
   // Push configured plugins into array
-  const plugins = [withNextIntl, withSentry, withAxiom];
+
+  const plugins = [
+    withNextIntl,
+    // @ts-ignore
+    (config) => withSentry(config),
+    withAxiom,
+  ];
 
   if (process.env.ANALYZE === 'true') {
     const withBundleAnalyzer = await import('@next/bundle-analyzer');
@@ -230,8 +225,17 @@ export default async function configureNextConfig(phase) {
       ],
     });
 
+    // @ts-ignore
     plugins.push(withPWA);
   }
 
-  return applyPlugins(nextConfig, plugins);
+  return plugins.reduce(
+    // @ts-ignore
+    (acc, plugin) => {
+      const update = plugin(acc);
+      // @ts-ignore
+      return typeof update === 'function' ? update(phase, defaultConfig) : update;
+    },
+    { ...nextConfig }
+  );
 }
