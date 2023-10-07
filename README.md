@@ -76,6 +76,7 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 
 ### TODO (potentially)
 
+- [ ] catch FirebaseError: Firebase: Error (auth/popup-closed-by-user).
 - [ ] switch hasty todo list to github tracking
 - [ ] strict-dynamic CSP in middleware vs next.config.js headers
   - remove static from auth pages so it gets dynamic csp headers
@@ -95,6 +96,7 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 - [ ] figure out a good way for demo to get into /admin side of things
 - [ ] setup dependency checking on github actions with Renovate
 - [ ] playwright tests
+
   - [ ] running with github actions
   - [ ] on admin
 
@@ -114,9 +116,10 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 ### Turbo
 
 Waiting for it to work
-* issues with middleware https://github.com/vercel/next.js/issues/42921
-* issues with next-intl https://github.com/amannn/next-intl/issues/250
-* general https://github.com/vercel/next.js/issues/49174
+
+- issues with middleware https://github.com/vercel/next.js/issues/42921
+- issues with next-intl https://github.com/amannn/next-intl/issues/250
+- general https://github.com/vercel/next.js/issues/49174
 
 ### Bun vs pnpm
 
