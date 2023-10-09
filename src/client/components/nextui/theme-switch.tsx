@@ -20,6 +20,9 @@ export interface ThemeSwitchProps {
 }
 
 export const ThemeSwitch = ({ id, className, classNames }: ThemeSwitchProps) => {
+  // Note that docs have some check for isMounted for ssr but i believe isSSR probably covers it
+  // https://github.com/pacocoursey/next-themes#avoid-hydration-mismatch
+
   const { theme, setTheme } = useTheme();
   const isSSR = useIsSSR();
   const [isThemeLight, setIsThemeLight] = useState(theme === 'light' || isSSR);

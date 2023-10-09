@@ -1,6 +1,6 @@
 // https://nextjs.org/docs/pages/building-your-application/configuring/eslint#lint-staged
 // https://paulintrognon.fr/blog/typescript-prettier-eslint-next-js
-const path = require('path');
+import path from 'path';
 
 const tsc = () => `bun --bun tsc --noEmit`;
 
@@ -11,9 +11,9 @@ const buildEslintCommand = (filenames) =>
 
 const buildPrettierCommand = (filenames) => `bun prettier --write ${filenames.join(' ')}`;
 
-module.exports = {
-  '*.{ts,tsx}': [buildPrettierCommand, buildEslintCommand],
-  '**/*.(ts|tsx)': [tsc],
+export default {
+  '**/*.{ts,tsx,mjs,cjs}': [buildPrettierCommand, buildEslintCommand, tsc],
   'src/server/db/schema.ts': 'bun drizzle:generate',
   'package.json': ['npm pkg fix', 'fixpack'],
 };
+

@@ -6,6 +6,9 @@ import { locales, pathnames } from '@/lib/localization/navigation';
 import { authentication } from 'next-firebase-auth-edge/lib/next/middleware';
 import createIntlMiddleware from 'next-intl/middleware';
 
+// import { cspConfig, cspRules } from '@/cspRules.mjs';
+// import { applyHeaders, generateSecurityHeaders } from '@enalmada/next-secure';
+
 const PUBLIC_PATHS = ['/register', '/login', '/reset-password'];
 const protectedMatcher = ['/app', '/app/(.)', '/admin', '/admin/(.)'];
 
@@ -35,6 +38,8 @@ function redirectToLogin(request: NextRequest) {
 }
 
 export async function middleware(request: NextRequest) {
+  // const secureHeaders = generateSecurityHeaders(cspConfig, cspRules);
+
   return authentication(request, {
     loginPath: '/api/login',
     logoutPath: '/api/logout',
@@ -51,14 +56,17 @@ export async function middleware(request: NextRequest) {
       // }
 
       return intlMiddleware(request);
+      // return applyHeaders(response, secureHeaders);
     },
     // eslint-disable-next-line @typescript-eslint/require-await
     handleInvalidToken: async () => {
       return redirectToLogin(request);
+      // return applyHeaders(response, secureHeaders);
     },
     // eslint-disable-next-line @typescript-eslint/require-await,@typescript-eslint/no-unused-vars
     handleError: async (error) => {
       return redirectToLogin(request);
+      // return applyHeaders(response, secureHeaders);
     },
   });
 }
