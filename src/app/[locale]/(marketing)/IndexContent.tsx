@@ -60,7 +60,7 @@ export function Hero() {
           </div>
         </div>
       </div>
-      <div className="relative -mt-12 lg:-mt-24" style={{ zIndex: -1000 }}>
+      <div className="relative -z-50 -mt-12 lg:-mt-24">
         <svg viewBox="0 0 1428 174" version="1.1" xmlns="http://www.w3.org/2000/svg">
           <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
             <g transform="translate(-2.000000, 44.000000)" fill="#FFFFFF" fillRule="nonzero">

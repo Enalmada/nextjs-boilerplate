@@ -16,4 +16,3 @@ export default {
   'src/server/db/schema.ts': 'bun drizzle:generate',
   'package.json': ['npm pkg fix', 'fixpack'],
 };
-

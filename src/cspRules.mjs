@@ -22,6 +22,9 @@ export const cspConfig = {
   permissionsPolicyDirectiveSupport: ['proposed', 'standard'], // default causes tons of console noise
 };
 
+// Notes on next.js and csp
+// https://github.com/vercel/next.js/issues/18557#issuecomment-727160210
+
 /** @type {import("@enalmada/next-secure").CspRule[]} */
 // https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid#cross_origin_opener_policy
 export const cspRules = [
@@ -42,11 +45,14 @@ export const cspRules = [
     source: '/:path*',
   },
   {
-    description: 'nextjs',
-    // NextJS requires 'unsafe-inline' in prod?!
-    // TODO - use nonce or hash.  next.js is working on improving this.  Revisit when they do.
+    description: 'urql',
+    // urql has inline script without nonce for data hydration
     'script-src': "'unsafe-inline'",
-    // https://github.com/vercel/next.js/issues/18557#issuecomment-727160210
+    source: '/:path*',
+  },
+  {
+    description: 'nextui',
+    // Uses inline "style:" so unsafe-inline is required in prod and nonce can't be used.
     'style-src': "'unsafe-inline'",
     source: '/:path*',
   },
@@ -60,11 +66,14 @@ export const cspRules = [
     'img-src': 'https://raw.githubusercontent.com',
     source: '/api/graphql',
   },
-
   {
     description: 'sentry',
     'worker-src': 'blob:',
     'connect-src': 'https://o32548.ingest.sentry.io',
     source: '/:path*',
+  },
+  {
+    description: 'sampleimage',
+    'img-src': 'https://picsum.photos/200/300 https://fastly.picsum.photos/ https://i.pravatar.cc/',
   },
 ];

@@ -1,13 +1,12 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import matchesAnyItem from '@/client/utils/matchesAnyItem';
+import { cspConfig, cspRules } from '@/cspRules.mjs';
 import { authConfig } from '@/lib/firebase/config/server-config';
 import { locales, pathnames } from '@/lib/localization/navigation';
+import { applyHeaders, generateSecurityHeaders, type CspRule } from '@enalmada/next-secure';
 import { authentication } from 'next-firebase-auth-edge/lib/next/middleware';
 import createIntlMiddleware from 'next-intl/middleware';
-
-// import { cspConfig, cspRules } from '@/cspRules.mjs';
-// import { applyHeaders, generateSecurityHeaders } from '@enalmada/next-secure';
 
 const PUBLIC_PATHS = ['/register', '/login', '/reset-password'];
 const protectedMatcher = ['/app', '/app/(.)', '/admin', '/admin/(.)'];
@@ -37,8 +36,19 @@ function redirectToLogin(request: NextRequest) {
   return NextResponse.redirect(url);
 }
 
+const filterNames = ['graphiQL', 'nextjs'];
+
+const filteredCspRules = cspRules.filter((rule: CspRule) => {
+  return rule.description && !filterNames.includes(rule.description);
+});
+
 export async function middleware(request: NextRequest) {
-  // const secureHeaders = generateSecurityHeaders(cspConfig, cspRules);
+  const secureHeaders = generateSecurityHeaders(cspConfig, filteredCspRules, undefined, {
+    // due to urql inline script for hydration
+    scriptNonce: false,
+    // due to nextui inline styles
+    styleNonce: false,
+  });
 
   return authentication(request, {
     loginPath: '/api/login',
@@ -55,18 +65,18 @@ export async function middleware(request: NextRequest) {
       //  return redirectToHome(request);
       // }
 
-      return intlMiddleware(request);
-      // return applyHeaders(response, secureHeaders);
+      const response = intlMiddleware(request);
+      return applyHeaders(response, secureHeaders);
     },
     // eslint-disable-next-line @typescript-eslint/require-await
     handleInvalidToken: async () => {
-      return redirectToLogin(request);
-      // return applyHeaders(response, secureHeaders);
+      const response = redirectToLogin(request);
+      return applyHeaders(response, secureHeaders);
     },
     // eslint-disable-next-line @typescript-eslint/require-await,@typescript-eslint/no-unused-vars
     handleError: async (error) => {
-      return redirectToLogin(request);
-      // return applyHeaders(response, secureHeaders);
+      const response = redirectToLogin(request);
+      return applyHeaders(response, secureHeaders);
     },
   });
 }
