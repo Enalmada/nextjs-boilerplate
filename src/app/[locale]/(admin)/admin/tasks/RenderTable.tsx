@@ -1,5 +1,5 @@
 /* eslint-disable no-console,@typescript-eslint/no-unsafe-assignment */
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import { TaskStatus, type Task } from '@/client/gql/generated/graphql';
 import { type Column, type RenderRowProps } from '@enalmada/nextui-admin';
 import { Chip, Tooltip } from '@nextui-org/react';
@@ -17,7 +17,7 @@ export const columns: Column[] = [
   { key: 'dueDate', label: 'Due Date', allowsSorting: true },
 ];
 
-export const renderTable = ({ item: task, columnKey }: TaskRenderRowProps): ReactNode => {
+export const renderTable = ({ item: task, columnKey }: TaskRenderRowProps) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const cellValue = task[columnKey];
