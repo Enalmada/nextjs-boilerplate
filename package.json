@@ -43,7 +43,6 @@
     "pnpm:audit": "pnpm audit --fix",
     "pnpm:outdated": "pnpm outdated -r",
     "pnpm:prune": "pnpm store prune",
-    "postinstall": "patch-package",
     "precommit": "bun lint-staged",
     "prepare": "husky install",
     "review": "node openai.js",
