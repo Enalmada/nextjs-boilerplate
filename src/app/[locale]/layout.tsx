@@ -45,7 +45,7 @@ export default async function LocaleLayout({ children, params = { locale: 'en' }
         )}
       >
         {/* <AxiomWebVitals /> */}
-        <ServerAuthProvider>
+        <ServerAuthProvider nonce={nonce}>
           <NextIntlClientProvider locale={locale} messages={messages}>
             <NextUIWrapper themeProps={{ attribute: 'class', defaultTheme: 'dark', nonce: nonce }}>
               {children}
