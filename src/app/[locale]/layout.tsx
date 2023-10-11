@@ -1,5 +1,6 @@
 import '@/client/styles/index.css';
 
+import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { fontSans } from '@/client/styles/fonts';
 import { NextUIWrapper } from '@/client/ui/NextUIWrapper';
@@ -26,6 +27,7 @@ export const metadata = {
 export default async function LocaleLayout({ children, params = { locale: 'en' } }: Props) {
   const { locale = 'en' } = params;
   let messages: AbstractIntlMessages;
+  const nonce = headers().get('x-nonce') || undefined;
 
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -45,7 +47,7 @@ export default async function LocaleLayout({ children, params = { locale: 'en' }
         {/* <AxiomWebVitals /> */}
         <ServerAuthProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
-            <NextUIWrapper themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
+            <NextUIWrapper themeProps={{ attribute: 'class', defaultTheme: 'dark', nonce: nonce }}>
               {children}
             </NextUIWrapper>
           </NextIntlClientProvider>

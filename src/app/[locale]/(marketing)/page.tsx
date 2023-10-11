@@ -106,7 +106,7 @@ const Feature = ({ isLeftImg, h3Text, pText, imgSrc }: FeatureProps) => {
         </div>
         <div className="w-full p-6 sm:w-1/2">
           {/* <Image alt="" src={imgSrc} unsized /> */}
-          <Image alt="" src={imgSrc} style={{ objectFit: 'contain' }} width={521} height={146} />
+          <Image alt="" src={imgSrc} className="object-contain" width={521} height={146} />
         </div>
       </div>
     );
@@ -116,7 +116,7 @@ const Feature = ({ isLeftImg, h3Text, pText, imgSrc }: FeatureProps) => {
     <div className="flex flex-col-reverse flex-wrap sm:flex-row">
       <div className="mt-6 w-full p-6 sm:w-1/2">
         {/* <Image alt="" src={imgSrc} unsized /> */}
-        <Image alt="" src={imgSrc} style={{ objectFit: 'contain' }} width={521} height={146} />
+        <Image alt="" src={imgSrc} className="object-contain" width={521} height={146} />
       </div>
       <div className="mt-6 flex w-full items-center p-6 sm:w-1/2">
         <div className="align-middle">

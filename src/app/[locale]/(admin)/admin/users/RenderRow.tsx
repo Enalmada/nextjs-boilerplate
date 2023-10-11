@@ -1,5 +1,5 @@
 /* eslint-disable no-console,@typescript-eslint/no-unsafe-assignment */
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import { UserRole, type User } from '@/client/gql/generated/graphql';
 import { type Column, type RenderRowProps } from '@enalmada/nextui-admin';
 import { Chip, Tooltip, User as UserChip } from '@nextui-org/react';
@@ -16,7 +16,7 @@ export const columns: Column[] = [
   { key: 'actions', label: 'ACTIONS', align: 'end' },
 ];
 
-export const renderRow = ({ item: user, columnKey }: UserRenderRowProps): ReactNode => {
+export const renderRow = ({ item: user, columnKey }: UserRenderRowProps) => {
   switch (columnKey) {
     case 'avatar':
       return (

@@ -8,74 +8,7 @@ import './src/env.mjs';
 
 import { withAxiom } from 'next-axiom';
 
-const isDev = process.env.NODE_ENV !== 'production';
-
-/** @type {import("@enalmada/next-secure").ContentSecurityPolicyTemplate} */
-const cspConfig = {
-  isDev,
-  contentSecurityPolicy: {
-    mergeDefaultDirectives: true,
-    'prefetch-src': false, // shouldn't be used
-  },
-  // https://web.dev/referrer-best-practices/
-  referrerPolicy: 'strict-origin-when-cross-origin',
-  // These "false" are included in proposed/standard but cause chrome noise.  Disabling for now.
-  permissionsPolicy: {
-    'ambient-light-sensor': false,
-    battery: false,
-    'document-domain': false,
-    'execution-while-not-rendered': false,
-    'execution-while-out-of-viewport': false,
-    'navigation-override': false,
-    'speaker-selection': false,
-  },
-  permissionsPolicyDirectiveSupport: ['proposed', 'standard'], // default causes tons of console noise
-};
-
-/** @type {import("@enalmada/next-secure").CspRule[]} */
-// https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid#cross_origin_opener_policy
-const cspRules = [
-  { description: 'react-dev', 'object-src': isDev ? 'data:' : undefined, source: '/:path*' },
-  {
-    description: 'firebase',
-    'script-src': 'https://apis.google.com/ https://accounts.google.com/gsi/client',
-    'connect-src':
-      'https://apis.google.com https://accounts.google.com/gsi/ https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://lh3.googleusercontent.com',
-    'img-src': 'https://lh3.googleusercontent.com',
-    'frame-src': `https://accounts.google.com/gsi/ https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/`,
-    source: '/:path*',
-  },
-  {
-    description: 'vercel',
-    'frame-src': 'https://vercel.live/',
-    'script-src': 'https://vercel.live/_next-live/feedback/',
-    source: '/:path*',
-  },
-  {
-    description: 'nextjs',
-    // NextJS requires 'unsafe-inline' in prod?!
-    // TODO - use nonce or hash.  next.js is working on improving this.  Revisit when they do.
-    'script-src': "'unsafe-inline'",
-    // https://github.com/vercel/next.js/issues/18557#issuecomment-727160210
-    'style-src': "'unsafe-inline'",
-    source: '/:path*',
-  },
-  {
-    description: 'graphiQL',
-    'style-src': 'https://unpkg.com/@graphql-yoga/',
-    'script-src': "'unsafe-inline' https://unpkg.com/@graphql-yoga/",
-    'font-src': 'data:',
-    'connect-src': 'https://unpkg.com',
-    'img-src': 'https://raw.githubusercontent.com',
-    source: '/api/graphql',
-  },
-  {
-    description: 'sentry',
-    'worker-src': 'blob:',
-    'connect-src': 'https://o32548.ingest.sentry.io',
-    source: '/:path*',
-  },
-];
+import { cspConfig, cspRules } from './src/cspRules.mjs';
 
 const contentSecurityPolicyTemplates = generateCspTemplates(cspConfig, cspRules);
 
@@ -83,7 +16,7 @@ const contentSecurityPolicyTemplates = generateCspTemplates(cspConfig, cspRules)
 // noinspection JSUnusedLocalSymbols
 /** @type {import("next").NextConfig} */
 const nextConfig = {
-  output: 'standalone',
+  // output: 'standalone',
   poweredByHeader: false,
   reactStrictMode: true,
 
@@ -92,7 +25,7 @@ const nextConfig = {
   },
 
   experimental: {
-    serverActions: true,
+    // serverActions: true,
     // To prevent certain packages from being included in the client bundle
     // https://codevoweb.com/setup-and-use-nextauth-in-nextjs-13-app-directory/
     // serverComponentsExternalPackages: ['@prisma/client', 'bcryptjs'],

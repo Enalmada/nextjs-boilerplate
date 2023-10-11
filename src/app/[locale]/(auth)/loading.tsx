@@ -1,3 +1,3 @@
 export default function LoadingLayout() {
-  return <div style={{ height: '480px', width: '300px' }}></div>;
+  return <div className="h-[30rem] w-[18.75rem]"></div>;
 }

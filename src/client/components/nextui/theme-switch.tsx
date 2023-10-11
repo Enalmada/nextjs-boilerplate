@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { MoonFilledIcon, SunFilledIcon } from '@/client/components/nextui/icons';
+import { useTheme } from '@enalmada/next-themes';
 import { useSwitch } from '@nextui-org/react';
 import { useIsSSR } from '@react-aria/ssr';
 import { VisuallyHidden } from '@react-aria/visually-hidden';
 import clsx, { type ClassValue } from 'clsx';
-import { useTheme } from 'next-themes';
 
 interface ClassNames {
   base?: ClassValue;
@@ -20,6 +20,9 @@ export interface ThemeSwitchProps {
 }
 
 export const ThemeSwitch = ({ id, className, classNames }: ThemeSwitchProps) => {
+  // Note that docs have some check for isMounted for ssr but i believe isSSR probably covers it
+  // https://github.com/pacocoursey/next-themes#avoid-hydration-mismatch
+
   const { theme, setTheme } = useTheme();
   const isSSR = useIsSSR();
   const [isThemeLight, setIsThemeLight] = useState(theme === 'light' || isSSR);

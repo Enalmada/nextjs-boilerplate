@@ -102,10 +102,10 @@ export default function AdminLayout({ children }: Props) {
   const user: UserConfig = {
     displayName: me?.name || 'unavailable',
     email: me?.email || 'unavailable',
-    photoURL: 'https://example.com/photo.jpg',
+    photoURL: 'https://picsum.photos/200/300',
   };
 
-  const trigger: React.ReactNode = (
+  const trigger = (
     <Avatar
       id="avatar"
       isBordered
