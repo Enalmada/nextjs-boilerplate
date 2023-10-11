@@ -1,5 +1,11 @@
 # nextjs-boilerplate
 
+## 0.1.3
+
+### Patch Changes
+
+- f049fb7: fix next.config.mjs vercel deployment
+
 ## 0.1.2
 
 ### Patch Changes
