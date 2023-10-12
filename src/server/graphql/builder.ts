@@ -4,7 +4,7 @@ import SchemaBuilder from '@pothos/core';
 import WithInputPlugin from '@pothos/plugin-with-input';
 import { DateTimeResolver, JSONResolver, NonEmptyStringResolver } from 'graphql-scalars';
 
-import { type MyContextType } from './yoga';
+import { type MyContextType } from './server';
 
 // Complexity taken care of by armor. Use here if not there
 // https://escape.tech/graphql-armor/

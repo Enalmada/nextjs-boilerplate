@@ -1,8 +1,7 @@
 import { TaskStatus, UserRole, type User } from '@/server/db/schema';
-import { type MyContextType } from '@/server/graphql/yoga';
+import { type MyContextType } from '@/server/graphql/server';
 import { defineAbilitiesFor } from '@/server/utils/caslAbility';
 import { packRules } from '@casl/ability/extra';
-import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import UserService from './user.service';
 

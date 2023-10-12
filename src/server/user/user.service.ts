@@ -1,6 +1,6 @@
 import Logger from '@/lib/logging/log-util';
 import { type User } from '@/server/db/schema';
-import { type MyContextType } from '@/server/graphql/yoga';
+import { type MyContextType } from '@/server/graphql/server';
 import { accessCheck } from '@/server/utils/accessCheck';
 import { defineAbilitiesFor } from '@/server/utils/caslAbility';
 import { packRules } from '@casl/ability/extra';

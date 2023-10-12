@@ -1,7 +1,6 @@
 import { UserRole, type Task, type User } from '@/server/db/schema';
 import { defineAbilitiesFor, type AppAbility } from '@/server/utils/caslAbility';
 import { subject } from '@casl/ability';
-import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('Permissions', () => {
   let user: User;

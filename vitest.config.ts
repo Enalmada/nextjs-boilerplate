@@ -9,7 +9,7 @@ export default defineConfig({
   test: {
     exclude: [...configDefaults.exclude, 'src/e2e/*'],
     watch: false,
-    // globals: true, //     "types": ["vitest/globals"]
+    globals: true,
     environmentMatchGlobs: [
       ['src/app/**/api/**', 'node'],
       ['src/(app|client)/**', 'happy-dom'],

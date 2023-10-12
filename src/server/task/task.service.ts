@@ -1,8 +1,8 @@
 import Logger from '@/lib/logging/log-util';
 import { type Task, type TaskInput, type User } from '@/server/db/schema';
 import { NotFoundError, OptimisticLockError } from '@/server/graphql/errors';
+import { type MyContextType } from '@/server/graphql/server';
 import { sortAndPagination, type TableInput } from '@/server/graphql/sortAndPagination';
-import { type MyContextType } from '@/server/graphql/yoga';
 import { accessCheck } from '@/server/utils/accessCheck';
 import { type Page } from '@enalmada/drizzle-helpers';
 
