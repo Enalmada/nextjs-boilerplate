@@ -1,5 +1,11 @@
 # nextjs-boilerplate
 
+## 0.1.4
+
+### Patch Changes
+
+- 8ae929f: next-gql yoga server
+
 ## 0.1.3
 
 ### Patch Changes
