@@ -1,5 +1,3 @@
-import { test } from 'vitest';
-
 import { nanoString } from '../schema'; // Import the actual function you're testing
 
 test('nanoString generates string that starts with prefix', () => {

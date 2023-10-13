@@ -1,5 +1,4 @@
 import type Logger from '@/lib/logging/log-util';
-import { test, vi } from 'vitest';
 
 import { NotAuthorizedError, NotFoundError, OptimisticLockError } from '../errors';
 

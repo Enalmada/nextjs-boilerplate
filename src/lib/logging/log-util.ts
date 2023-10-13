@@ -2,7 +2,7 @@
 // https://giancarlobuomprisco.com/next/how-to-build-production-grade-nextjs-projects
 // https://levelup.gitconnected.com/better-logging-in-next-js-apps-with-pino-f973de4dd8dd
 // https://betterstack.com/community/guides/logging/how-to-install-setup-and-use-pino-to-log-node-js-applications/
-import { type MyContextType } from '@/server/graphql/yoga';
+import { type MyContextType } from '@/server/graphql/server';
 import { Logger as AxiomLogger } from 'next-axiom';
 
 import logLevelData from './log-level';

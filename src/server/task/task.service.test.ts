@@ -1,8 +1,7 @@
 import { TaskStatus, UserRole, type Task, type User } from '@/server/db/schema';
 import { NotAuthorizedError, OptimisticLockError } from '@/server/graphql/errors';
-import { type MyContextType } from '@/server/graphql/yoga';
+import { type MyContextType } from '@/server/graphql/server';
 import { type Page } from '@enalmada/drizzle-helpers';
-import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import TaskService from './task.service';
 

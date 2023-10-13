@@ -5,7 +5,7 @@ import UserService from '@/server/user/user.service';
 import { getFirebaseAuth } from 'next-firebase-auth-edge/lib/auth';
 import { getTokens } from 'next-firebase-auth-edge/lib/next/tokens';
 
-export async function modifiedHandleCreateOrGetUser(req: NextRequest): Promise<User | null> {
+export async function handleCreateOrGetUser(req: NextRequest): Promise<User | null> {
   let firebaseId: string | undefined = undefined;
   let email: string | undefined = undefined;
 

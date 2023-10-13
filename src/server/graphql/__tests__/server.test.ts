@@ -3,9 +3,8 @@ import { ME } from '@/client/gql/queries-mutations';
 import { UserRole, type User } from '@/server/db/schema';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import { print, type ExecutionResult } from 'graphql';
-import { describe, expect, test, vi } from 'vitest';
 
-import { makeYoga } from '../yoga';
+import { graphqlServer } from '../server';
 
 const fixedDate = new Date('2023-08-28T21:37:27.238Z');
 
@@ -42,9 +41,9 @@ const mockServerMe = {
   tasks: null,
 };
 
-vi.mock('@/server/graphql/modifiedHandleCreateOrGetUser', () => {
+vi.mock('@/server/graphql/handleCreateOrGetUser', () => {
   return {
-    modifiedHandleCreateOrGetUser: vi.fn(() => mockUser),
+    handleCreateOrGetUser: vi.fn(() => mockUser),
   };
 });
 
@@ -73,7 +72,7 @@ async function executeOperation<TResult, TVariables>(
   variables?: TVariables extends Record<string, never> ? [] : [TVariables],
   headers?: Record<string, unknown>
 ): Promise<ExecutionResult<TResult>> {
-  const response = await makeYoga('/api/graphql').fetch('http://yoga/api/graphql', {
+  const response = await graphqlServer('/api/graphql').fetch('http://yoga/api/graphql', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -93,7 +92,8 @@ describe('Yoga Tests', () => {
     const result = await executeOperation<MeQuery, MeQueryVariables>(ME, undefined, {});
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    expect(result.errors[0].message).toEqual('Required CSRF header(s) not present');
+    // Due to error masking "Required CSRF header(s) not present" is only available in dev
+    expect(result.errors[0].message).toEqual('Unexpected error.');
   });
 
   test('execute query operation', async () => {
