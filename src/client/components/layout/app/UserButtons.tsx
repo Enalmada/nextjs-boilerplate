@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { UserRole, type MeQuery } from '@/client/gql/generated/graphql';
 import { ME } from '@/client/gql/queries-mutations';
 import { useAuth } from '@/lib/firebase/auth/context';
+import { useQuery } from '@enalmada/next-gql/client';
 import {
   Avatar,
   Button,
@@ -14,7 +15,6 @@ import {
   DropdownTrigger,
   NavbarItem,
 } from '@nextui-org/react';
-import { useQuery } from '@urql/next';
 
 export default function UserButtons() {
   const router = useRouter();

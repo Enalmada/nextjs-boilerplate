@@ -6,9 +6,9 @@ import { type User, type UsersQuery } from '@/client/gql/generated/graphql';
 import { USERS } from '@/client/gql/queries-mutations';
 import { Breadcrumb } from '@/client/ui';
 import { getRouteById } from '@/client/utils/routes';
+import { useQuery } from '@enalmada/next-gql/client';
 import { useTableWrapper } from '@enalmada/nextui-admin';
 import { Input } from '@nextui-org/react';
-import { useQuery } from '@urql/next';
 
 import { columns, renderRow } from './RenderRow';
 

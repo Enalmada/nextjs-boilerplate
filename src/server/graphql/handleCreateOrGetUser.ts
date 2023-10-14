@@ -5,12 +5,12 @@ import UserService from '@/server/user/user.service';
 import { getFirebaseAuth } from 'next-firebase-auth-edge/lib/auth';
 import { getTokens } from 'next-firebase-auth-edge/lib/next/tokens';
 
-export async function handleCreateOrGetUser(req: NextRequest): Promise<User | null> {
+export async function handleCreateOrGetUser(req: Request): Promise<User | null> {
   let firebaseId: string | undefined = undefined;
   let email: string | undefined = undefined;
 
   // Cookie used during normal processing
-  const tokenCookie = await getTokens(req.cookies, authConfig);
+  const tokenCookie = await getTokens((req as NextRequest).cookies, authConfig);
   if (tokenCookie?.decodedToken) {
     firebaseId = tokenCookie.decodedToken.uid;
     email = tokenCookie.decodedToken.email;

@@ -6,6 +6,7 @@ import { useAuthorization } from '@/app/[locale]/(admin)/Authorization';
 import AdminLoading from '@/app/[locale]/(admin)/loading';
 import { type MeQuery } from '@/client/gql/generated/graphql';
 import { ME } from '@/client/gql/queries-mutations';
+import { useQuery } from '@enalmada/next-gql/client';
 import {
   Layout,
   type AdminNavHeader,
@@ -15,7 +16,6 @@ import {
   type UserDropdownConfig,
 } from '@enalmada/nextui-admin';
 import { Avatar } from '@nextui-org/react';
-import { useQuery } from '@urql/next';
 import {
   BiBuildingHouse as AcmeIcon,
   BiCode as CodeIcon,
