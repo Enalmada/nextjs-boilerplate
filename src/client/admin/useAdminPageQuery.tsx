@@ -1,5 +1,5 @@
+import { useQuery } from '@enalmada/next-gql/client';
 import { type PageDescriptor, type SortDescriptor } from '@enalmada/nextui-admin';
-import { useQuery } from '@urql/next';
 import { type DocumentNode } from 'graphql';
 
 type UseAdminPageQueryProps<T> = {

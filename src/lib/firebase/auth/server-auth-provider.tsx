@@ -1,6 +1,7 @@
 import React from 'react';
 import { cookies } from 'next/headers';
-import { UrqlWrapper } from '@/client/gql/UrqlWrapper';
+import { cacheExchange } from '@/client/gql/cacheExchange';
+import { UrqlWrapper as NextGqlProvider } from '@enalmada/next-gql/client/urql/UrqlWrapper';
 import { type Tokens } from 'next-firebase-auth-edge/lib/auth';
 import { filterStandardClaims } from 'next-firebase-auth-edge/lib/auth/claims';
 import { getTokens } from 'next-firebase-auth-edge/lib/next/tokens';
@@ -9,7 +10,7 @@ import { authConfig } from '../config/server-config';
 import { AuthProvider } from './client-auth-provider';
 import { type User } from './context';
 
-const mapTokensToUser = (tokens: Tokens): User => {
+export const mapTokensToUser = (tokens: Tokens): User => {
   const {
     uid,
     email,
@@ -41,12 +42,18 @@ export async function ServerAuthProvider({ children }: { children: React.ReactNo
   const cookieStore = cookies();
   const tokens = await getTokens(cookieStore, authConfig);
   const user = tokens ? mapTokensToUser(tokens) : null;
+  const url = process.env.NEXT_PUBLIC_REDIRECT_URL + '/api/graphql';
 
   return (
     <AuthProvider defaultUser={user}>
-      <UrqlWrapper isLoggedIn={!user} cookie={cookieStore.toString()}>
+      <NextGqlProvider
+        url={url}
+        isLoggedIn={!tokens}
+        cookie={cookieStore.toString()}
+        cacheExchange={cacheExchange}
+      >
         {children}
-      </UrqlWrapper>
+      </NextGqlProvider>
     </AuthProvider>
   );
 }

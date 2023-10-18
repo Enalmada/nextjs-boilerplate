@@ -3,7 +3,7 @@
 import { type MyTasksQuery, type Task } from '@/client/gql/generated/graphql';
 import { MY_TASKS } from '@/client/gql/queries-mutations';
 import { Card, CardBody } from '@/client/ui';
-import { useQuery } from '@urql/next';
+import { useQuery } from '@enalmada/next-gql/client';
 
 import TaskRender, { TaskBody } from './Task';
 
