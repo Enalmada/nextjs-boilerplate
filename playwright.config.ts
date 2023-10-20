@@ -9,7 +9,7 @@ const __dirname = dirname(__filename);
 const PORT = process.env.PORT || 3000;
 
 // Set webServer.url and use.baseURL with the location of the WebServer respecting the correct set port
-const baseURL = `http://localhost:${PORT}`;
+const baseURL = process.env.PLAYWRIGHT_TEST_BASE_URL || `http://localhost:${PORT}`;
 
 // Reference: https://playwright.dev/docs/test-configuration
 export default defineConfig({
@@ -38,12 +38,14 @@ export default defineConfig({
 
   // Run your local dev server before starting the tests:
   // https://playwright.dev/docs/test-advanced#launching-a-development-web-server-during-the-tests
+  /*
   webServer: {
     command: 'bun run dev:only',
     url: baseURL,
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
   },
+  */
 
   use: {
     // Use baseURL so to make navigations relative.

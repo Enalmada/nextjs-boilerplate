@@ -1,6 +1,7 @@
 import React from 'react';
 import { cookies } from 'next/headers';
 import { cacheExchange } from '@/client/gql/cacheExchange';
+import { baseURL } from '@/metadata.config';
 import { UrqlWrapper as NextGqlProvider } from '@enalmada/next-gql/client/urql/UrqlWrapper';
 import { type Tokens } from 'next-firebase-auth-edge/lib/auth';
 import { filterStandardClaims } from 'next-firebase-auth-edge/lib/auth/claims';
@@ -42,7 +43,7 @@ export async function ServerAuthProvider({ children }: { children: React.ReactNo
   const cookieStore = cookies();
   const tokens = await getTokens(cookieStore, authConfig);
   const user = tokens ? mapTokensToUser(tokens) : null;
-  const url = process.env.NEXT_PUBLIC_REDIRECT_URL + '/api/graphql';
+  const url = `${baseURL}/api/graphql`;
 
   return (
     <AuthProvider defaultUser={user}>

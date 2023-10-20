@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { baseURL } from '@/metadata.config';
 import { type User } from '@/server/db/schema';
 import { handleCreateOrGetUser } from '@/server/graphql/handleCreateOrGetUser';
 import { schema } from '@/server/graphql/schema';
@@ -22,7 +23,7 @@ export function graphqlServer(graphqlEndpoint: string) {
     schema,
     graphqlEndpoint,
     cors: {
-      origin: process.env.NEXT_PUBLIC_REDIRECT_URL,
+      origin: baseURL,
     },
     handleCreateOrGetUser,
     logError,

@@ -1,10 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:js-app",
-    ":automergeMajor",
-    "schedule:automergeEarlyMondays",
-  ],
+  "extends": ["config:js-app", ":automergeMajor", "schedule:automergeEarlyMondays"],
   "packageRules": [
     {
       "matchDatasources": ["npm"],
