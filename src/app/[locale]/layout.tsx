@@ -5,6 +5,8 @@ import { notFound } from 'next/navigation';
 import { fontSans } from '@/client/styles/fonts';
 import { NextUIWrapper } from '@/client/ui/NextUIWrapper';
 import { ServerAuthProvider } from '@/lib/firebase/auth/server-auth-provider';
+import { timeZone } from '@/lib/localization/i18n';
+import { locales } from '@/lib/localization/navigation';
 import metadataConfig from '@/metadata.config';
 import clsx from 'clsx';
 import { NextIntlClientProvider, type AbstractIntlMessages } from 'next-intl';
@@ -26,8 +28,11 @@ export const metadata = {
 
 export default async function LocaleLayout({ children, params = { locale: 'en' } }: Props) {
   const { locale = 'en' } = params;
-  let messages: AbstractIntlMessages;
   const nonce = headers().get('x-nonce') || undefined;
+  let messages: AbstractIntlMessages;
+
+  // Validate that the incoming `locale` parameter is valid
+  if (!locales.includes(locale)) notFound();
 
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -46,7 +51,7 @@ export default async function LocaleLayout({ children, params = { locale: 'en' }
       >
         {/* <AxiomWebVitals /> */}
         <ServerAuthProvider nonce={nonce}>
-          <NextIntlClientProvider locale={locale} messages={messages}>
+          <NextIntlClientProvider locale={locale} messages={messages} timeZone={timeZone}>
             <NextUIWrapper themeProps={{ attribute: 'class', defaultTheme: 'dark', nonce: nonce }}>
               {children}
             </NextUIWrapper>

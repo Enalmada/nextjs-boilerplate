@@ -20,6 +20,7 @@ const intlMiddleware = createIntlMiddleware({
   defaultLocale,
   localeDetection: false,
   pathnames,
+  localePrefix: 'as-needed',
 });
 
 function redirectToLogin(request: NextRequest) {
