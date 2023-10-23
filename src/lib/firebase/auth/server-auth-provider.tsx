@@ -39,7 +39,13 @@ export const mapTokensToUser = (tokens: Tokens): User => {
 // I would prefer AuthProvider and UrqlWrapper separate but I would need to create
 // a ServerUrqlWrapper that immediately fetches the same data (tokens and cookies).
 // feels like a waste so combining for now.
-export async function ServerAuthProvider({ children }: { children: React.ReactNode }) {
+export async function ServerAuthProvider({
+  nonce,
+  children,
+}: {
+  nonce?: string;
+  children: React.ReactNode;
+}) {
   const cookieStore = cookies();
   const tokens = await getTokens(cookieStore, authConfig);
   const user = tokens ? mapTokensToUser(tokens) : null;
@@ -52,6 +58,7 @@ export async function ServerAuthProvider({ children }: { children: React.ReactNo
         isLoggedIn={!tokens}
         cookie={cookieStore.toString()}
         cacheExchange={cacheExchange}
+        nonce={nonce}
       >
         {children}
       </NextGqlProvider>

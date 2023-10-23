@@ -1,6 +1,7 @@
 import { createLocalizedPathnamesNavigation, type Pathnames } from 'next-intl/navigation';
 
 export const locales = ['en', 'es', 'ru'] as const;
+export type Locale = (typeof locales)[number];
 
 // The `pathnames` object holds pairs of internal
 // and external paths, separated by locale.

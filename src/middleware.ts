@@ -20,6 +20,7 @@ const intlMiddleware = createIntlMiddleware({
   defaultLocale,
   localeDetection: false,
   pathnames,
+  localePrefix: 'as-needed',
 });
 
 function redirectToLogin(request: NextRequest) {
@@ -44,10 +45,8 @@ const filteredCspRules = cspRules.filter((rule: CspRule) => {
 
 export async function middleware(request: NextRequest) {
   const secureHeaders = generateSecurityHeaders(cspConfig, filteredCspRules, undefined, {
-    // due to urql inline script for hydration
-    scriptNonce: false,
-    // due to nextui inline styles
-    styleNonce: false,
+    scriptNonce: true,
+    styleNonce: false, // due to nextui inline styles
   });
 
   return authentication(request, {

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
+import type * as url from 'url';
 import NextLink from 'next/link';
 import { Link as IntlLink } from '@/lib/localization/navigation';
 import { Link as NextUILink, type LinkProps as NextUILinkProps } from '@nextui-org/react';
@@ -12,7 +13,7 @@ type CombinedLinkProps = Omit<NextUILinkProps, OverriddenProps>;
 interface LinkProps extends CombinedLinkProps {
   children?: React.ReactNode;
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-  href: string | import('url').UrlObject;
+  href: string | url.UrlObject;
 }
 
 export default function Link(props: LinkProps) {
