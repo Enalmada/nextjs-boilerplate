@@ -67,7 +67,7 @@
     "@ducanh2912/next-pwa": "9.7.2",
     "@enalmada/drizzle-helpers": "0.0.10",
     "@enalmada/env-valibot": "0.0.7",
-    "@enalmada/next-gql": "file:../public/next-gql/enalmada-next-gql-0.0.5.tgz",
+    "@enalmada/next-gql": "0.0.6",
     "@enalmada/next-secure": "0.2.2",
     "@enalmada/next-themes": "0.2.4",
     "@enalmada/nextui-admin": "0.0.8",
