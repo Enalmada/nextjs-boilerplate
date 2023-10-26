@@ -44,7 +44,7 @@ builder.queryField('task', (t) =>
       id: t.arg.id({ required: true }),
     },
     nullable: true,
-    resolve: async (root, args, ctx) => {
+    resolve: async (_root, args, ctx) => {
       return new TaskService().task(ctx.currentUser, args.id as string, ctx);
     },
   })
@@ -87,7 +87,7 @@ builder.queryField('tasksPage', (t) =>
       order: t.input.field({ type: OrderInputType, required: false }),
       pagination: t.input.field({ type: PaginationInputType, required: false }),
     },
-    resolve: async (root, args, ctx) => {
+    resolve: async (_root, args, ctx) => {
       const page = await new TaskService().tasks(ctx.currentUser, args.input as TasksInput, ctx);
       return {
         hasMore: page.hasMore,
@@ -107,7 +107,7 @@ builder.mutationField('createTask', (t) =>
       dueDate: t.input.field({ type: 'DateTime' }),
     },
     // errors: {},
-    resolve: async (root, args, ctx) => {
+    resolve: async (_root, args, ctx) => {
       const input: TaskInput = {
         ...args.input,
         userId: ctx.currentUser.id,
@@ -133,7 +133,7 @@ builder.mutationField('updateTask', (t) =>
       dueDate: t.input.field({ type: 'DateTime' }),
       version: t.input.int({ required: true }),
     },
-    resolve: async (root, args, ctx) => {
+    resolve: async (_root, args, ctx) => {
       const input: TaskInput = {
         ...args.input,
         userId: ctx.currentUser.id,
@@ -151,7 +151,7 @@ builder.mutationField('deleteTask', (t) =>
     args: {
       id: t.arg.id({ required: true }),
     },
-    resolve: async (root, args, ctx) => {
+    resolve: async (_root, args, ctx) => {
       return new TaskService().delete(ctx.currentUser, args.id as string, ctx);
     },
   })
