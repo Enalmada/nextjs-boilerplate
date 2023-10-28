@@ -56,7 +56,7 @@ export async function ServerAuthProvider({
       <NextGqlProvider
         url={url}
         isLoggedIn={!tokens}
-        cookie={cookieStore.toString()}
+        cookie={JSON.stringify(cookieStore)}
         cacheExchange={cacheExchange}
         nonce={nonce}
       >
