@@ -69,7 +69,7 @@
     "@enalmada/env-valibot": "0.0.7",
     "@enalmada/next-gql": "0.0.6",
     "@enalmada/next-gql-codegen": "0.0.3",
-    "@enalmada/next-secure": "^0.2.2",
+    "@enalmada/next-secure": "0.2.2",
     "@enalmada/next-themes": "0.2.4",
     "@enalmada/nextui-admin": "0.0.8",
     "@firebase/util": "1.9.3",
