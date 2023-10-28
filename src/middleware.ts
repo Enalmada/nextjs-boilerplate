@@ -58,7 +58,7 @@ export async function middleware(request: NextRequest) {
     cookieSignatureKeys: authConfig.cookieSignatureKeys,
     serviceAccount: authConfig.serviceAccount,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/require-await
-    handleValidToken: async ({ token, decodedToken }) => {
+    handleValidToken: async ({ token, decodedToken }, headers) => {
       // Authenticated user should not be able to access /login, /register and /reset-password routes
       // if (PUBLIC_PATHS.includes(request.nextUrl.pathname)) {
       //  return redirectToHome(request);

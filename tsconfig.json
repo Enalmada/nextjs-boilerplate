@@ -20,7 +20,9 @@
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      // Necessary to solve next request being out of sync with 3rd party peer dependencies
+      "next/*": ["./node_modules/next/*"]
     },
     "plugins": [
       {
@@ -39,6 +41,7 @@
     "*.mjs",
     ".next/types/**/*.ts",
     "drizzle.config.ts",
+    "codegen.ts",
     "playwright.config.ts"
   ],
   "exclude": ["node_modules", "packages/**"]

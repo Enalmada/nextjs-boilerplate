@@ -7,7 +7,7 @@ import { NextUIWrapper } from '@/client/ui/NextUIWrapper';
 import { ServerAuthProvider } from '@/lib/firebase/auth/server-auth-provider';
 import { timeZone } from '@/lib/localization/i18n';
 import { locales } from '@/lib/localization/navigation';
-import metadataConfig from '@/metadata.config';
+import metadataConfig, { viewportConfig } from '@/metadata.config';
 import clsx from 'clsx';
 import { NextIntlClientProvider, type AbstractIntlMessages } from 'next-intl';
 
@@ -18,12 +18,12 @@ type Props = {
   };
 };
 
+export const viewport = {
+  ...viewportConfig,
+};
+
 export const metadata = {
   ...metadataConfig,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
 };
 
 export default async function LocaleLayout({ children, params = { locale: 'en' } }: Props) {

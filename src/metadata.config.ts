@@ -1,6 +1,5 @@
 // https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadata-fields
-
-import { type Metadata } from 'next';
+import { type Metadata, type Viewport } from 'next';
 import {
   type ColorSchemeEnum,
   type ReferrerEnum,
@@ -18,6 +17,14 @@ export const baseURL = process.env.NEXT_PUBLIC_VERCEL_URL
 // move favicon-32x32.png to /app and rename to favicon.png
 // remove favicon-16x16.png and safari-pinned-tap.svg
 // Update site.webmanifest with correct values
+
+export const viewportConfig: Viewport = {
+  colorScheme: 'dark' as ColorSchemeEnum,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'white' },
+    { media: '(prefers-color-scheme: dark)', color: 'black' },
+  ],
+};
 
 export const config = {
   siteUrl: 'ToDoApp.com',
@@ -39,10 +46,8 @@ export const basicFields: Metadata = {
   applicationName: config.siteUrl,
   referrer: 'strict-origin-when-cross-origin' as ReferrerEnum, // https://web.dev/referrer-best-practices/
   authors: [{ name: 'Adam Lane' }],
-  colorScheme: 'dark' as ColorSchemeEnum,
   creator: 'Adam Lane',
   publisher: 'Lane Business Consulting',
-  themeColor: 'black',
   openGraph: {
     title: config.applicationName,
     description: config.description,
