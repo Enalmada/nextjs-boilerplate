@@ -1,5 +1,13 @@
 # nextjs-boilerplate
 
+## 0.1.5
+
+### Patch Changes
+
+- 03349da: next-gql graphql-codegen
+- 03349da: nextjs 14
+- 89911bf: next-gql pothos
+
 ## 0.1.4
 
 ### Patch Changes
