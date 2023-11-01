@@ -6,9 +6,11 @@ import { MarketingLayout } from '@/app/[locale]/(marketing)/MarketingLayout';
 // Using the searchParams Pages prop will opt the page into dynamic rendering at request time.
 // https://nextjs.org/docs/app/building-your-application/rendering/static-and-dynamic-rendering#dynamic-functions
 
+/*
 export function generateStaticParams() {
   return [{ locale: 'en' }, { locale: 'es' }, { locale: 'ru' }];
 }
+*/
 
 type Props = {
   children: React.ReactNode;
