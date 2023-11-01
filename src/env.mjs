@@ -1,11 +1,11 @@
 // @ts-check
 import { createEnvSchema, required, validateEnv } from '@enalmada/env-valibot';
-import { enumType, optional, string } from 'valibot';
+import { optional, picklist, string } from 'valibot';
 
 const serverSchema = createEnvSchema({
-  LOG_LEVEL: enumType(['debug', 'info', 'warn', 'error']),
+  LOG_LEVEL: picklist(['debug', 'info', 'warn', 'error']),
   ANALYZE: optional(string()),
-  APP_ENV: enumType(['local', 'development', 'staging', 'production']),
+  APP_ENV: picklist(['local', 'development', 'staging', 'production']),
   DATABASE_URL: required('DATABASE_URL'),
   FIREBASE_ADMIN_CLIENT_EMAIL: required('FIREBASE_ADMIN_CLIENT_EMAIL'),
   FIREBASE_ADMIN_PRIVATE_KEY: required('FIREBASE_ADMIN_PRIVATE_KEY'),
