@@ -16,7 +16,7 @@ const contentSecurityPolicyTemplates = generateCspTemplates(cspConfig, cspRules)
 // noinspection JSUnusedLocalSymbols
 /** @type {import("next").NextConfig} */
 const nextConfig = {
-  // output: 'standalone',
+  output: 'standalone',
   poweredByHeader: false,
   reactStrictMode: true,
 
@@ -25,6 +25,7 @@ const nextConfig = {
   },
 
   experimental: {
+    webpackBuildWorker: true,
     // serverActions: true,
     // To prevent certain packages from being included in the client bundle
     // https://codevoweb.com/setup-and-use-nextauth-in-nextjs-13-app-directory/
