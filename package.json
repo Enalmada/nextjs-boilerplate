@@ -94,7 +94,7 @@
     "next-firebase-auth-edge": "0.9.3",
     "next-intl": "3.0.0-rc.6",
     "nextjs-routes": "2.0.1",
-    "postgres": "3.4.2",
+    "postgres": "3.4.3",
     "react": "18.2.0",
     "react-day-picker": "8.9.1",
     "react-dom": "18.2.0",
