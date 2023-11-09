@@ -88,7 +88,7 @@
     "framer-motion": "10.16.4",
     "graphql": "16.8.1",
     "graphql-web-lite": "16.6.0-4",
-    "nanoid": "5.0.2",
+    "nanoid": "5.0.3",
     "next": "14.0.1",
     "next-axiom": "1.1.0",
     "next-firebase-auth-edge": "0.10.1",
