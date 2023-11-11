@@ -79,7 +79,7 @@
     "@pothos/core": "3.38.0",
     "@react-aria/ssr": "3.8.0",
     "@react-aria/visually-hidden": "3.8.6",
-    "@sentry/cli": "2.21.2",
+    "@sentry/cli": "2.21.3",
     "@sentry/nextjs": "7.78.0",
     "clsx": "2.0.0",
     "date-fns": "2.30.0",
