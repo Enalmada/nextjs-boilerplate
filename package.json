@@ -77,7 +77,7 @@
     "@hookform/resolvers": "3.3.2",
     "@nextui-org/react": "2.2.6",
     "@pothos/core": "3.38.0",
-    "@react-aria/ssr": "3.8.0",
+    "@react-aria/ssr": "3.9.0",
     "@react-aria/visually-hidden": "3.8.6",
     "@sentry/cli": "2.21.3",
     "@sentry/nextjs": "7.79.0",
