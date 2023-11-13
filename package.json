@@ -84,7 +84,7 @@
     "clsx": "2.0.0",
     "date-fns": "2.30.0",
     "drizzle-orm": "0.28.6",
-    "firebase": "10.5.2",
+    "firebase": "10.6.0",
     "framer-motion": "10.16.4",
     "graphql": "16.8.1",
     "graphql-web-lite": "16.6.0-4",
