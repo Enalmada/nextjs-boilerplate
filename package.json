@@ -150,7 +150,7 @@
     "fixpack": "4.0.0",
     "happy-dom": "12.10.3",
     "husky": "8.0.3",
-    "lint-staged": "15.0.2",
+    "lint-staged": "15.1.0",
     "postcss": "8.4.31",
     "prettier": "3.0.3",
     "prettier-plugin-tailwindcss": "0.5.7",
