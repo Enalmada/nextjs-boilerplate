@@ -83,7 +83,7 @@
     "@sentry/nextjs": "7.80.1",
     "clsx": "2.0.0",
     "date-fns": "2.30.0",
-    "drizzle-orm": "0.28.6",
+    "drizzle-orm": "0.29.0",
     "firebase": "10.6.0",
     "framer-motion": "10.16.4",
     "graphql": "16.8.1",
