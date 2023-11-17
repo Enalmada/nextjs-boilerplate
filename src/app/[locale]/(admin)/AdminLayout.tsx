@@ -93,9 +93,13 @@ interface Props {
 export default function AdminLayout({ children }: Props) {
   const [{ data: dataQuery, error: errorQuery }] = useQuery<MeQuery>({ query: ME });
 
-  useAuthorization(dataQuery?.me);
+  const hasAuthorization = useAuthorization(dataQuery?.me);
 
   if (errorQuery) return <div>{`Error! ${errorQuery.message}`}</div>;
+
+  if (!hasAuthorization) {
+    return <AdminLoading />;
+  }
 
   const me = dataQuery?.me;
 
