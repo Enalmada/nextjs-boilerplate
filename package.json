@@ -109,7 +109,7 @@
     "@commitlint/cli": "18.4.1",
     "@commitlint/config-conventional": "18.4.0",
     "@enalmada/storybook-addon-mock-urql": "0.0.3",
-    "@faker-js/faker": "8.2.0",
+    "@faker-js/faker": "8.3.1",
     "@ianvs/prettier-plugin-sort-imports": "4.1.1",
     "@next/bundle-analyzer": "14.0.2",
     "@parcel/watcher": "2.3.0",
