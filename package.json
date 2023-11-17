@@ -6,6 +6,7 @@
     "aws:sso:login": "aws sso login --profile=lbc-dev",
     "build": "next build",
     "build-storybook": "storybook build",
+    "bun:maintenance": "bun upgrade && ncu -s",
     "cf:build": "bunx @cloudflare/next-on-pages",
     "cf:build:watch": "bunx @cloudflare/next-on-pages --watch",
     "cf:clean": "ps aux | grep \"@cloudflare/workerd-linux-64/bin/workerd serve\" | grep -v grep | awk '{print $2}' | xargs kill -9",
