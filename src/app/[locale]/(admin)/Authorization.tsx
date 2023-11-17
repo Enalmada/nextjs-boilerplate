@@ -15,7 +15,9 @@ export const useAuthorization = (me?: User | null) => {
   const hasAuthorization = useMemo(() => {
     const ability = createMongoAbility();
 
-    if (!me?.rules) return false;
+    if (!me?.rules) {
+      return false;
+    }
 
     const rules = JSON.parse(me.rules as string) as PackRule<
       SubjectRawRule<string, SubjectType, unknown>
@@ -27,7 +29,6 @@ export const useAuthorization = (me?: User | null) => {
     >[];
 
     ability.update(unpackedRules);
-
     return ability.can('manage', 'all');
   }, [me?.rules]);
 
@@ -36,4 +37,6 @@ export const useAuthorization = (me?: User | null) => {
       redirect('/');
     }
   }, [hasAuthorization]);
+
+  return hasAuthorization;
 };
