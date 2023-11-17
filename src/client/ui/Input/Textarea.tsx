@@ -12,7 +12,7 @@ interface InputProps extends NextUITextAreaProps {
   radius?: 'sm' | 'md' | 'lg' | 'none' | 'full' | undefined;
 }
 
-export const Textarea = React.forwardRef<HTMLInputElement, InputProps>(function Textarea(
+export const Textarea = React.forwardRef<HTMLTextAreaElement, InputProps>(function Textarea(
   { radius = 'sm', ...props },
   ref
 ) {
@@ -33,7 +33,7 @@ export const TextareaControlled = (args: ControlProps & InputProps) => {
           {...args}
           label={args.label}
           labelPlacement={args.labelPlacement || 'outside'}
-          validationState={errorMessage ? 'invalid' : 'valid'}
+          isInvalid={!!errorMessage}
           errorMessage={errorMessage}
         />
       )}

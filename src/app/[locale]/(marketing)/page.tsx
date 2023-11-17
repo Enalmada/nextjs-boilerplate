@@ -5,10 +5,10 @@ import NextLink from 'next/link';
 import { Hero } from '@/app/[locale]/(marketing)/IndexContent';
 import { Button } from '@/client/ui';
 import { getRouteById } from '@/client/utils/routes';
-import { getTranslator } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const t = await getTranslator(params.locale, 'Index');
+  const t = await getTranslations({ locale: params.locale, namespace: 'Index' });
 
   return {
     title: t('home'),
