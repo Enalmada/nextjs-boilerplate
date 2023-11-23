@@ -160,7 +160,7 @@
     "storybook-addon-mock": "4.3.0",
     "storybook-dark-mode": "3.0.1",
     "tailwindcss": "3.3.5",
-    "typescript": "5.2.2",
+    "typescript": "5.3.2",
     "vitest": "0.34.6"
   },
   "author": {
