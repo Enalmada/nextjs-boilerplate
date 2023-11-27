@@ -1,6 +1,6 @@
 {
   "name": "nextjs-boilerplate",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "scripts": {
     "analyze": "cross-env ANALYZE=true bun run local:build",
     "aws:sso:login": "aws sso login --profile=lbc-dev",

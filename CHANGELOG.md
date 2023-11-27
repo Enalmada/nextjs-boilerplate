@@ -1,5 +1,11 @@
 # nextjs-boilerplate
 
+## 0.1.6
+
+### Patch Changes
+
+- 31cfbdf: changes necessary for: next-intl 3, next-ui routing
+
 ## 0.1.5
 
 ### Patch Changes
