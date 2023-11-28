@@ -18,7 +18,7 @@ export const defaultLocale = 'en';
 const intlMiddleware = createIntlMiddleware({
   locales,
   defaultLocale,
-  localeDetection: false,
+  localeDetection: true, // true necessary for playwright
   pathnames,
   localePrefix: 'as-needed',
 });
