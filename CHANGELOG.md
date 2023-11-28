@@ -1,5 +1,11 @@
 # nextjs-boilerplate
 
+## 0.1.7
+
+### Patch Changes
+
+- 57151b3: localeDetection true to fix playwright
+
 ## 0.1.6
 
 ### Patch Changes
