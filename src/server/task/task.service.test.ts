@@ -1,12 +1,15 @@
-import { TaskStatus, UserRole, type Task, type User } from '@/server/db/schema';
+import { TaskStatus, type Task } from '@/server/db/schema';
 import { NotAuthorizedError, OptimisticLockError } from '@/server/graphql/errors';
 import { type MyContextType } from '@/server/graphql/server';
+import { mockAdminCtx, mockCtx, mockUserId, mockWrongCtx } from '@/server/user/user.service.test';
 import { type Page } from '@enalmada/drizzle-helpers';
 
 import TaskService from './task.service';
 
-const mockTask: Task = {
-  id: 'tsk_1',
+const mockTaskId = 'tsk_1';
+
+export const mockTask: Task = {
+  id: mockTaskId,
   title: 'Task 1',
   description: null,
   dueDate: new Date(),
@@ -14,19 +17,7 @@ const mockTask: Task = {
   updatedAt: new Date(),
   status: TaskStatus.ACTIVE,
   version: 1,
-  userId: 'usr_1',
-};
-
-const mockUser: User = {
-  id: 'usr_1',
-  name: 'name',
-  email: 'email@email.com',
-  image: null,
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  version: 1,
-  firebaseId: 'random',
-  role: UserRole.MEMBER,
+  userId: mockUserId,
 };
 
 const mockPage: Page<Task> = {
@@ -57,23 +48,17 @@ describe('TaskService', () => {
     it('should throw Error if no user is provided', async () => {
       const service = new TaskService();
       const ctx: MyContextType = { currentUser: null! };
-      await expect(service.tasks(null!, undefined, ctx)).rejects.toThrow(Error);
+      await expect(service.tasks(undefined, ctx)).rejects.toThrow(Error);
     });
 
     it('should throw NotAuthorizedError for member', async () => {
       const service = new TaskService();
-      const ctx: MyContextType = { currentUser: mockUser };
-      await expect(service.tasks(mockUser, undefined, ctx)).rejects.toThrow(NotAuthorizedError);
+      await expect(service.tasks(undefined, mockCtx)).rejects.toThrow(NotAuthorizedError);
     });
 
     it('should return tasks for admin users', async () => {
       const service = new TaskService();
-      const adminUser: User = {
-        ...mockUser,
-        role: UserRole.ADMIN,
-      };
-      const ctx: MyContextType = { currentUser: adminUser };
-      const result = await service.tasks(adminUser, undefined, ctx);
+      const result = await service.tasks(undefined, mockAdminCtx);
       expect(result).toEqual(mockPage);
     });
   });
@@ -81,20 +66,12 @@ describe('TaskService', () => {
   describe('task', () => {
     it('should throw NotAuthorizedError for unauthorized task read', async () => {
       const service = new TaskService();
-      const wrongUser: User = {
-        ...mockUser,
-        id: 'wrong_usr_random',
-      };
-      const ctx: MyContextType = { currentUser: wrongUser };
-
-      await expect(service.task(wrongUser, '1', ctx)).rejects.toThrow(NotAuthorizedError);
+      await expect(service.task(mockTaskId, mockWrongCtx)).rejects.toThrow(NotAuthorizedError);
     });
 
     it('should return task for authorized task read', async () => {
       const service = new TaskService();
-      const ctx: MyContextType = { currentUser: mockUser };
-
-      const result = await service.task(mockUser, '1', ctx);
+      const result = await service.task(mockTaskId, mockCtx);
       expect(result).toEqual(mockTask);
     });
   });
@@ -102,11 +79,7 @@ describe('TaskService', () => {
   describe('create', () => {
     it('should return task for create', async () => {
       const service = new TaskService();
-      const ctx: MyContextType = { currentUser: mockUser };
-      const input = {
-        ...mockTask,
-      };
-      const result = await service.create(mockUser, input, ctx);
+      const result = await service.create(mockTask, mockCtx);
       expect(result).toEqual(mockTask);
     });
   });
@@ -114,16 +87,7 @@ describe('TaskService', () => {
   describe('update', () => {
     it('should throw NotAuthorizedError for unauthorized task update', async () => {
       const service = new TaskService();
-      const wrongUser: User = {
-        ...mockUser,
-        id: 'wrong_usr_random',
-      };
-      const input = {
-        ...mockTask,
-      };
-      const ctx: MyContextType = { currentUser: wrongUser };
-
-      await expect(service.update(wrongUser, 'tsk_1', input, ctx)).rejects.toThrow(
+      await expect(service.update(mockTaskId, mockTask, mockWrongCtx)).rejects.toThrow(
         NotAuthorizedError
       );
     });
@@ -135,20 +99,13 @@ describe('TaskService', () => {
         ...mockTask,
         version: 2,
       };
-      const ctx: MyContextType = { currentUser: mockUser };
 
-      await expect(service.update(mockUser, 'tsk_1', input, ctx)).rejects.toThrow(
-        OptimisticLockError
-      );
+      await expect(service.update(mockTaskId, input, mockCtx)).rejects.toThrow(OptimisticLockError);
     });
 
     it('should return task for authorized task update', async () => {
       const service = new TaskService();
-      const ctx: MyContextType = { currentUser: mockUser };
-      const input = {
-        ...mockTask,
-      };
-      const result = await service.update(mockUser, 'tsk_1', input, ctx);
+      const result = await service.update(mockTaskId, mockTask, mockCtx);
       expect(result).toEqual(mockTask);
     });
   });
@@ -156,8 +113,7 @@ describe('TaskService', () => {
   describe('delete', () => {
     it('should return task for delete', async () => {
       const service = new TaskService();
-      const ctx: MyContextType = { currentUser: mockUser };
-      const result = await service.delete(mockUser, 'tsk_1', ctx);
+      const result = await service.delete(mockTaskId, mockCtx);
       expect(result).toEqual(mockTask);
     });
   });
