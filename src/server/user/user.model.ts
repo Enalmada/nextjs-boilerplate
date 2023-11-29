@@ -34,7 +34,7 @@ UserType.implement({
         const input: TasksInput = {
           where: { userId: user.id },
         };
-        const page = await new TaskService().tasks(user, input, ctx);
+        const page = await new TaskService().tasks(input, ctx);
         return page.result;
       },
     }),
