@@ -131,7 +131,7 @@
     "@testing-library/react": "14.1.2",
     "@total-typescript/ts-reset": "0.5.1",
     "@types/cookie": "0.6.0",
-    "@types/eslint": "8.44.7",
+    "@types/eslint": "8.44.8",
     "@types/node": "20.10.1",
     "@types/react": "18.2.39",
     "@types/react-dom": "18.2.17",
