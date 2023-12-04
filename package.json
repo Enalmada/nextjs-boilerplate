@@ -86,7 +86,7 @@
     "date-fns": "2.30.0",
     "drizzle-orm": "0.29.1",
     "firebase": "10.7.0",
-    "framer-motion": "10.16.9",
+    "framer-motion": "10.16.10",
     "graphql": "16.8.1",
     "graphql-web-lite": "16.6.0-4",
     "nanoid": "5.0.3",
