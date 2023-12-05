@@ -152,7 +152,7 @@
     "happy-dom": "12.10.3",
     "husky": "8.0.3",
     "lint-staged": "15.1.0",
-    "postcss": "8.4.31",
+    "postcss": "8.4.32",
     "prettier": "3.1.0",
     "prettier-plugin-tailwindcss": "0.5.7",
     "start-server-and-test": "2.0.3",
