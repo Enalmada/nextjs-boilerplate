@@ -133,7 +133,7 @@
     "@types/cookie": "0.6.0",
     "@types/eslint": "8.44.8",
     "@types/node": "20.10.2",
-    "@types/react": "18.2.39",
+    "@types/react": "18.2.40",
     "@types/react-dom": "18.2.17",
     "@typescript-eslint/eslint-plugin": "6.13.1",
     "@typescript-eslint/parser": "6.13.1",
