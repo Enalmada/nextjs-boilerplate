@@ -140,3 +140,11 @@ export const TASKS_PAGE = gql`
   }
   ${TASK_PARTS}
 `;
+
+export const UPLOAD_FILE = gql`
+  mutation UploadFile($file: File!) {
+    uploadFile(file: $file) {
+      filename
+    }
+  }
+`;

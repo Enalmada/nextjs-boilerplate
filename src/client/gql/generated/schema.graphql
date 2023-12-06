@@ -3,6 +3,8 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+scalar File
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -13,6 +15,7 @@ type Mutation {
   createTask(input: MutationCreateTaskInput!): Task!
   deleteTask(id: ID!): Task
   updateTask(id: ID!, input: MutationUpdateTaskInput!): Task
+  uploadFile(file: File!): UploadResponse!
 }
 
 input MutationCreateTaskInput {
@@ -87,6 +90,10 @@ enum TaskStatus {
 input TaskWhere {
   id: String
   title: String
+}
+
+type UploadResponse {
+  filename: String!
 }
 
 type User {
