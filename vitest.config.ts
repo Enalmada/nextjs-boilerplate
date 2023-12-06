@@ -7,6 +7,14 @@ import { configDefaults, defineConfig } from 'vitest/config';
 export default defineConfig({
   plugins: [react()],
   test: {
+    // Graphql is loaded twice and this seems to fix it
+    // https://github.com/vitejs/vite/issues/7879
+    // https://github.com/vitest-dev/vitest/issues/2806#issuecomment-1474468560
+    server: {
+      deps: {
+        inline: [/^(?!.*vitest).*$/],
+      },
+    },
     exclude: [...configDefaults.exclude, 'src/e2e/*'],
     watch: false,
     globals: true,

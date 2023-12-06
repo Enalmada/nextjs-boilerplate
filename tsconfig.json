@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["dom", "dom.iterable", "ES2023"],
-    "types": ["vitest/globals"],
+    "types": ["vitest/globals", "bun-types"],
 
     "allowJs": true,
     "checkJs": true,
@@ -41,6 +41,7 @@
     "*.mjs",
     ".next/types/**/*.ts",
     "drizzle.config.ts",
+    "vitest.config.ts",
     "codegen.ts",
     "playwright.config.ts"
   ],
