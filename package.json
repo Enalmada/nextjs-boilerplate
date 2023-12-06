@@ -67,7 +67,7 @@
     "@casl/ability": "6.5.0",
     "@ducanh2912/next-pwa": "9.7.2",
     "@enalmada/drizzle-helpers": "0.0.11",
-    "@enalmada/env-valibot": "0.0.10",
+    "@enalmada/env-valibot": "0.0.12",
     "@enalmada/next-gql": "0.0.7",
     "@enalmada/next-gql-codegen": "0.0.4",
     "@enalmada/next-secure": "0.2.2",
@@ -154,14 +154,14 @@
     "lint-staged": "15.2.0",
     "postcss": "8.4.32",
     "prettier": "3.1.0",
-    "prettier-plugin-tailwindcss": "0.5.8",
+    "prettier-plugin-tailwindcss": "0.5.9",
     "start-server-and-test": "2.0.3",
     "storybook": "7.6.3",
     "storybook-addon-mock": "4.3.0",
     "storybook-dark-mode": "3.0.3",
     "tailwindcss": "3.3.6",
     "typescript": "5.3.2",
-    "vitest": "0.34.6"
+    "vitest": "1.0.1"
   },
   "author": {
     "name": "Adam Lane"

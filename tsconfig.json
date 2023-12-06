@@ -41,6 +41,7 @@
     "*.mjs",
     ".next/types/**/*.ts",
     "drizzle.config.ts",
+    "vitest.config.ts",
     "codegen.ts",
     "playwright.config.ts"
   ],
