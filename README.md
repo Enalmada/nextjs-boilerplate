@@ -50,6 +50,7 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 - 🎉 [Storybook](https://storybook.js.org/) for component driven UI development
 - [next-pwa](https://github.com/DuCanhGH/next-pwa) service worker with optimized configuration
 - [next-intl](https://next-intl-docs.vercel.app/) localization with app directory and [middleware](/src/middleware.ts)
+- File Upload via GraphQL
 
 ### Backend
 
