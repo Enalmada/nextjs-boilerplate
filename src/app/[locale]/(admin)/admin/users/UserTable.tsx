@@ -4,37 +4,37 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAdminPageQuery } from '@/client/admin/useAdminPageQuery';
 import {
-  type Task,
-  type TasksPageQuery,
-  type TasksPageQueryVariables,
+  type User,
+  type UsersPageQuery,
+  type UsersPageQueryVariables,
 } from '@/client/gql/generated/graphql';
-import { TASKS_PAGE } from '@/client/gql/queries-mutations';
+import { USERS_PAGE } from '@/client/gql/queries-mutations';
 import { Button, InputControlled } from '@/client/ui';
 import { useTableWrapper } from '@enalmada/nextui-admin';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useForm } from 'react-hook-form';
 import { object, string } from 'valibot';
 
-import { columns, renderTable } from './RenderTable';
+import { columnProps } from './RenderRows';
 
-export const TaskList = () => {
+export const UserTable = () => {
   const router = useRouter();
 
-  const { TableWrapperComponent, sortDescriptor, pageDescriptor } = useTableWrapper<Task>();
+  const { TableWrapperComponent, sortDescriptor, pageDescriptor } = useTableWrapper<User>();
 
   type FormData = {
     id?: string;
-    title?: string;
+    email?: string;
   };
 
-  const [taskWhere, setTaskWhere] = useState<FormData>({
+  const [userWhere, setUserWhere] = useState<FormData>({
     id: undefined,
-    title: undefined,
+    email: undefined,
   });
 
   const schema = object({
     id: string(),
-    title: string(),
+    email: string(),
   });
 
   const {
@@ -45,14 +45,14 @@ export const TaskList = () => {
     resolver: valibotResolver(schema),
     defaultValues: {
       id: '',
-      title: '', // necessary for SSR to maintain controlled component
+      email: '', // necessary for SSR to maintain controlled component
     },
   });
 
-  const onSubmit = ({ id, title }: FormData) => {
-    setTaskWhere({
+  const onSubmit = ({ id, email }: FormData) => {
+    setUserWhere({
       id: id || undefined,
-      title: title || undefined,
+      email: email || undefined,
     });
   };
 
@@ -60,13 +60,17 @@ export const TaskList = () => {
     data: dataQuery,
     loading,
     error: errorQuery,
-  } = useAdminPageQuery<FormData, TasksPageQuery, TasksPageQueryVariables>(TASKS_PAGE, {
-    input: taskWhere,
+  } = useAdminPageQuery<FormData, UsersPageQuery, UsersPageQueryVariables>(USERS_PAGE, {
+    input: userWhere,
     sortDescriptor,
     pageDescriptor,
   });
 
   if (errorQuery) return <div>{`Error! ${errorQuery.message}`}</div>;
+
+  //  import { Breadcrumb } from '@/client/ui';
+  //  import { getRouteById } from '@/client/utils/routes';
+  //       <Breadcrumb routes={[getRouteById('AdminHome'), getRouteById('Users')]} />
 
   return (
     <>
@@ -101,9 +105,9 @@ export const TaskList = () => {
 
           <div className="max-w-sm">
             <InputControlled
-              name="title"
+              name="email"
               control={control}
-              placeholder={'Title'}
+              placeholder={'Email'}
               errors={errors}
               labelPlacement={'inside'}
               label={''}
@@ -124,15 +128,21 @@ export const TaskList = () => {
           </Button>
         </form>
       </div>
-      <div className="mx-auto w-full max-w-[95rem]">
+
+      <div className="mx-auto w-full">
         <TableWrapperComponent
-          columns={columns}
-          items={dataQuery?.tasksPage?.tasks || undefined}
-          renderRow={renderTable}
-          emptyContent={'No rows to display.'}
-          hasMore={dataQuery?.tasksPage?.hasMore}
-          isLoading={loading && !dataQuery}
-          linkFunction={(id: React.Key) => router.push(`/admin/tasks/${id}`)}
+          tableProps={{
+            linkFunction: (id: React.Key) => router.push(`/admin/users/${id}`),
+          }}
+          columnProps={columnProps}
+          bodyProps={{
+            items: dataQuery?.usersPage.users || undefined,
+            emptyContent: 'No rows to display.',
+            isLoading: loading && !dataQuery,
+          }}
+          paginationProps={{
+            hasMore: dataQuery?.usersPage?.hasMore,
+          }}
         />
       </div>
     </>

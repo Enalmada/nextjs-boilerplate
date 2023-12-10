@@ -51,13 +51,19 @@ type Query {
   me: User
   task(id: ID!): Task
   tasksPage(input: QueryTasksPageInput!): TaskPage!
-  users: [User!]
+  usersPage(input: QueryUsersPageInput!): UserPage!
 }
 
 input QueryTasksPageInput {
   order: OrderInput
   pagination: PaginationInput
   where: TaskWhere
+}
+
+input QueryUsersPageInput {
+  order: OrderInput
+  pagination: PaginationInput
+  where: UserWhere
 }
 
 enum SortOrder {
@@ -108,7 +114,18 @@ type User {
   version: Int!
 }
 
+"""Type used for querying paginated users"""
+type UserPage {
+  hasMore: Boolean!
+  users: [User!]!
+}
+
 enum UserRole {
   ADMIN
   MEMBER
+}
+
+input UserWhere {
+  email: String
+  id: String
 }

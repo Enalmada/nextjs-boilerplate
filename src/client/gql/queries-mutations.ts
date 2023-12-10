@@ -120,10 +120,13 @@ export const DELETE_TASK = gql`
 `;
 
 // ADMIN
-export const USERS = gql`
-  query Users {
-    users {
-      ...UserParts
+export const USERS_PAGE = gql`
+  query UsersPage($input: QueryUsersPageInput!) {
+    usersPage(input: $input) {
+      hasMore
+      users {
+        ...UserParts
+      }
     }
   }
   ${USER_PARTS}
