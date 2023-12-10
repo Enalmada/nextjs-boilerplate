@@ -82,7 +82,7 @@
     "@react-aria/ssr": "3.9.0",
     "@react-aria/visually-hidden": "3.8.7",
     "@sentry/cli": "2.23.0",
-    "@sentry/nextjs": "7.85.0",
+    "@sentry/nextjs": "7.86.0",
     "clsx": "2.0.0",
     "date-fns": "2.30.0",
     "drizzle-orm": "0.29.1",
