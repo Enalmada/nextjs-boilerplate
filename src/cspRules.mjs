@@ -76,4 +76,8 @@ export const cspRules = [
     description: 'sampleimage',
     'img-src': 'https://picsum.photos/200/300 https://fastly.picsum.photos/ https://i.pravatar.cc/',
   },
+  {
+    description: 'gravatar',
+    'img-src': 'https://www.gravatar.com',
+  },
 ];
