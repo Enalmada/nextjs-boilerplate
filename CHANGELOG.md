@@ -1,5 +1,12 @@
 # nextjs-boilerplate
 
+## 0.1.8
+
+### Patch Changes
+
+- 2bdce4a: migrate from @DuCanhGH/next-pwa (deprecated) to @serwist/next
+- 4d0898f: file upload support
+
 ## 0.1.7
 
 ### Patch Changes
