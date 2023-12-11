@@ -4,7 +4,7 @@ version: '3.9'
 
 services:
   crdb:
-    image: cockroachdb/cockroach:v23.1.12
+    image: cockroachdb/cockroach:v23.1.13
     container_name: crdb
     ports:
       - '26257:26257'
@@ -16,7 +16,7 @@ services:
       - my_network
 
   crdbTest:
-    image: cockroachdb/cockroach:v23.1.12
+    image: cockroachdb/cockroach:v23.1.13
     container_name: crdbTest
     ports:
       - '26258:26257'
