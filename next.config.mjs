@@ -147,22 +147,22 @@ export default async function configureNextConfig(phase, { defaultConfig }) {
 
   // Only load libraries necessary for building during dev or prod build (not runtime)
   if (phase === PHASE_DEVELOPMENT_SERVER || phase === PHASE_PRODUCTION_BUILD) {
-    const withPWA = (await import('@ducanh2912/next-pwa')).default({
-      disable: process.env.APP_ENV === 'local',
-      dest: 'public',
-      workboxOptions: {
-        exclude: [
-          // See following for why these buildExcludes:
-          // https://github.com/DuCanhGH/next-pwa/issues/101#issue-1919711481
-          /\.map$/, // Exclude all .map files
-          /^((?!~offline).)*\.js$/, // Exclude all .js files that do not contain ~offline in the path
-          /(?<!\.p)\.woff2$/, // Exclude all .woff2 files that are not .p.woff2 (preloaded subset)
-        ],
-      },
+    const withSerwist = (await import('@serwist/next')).default({
+      // this is must faster in Serwist vs DuCanhGH/next-pwa
+      // disable: process.env.APP_ENV === 'local',
+      swSrc: 'src/app/sw.ts',
+      swDest: 'public/sw.js',
+      exclude: [
+        // See following for why these buildExcludes:
+        // https://github.com/DuCanhGH/next-pwa/issues/101#issue-1919711481
+        /\.map$/, // Exclude all .map files
+        /^((?!~offline).)*\.js$/, // Exclude all .js files that do not contain ~offline in the path
+        /(?<!\.p)\.woff2$/, // Exclude all .woff2 files that are not .p.woff2 (preloaded subset)
+      ],
     });
 
     // @ts-ignore
-    plugins.push(withPWA);
+    plugins.push(withSerwist);
   }
 
   return plugins.reduce(
