@@ -150,13 +150,15 @@ export default async function configureNextConfig(phase, { defaultConfig }) {
     const withPWA = (await import('@ducanh2912/next-pwa')).default({
       disable: process.env.APP_ENV === 'local',
       dest: 'public',
-      buildExcludes: [
-        // See following for why these buildExcludes:
-        // https://github.com/DuCanhGH/next-pwa/issues/101#issue-1919711481
-        /\.map$/, // Exclude all .map files
-        /^((?!~offline).)*\.js$/, // Exclude all .js files that do not contain ~offline in the path
-        /(?<!\.p)\.woff2$/, // Exclude all .woff2 files that are not .p.woff2 (preloaded subset)
-      ],
+      workboxOptions: {
+        exclude: [
+          // See following for why these buildExcludes:
+          // https://github.com/DuCanhGH/next-pwa/issues/101#issue-1919711481
+          /\.map$/, // Exclude all .map files
+          /^((?!~offline).)*\.js$/, // Exclude all .js files that do not contain ~offline in the path
+          /(?<!\.p)\.woff2$/, // Exclude all .woff2 files that are not .p.woff2 (preloaded subset)
+        ],
+      },
     });
 
     // @ts-ignore

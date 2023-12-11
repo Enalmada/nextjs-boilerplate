@@ -1,8 +1,9 @@
 import { UserRole, type User } from '@/server/db/schema';
 import { builder } from '@/server/graphql/builder';
+import { OrderInputType, PaginationInputType } from '@/server/graphql/sortAndPagination';
 import { TaskType } from '@/server/task/task.model';
 import TaskService, { type TasksInput } from '@/server/task/task.service';
-import UserService from '@/server/user/user.service';
+import UserService, { type UsersInput } from '@/server/user/user.service';
 
 // https://github.com/chimame/graphql-yoga-worker-with-pothos
 export const UserType = builder.objectRef<User & { rules?: string }>('User');
@@ -51,12 +52,49 @@ builder.queryField('me', (t) =>
   })
 );
 
-builder.queryField('users', (t) =>
-  t.field({
-    type: [UserType],
-    nullable: true,
-    resolve: (root, args, ctx) => {
-      return new UserService().users(ctx.currentUser, ctx);
+export interface UserPage {
+  hasMore: boolean;
+  users: User[];
+}
+
+export const UserPageType = builder.objectRef<UserPage>('UserPage');
+
+UserPageType.implement({
+  description: 'Type used for querying paginated users',
+  fields: (t) => ({
+    hasMore: t.exposeBoolean('hasMore'),
+    users: t.expose('users', { type: [UserType] }),
+  }),
+});
+
+export interface UserWhere {
+  id?: string;
+  email?: string;
+}
+
+export const UserWhereInputType = builder.inputRef<UserWhere>('UserWhere');
+
+UserWhereInputType.implement({
+  fields: (t) => ({
+    id: t.string(),
+    email: t.string(),
+  }),
+});
+
+builder.queryField('usersPage', (t) =>
+  t.fieldWithInput({
+    type: UserPageType,
+    input: {
+      where: t.input.field({ type: UserWhereInputType, required: false }),
+      order: t.input.field({ type: OrderInputType, required: false }),
+      pagination: t.input.field({ type: PaginationInputType, required: false }),
+    },
+    resolve: async (_root, args, ctx) => {
+      const page = await new UserService().users(args.input as UsersInput, ctx);
+      return {
+        hasMore: page.hasMore,
+        users: page.result,
+      };
     },
   })
 );

@@ -21,7 +21,7 @@ const documents = {
     "\n  mutation CreateTask($input: MutationCreateTaskInput!) {\n    createTask(input: $input) {\n      ...TaskParts\n    }\n  }\n  \n": types.CreateTaskDocument,
     "\n  mutation UpdateTask($id: ID!, $input: MutationUpdateTaskInput!) {\n    updateTask(id: $id, input: $input) {\n      ...TaskParts\n    }\n  }\n  \n": types.UpdateTaskDocument,
     "\n  mutation DeleteTask($id: ID!) {\n    deleteTask(id: $id) {\n      ...TaskParts\n    }\n  }\n  \n": types.DeleteTaskDocument,
-    "\n  query Users {\n    users {\n      ...UserParts\n    }\n  }\n  \n": types.UsersDocument,
+    "\n  query UsersPage($input: QueryUsersPageInput!) {\n    usersPage(input: $input) {\n      hasMore\n      users {\n        ...UserParts\n      }\n    }\n  }\n  \n": types.UsersPageDocument,
     "\n  query TasksPage($input: QueryTasksPageInput!) {\n    tasksPage(input: $input) {\n      hasMore\n      tasks {\n        ...TaskParts\n      }\n    }\n  }\n  \n": types.TasksPageDocument,
     "\n  mutation UploadFile($file: File!) {\n    uploadFile(file: $file) {\n      filename\n    }\n  }\n": types.UploadFileDocument,
 };
@@ -75,7 +75,7 @@ export function graphql(source: "\n  mutation DeleteTask($id: ID!) {\n    delete
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Users {\n    users {\n      ...UserParts\n    }\n  }\n  \n"): (typeof documents)["\n  query Users {\n    users {\n      ...UserParts\n    }\n  }\n  \n"];
+export function graphql(source: "\n  query UsersPage($input: QueryUsersPageInput!) {\n    usersPage(input: $input) {\n      hasMore\n      users {\n        ...UserParts\n      }\n    }\n  }\n  \n"): (typeof documents)["\n  query UsersPage($input: QueryUsersPageInput!) {\n    usersPage(input: $input) {\n      hasMore\n      users {\n        ...UserParts\n      }\n    }\n  }\n  \n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

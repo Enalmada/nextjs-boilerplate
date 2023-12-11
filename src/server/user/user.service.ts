@@ -1,11 +1,17 @@
 import Logger from '@/lib/logging/log-util';
 import { type User } from '@/server/db/schema';
 import { type MyContextType } from '@/server/graphql/server';
+import { sortAndPagination, type TableInput } from '@/server/graphql/sortAndPagination';
 import { accessCheck } from '@/server/utils/accessCheck';
 import { defineAbilitiesFor } from '@/server/utils/caslAbility';
 import { packRules } from '@casl/ability/extra';
+import { type Page } from '@enalmada/drizzle-helpers';
 
 import UserRepository from './user.repository';
+
+export interface UsersInput extends TableInput {
+  where?: Partial<User>;
+}
 
 export default class UserService {
   private readonly logger = new Logger(UserService.name);
@@ -65,11 +71,13 @@ export default class UserService {
     };
   }
 
-  async users(user: User, ctx: MyContextType) {
-    const logger = this.logger.logMethodStart(this.users.name, ctx);
+  async users(input: UsersInput | undefined, ctx: MyContextType): Promise<Page<User>> {
+    const logger = this.logger.logMethodStart(this.users.name, ctx, { ...input });
 
-    accessCheck(logger, user, 'list', 'User', {});
+    accessCheck(logger, ctx.currentUser, 'list', 'User', input?.where);
 
-    return UserRepository.findMany();
+    const { order, paging } = sortAndPagination(input);
+
+    return UserRepository.findPage({ criteria: input?.where, order, paging });
   }
 }
