@@ -73,7 +73,7 @@
     "@enalmada/next-gql-codegen": "0.0.4",
     "@enalmada/next-secure": "0.2.2",
     "@enalmada/next-themes": "0.2.4",
-    "@enalmada/nextui-admin": "0.0.8",
+    "@enalmada/nextui-admin": "0.0.10",
     "@firebase/util": "1.9.3",
     "@graphql-typed-document-node/core": "3.2.0",
     "@hookform/resolvers": "3.3.2",
