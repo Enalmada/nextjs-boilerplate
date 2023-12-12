@@ -78,6 +78,6 @@ export const cspRules = [
   },
   {
     description: 'gravatar',
-    'img-src': 'https://www.gravatar.com',
+    'img-src': 'https://www.gravatar.com/avatar/',
   },
 ];

@@ -1,9 +1,10 @@
 /* eslint-disable no-console,@typescript-eslint/no-unsafe-assignment */
 import React from 'react';
+import Chip from '@/client/components/admin/Chip';
 import { UserRole, type User } from '@/client/gql/generated/graphql';
 import { createGravatarUrl } from '@/client/utils/gravatar';
 import { type TableColumnProps } from '@enalmada/nextui-admin';
-import { Chip, Tooltip, User as UserChip } from '@nextui-org/react';
+import { Tooltip, User as UserChip } from '@nextui-org/react';
 import { BiEditAlt as EditIcon } from 'react-icons/bi';
 
 export const columnProps: TableColumnProps<User>[] = [
@@ -24,9 +25,7 @@ export const columnProps: TableColumnProps<User>[] = [
     key: 'role',
     header: 'ROLE',
     renderCell: (user: User) => (
-      <Chip size="sm" variant="flat" color={user.role === UserRole.Admin ? 'danger' : 'default'}>
-        <span className="text-xs capitalize">{user.role}</span>
-      </Chip>
+      <Chip color={user.role === UserRole.Admin ? 'danger' : 'default'} label={user.role} />
     ),
   },
   {

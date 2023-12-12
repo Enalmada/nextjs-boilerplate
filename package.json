@@ -142,7 +142,7 @@
     "@vitejs/plugin-react": "4.2.1",
     "@vitest/coverage-v8": "1.0.4",
     "autoprefixer": "10.4.16",
-    "bun-types": "1.0.16",
+    "bun-types": "1.0.17",
     "chromatic": "10.1.0",
     "cross-env": "7.0.3",
     "dotenv": "16.3.1",

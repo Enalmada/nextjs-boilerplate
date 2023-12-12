@@ -1,8 +1,9 @@
 /* eslint-disable no-console,@typescript-eslint/no-unsafe-assignment */
 import React from 'react';
+import Chip from '@/client/components/admin/Chip';
 import { TaskStatus, type Task } from '@/client/gql/generated/graphql';
 import { type TableColumnProps } from '@enalmada/nextui-admin';
-import { Chip, Tooltip } from '@nextui-org/react';
+import { Tooltip } from '@nextui-org/react';
 import { BiEditAlt as EditIcon } from 'react-icons/bi';
 
 export const columnProps: TableColumnProps<Task>[] = [
@@ -15,12 +16,9 @@ export const columnProps: TableColumnProps<Task>[] = [
     allowsSorting: true,
     renderCell: (task: Task) => (
       <Chip
-        size="sm"
-        variant="flat"
         color={task.status === TaskStatus.Completed ? 'success' : 'primary'}
-      >
-        <span className="text-xs capitalize">{task.status}</span>
-      </Chip>
+        label={task.status}
+      />
     ),
   },
   { key: 'dueDate', header: 'Due Date', allowsSorting: true },
