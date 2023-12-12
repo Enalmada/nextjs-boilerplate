@@ -1,12 +1,11 @@
 /* eslint-disable no-console,@typescript-eslint/no-unsafe-assignment */
-import React from 'react';
 import Auditing from '@/client/components/admin/Auditing';
 import Chip from '@/client/components/admin/Chip';
+import Edit from '@/client/components/admin/Edit';
 import { UserRole, type User } from '@/client/gql/generated/graphql';
 import { createGravatarUrl } from '@/client/utils/gravatar';
 import { type TableColumnProps } from '@enalmada/nextui-admin';
-import { Tooltip, User as UserChip } from '@nextui-org/react';
-import { BiEditAlt as EditIcon } from 'react-icons/bi';
+import { User as UserChip } from '@nextui-org/react';
 
 export const columnProps: TableColumnProps<User>[] = [
   {
@@ -38,16 +37,6 @@ export const columnProps: TableColumnProps<User>[] = [
     key: 'actions',
     header: 'ACTIONS',
     align: 'end',
-    renderCell: (user: User) => (
-      <div className="flex items-end gap-4 ">
-        <div>
-          <Tooltip content="Edit" color="secondary">
-            <button onClick={() => console.log('Edit', user.id)}>
-              <EditIcon size={20} fill="#979797" />
-            </button>
-          </Tooltip>
-        </div>
-      </div>
-    ),
+    renderCell: () => <Edit />,
   },
 ];
