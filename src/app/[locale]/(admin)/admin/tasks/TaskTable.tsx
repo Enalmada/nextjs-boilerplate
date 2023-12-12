@@ -87,6 +87,7 @@ export const TaskTable = () => {
           <div className="max-w-sm">
             <InputControlled
               name="id"
+              size={'sm'}
               control={control}
               placeholder={'ID'}
               errors={errors}
@@ -102,6 +103,7 @@ export const TaskTable = () => {
           <div className="max-w-sm">
             <InputControlled
               name="title"
+              size={'sm'}
               control={control}
               placeholder={'Title'}
               errors={errors}

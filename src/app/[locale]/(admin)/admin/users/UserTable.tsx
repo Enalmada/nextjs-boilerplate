@@ -91,6 +91,7 @@ export const UserTable = () => {
           <div className="max-w-sm">
             <InputControlled
               name="id"
+              size={'sm'}
               control={control}
               placeholder={'ID'}
               errors={errors}
@@ -106,6 +107,7 @@ export const UserTable = () => {
           <div className="max-w-sm">
             <InputControlled
               name="email"
+              size={'sm'}
               control={control}
               placeholder={'Email'}
               errors={errors}

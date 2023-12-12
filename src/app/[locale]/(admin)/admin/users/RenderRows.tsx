@@ -1,5 +1,6 @@
 /* eslint-disable no-console,@typescript-eslint/no-unsafe-assignment */
 import React from 'react';
+import Auditing from '@/client/components/admin/Auditing';
 import Chip from '@/client/components/admin/Chip';
 import { UserRole, type User } from '@/client/gql/generated/graphql';
 import { createGravatarUrl } from '@/client/utils/gravatar';
@@ -31,13 +32,7 @@ export const columnProps: TableColumnProps<User>[] = [
   {
     key: 'auditing',
     header: 'AUDITING',
-    renderCell: (user: User) => (
-      <>
-        {user.createdAt && <div>Created {new Date(user.createdAt).toLocaleString()}</div>}
-        {user.updatedAt && <div>Updated {new Date(user.updatedAt).toLocaleString()}</div>}
-        <div>Version {user.version}</div>
-      </>
-    ),
+    renderCell: (user: User) => <Auditing entity={user} />,
   },
   {
     key: 'actions',

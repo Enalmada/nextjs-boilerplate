@@ -1,5 +1,6 @@
 /* eslint-disable no-console,@typescript-eslint/no-unsafe-assignment */
 import React from 'react';
+import Auditing from '@/client/components/admin/Auditing';
 import Chip from '@/client/components/admin/Chip';
 import { TaskStatus, type Task } from '@/client/gql/generated/graphql';
 import { type TableColumnProps } from '@enalmada/nextui-admin';
@@ -25,13 +26,7 @@ export const columnProps: TableColumnProps<Task>[] = [
   {
     key: 'auditing',
     header: 'AUDITING',
-    renderCell: (task: Task) => (
-      <>
-        {task.createdAt && <div>Created {new Date(task.createdAt).toLocaleString()}</div>}
-        {task.updatedAt && <div>Updated {new Date(task.updatedAt).toLocaleString()}</div>}
-        <div>Version {task.version}</div>
-      </>
-    ),
+    renderCell: (task: Task) => <Auditing entity={task} />,
   },
   {
     key: 'actions',
