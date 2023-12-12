@@ -32,6 +32,8 @@ import { date, minLength, nullable, object, optional, string } from 'valibot';
 
 import 'react-day-picker/dist/style.css';
 
+import ReadOnlyInput from '@/client/components/admin/ReadOnlyInput';
+
 interface Props {
   id?: string;
 }
@@ -164,12 +166,14 @@ export default function TaskForm(props: Props) {
           {deleteMutationError && formError(extractErrorMessages(deleteMutationError))}
 
           <form onSubmit={(event) => void handleSubmit(onSubmit)(event)}>
+            {id && <ReadOnlyInput label="ID" defaultValue={id} />}
+
             <InputControlled
               name="title"
               control={control}
               label="Title"
               errors={errors}
-              className={'mb-5 mt-5'}
+              className={'mb-5'}
             />
 
             <TextareaControlled

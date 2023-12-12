@@ -20,10 +20,8 @@ import {
   BiBuildingHouse as AcmeIcon,
   BiCode as CodeIcon,
   BiSolidHome as HomeIcon,
-  BiSolidCog as SettingsIcon,
   BiTask as TaskIcon,
   BiSolidUser as UserIcon,
-  BiSolidBox as ViewIcon,
 } from 'react-icons/bi';
 
 const sidebarConfig: SidebarSectionConfig[] = [
@@ -59,16 +57,6 @@ const sidebarConfig: SidebarSectionConfig[] = [
         title: 'Developers',
         icon: <CodeIcon />,
         href: '/admin/developers',
-      },
-      {
-        title: 'View Test Data',
-        icon: <ViewIcon />,
-        href: '/admin/view',
-      },
-      {
-        title: 'Settings',
-        icon: <SettingsIcon />,
-        href: '/admin/settings',
       },
     ],
   },

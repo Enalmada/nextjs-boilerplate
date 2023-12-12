@@ -15,6 +15,7 @@ type Mutation {
   createTask(input: MutationCreateTaskInput!): Task!
   deleteTask(id: ID!): Task
   updateTask(id: ID!, input: MutationUpdateTaskInput!): Task
+  updateUser(id: ID!, input: MutationUpdateUserInput!): User
   uploadFile(file: File!): UploadResponse!
 }
 
@@ -30,6 +31,11 @@ input MutationUpdateTaskInput {
   dueDate: DateTime
   status: TaskStatus!
   title: NonEmptyString!
+  version: Int!
+}
+
+input MutationUpdateUserInput {
+  role: UserRole!
   version: Int!
 }
 
@@ -51,6 +57,7 @@ type Query {
   me: User
   task(id: ID!): Task
   tasksPage(input: QueryTasksPageInput!): TaskPage!
+  user(id: ID!): User
   usersPage(input: QueryUsersPageInput!): UserPage!
 }
 

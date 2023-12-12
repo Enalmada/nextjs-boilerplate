@@ -148,8 +148,8 @@ export default async function configureNextConfig(phase, { defaultConfig }) {
   // Only load libraries necessary for building during dev or prod build (not runtime)
   if (phase === PHASE_DEVELOPMENT_SERVER || phase === PHASE_PRODUCTION_BUILD) {
     const withSerwist = (await import('@serwist/next')).default({
-      // this is must faster in Serwist vs DuCanhGH/next-pwa
-      // disable: process.env.APP_ENV === 'local',
+      // this is faster in Serwist vs DuCanhGH/next-pwa
+      disable: process.env.APP_ENV === 'local',
       swSrc: 'src/app/sw.ts',
       swDest: 'public/sw.js',
       exclude: [
