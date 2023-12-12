@@ -1,4 +1,4 @@
-import { UserRole, type User } from '@/server/db/schema';
+import { UserRole, type User, type UserInput } from '@/server/db/schema';
 import { builder } from '@/server/graphql/builder';
 import { OrderInputType, PaginationInputType } from '@/server/graphql/sortAndPagination';
 import { TaskType } from '@/server/task/task.model';
@@ -52,6 +52,21 @@ builder.queryField('me', (t) =>
   })
 );
 
+// ADMIN
+
+builder.queryField('user', (t) =>
+  t.field({
+    type: UserType,
+    args: {
+      id: t.arg.id({ required: true }),
+    },
+    nullable: true,
+    resolve: async (_root, args, ctx) => {
+      return new UserService().user(args.id as string, ctx);
+    },
+  })
+);
+
 export interface UserPage {
   hasMore: boolean;
   users: User[];
@@ -95,6 +110,27 @@ builder.queryField('usersPage', (t) =>
         hasMore: page.hasMore,
         users: page.result,
       };
+    },
+  })
+);
+
+builder.mutationField('updateUser', (t) =>
+  t.fieldWithInput({
+    type: UserType,
+    nullable: true,
+    args: {
+      id: t.arg.id({ required: true }),
+    },
+    input: {
+      role: t.input.field({ type: UserRole, required: true }),
+      version: t.input.int({ required: true }),
+    },
+    resolve: async (_root, args, ctx) => {
+      const input: UserInput = {
+        ...args.input,
+        updatedAt: new Date(),
+      };
+      return new UserService().update(args.id as string, input, ctx);
     },
   })
 );

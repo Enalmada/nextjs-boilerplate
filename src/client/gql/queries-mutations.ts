@@ -120,6 +120,19 @@ export const DELETE_TASK = gql`
 `;
 
 // ADMIN
+
+export const ADMIN_USER_PARTS = gql`
+  fragment UserParts on User {
+    id
+    name
+    email
+    role
+    createdAt
+    updatedAt
+    version
+  }
+`;
+
 export const USERS_PAGE = gql`
   query UsersPage($input: QueryUsersPageInput!) {
     usersPage(input: $input) {
@@ -129,7 +142,25 @@ export const USERS_PAGE = gql`
       }
     }
   }
-  ${USER_PARTS}
+  ${ADMIN_USER_PARTS}
+`;
+
+export const USER = gql`
+  query User($id: ID!) {
+    user(id: $id) {
+      ...UserParts
+    }
+  }
+  ${ADMIN_USER_PARTS}
+`;
+
+export const UPDATE_USER = gql`
+  mutation UpdateUser($id: ID!, $input: MutationUpdateUserInput!) {
+    updateUser(id: $id, input: $input) {
+      ...UserParts
+    }
+  }
+  ${ADMIN_USER_PARTS}
 `;
 
 export const TASKS_PAGE = gql`
