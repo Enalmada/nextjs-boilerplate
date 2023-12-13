@@ -182,3 +182,20 @@ export const UPLOAD_FILE = gql`
     }
   }
 `;
+
+export const PUBLISH_NOTIFICATION = gql`
+  mutation PublishNotification($input: MutationPublishNotificationInput!) {
+    publishNotification(input: $input) {
+      published
+    }
+  }
+`;
+
+export const NOTIFICATION_EVENTS = gql`
+  subscription NotificationEvents {
+    notificationEvents {
+      type
+      message
+    }
+  }
+`;

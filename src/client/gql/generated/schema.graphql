@@ -14,6 +14,7 @@ scalar JSON
 type Mutation {
   createTask(input: MutationCreateTaskInput!): Task!
   deleteTask(id: ID!): Task
+  publishNotification(input: MutationPublishNotificationInput!): NotificationResponse
   updateTask(id: ID!, input: MutationUpdateTaskInput!): Task
   updateUser(id: ID!, input: MutationUpdateUserInput!): User
   uploadFile(file: File!): UploadResponse!
@@ -24,6 +25,10 @@ input MutationCreateTaskInput {
   dueDate: DateTime
   status: TaskStatus!
   title: NonEmptyString!
+}
+
+input MutationPublishNotificationInput {
+  message: String
 }
 
 input MutationUpdateTaskInput {
@@ -41,6 +46,23 @@ input MutationUpdateUserInput {
 
 """A string that cannot be passed as an empty value"""
 scalar NonEmptyString
+
+"""When a notification is posted"""
+type NotificationEvent {
+  """Notification message"""
+  message: String!
+
+  """Notification type"""
+  type: NotificationEventType!
+}
+
+enum NotificationEventType {
+  SystemNotification
+}
+
+type NotificationResponse {
+  published: Boolean!
+}
 
 input OrderInput {
   sortBy: String!
@@ -76,6 +98,11 @@ input QueryUsersPageInput {
 enum SortOrder {
   ASC
   DESC
+}
+
+type Subscription {
+  """Events related to notifications"""
+  notificationEvents: NotificationEvent!
 }
 
 type Task {

@@ -1,5 +1,7 @@
 import React from 'react';
 import FileUpload from '@/app/[locale]/(admin)/admin/developers/FileUpload';
+import PublishNotification from '@/app/[locale]/(admin)/admin/developers/PublishNotification';
+import Subscription from '@/app/[locale]/(admin)/admin/developers/Subscription';
 import { Card, CardBody, CardHeader } from '@nextui-org/react';
 
 export const metadata = {
@@ -14,6 +16,8 @@ export default function Page() {
       </CardHeader>
       <CardBody>
         <FileUpload />
+        <PublishNotification />
+        <Subscription />
       </CardBody>
     </Card>
   );
