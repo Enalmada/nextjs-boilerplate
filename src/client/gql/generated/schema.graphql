@@ -49,6 +49,8 @@ scalar NonEmptyString
 
 """When a notification is posted"""
 type NotificationEvent {
+  id: ID!
+
   """Notification message"""
   message: String!
 

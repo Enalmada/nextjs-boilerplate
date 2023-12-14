@@ -168,6 +168,17 @@
         "name": "NotificationEvent",
         "fields": [
           {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "message",
             "type": {
               "kind": "NON_NULL",

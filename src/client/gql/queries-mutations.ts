@@ -194,6 +194,7 @@ export const PUBLISH_NOTIFICATION = gql`
 export const NOTIFICATION_EVENTS = gql`
   subscription NotificationEvents {
     notificationEvents {
+      id
       type
       message
     }

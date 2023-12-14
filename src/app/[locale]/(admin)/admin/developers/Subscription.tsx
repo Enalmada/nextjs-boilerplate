@@ -23,13 +23,15 @@ const Subscription = () => {
   }
 
   return (
-    <ul>
+    <>
       {result.data.map((event: NotificationEvent) => (
-        <p key={event.message}>
-          {event.type}: &quot{event.message}&quot
-        </p>
+        <ul key={event.id}>
+          <p>
+            {event.type}: &quot{event.message}&quot
+          </p>
+        </ul>
       ))}
-    </ul>
+    </>
   );
 };
 

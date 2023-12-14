@@ -3,12 +3,10 @@ import { baseURL } from '@/metadata.config';
 import { type User } from '@/server/db/schema';
 import { handleCreateOrGetUser } from '@/server/graphql/handleCreateOrGetUser';
 import { schema } from '@/server/graphql/schema';
-import { makeServer } from '@enalmada/next-gql/server';
+import { makeServer, type YogaContext } from '@enalmada/next-gql/server';
 import { Logger } from 'next-axiom';
 
-export interface MyContextType {
-  currentUser: User;
-}
+export interface MyContextType extends YogaContext<User> {}
 
 function logError(message: string) {
   const log = new Logger();

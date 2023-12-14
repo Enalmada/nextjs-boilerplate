@@ -19,19 +19,20 @@ export const mockUser: User = {
   role: UserRole.MEMBER,
 };
 
-export const mockCtx: MyContextType = { currentUser: mockUser };
+export const mockCtx: MyContextType = { currentUser: mockUser, pubSub: null };
 
 export const mockAdminUser: User = {
   ...mockUser,
   role: UserRole.ADMIN,
 };
-export const mockAdminCtx: MyContextType = { currentUser: mockAdminUser };
+export const mockAdminCtx: MyContextType = { currentUser: mockAdminUser, pubSub: null };
 
 export const mockWrongCtx: MyContextType = {
   currentUser: {
     ...mockUser,
     id: 'wrong_usr_random',
   },
+  pubSub: null,
 };
 
 const ability = defineAbilitiesFor(mockUser);

@@ -47,7 +47,7 @@ describe('TaskService', () => {
     // TODO - no user passed should be prevented higher up
     it('should throw Error if no user is provided', async () => {
       const service = new TaskService();
-      const ctx: MyContextType = { currentUser: null! };
+      const ctx: MyContextType = { currentUser: null!, pubSub: null };
       await expect(service.tasks(undefined, ctx)).rejects.toThrow(Error);
     });
 

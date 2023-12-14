@@ -5,6 +5,7 @@ import {
   publishNotificationEvent,
 } from '@/server/graphql/subscriptions/notification';
 import { accessCheck } from '@/server/utils/accessCheck';
+import { nanoid } from 'nanoid';
 
 export interface UploadResponse {
   filename: string;
@@ -45,9 +46,11 @@ export default class AdminService {
     accessCheck(logger, ctx.currentUser, 'manage', 'all', input);
 
     const event = {
+      id: 'not_' + nanoid(),
       type: NotificationEventType.SystemNotification,
       message: input.message,
     };
+
     await publishNotificationEvent(event, ctx);
 
     return { published: true };
