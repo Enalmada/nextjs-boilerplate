@@ -48,7 +48,7 @@ builder.mutationField('publishNotification', (t) =>
         required: false,
       }),
     },
-    resolve: async (root, args, ctx) => {
+    resolve: (root, args, ctx) => {
       const finalMessage = args.input.message || 'hello';
       return new AdminService().publishNotification({ message: finalMessage }, ctx);
     },

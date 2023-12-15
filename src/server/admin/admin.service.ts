@@ -37,10 +37,7 @@ export default class AdminService {
     return { filename: input.file.name };
   }
 
-  async publishNotification(
-    input: NotificationInput,
-    ctx: MyContextType
-  ): Promise<NotificationResponse> {
+  publishNotification(input: NotificationInput, ctx: MyContextType): NotificationResponse {
     const logger = this.logger.logMethodStart(this.publishNotification.name, ctx, { ...input });
 
     accessCheck(logger, ctx.currentUser, 'manage', 'all', input);
@@ -51,7 +48,7 @@ export default class AdminService {
       message: input.message,
     };
 
-    await publishNotificationEvent(event, ctx);
+    publishNotificationEvent(event, ctx);
 
     return { published: true };
   }

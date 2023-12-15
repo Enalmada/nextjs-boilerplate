@@ -1,9 +1,37 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UserRole, type User } from '@/server/db/schema';
 import { type MyContextType } from '@/server/graphql/server';
+import { type PubSubChannels } from '@/server/graphql/subscriptions/PubSubChannels';
 import { defineAbilitiesFor } from '@/server/utils/caslAbility';
 import { packRules } from '@casl/ability/extra';
+import { type PubSub } from '@enalmada/next-gql/server';
 
 import UserService from './user.service';
+
+export const mockPubSub: PubSub<PubSubChannels> = {
+  publish: () => {},
+  subscribe: () => {
+    const asyncIterator: AsyncIterator<any> = {
+      next() {
+        // Use a type assertion here if necessary
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        return Promise.resolve({ done: false, value: {} as any });
+      },
+      return() {
+        return Promise.resolve({ done: true, value: undefined });
+      },
+      throw(error) {
+        return Promise.reject(error);
+      },
+      // @ts-expect-error doesn't exist
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+    };
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return asyncIterator as any; // Use type assertion to bypass strict type checking
+  },
+};
 
 export const mockUserId = 'usr_1';
 
@@ -19,20 +47,20 @@ export const mockUser: User = {
   role: UserRole.MEMBER,
 };
 
-export const mockCtx: MyContextType = { currentUser: mockUser, pubSub: null };
+export const mockCtx: MyContextType = { currentUser: mockUser, pubSub: mockPubSub };
 
 export const mockAdminUser: User = {
   ...mockUser,
   role: UserRole.ADMIN,
 };
-export const mockAdminCtx: MyContextType = { currentUser: mockAdminUser, pubSub: null };
+export const mockAdminCtx: MyContextType = { currentUser: mockAdminUser, pubSub: mockPubSub };
 
 export const mockWrongCtx: MyContextType = {
   currentUser: {
     ...mockUser,
     id: 'wrong_usr_random',
   },
-  pubSub: null,
+  pubSub: mockPubSub,
 };
 
 const ability = defineAbilitiesFor(mockUser);

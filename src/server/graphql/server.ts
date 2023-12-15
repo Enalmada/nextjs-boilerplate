@@ -3,10 +3,16 @@ import { baseURL } from '@/metadata.config';
 import { type User } from '@/server/db/schema';
 import { handleCreateOrGetUser } from '@/server/graphql/handleCreateOrGetUser';
 import { schema } from '@/server/graphql/schema';
-import { makeServer, type YogaContext } from '@enalmada/next-gql/server';
+import { type PubSubChannels } from '@/server/graphql/subscriptions/PubSubChannels';
+import { makeServer, type PubSub } from '@enalmada/next-gql/server';
 import { Logger } from 'next-axiom';
 
-export interface MyContextType extends YogaContext<User> {}
+// export interface MyContextType extends YogaContext<User, PubSubChannels> {}
+
+export interface MyContextType {
+  currentUser: User;
+  pubSub: PubSub<PubSubChannels>;
+}
 
 function logError(message: string) {
   const log = new Logger();
@@ -19,7 +25,7 @@ function logError(message: string) {
 }
 
 export function graphqlServer(graphqlEndpoint: string) {
-  return makeServer<User>({
+  return makeServer<User, PubSubChannels>({
     schema,
     graphqlEndpoint,
     cors: {

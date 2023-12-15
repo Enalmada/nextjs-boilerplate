@@ -14,7 +14,7 @@ builder.enumType(NotificationEventType, {
   name: 'NotificationEventType',
 });
 
-interface NotificationEvent {
+export interface NotificationEvent {
   id: string;
   type: NotificationEventType;
   message: string;
@@ -49,12 +49,11 @@ builder.subscriptionField('notificationEvents', (t) => {
       return ctx.pubSub.subscribe(NotificationEventLabel);
     },
     resolve: (payload) => {
-      return payload as NotificationEvent;
+      return payload;
     },
   });
 });
 
-export async function publishNotificationEvent(event: NotificationEvent, ctx: MyContextType) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-  await ctx.pubSub.publish(NotificationEventLabel, event);
+export function publishNotificationEvent(event: NotificationEvent, ctx: MyContextType) {
+  ctx.pubSub.publish(NotificationEventLabel, event);
 }
