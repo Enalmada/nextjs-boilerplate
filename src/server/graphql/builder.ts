@@ -1,11 +1,7 @@
-import { type User } from '@/server/db/schema';
+import { type MyContextType } from '@/server/graphql/server';
 import { initializeBuilder, type DefaultScalars } from '@enalmada/next-gql/server';
 import SchemaBuilder from '@pothos/core';
 import WithInputPlugin from '@pothos/plugin-with-input';
-
-export interface MyContextType {
-  currentUser: User;
-}
 
 type DefaultUserSchemaTypes = DefaultScalars & { Context: MyContextType };
 

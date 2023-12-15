@@ -26,6 +26,8 @@ const documents = {
     "\n  mutation UpdateUser($id: ID!, $input: MutationUpdateUserInput!) {\n    updateUser(id: $id, input: $input) {\n      ...UserParts\n    }\n  }\n  \n": types.UpdateUserDocument,
     "\n  query TasksPage($input: QueryTasksPageInput!) {\n    tasksPage(input: $input) {\n      hasMore\n      tasks {\n        ...TaskParts\n      }\n    }\n  }\n  \n": types.TasksPageDocument,
     "\n  mutation UploadFile($file: File!) {\n    uploadFile(file: $file) {\n      filename\n    }\n  }\n": types.UploadFileDocument,
+    "\n  mutation PublishNotification($input: MutationPublishNotificationInput!) {\n    publishNotification(input: $input) {\n      published\n    }\n  }\n": types.PublishNotificationDocument,
+    "\n  subscription NotificationEvents {\n    notificationEvents {\n      id\n      type\n      message\n    }\n  }\n": types.NotificationEventsDocument,
 };
 
 /**
@@ -94,6 +96,14 @@ export function graphql(source: "\n  query TasksPage($input: QueryTasksPageInput
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation UploadFile($file: File!) {\n    uploadFile(file: $file) {\n      filename\n    }\n  }\n"): (typeof documents)["\n  mutation UploadFile($file: File!) {\n    uploadFile(file: $file) {\n      filename\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation PublishNotification($input: MutationPublishNotificationInput!) {\n    publishNotification(input: $input) {\n      published\n    }\n  }\n"): (typeof documents)["\n  mutation PublishNotification($input: MutationPublishNotificationInput!) {\n    publishNotification(input: $input) {\n      published\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  subscription NotificationEvents {\n    notificationEvents {\n      id\n      type\n      message\n    }\n  }\n"): (typeof documents)["\n  subscription NotificationEvents {\n    notificationEvents {\n      id\n      type\n      message\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

@@ -1,7 +1,13 @@
 import { TaskStatus, type Task } from '@/server/db/schema';
 import { NotAuthorizedError, OptimisticLockError } from '@/server/graphql/errors';
 import { type MyContextType } from '@/server/graphql/server';
-import { mockAdminCtx, mockCtx, mockUserId, mockWrongCtx } from '@/server/user/user.service.test';
+import {
+  mockAdminCtx,
+  mockCtx,
+  mockPubSub,
+  mockUserId,
+  mockWrongCtx,
+} from '@/server/user/user.service.test';
 import { type Page } from '@enalmada/drizzle-helpers';
 
 import TaskService from './task.service';
@@ -47,7 +53,7 @@ describe('TaskService', () => {
     // TODO - no user passed should be prevented higher up
     it('should throw Error if no user is provided', async () => {
       const service = new TaskService();
-      const ctx: MyContextType = { currentUser: null! };
+      const ctx: MyContextType = { currentUser: null!, pubSub: mockPubSub };
       await expect(service.tasks(undefined, ctx)).rejects.toThrow(Error);
     });
 

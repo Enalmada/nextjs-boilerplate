@@ -1,4 +1,7 @@
-import AdminService, { type UploadResponse } from '@/server/admin/admin.service';
+import AdminService, {
+  type NotificationResponse,
+  type UploadResponse,
+} from '@/server/admin/admin.service';
 import { builder } from '@/server/graphql/builder';
 
 // File Upload Example
@@ -22,6 +25,32 @@ builder.mutationField('uploadFile', (t) =>
     },
     resolve: async (root, { file }, ctx) => {
       return new AdminService().uploadFile({ file }, ctx);
+    },
+  })
+);
+
+// Notifications
+
+const NotificationResponseObject = builder.objectRef<NotificationResponse>('NotificationResponse');
+
+NotificationResponseObject.implement({
+  fields: (t) => ({
+    published: t.exposeBoolean('published'),
+  }),
+});
+
+builder.mutationField('publishNotification', (t) =>
+  t.fieldWithInput({
+    type: NotificationResponseObject,
+    nullable: true,
+    input: {
+      message: t.input.string({
+        required: false,
+      }),
+    },
+    resolve: (root, args, ctx) => {
+      const finalMessage = args.input.message || 'hello';
+      return new AdminService().publishNotification({ message: finalMessage }, ctx);
     },
   })
 );
