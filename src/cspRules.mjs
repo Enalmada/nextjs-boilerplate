@@ -67,6 +67,15 @@ export const cspRules = [
     source: '/api/graphql',
   },
   {
+    description: 'graphiQL',
+    'style-src': 'https://unpkg.com/@graphql-yoga/',
+    'script-src': "'unsafe-inline' https://unpkg.com/@graphql-yoga/",
+    'font-src': 'data:',
+    'connect-src': 'https://unpkg.com',
+    'img-src': 'https://raw.githubusercontent.com',
+    source: '/api/admin/graphql',
+  },
+  {
     description: 'sentry',
     'worker-src': 'blob:',
     'connect-src': 'https://o32548.ingest.sentry.io',

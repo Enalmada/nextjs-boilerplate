@@ -102,6 +102,7 @@ enum SortOrder {
   DESC
 }
 
+"""The query subscription type."""
 type Subscription {
   """Events related to notifications"""
   notificationEvents: NotificationEvent!

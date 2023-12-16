@@ -1,5 +1,5 @@
 import React from 'react';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { cacheExchange } from '@/client/gql/cacheExchange';
 import { baseURL } from '@/metadata.config';
 import { UrqlWrapper as NextGqlProvider } from '@enalmada/next-gql/client/urql/UrqlWrapper';
@@ -40,16 +40,18 @@ export const mapTokensToUser = (tokens: Tokens): User => {
 // a ServerUrqlWrapper that immediately fetches the same data (tokens and cookies).
 // feels like a waste so combining for now.
 export async function ServerAuthProvider({
-  nonce,
+  endpoint,
   children,
 }: {
-  nonce?: string;
+  endpoint?: string;
   children: React.ReactNode;
 }) {
+  const nonce = headers().get('x-nonce') || undefined;
+
   const cookieStore = cookies();
   const tokens = await getTokens(cookieStore, authConfig);
   const user = tokens ? mapTokensToUser(tokens) : null;
-  const url = `${baseURL}/api/graphql`;
+  const url = `${baseURL}${endpoint || '/api/graphql'}`;
 
   return (
     <AuthProvider defaultUser={user}>

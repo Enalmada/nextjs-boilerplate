@@ -1,4 +1,5 @@
 import AppLayout from '@/app/[locale]/(app)/AppLayout';
+import { ServerAuthProvider } from '@/lib/firebase/auth/server-auth-provider';
 
 // Uncomment for Cloudflare next-on-pages (required) or Vercel edge
 // export const runtime = 'edge';
@@ -7,5 +8,9 @@ import AppLayout from '@/app/[locale]/(app)/AppLayout';
 export const dynamic = 'force-dynamic';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <AppLayout>{children}</AppLayout>;
+  return (
+    <ServerAuthProvider>
+      <AppLayout>{children}</AppLayout>
+    </ServerAuthProvider>
+  );
 }
