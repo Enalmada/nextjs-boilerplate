@@ -4,7 +4,6 @@ import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { fontSans } from '@/client/styles/fonts';
 import { NextUIWrapper } from '@/client/ui/NextUIWrapper';
-import { ServerAuthProvider } from '@/lib/firebase/auth/server-auth-provider';
 import { timeZone } from '@/lib/localization/i18n';
 import { locales } from '@/lib/localization/navigation';
 import metadataConfig, { viewportConfig } from '@/metadata.config';
@@ -50,13 +49,11 @@ export default async function LocaleLayout({ children, params = { locale: 'en' }
         )}
       >
         {/* <AxiomWebVitals /> */}
-        <ServerAuthProvider nonce={nonce}>
-          <NextIntlClientProvider locale={locale} messages={messages} timeZone={timeZone}>
-            <NextUIWrapper themeProps={{ attribute: 'class', defaultTheme: 'dark', nonce: nonce }}>
-              {children}
-            </NextUIWrapper>
-          </NextIntlClientProvider>
-        </ServerAuthProvider>
+        <NextIntlClientProvider locale={locale} messages={messages} timeZone={timeZone}>
+          <NextUIWrapper themeProps={{ attribute: 'class', defaultTheme: 'dark', nonce: nonce }}>
+            {children}
+          </NextUIWrapper>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

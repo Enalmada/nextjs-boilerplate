@@ -1,4 +1,5 @@
 import AuthLayout from '@/app/[locale]/(auth)/AuthLayout';
+import { ServerAuthProvider } from '@/lib/firebase/auth/server-auth-provider';
 
 // Uncomment for Cloudflare next-on-pages (required) or Vercel edge
 // export const runtime = 'edge';
@@ -7,5 +8,9 @@ import AuthLayout from '@/app/[locale]/(auth)/AuthLayout';
 // https://nextjs.org/docs/app/building-your-application/rendering/static-and-dynamic-rendering#dynamic-functions
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <AuthLayout>{children}</AuthLayout>;
+  return (
+    <ServerAuthProvider>
+      <AuthLayout>{children}</AuthLayout>
+    </ServerAuthProvider>
+  );
 }
