@@ -68,7 +68,7 @@
     "@casl/ability": "6.5.0",
     "@enalmada/drizzle-helpers": "0.0.12",
     "@enalmada/env-valibot": "0.0.13",
-    "@enalmada/next-gql": "0.0.10",
+    "@enalmada/next-gql": "0.0.12",
     "@enalmada/next-gql-codegen": "0.0.5",
     "@enalmada/next-secure": "0.2.2",
     "@enalmada/next-themes": "0.2.4",
@@ -104,7 +104,7 @@
     "react-hook-form": "7.49.2",
     "react-icons": "4.12.0",
     "react-loading-hook": "1.0.0",
-    "tailwind-variants": "0.1.18",
+    "tailwind-variants": "0.1.19",
     "valibot": "0.24.1"
   },
   "devDependencies": {

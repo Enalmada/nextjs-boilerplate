@@ -49,7 +49,7 @@ export default class TaskService {
       updatedAt: new Date(),
       createdAt: new Date(),
       version: 1,
-      userId: ctx.currentUser.id,
+      userId: ctx.currentUser!.id,
     };
 
     accessCheck(logger, ctx.currentUser, 'create', 'Task', createWith);

@@ -2,8 +2,6 @@
 import { builder } from '@/server/graphql/builder';
 import { type MyContextType } from '@/server/graphql/server';
 
-builder.subscriptionType({});
-
 export const NotificationEventLabel = 'NOTIFICATION_EVENT';
 
 export enum NotificationEventType {

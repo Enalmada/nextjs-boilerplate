@@ -176,6 +176,7 @@ export enum SortOrder {
   Desc = 'DESC'
 }
 
+/** The query subscription type. */
 export type Subscription = {
   __typename?: 'Subscription';
   /** Events related to notifications */
