@@ -6,7 +6,7 @@ import { subject } from '@casl/ability';
 
 export function accessCheck(
   logger: Logger,
-  user: User,
+  user: User | undefined,
   action: Action,
   subjectType: SubjectType,
   criteria: object = {},

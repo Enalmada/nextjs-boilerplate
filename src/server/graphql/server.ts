@@ -10,7 +10,7 @@ import { Logger } from 'next-axiom';
 // export interface MyContextType extends YogaContext<User, PubSubChannels> {}
 
 export interface MyContextType {
-  currentUser: User;
+  currentUser?: User;
   pubSub: PubSub<PubSubChannels>;
 }
 

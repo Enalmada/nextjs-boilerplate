@@ -36,13 +36,15 @@ const rolePermissions: Record<Roles, DefinePermissions> = {
   },
 };
 
-export function defineAbilitiesFor(user: User) {
+export function defineAbilitiesFor(user: User | undefined) {
   const builder = new AbilityBuilder<AppAbility>(createMongoAbility);
 
-  if (typeof rolePermissions[user?.role] === 'function') {
-    rolePermissions[user.role](user, builder);
-  } else {
-    throw new Error(`Trying to use unknown role "${user?.role}"`);
+  if (user) {
+    if (typeof rolePermissions[user?.role] === 'function') {
+      rolePermissions[user.role](user, builder);
+    } else {
+      throw new Error(`Trying to use unknown role "${user?.role}"`);
+    }
   }
 
   return builder.build();
