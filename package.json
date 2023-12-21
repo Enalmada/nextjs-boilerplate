@@ -83,7 +83,7 @@
     "@sentry/cli": "2.23.0",
     "@sentry/nextjs": "7.88.0",
     "@serwist/next": "8.0.4",
-    "@serwist/sw": "8.0.4",
+    "@serwist/sw": "8.0.5",
     "clsx": "2.0.0",
     "date-fns": "2.30.0",
     "drizzle-orm": "0.29.1",
