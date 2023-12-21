@@ -1,3 +1,13 @@
+/* ENTITY_HOOK
+{
+  "toFile": "src/server/<%= h.changeCase.camelCase(name) %>/<%= h.changeCase.camelCase(name) %>.service.test.ts",
+  "replacements": [
+    { "find": "Task", "replace": "<%= h.changeCase.pascalCase(name) %>" },
+    { "find": "task", "replace": "<%= h.changeCase.camelCase(name) %>" },
+    { "find": "TASK", "replace": "<%= h.changeCase.constantCase(name) %>" }
+  ]
+}
+*/
 import { TaskStatus, type Task } from '@/server/db/schema';
 import { NotAuthorizedError, OptimisticLockError } from '@/server/graphql/errors';
 import { type MyContextType } from '@/server/graphql/server';

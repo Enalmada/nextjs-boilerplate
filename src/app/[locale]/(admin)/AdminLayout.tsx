@@ -24,6 +24,12 @@ import {
   BiSolidUser as UserIcon,
 } from 'react-icons/bi';
 
+/* ENTITY_HOOK
+{
+  "todo": "Add correct icon for <%= name %>"
+}
+*/
+
 const sidebarConfig: SidebarSectionConfig[] = [
   {
     title: null, // No title for the Home section
@@ -43,11 +49,22 @@ const sidebarConfig: SidebarSectionConfig[] = [
         icon: <UserIcon />,
         href: '/admin/users',
       },
+      /* ENTITY_HOOK
+      {
+        "toPlacement": "below",
+        "replacements": [
+          { "find": "Tasks", "replace": "<%= h.inflection.pluralize(h.changeCase.camelCase(name)) %>" },
+          { "find": "Task", "replace": "<%= h.changeCase.pascalCase(name) %>" },
+          { "find": "tasks", "replace": "<%= h.inflection.pluralize(h.changeCase.camelCase(name)) %>" }
+        ]
+      }
+      */
       {
         title: 'Tasks',
         icon: <TaskIcon />,
         href: '/admin/tasks',
       },
+      /* ENTITY_HOOK end */
     ],
   },
   {

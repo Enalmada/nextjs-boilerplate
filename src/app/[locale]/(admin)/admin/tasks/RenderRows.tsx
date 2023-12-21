@@ -1,3 +1,13 @@
+/* ENTITY_HOOK
+{
+  "toFile": "src/app/[locale]/(admin)/admin/<%= h.inflection.pluralize(h.changeCase.camelCase(name)) %>/RenderRows.tsx",
+  "replacements": [
+    { "find": "Task", "replace": "<%= h.changeCase.pascalCase(name) %>" },
+    { "find": "task", "replace": "<%= h.changeCase.camelCase(name) %>" },
+    { "find": "TASK", "replace": "<%= h.changeCase.constantCase(name) %>" }
+  ]
+}
+*/
 /* eslint-disable no-console,@typescript-eslint/no-unsafe-assignment */
 import Auditing from '@/client/components/admin/Auditing';
 import Chip from '@/client/components/admin/Chip';

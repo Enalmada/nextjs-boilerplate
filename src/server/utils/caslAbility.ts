@@ -7,6 +7,12 @@ import {
 } from '@casl/ability';
 
 export type Action = 'manage' | 'list' | 'read' | 'create' | 'update' | 'delete';
+
+/* ENTITY_HOOK
+{
+  "addType": "<%= h.changeCase.pascalCase(name) %>"
+}
+*/
 export type SubjectType = 'Task' | 'User' | 'all';
 
 type AppAbilities = [
@@ -30,6 +36,12 @@ const rolePermissions: Record<Roles, DefinePermissions> = {
     can('read', 'Task', { userId: user.id });
     can('update', 'Task', { userId: user.id });
     can('delete', 'Task', { userId: user.id });
+
+    /* ENTITY_HOOK
+    {
+      "todo": "Add rolePermissions for <%= name %>"
+    }
+    */
   },
   ADMIN(user, { can }) {
     can('manage', 'all');

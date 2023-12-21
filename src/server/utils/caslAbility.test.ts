@@ -2,6 +2,12 @@ import { UserRole, type Task, type User } from '@/server/db/schema';
 import { defineAbilitiesFor, type AppAbility } from '@/server/utils/caslAbility';
 import { subject } from '@casl/ability';
 
+/* ENTITY_HOOK
+{
+  "todo": "Add permission tests for <%= name %>"
+}
+*/
+
 describe('Permissions', () => {
   let user: User;
   let task: Task;

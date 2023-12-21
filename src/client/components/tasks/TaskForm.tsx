@@ -24,7 +24,7 @@ import {
 import { useMutation, useQuery } from '@enalmada/next-gql/client';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { Button as NextUIButton, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
-import format from 'date-fns/format';
+import { format } from 'date-fns/format';
 import { DayPicker } from 'react-day-picker';
 import { Controller, useForm } from 'react-hook-form';
 import { date, minLength, nullable, object, optional, string } from 'valibot';

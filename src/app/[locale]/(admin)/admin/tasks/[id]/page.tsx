@@ -1,4 +1,13 @@
-import React from 'react';
+/* ENTITY_HOOK
+{
+  "toFile": "src/app/[locale]/(admin)/admin/<%= h.inflection.pluralize(h.changeCase.camelCase(name)) %>/[id]/page.tsx",
+  "replacements": [
+    { "find": "Task", "replace": "<%= h.changeCase.pascalCase(name) %>" },
+    { "find": "task", "replace": "<%= h.changeCase.camelCase(name) %>" },
+    { "find": "TASK", "replace": "<%= h.changeCase.constantCase(name) %>" }
+  ]
+}
+*/
 import TaskForm from '@/app/[locale]/(admin)/admin/tasks/[id]/TaskForm';
 import { Breadcrumb } from '@/client/ui';
 import { getRouteById } from '@/client/utils/routes';

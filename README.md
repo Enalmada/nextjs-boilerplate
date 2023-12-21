@@ -1,8 +1,7 @@
 # nextjs-boilerplate
 
-- place to prototype how new technologies might be used optimally
-- catch issues/errors with interactions in other tech.
-- reference template for personal/professional projects
+A full stack example of technologies for a production ready foundation.
+🔥 Next.js + NextGQL Graphql + Drizzle ORM + NextUI (Tailwind)
 
 Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 
@@ -17,8 +16,16 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 
 ## Development
 
-- `bun dev` - package check, docker (db), migrations, graphql codegen watcher, `next dev`
-- `bun dev:init` - just the next.js dev server
+- `bun dev` - package check, docker (db), db migrations, graphql codegen watcher, `next dev`
+
+### Templating
+
+Rapidly develop new code without manual copy/paste or maintaining separate template files.
+Copy source patterns to a new entity structure using comments embedded in files. 
+
+- `bunx clone-code ENTITY_HOOK <NewEntity> ./src`
+
+See top of [task.model.ts](https://github.com/Enalmada/nextjs-boilerplate/blob/develop/src/server/task/task.model.ts) for example and [CloneCode](https://github.com/Enalmada/clone-code) for details.
 
 ## Testing
 
@@ -26,49 +33,46 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 
 ## Features
 
-🔥 React + Graphql + Drizzle (Migrate + ORM) + Tailwind
-
 ### Frontend
 
 - ⚡ [Next.js](https://nextjs.org) Fullstack react framework with SWC
-  - - ✅ [TypeScript](https://nextjs.org/docs/app/building-your-application/configuring/typescript) Strict
-  - ts-reset library for extra type safety
-  - 📏 [ESLint and Prettier](https://nextjs.org/docs/pages/building-your-application/configuring/eslint#lint-staged) on commit with Husky
-  - ⚙️ [Bundler Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer) after new dependencies to make sure client size is as expected
-  - 🎯 [Absolute imports](https://nextjs.org/docs/pages/building-your-application/configuring/absolute-imports-and-module-aliases) - No more spaghetti imports
-    -💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
-  - [next-secure](https://github.com/Enalmada/next-secure) secure headers helper for next.config.js
-  - [env-valibot](https://github.com/Enalmada/env-valibot) environment variable validation using valibot
-- 💖 [Urql Client](https://formidable.com/open-source/urql/) graphql (state management, subscriptions, etc)
+- [NextUI](https://nextui.org/) react component library
+  - [NextUI-Admin](https://github.com/Enalmada/nextui-admin) admin layout and table components out of the box
+  -💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
+  - [Tailwind Variants](https://www.tailwind-variants.org/) - Create reusable css (css-in-js alternative)
+- 💖[NextGQL Client](https://github.com/Enalmada/next-gql)  GraphQL with secure sensible defaults out of box
+  - [Urql](https://formidable.com/open-source/urql/) graphql (state management, subscriptions, etc)
   - Graphql code generation with [client preset](https://the-guild.dev/graphql/codegen/plugins/presets/preset-client)
+  - File Upload and subscriptions example
+- [next-secure](https://github.com/Enalmada/next-secure) secure headers for maximum security
+- [env-valibot](https://github.com/Enalmada/env-valibot) environment variable validation using valibot
 - 🔒 [firebase auth](https://github.com/awinogrodzki/next-firebase-auth-edge) edge compatible
 - [react-hook-form](https://react-hook-form.com/) for simple and high performance forms
 - 🤖 SEO, JSON-LD and Open Graph tags with Next metadata
-- [NextUI](https://nextui.org/) react component library
-  - [NextUI-Admin](https://github.com/Enalmada/nextui-admin) admin layout and table components
-  - [Tailwind Variants](https://www.tailwind-variants.org/) - Create reusable css (css-in-js alternative)
 - 🎉 [Storybook](https://storybook.js.org/) for component driven UI development
-- [next-pwa](https://github.com/DuCanhGH/next-pwa) service worker with optimized configuration
+- [serwist](https://github.com/serwist/serwist) service worker with optimized configuration
 - [next-intl](https://next-intl-docs.vercel.app/) localization with app directory and [middleware](/src/middleware.ts)
-- File Upload via GraphQL
+- ✅ [TypeScript](https://nextjs.org/docs/app/building-your-application/configuring/typescript) strict with ts-reset library for extra type safety
+- 📏 [ESLint and Prettier](https://nextjs.org/docs/pages/building-your-application/configuring/eslint#lint-staged) on commit with Husky
+- ⚙️ [Bundler Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer) after new dependencies to make sure client size is as expected
 
 ### Backend
 
 - ⚡ [Next.js](https://nextjs.org) API routes. Fullstack and serverless friendly
-- Graphql
-  - [yoga-server](https://the-guild.dev/graphql/yoga-server) serverless/edge compatible
+- 💖[NextGQL Server](https://github.com/Enalmada/next-gql) GraphQL with secure sensible defaults out of box
+  - [Yoga](https://the-guild.dev/graphql/yoga-server) serverless/edge compatible graphql server
   - [Pothos](https://pothos-graphql.dev/) "code first" typesafe graphql models
   - [Graphql Armor](https://escape.tech/graphql-armor/) security defaults
 - Database
-  - [drizzle](https://orm.drizzle.team/) db migrations and typesafe sql query builder
-    - [drizzle-helpers](https://github.com/Enalmada/drizzle-helpers) optimized connection, migration, and ORM functions
-  - [postgres.js](https://github.com/porsager/postgres) fast postgres driver over traditional pg
-  - [CockroachDB](https://www.sprinkledata.com/blogs/cockroachdb-vs-postgresql-a-comprehensive-comparison) free tier, scalable, production ready.
+  - [docker-compose](https://docs.docker.com/compose/) start db without local install
+    - [CockroachDB](https://www.sprinkledata.com/blogs/cockroachdb-vs-postgresql-a-comprehensive-comparison) free tier, scalable, production ready.
+  - [drizzle-helpers](https://github.com/Enalmada/drizzle-helpers) optimized connection, migration, and ORM functions
+    - [drizzle](https://orm.drizzle.team/) db migrations and typesafe sql query builder
+    - [postgres.js](https://github.com/porsager/postgres) fast postgres driver over traditional pg
 
 ### Dev Ops
 
 - error logging - sentry (see src/pages/\_app.js)
-- local and test db running in docker container
 - 🛠️ ️[fixpack](https://github.com/henrikjoreteg/fixpack) package.json normalization
 - 🚓 commit messages validated with Commitlint
 - [Playwright](https://playwright.dev/) e2e tests
@@ -89,18 +93,15 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
   - may already be handled by next-intl
 - [ ] graphql enhancements
   - [ ] endpoint post uses csrf
-  - [ ] graphql subscriptions (multi device real time)
-  - [ ] persisted queries
+  - [ ] persisted queries (blocked by issue with codegen)
 - [ ] analytics
 - [ ] Sitemap.xml and robots.txt with [next-sitemap](https://github.com/iamvishnusankar/next-sitemap)
 - [ ] Cloudflare next-on-pages verification. Had sentry bugs that [issue](https://github.com/cloudflare/next-on-pages/issues/420) says is fixed now.
 - [ ] figure out a good way for demo to get into /admin side of things
 - [ ] setup dependency checking on github actions with Renovate
 - [ ] playwright tests
-
   - [ ] running with github actions
   - [ ] on admin
-
 - [ ] vitest with bun vs node. There were bugs that are [being worked on](https://github.com/oven-sh/bun/issues/4145#issuecomment-1725759116).
   - blocked by [module mock](https://github.com/oven-sh/bun/issues/5394) support
 - [ ] playwright tests using bun - blocked
@@ -114,7 +115,7 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 
 ## Notes
 
-### Turbo
+### Turbo with Next.js Dev
 
 Waiting for it to work
 
@@ -127,7 +128,7 @@ Waiting for it to work
 Recommend pnpm for projects that need stability.  
 Bun is worth trying out for personal R&D and may be the future of node in a year.
 
-### Deployments
+### Deployment
 
 Strongly recommend deploying to Vercel until the cost at scale is prohibitive.
 When you need other solutions:
@@ -153,12 +154,18 @@ When you need other solutions:
 http://localhost:3000/api/graphql
 To connect authenticated: `Connection Settings > Edit > Include Cookies > on`
 
+### Drizzle vs Prisma
+
+For many years I was the biggest Prisma maven.  I absolutely love the prisma file format.
+However when trying to release a serverless backend I found it required [Data Proxy](https://www.prisma.io/blog/how-prisma-and-serverless-fit-together-iaSfcPQVi0#data-proxy)
+which I was not comfortable with.  
+
 ### Database type
 
 CockroachDB was chosen for combination of free tier, postgres compatability, and ultimate scalability.
-Some cons
+Some cons:
 
-- it doesn't offer edge compatability
+- it doesn't offer direct edge compatability
 - it [isn't officially supported in drizzle yet](https://github.com/drizzle-team/drizzle-orm/issues/845). Migrations with `DO $$` need to be manually converted to `IF NOT EXISTS`
   until [issue](https://github.com/cockroachdb/cockroach/issues/107345) is fixed.
 
@@ -193,11 +200,11 @@ If you do want pg, note this issue that needed manual patching at time of writin
 https://github.com/brianc/node-postgres/issues/2980#issuecomment-1658765692
 
 # Git branches cleanup
+I am now using [Graphite.dev](https://graphite.dev/) to manage branches, commits, and PR.
+I highly recommend it for personal use and small teams.  
 
-To cleanup branches, I am using this alias: `git config --global alias.branch-prune '!git fetch -p && for b in $(git for-each-ref --format='\''%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)'\'' refs/heads); do git branch -d $b; done'`
-
+Before to cleanup branches, I was using this alias: `git config --global alias.branch-prune '!git fetch -p && for b in $(git for-each-ref --format='\''%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)'\'' refs/heads); do git branch -d $b; done'`
 Then run this to delete them safely `git branch-prune`
-
 Reference https://stackoverflow.com/a/61204370/1502448
 
 ## Contributing

@@ -6,7 +6,7 @@ import { UPDATE_TASK } from '@/client/gql/queries-mutations';
 import { Card, Skeleton } from '@/client/ui';
 import { useMutation } from '@enalmada/next-gql/client';
 import { CardBody, Checkbox } from '@nextui-org/react';
-import format from 'date-fns/format';
+import { format } from 'date-fns/format';
 
 interface TaskBodyProps {
   task?: Task;
