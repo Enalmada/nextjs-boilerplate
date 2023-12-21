@@ -94,7 +94,7 @@
     "nanoid": "5.0.4",
     "next": "14.0.4",
     "next-axiom": "1.1.1",
-    "next-firebase-auth-edge": "0.10.2",
+    "next-firebase-auth-edge": "0.11.1",
     "next-intl": "3.3.2",
     "nextjs-routes": "2.1.0",
     "postgres": "3.4.3",
