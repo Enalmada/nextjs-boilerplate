@@ -12,9 +12,9 @@ export interface ListInput<TEntity> extends TableInput {
 
 export interface BaseEntity {
   id: string;
-  // createdBy?: string | null;
+  createdBy?: string | null;
   createdAt: Date;
-  // updatedBy?: string | null;
+  updatedBy?: string | null;
   updatedAt: Date;
   version: number;
 }

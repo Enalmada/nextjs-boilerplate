@@ -45,9 +45,9 @@ export const mockUser: User = {
   firebaseId: 'random',
   role: UserRole.MEMBER,
   createdAt: fixedDate,
-  // createdBy: mockUserId,
+  createdBy: mockUserId,
   updatedAt: fixedDate,
-  // updatedBy: mockUserId,
+  updatedBy: mockUserId,
   version: 1,
 };
 

@@ -123,9 +123,9 @@ builder.mutationField('createTask', (t) =>
         ...args.input,
         userId: ctx.currentUser!.id,
         createdAt: new Date(),
-        // createdBy: ctx.currentUser!.id,
+        createdBy: ctx.currentUser!.id,
         updatedAt: new Date(),
-        // updatedBy: ctx.currentUser!.id,
+        updatedBy: ctx.currentUser!.id,
       };
       return new TaskService().create(input, ctx);
     },
