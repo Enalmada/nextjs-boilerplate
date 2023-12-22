@@ -23,6 +23,13 @@ export type Scalars = {
   NonEmptyString: { input: string; output: string; }
 };
 
+export type BaseEntity = {
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+  version: Scalars['Int']['output'];
+};
+
 /** The query mutation type. */
 export type Mutation = {
   __typename?: 'Mutation';
@@ -183,7 +190,7 @@ export type Subscription = {
   notificationEvents: NotificationEvent;
 };
 
-export type Task = {
+export type Task = BaseEntity & {
   __typename?: 'Task';
   createdAt: Scalars['DateTime']['output'];
   description?: Maybe<Scalars['String']['output']>;
@@ -217,7 +224,7 @@ export type UploadResponse = {
   filename: Scalars['String']['output'];
 };
 
-export type User = {
+export type User = BaseEntity & {
   __typename?: 'User';
   createdAt: Scalars['DateTime']['output'];
   email?: Maybe<Scalars['String']['output']>;

@@ -1,3 +1,4 @@
+import { BaseEntityType } from '@/server/base/base.model';
 import { type ListInput } from '@/server/base/base.service';
 import { UserRole, type User, type UserInput } from '@/server/db/schema';
 import { builder } from '@/server/graphql/builder';
@@ -14,18 +15,15 @@ builder.enumType(UserRole, {
 });
 
 UserType.implement({
+  interfaces: [BaseEntityType],
   fields: (t) => ({
-    id: t.exposeID('id'),
     name: t.exposeString('name', { nullable: true }),
     email: t.exposeString('email', { nullable: true }),
     role: t.field({
       type: UserRole,
       resolve: (user: User) => user.role as unknown as UserRole,
     }),
-    version: t.exposeInt('version'),
     rules: t.expose('rules', { type: 'JSON', nullable: true }),
-    createdAt: t.field({ type: 'DateTime', resolve: (user: User) => user.createdAt }),
-    updatedAt: t.field({ type: 'DateTime', resolve: (user: User) => user.createdAt }),
     tasks: t.field({
       type: [TaskType],
       nullable: {

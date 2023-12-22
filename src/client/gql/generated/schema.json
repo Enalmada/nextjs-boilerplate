@@ -11,6 +11,67 @@
     },
     "types": [
       {
+        "kind": "INTERFACE",
+        "name": "BaseEntity",
+        "fields": [
+          {
+            "name": "createdAt",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "updatedAt",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "version",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": [],
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "Task"
+          },
+          {
+            "kind": "OBJECT",
+            "name": "User"
+          }
+        ]
+      },
+      {
         "kind": "OBJECT",
         "name": "Mutation",
         "fields": [
@@ -429,7 +490,12 @@
             "args": []
           }
         ],
-        "interfaces": []
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "BaseEntity"
+          }
+        ]
       },
       {
         "kind": "OBJECT",
@@ -584,7 +650,12 @@
             "args": []
           }
         ],
-        "interfaces": []
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "BaseEntity"
+          }
+        ]
       },
       {
         "kind": "OBJECT",

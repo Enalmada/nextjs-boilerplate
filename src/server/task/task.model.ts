@@ -8,6 +8,7 @@
   ]
 }
 */
+import { BaseEntityType } from '@/server/base/base.model';
 import { type ListInput } from '@/server/base/base.service';
 import { TaskStatus, type Task, type TaskInput } from '@/server/db/schema';
 import { builder } from '@/server/graphql/builder';
@@ -24,8 +25,8 @@ builder.enumType(TaskStatus, {
 export const TaskType = builder.objectRef<Task>('Task');
 
 TaskType.implement({
+  interfaces: [BaseEntityType],
   fields: (t) => ({
-    id: t.exposeID('id'),
     title: t.expose('title', {
       type: 'NonEmptyString',
     }),
@@ -38,13 +39,6 @@ TaskType.implement({
       nullable: true,
       type: 'DateTime',
     }),
-    createdAt: t.expose('createdAt', {
-      type: 'DateTime',
-    }),
-    updatedAt: t.expose('updatedAt', {
-      type: 'DateTime',
-    }),
-    version: t.exposeInt('version'),
   }),
 });
 
