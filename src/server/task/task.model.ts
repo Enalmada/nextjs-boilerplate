@@ -1,3 +1,13 @@
+/* ENTITY_HOOK
+{
+  "toFile": "src/server/<%= h.changeCase.camelCase(name) %>/<%= h.changeCase.camelCase(name) %>.model.ts",
+  "replacements": [
+    { "find": "Task", "replace": "<%= h.changeCase.pascalCase(name) %>" },
+    { "find": "task", "replace": "<%= h.changeCase.camelCase(name) %>" },
+    { "find": "TASK", "replace": "<%= h.changeCase.constantCase(name) %>" }
+  ]
+}
+*/
 import { TaskStatus, type Task, type TaskInput } from '@/server/db/schema';
 import { builder } from '@/server/graphql/builder';
 import TaskService, { type TasksInput } from '@/server/task/task.service';

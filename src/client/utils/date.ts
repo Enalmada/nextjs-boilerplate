@@ -1,6 +1,5 @@
-import { type Locale } from 'date-fns';
-import formatRelative from 'date-fns/formatRelative';
-import enUS from 'date-fns/locale/en-US';
+import { formatRelative } from 'date-fns/formatRelative';
+import { enUS } from 'date-fns/locale/en-US';
 
 // https://date-fns.org/docs/I18n-Contribution-Guide#formatrelative
 // https://github.com/date-fns/date-fns/blob/master/src/locale/en-US/_lib/formatRelative/index.js
@@ -24,9 +23,12 @@ const formatRelativeLocale: FormatRelativeLocale = {
   other: 'MM/dd/yyyy',
 };
 
-const locale: Locale = {
+const locale = {
   ...enUS,
-  formatRelative: (token: string) => formatRelativeLocale[token],
+  formatRelative: (token: string) => {
+    // Return the corresponding string or a default string if the token is not found
+    return formatRelativeLocale[token] || formatRelativeLocale.other;
+  },
 };
 
 // Remove the time from the default

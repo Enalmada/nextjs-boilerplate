@@ -5,7 +5,7 @@ export const metadata = {
 export default function Page() {
   return (
     <>
-      <section className="prose dark:prose-invert lg:prose-xl">
+      <section className="prose lg:prose-xl dark:prose-invert">
         <h2>Privacy Policy</h2>
         <p>
           Your privacy is important to us. It is Technical Challenge&apos;s policy to respect your

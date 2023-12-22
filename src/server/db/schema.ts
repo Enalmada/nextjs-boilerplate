@@ -19,6 +19,8 @@ const generateAuditingFields = () => {
   };
 };
 
+// USER
+
 export enum UserRole {
   MEMBER = 'MEMBER',
   ADMIN = 'ADMIN',
@@ -42,6 +44,19 @@ export type UserInput = InferInsertModel<typeof UserTable>;
 export const usersRelations = relations(UserTable, ({ many }) => ({
   task: many(TaskTable),
 }));
+
+/* ENTITY_HOOK
+{
+  "toPlacement": "bottom",
+  "replacements": [
+    { "find": "Task", "replace": "<%= h.changeCase.pascalCase(name) %>" },
+    { "find": "task", "replace": "<%= h.changeCase.camelCase(name) %>" },
+    { "find": "TASK", "replace": "<%= h.changeCase.constantCase(name) %>" },
+    { "find": "tsk", "replace": "<%= h.changeCase.camelCase(name.slice(0, 3)) %>" }
+  ]
+}
+*/
+// TASK
 
 export enum TaskStatus {
   ACTIVE = 'ACTIVE',
@@ -71,3 +86,5 @@ export const taskRelations = relations(TaskTable, ({ one }) => ({
     references: [UserTable.id],
   }),
 }));
+
+/* ENTITY_HOOK end */

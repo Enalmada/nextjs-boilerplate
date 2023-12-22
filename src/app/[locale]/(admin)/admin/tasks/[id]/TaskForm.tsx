@@ -1,3 +1,13 @@
+/* ENTITY_HOOK
+{
+  "toFile": "src/app/[locale]/(admin)/admin/<%= h.inflection.pluralize(h.changeCase.camelCase(name)) %>/[id]/<%= h.changeCase.pascalCase(name) %>Form.tsx",
+  "replacements": [
+    { "find": "Task", "replace": "<%= h.changeCase.pascalCase(name) %>" },
+    { "find": "task", "replace": "<%= h.changeCase.camelCase(name) %>" },
+    { "find": "TASK", "replace": "<%= h.changeCase.constantCase(name) %>" }
+  ]
+}
+*/
 'use client';
 
 import { useState } from 'react';
@@ -25,7 +35,7 @@ import {
 import { useMutation, useQuery } from '@enalmada/next-gql/client';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { Button as NextUIButton, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
-import format from 'date-fns/format';
+import { format } from 'date-fns/format';
 import { DayPicker } from 'react-day-picker';
 import { Controller, useForm } from 'react-hook-form';
 import { date, minLength, nullable, object, optional, string } from 'valibot';
