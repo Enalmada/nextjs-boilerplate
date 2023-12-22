@@ -8,9 +8,10 @@
   ]
 }
 */
+import { type ListInput } from '@/server/base/base.service';
 import { TaskStatus, type Task, type TaskInput } from '@/server/db/schema';
 import { builder } from '@/server/graphql/builder';
-import TaskService, { type TasksInput } from '@/server/task/task.service';
+import TaskService from '@/server/task/task.service';
 
 import { OrderInputType, PaginationInputType } from '../graphql/sortAndPagination';
 
@@ -55,7 +56,7 @@ builder.queryField('task', (t) =>
     },
     nullable: true,
     resolve: async (_root, args, ctx) => {
-      return new TaskService().task(args.id as string, ctx);
+      return new TaskService().get(args.id as string, ctx);
     },
   })
 );
@@ -98,7 +99,7 @@ builder.queryField('tasksPage', (t) =>
       pagination: t.input.field({ type: PaginationInputType, required: false }),
     },
     resolve: async (_root, args, ctx) => {
-      const page = await new TaskService().tasks(args.input as TasksInput, ctx);
+      const page = await new TaskService().list(args.input as ListInput<Task>, ctx);
       return {
         hasMore: page.hasMore,
         tasks: page.result,
@@ -122,7 +123,9 @@ builder.mutationField('createTask', (t) =>
         ...args.input,
         userId: ctx.currentUser!.id,
         createdAt: new Date(),
+        // createdBy: ctx.currentUser!.id,
         updatedAt: new Date(),
+        // updatedBy: ctx.currentUser!.id,
       };
       return new TaskService().create(input, ctx);
     },
@@ -147,7 +150,10 @@ builder.mutationField('updateTask', (t) =>
       const input: TaskInput = {
         ...args.input,
         userId: ctx.currentUser!.id,
+        createdAt: new Date(),
+        // createdBy: ctx.currentUser!.id,
         updatedAt: new Date(),
+        // updatedBy: ctx.currentUser!.id,
       };
       return new TaskService().update(args.id as string, input, ctx);
     },

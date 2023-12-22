@@ -1,9 +1,10 @@
+import { type ListInput } from '@/server/base/base.service';
 import { UserRole, type User, type UserInput } from '@/server/db/schema';
 import { builder } from '@/server/graphql/builder';
 import { OrderInputType, PaginationInputType } from '@/server/graphql/sortAndPagination';
 import { TaskType } from '@/server/task/task.model';
-import TaskService, { type TasksInput } from '@/server/task/task.service';
-import UserService, { type UsersInput } from '@/server/user/user.service';
+import TaskService from '@/server/task/task.service';
+import UserService from '@/server/user/user.service';
 
 // https://github.com/chimame/graphql-yoga-worker-with-pothos
 export const UserType = builder.objectRef<User & { rules?: string }>('User');
@@ -32,10 +33,10 @@ UserType.implement({
         items: false,
       },
       resolve: async (user: User, args, ctx) => {
-        const input: TasksInput = {
+        const input = {
           where: { userId: user.id },
         };
-        const page = await new TaskService().tasks(input, ctx);
+        const page = await new TaskService().list(input, ctx);
         return page.result;
       },
     }),
@@ -62,7 +63,7 @@ builder.queryField('user', (t) =>
     },
     nullable: true,
     resolve: async (_root, args, ctx) => {
-      return new UserService().user(args.id as string, ctx);
+      return new UserService().get(args.id as string, ctx);
     },
   })
 );
@@ -105,7 +106,7 @@ builder.queryField('usersPage', (t) =>
       pagination: t.input.field({ type: PaginationInputType, required: false }),
     },
     resolve: async (_root, args, ctx) => {
-      const page = await new UserService().users(args.input as UsersInput, ctx);
+      const page = await new UserService().list(args.input as ListInput<User>, ctx);
       return {
         hasMore: page.hasMore,
         users: page.result,
