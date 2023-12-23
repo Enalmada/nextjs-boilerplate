@@ -12,10 +12,10 @@ export interface ListInput<TEntity> extends TableInput {
 
 export interface BaseEntity {
   id: string;
-  createdBy?: string | null;
+  createdById?: string | null;
   createdAt: Date;
-  updatedBy?: string | null;
-  updatedAt: Date;
+  updatedById?: string | null;
+  updatedAt?: Date | null;
   version: number;
 }
 
@@ -67,9 +67,9 @@ export default abstract class BaseService<
     const createWith = {
       ...input,
       createdAt: new Date(),
-      // createdBy: ctx.currentUser?.id,
+      createdById: ctx.currentUser?.id,
       updatedAt: new Date(),
-      // updatedBy: ctx.currentUser!.id,
+      updatedById: ctx.currentUser!.id,
       version: 1,
     };
 
@@ -102,7 +102,7 @@ export default abstract class BaseService<
     const updateWith = {
       ...input,
       updatedAt: new Date(),
-      // updatedBy: ctx.currentUser?.id,
+      updatedById: ctx.currentUser?.id,
       version: entity.version + 1,
     };
 

@@ -25,8 +25,10 @@ export type Scalars = {
 
 export type BaseEntity = {
   createdAt: Scalars['DateTime']['output'];
+  createdBy?: Maybe<User>;
   id: Scalars['ID']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedBy?: Maybe<User>;
   version: Scalars['Int']['output'];
 };
 
@@ -193,12 +195,14 @@ export type Subscription = {
 export type Task = BaseEntity & {
   __typename?: 'Task';
   createdAt: Scalars['DateTime']['output'];
+  createdBy?: Maybe<User>;
   description?: Maybe<Scalars['String']['output']>;
   dueDate?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   status: TaskStatus;
   title: Scalars['NonEmptyString']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedBy?: Maybe<User>;
   version: Scalars['Int']['output'];
 };
 
@@ -227,13 +231,15 @@ export type UploadResponse = {
 export type User = BaseEntity & {
   __typename?: 'User';
   createdAt: Scalars['DateTime']['output'];
+  createdBy?: Maybe<User>;
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name?: Maybe<Scalars['String']['output']>;
   role: UserRole;
   rules?: Maybe<Scalars['JSON']['output']>;
   tasks?: Maybe<Array<Task>>;
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedBy?: Maybe<User>;
   version: Scalars['Int']['output'];
 };
 
@@ -254,33 +260,33 @@ export type UserWhere = {
   id?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type UserPartsFragment = { __typename?: 'User', id: string, name?: string | null, email?: string | null, role: UserRole, createdAt: Date, updatedAt: Date, version: number };
+export type UserPartsFragment = { __typename?: 'User', id: string, name?: string | null, email?: string | null, role: UserRole, createdAt: Date, updatedAt?: Date | null, version: number };
 
-export type TaskPartsFragment = { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt: Date, version: number };
+export type TaskPartsFragment = { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt?: Date | null, version: number };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', rules?: any | null, id: string, name?: string | null, email?: string | null, role: UserRole, createdAt: Date, updatedAt: Date, version: number, tasks?: Array<{ __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt: Date, version: number }> | null } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', rules?: any | null, id: string, name?: string | null, email?: string | null, role: UserRole, createdAt: Date, updatedAt?: Date | null, version: number, tasks?: Array<{ __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt?: Date | null, version: number }> | null } | null };
 
 export type MyTasksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyTasksQuery = { __typename?: 'Query', me?: { __typename?: 'User', rules?: any | null, id: string, name?: string | null, email?: string | null, role: UserRole, createdAt: Date, updatedAt: Date, version: number, tasks?: Array<{ __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt: Date, version: number }> | null } | null };
+export type MyTasksQuery = { __typename?: 'Query', me?: { __typename?: 'User', rules?: any | null, id: string, name?: string | null, email?: string | null, role: UserRole, createdAt: Date, updatedAt?: Date | null, version: number, tasks?: Array<{ __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt?: Date | null, version: number }> | null } | null };
 
 export type TaskQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type TaskQuery = { __typename?: 'Query', task?: { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt: Date, version: number } | null };
+export type TaskQuery = { __typename?: 'Query', task?: { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt?: Date | null, version: number } | null };
 
 export type CreateTaskMutationVariables = Exact<{
   input: MutationCreateTaskInput;
 }>;
 
 
-export type CreateTaskMutation = { __typename?: 'Mutation', createTask: { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt: Date, version: number } };
+export type CreateTaskMutation = { __typename?: 'Mutation', createTask: { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt?: Date | null, version: number } };
 
 export type UpdateTaskMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -288,28 +294,28 @@ export type UpdateTaskMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask?: { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt: Date, version: number } | null };
+export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask?: { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt?: Date | null, version: number } | null };
 
 export type DeleteTaskMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask?: { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt: Date, version: number } | null };
+export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask?: { __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt?: Date | null, version: number } | null };
 
 export type UsersPageQueryVariables = Exact<{
   input: QueryUsersPageInput;
 }>;
 
 
-export type UsersPageQuery = { __typename?: 'Query', usersPage: { __typename?: 'UserPage', hasMore: boolean, users: Array<{ __typename?: 'User', id: string, name?: string | null, email?: string | null, role: UserRole, createdAt: Date, updatedAt: Date, version: number }> } };
+export type UsersPageQuery = { __typename?: 'Query', usersPage: { __typename?: 'UserPage', hasMore: boolean, users: Array<{ __typename?: 'User', id: string, name?: string | null, email?: string | null, role: UserRole, createdAt: Date, updatedAt?: Date | null, version: number }> } };
 
 export type UserQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, name?: string | null, email?: string | null, role: UserRole, createdAt: Date, updatedAt: Date, version: number } | null };
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, name?: string | null, email?: string | null, role: UserRole, createdAt: Date, updatedAt?: Date | null, version: number } | null };
 
 export type UpdateUserMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -317,14 +323,14 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser?: { __typename?: 'User', id: string, name?: string | null, email?: string | null, role: UserRole, createdAt: Date, updatedAt: Date, version: number } | null };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser?: { __typename?: 'User', id: string, name?: string | null, email?: string | null, role: UserRole, createdAt: Date, updatedAt?: Date | null, version: number } | null };
 
 export type TasksPageQueryVariables = Exact<{
   input: QueryTasksPageInput;
 }>;
 
 
-export type TasksPageQuery = { __typename?: 'Query', tasksPage: { __typename?: 'TaskPage', hasMore: boolean, tasks: Array<{ __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt: Date, version: number }> } };
+export type TasksPageQuery = { __typename?: 'Query', tasksPage: { __typename?: 'TaskPage', hasMore: boolean, tasks: Array<{ __typename?: 'Task', id: string, title: string, description?: string | null, dueDate?: Date | null, status: TaskStatus, createdAt: Date, updatedAt?: Date | null, version: number }> } };
 
 export type UploadFileMutationVariables = Exact<{
   file: Scalars['File']['input'];

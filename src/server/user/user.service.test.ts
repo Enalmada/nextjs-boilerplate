@@ -37,6 +37,14 @@ export const mockUserId = 'usr_1';
 
 export const fixedDate = new Date('2023-08-28T21:37:27.238Z');
 
+export const baseEntityMock = {
+  createdAt: fixedDate,
+  createdById: mockUserId,
+  updatedAt: fixedDate,
+  updatedById: mockUserId,
+  version: 1,
+};
+
 export const mockUser: User = {
   id: mockUserId,
   name: 'name',
@@ -44,11 +52,7 @@ export const mockUser: User = {
   image: null,
   firebaseId: 'random',
   role: UserRole.MEMBER,
-  createdAt: fixedDate,
-  createdBy: mockUserId,
-  updatedAt: fixedDate,
-  updatedBy: mockUserId,
-  version: 1,
+  ...baseEntityMock,
 };
 
 export const mockCtx: MyContextType = { currentUser: mockUser, pubSub: mockPubSub };

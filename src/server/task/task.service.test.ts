@@ -12,6 +12,7 @@ import { TaskStatus, type Task } from '@/server/db/schema';
 import { NotAuthorizedError, OptimisticLockError } from '@/server/graphql/errors';
 import { type MyContextType } from '@/server/graphql/server';
 import {
+  baseEntityMock,
   fixedDate,
   mockAdminCtx,
   mockCtx,
@@ -30,13 +31,9 @@ export const mockTask: Task = {
   title: 'Task 1',
   description: null,
   dueDate: fixedDate,
-  createdAt: fixedDate,
-  createdBy: mockUserId,
-  updatedAt: fixedDate,
-  updatedBy: mockUserId,
   status: TaskStatus.ACTIVE,
-  version: 1,
   userId: mockUserId,
+  ...baseEntityMock,
 };
 
 const mockPage: Page<Task> = {

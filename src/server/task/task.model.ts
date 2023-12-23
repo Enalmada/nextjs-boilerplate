@@ -117,9 +117,7 @@ builder.mutationField('createTask', (t) =>
         ...args.input,
         userId: ctx.currentUser!.id,
         createdAt: new Date(),
-        createdBy: ctx.currentUser!.id,
-        updatedAt: new Date(),
-        updatedBy: ctx.currentUser!.id,
+        createdById: ctx.currentUser!.id,
       };
       return new TaskService().create(input, ctx);
     },
@@ -144,10 +142,8 @@ builder.mutationField('updateTask', (t) =>
       const input: TaskInput = {
         ...args.input,
         userId: ctx.currentUser!.id,
-        createdAt: new Date(),
-        // createdBy: ctx.currentUser!.id,
         updatedAt: new Date(),
-        // updatedBy: ctx.currentUser!.id,
+        updatedById: ctx.currentUser!.id,
       };
       return new TaskService().update(args.id as string, input, ctx);
     },
