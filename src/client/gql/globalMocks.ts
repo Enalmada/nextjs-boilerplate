@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access  */
+import { ME, MY_TASKS, TASK } from '@/client/gql/client-queries.gql';
 import {
   TaskStatus,
   UserRole,
@@ -6,7 +7,6 @@ import {
   type Task,
   type User,
 } from '@/client/gql/generated/graphql';
-import { ME, MY_TASKS, TASK } from '@/client/gql/queries-mutations';
 import { type Mock } from '@enalmada/storybook-addon-mock-urql';
 import { faker } from '@faker-js/faker';
 

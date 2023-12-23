@@ -1,5 +1,5 @@
+import { ME } from '@/client/gql/client-queries.gql';
 import { type MeQuery, type MeQueryVariables } from '@/client/gql/generated/graphql';
-import { ME } from '@/client/gql/queries-mutations';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import { print, type ExecutionResult } from 'graphql';
 

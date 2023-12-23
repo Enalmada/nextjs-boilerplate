@@ -4,8 +4,8 @@ import React from 'react';
 import Image from 'next/image';
 import { useAuthorization } from '@/app/[locale]/(admin)/Authorization';
 import AdminLoading from '@/app/[locale]/(admin)/loading';
-import { type MeQuery } from '@/client/gql/generated/graphql';
-import { ME } from '@/client/gql/queries-mutations';
+import { ADMIN_ME } from '@/client/gql/admin-queries.gql';
+import { type AdminMeQuery } from '@/client/gql/generated/graphql';
 import { useQuery } from '@enalmada/next-gql/client';
 import {
   Layout,
@@ -96,7 +96,7 @@ interface Props {
   children: React.ReactNode;
 }
 export default function AdminLayout({ children }: Props) {
-  const [{ data: dataQuery, error: errorQuery }] = useQuery<MeQuery>({ query: ME });
+  const [{ data: dataQuery, error: errorQuery }] = useQuery<AdminMeQuery>({ query: ADMIN_ME });
 
   const hasAuthorization = useAuthorization(dataQuery?.me);
 

@@ -1,7 +1,7 @@
 'use client';
 
+import { PUBLISH_NOTIFICATION } from '@/client/gql/admin-queries.gql';
 import { type PublishNotificationMutation } from '@/client/gql/generated/graphql';
-import { PUBLISH_NOTIFICATION } from '@/client/gql/queries-mutations';
 import { useMutation } from '@enalmada/next-gql/client';
 import { Button, Spinner } from '@nextui-org/react';
 

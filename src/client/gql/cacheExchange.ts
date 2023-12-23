@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
+import { MY_TASKS } from '@/client/gql/client-queries.gql';
 import { type MyTasksQuery, type Task } from '@/client/gql/generated/graphql';
 import schema from '@/client/gql/generated/schema.json';
-import { MY_TASKS } from '@/client/gql/queries-mutations';
 import {
   createCacheExchange,
   type Cache,

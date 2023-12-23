@@ -13,6 +13,7 @@
 import { useState } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
+import { ADMIN_DELETE_TASK, ADMIN_TASK, ADMIN_UPDATE_TASK } from '@/client/gql/admin-queries.gql';
 import { extractErrorMessages } from '@/client/gql/errorHandling';
 import {
   TaskStatus,
@@ -22,7 +23,6 @@ import {
   type UpdateTaskMutation,
   type UpdateTaskMutationVariables,
 } from '@/client/gql/generated/graphql';
-import { DELETE_TASK, TASK, UPDATE_TASK } from '@/client/gql/queries-mutations';
 import {
   Button,
   Card,
@@ -53,7 +53,7 @@ export default function TaskForm(props: Props) {
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
 
   const [{ data: dataQuery, error: errorQuery }] = useQuery<TaskQuery>({
-    query: TASK,
+    query: ADMIN_TASK,
     variables: { id: props.id || '' },
     pause: props.id === undefined,
   });
@@ -64,9 +64,9 @@ export default function TaskForm(props: Props) {
   const [{ error: updateMutationError }, updateTask] = useMutation<
     UpdateTaskMutation,
     UpdateTaskMutationVariables
-  >(UPDATE_TASK);
+  >(ADMIN_UPDATE_TASK);
   const [{ error: deleteMutationError, fetching: loadingDelete }, deleteTask] =
-    useMutation<DeleteTaskMutation>(DELETE_TASK);
+    useMutation<DeleteTaskMutation>(ADMIN_DELETE_TASK);
 
   // TODO: dueDate should be Date (form not submitting)
   type FormData = {

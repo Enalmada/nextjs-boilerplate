@@ -2,8 +2,8 @@
 
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
+import { ADMIN_UPDATE_USER, ADMIN_USER } from '@/client/gql/admin-queries.gql';
 import { extractErrorMessages } from '@/client/gql/errorHandling';
-import { UPDATE_USER, USER } from '@/client/gql/queries-mutations';
 import { Button, Card, CardBody, Radio, RadioGroupControlled } from '@/client/ui';
 import { useMutation, useQuery } from '@enalmada/next-gql/client';
 import { valibotResolver } from '@hookform/resolvers/valibot';
@@ -15,10 +15,10 @@ import 'react-day-picker/dist/style.css';
 import ReadOnlyInput from '@/client/components/admin/ReadOnlyInput';
 import {
   UserRole,
-  type UpdateUserMutation,
-  type UpdateUserMutationVariables,
+  type AdminUpdateUserMutation,
+  type AdminUpdateUserMutationVariables,
+  type AdminUserQuery,
   type User,
-  type UserQuery,
 } from '@/client/gql/generated/graphql';
 
 interface Props {
@@ -28,8 +28,8 @@ interface Props {
 export default function UserForm(props: Props) {
   const router = useRouter();
 
-  const [{ data: dataQuery, error: errorQuery }] = useQuery<UserQuery>({
-    query: USER,
+  const [{ data: dataQuery, error: errorQuery }] = useQuery<AdminUserQuery>({
+    query: ADMIN_USER,
     variables: { id: props.id || '' },
     pause: props.id === undefined,
   });
@@ -38,9 +38,9 @@ export default function UserForm(props: Props) {
   // mutation error will render errors but not handle them
   // https://stackoverflow.com/questions/59465864/handling-errors-with-react-apollo-usemutation-hook
   const [{ error: updateMutationError }, updateUser] = useMutation<
-    UpdateUserMutation,
-    UpdateUserMutationVariables
-  >(UPDATE_USER);
+    AdminUpdateUserMutation,
+    AdminUpdateUserMutationVariables
+  >(ADMIN_UPDATE_USER);
 
   // TODO: dueDate should be Date (form not submitting)
   type FormData = {
