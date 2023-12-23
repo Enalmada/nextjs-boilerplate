@@ -13,12 +13,12 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAdminPageQuery } from '@/client/admin/useAdminPageQuery';
+import { ADMIN_TASKS_PAGE } from '@/client/gql/admin-queries.gql';
 import {
+  type AdminTasksPageQuery,
+  type AdminTasksPageQueryVariables,
   type Task,
-  type TasksPageQuery,
-  type TasksPageQueryVariables,
 } from '@/client/gql/generated/graphql';
-import { TASKS_PAGE } from '@/client/gql/queries-mutations';
 import { Button, InputControlled } from '@/client/ui';
 import { useTableWrapper } from '@enalmada/nextui-admin';
 import { valibotResolver } from '@hookform/resolvers/valibot';
@@ -70,11 +70,14 @@ export const TaskTable = () => {
     data: dataQuery,
     loading,
     error: errorQuery,
-  } = useAdminPageQuery<FormData, TasksPageQuery, TasksPageQueryVariables>(TASKS_PAGE, {
-    input: taskWhere,
-    sortDescriptor,
-    pageDescriptor,
-  });
+  } = useAdminPageQuery<FormData, AdminTasksPageQuery, AdminTasksPageQueryVariables>(
+    ADMIN_TASKS_PAGE,
+    {
+      input: taskWhere,
+      sortDescriptor,
+      pageDescriptor,
+    }
+  );
 
   if (errorQuery) return <div>{`Error! ${errorQuery.message}`}</div>;
 

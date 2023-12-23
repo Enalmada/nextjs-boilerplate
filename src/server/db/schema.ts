@@ -14,8 +14,10 @@ const generateIdField = (prefix: string) => {
 const generateAuditingFields = () => {
   return {
     version: integer('version').default(1).notNull(),
+    createdById: varchar('created_by_id'),
     createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
-    updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
+    updatedById: varchar('updated_by_id'),
+    updatedAt: timestamp('updated_at', { mode: 'date' }),
   };
 };
 

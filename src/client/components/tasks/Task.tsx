@@ -1,8 +1,8 @@
 // import ReactTooltip from "react-tooltip";
 import React from 'react';
 import Link from 'next/link';
+import { UPDATE_TASK } from '@/client/gql/client-queries.gql';
 import { TaskStatus, type Task } from '@/client/gql/generated/graphql';
-import { UPDATE_TASK } from '@/client/gql/queries-mutations';
 import { Card, Skeleton } from '@/client/ui';
 import { useMutation } from '@enalmada/next-gql/client';
 import { CardBody, Checkbox } from '@nextui-org/react';

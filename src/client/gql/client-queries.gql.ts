@@ -9,8 +9,6 @@ export const USER_PARTS = gql`
     name
     email
     role
-    createdAt
-    updatedAt
     version
   }
 `;
@@ -22,8 +20,6 @@ export const TASK_PARTS = gql`
     description
     dueDate
     status
-    createdAt
-    updatedAt
     version
   }
 `;
@@ -117,86 +113,4 @@ export const DELETE_TASK = gql`
     }
   }
   ${TASK_PARTS}
-`;
-
-// ADMIN
-
-export const ADMIN_USER_PARTS = gql`
-  fragment UserParts on User {
-    id
-    name
-    email
-    role
-    createdAt
-    updatedAt
-    version
-  }
-`;
-
-export const USERS_PAGE = gql`
-  query UsersPage($input: QueryUsersPageInput!) {
-    usersPage(input: $input) {
-      hasMore
-      users {
-        ...UserParts
-      }
-    }
-  }
-  ${ADMIN_USER_PARTS}
-`;
-
-export const USER = gql`
-  query User($id: ID!) {
-    user(id: $id) {
-      ...UserParts
-    }
-  }
-  ${ADMIN_USER_PARTS}
-`;
-
-export const UPDATE_USER = gql`
-  mutation UpdateUser($id: ID!, $input: MutationUpdateUserInput!) {
-    updateUser(id: $id, input: $input) {
-      ...UserParts
-    }
-  }
-  ${ADMIN_USER_PARTS}
-`;
-
-export const TASKS_PAGE = gql`
-  query TasksPage($input: QueryTasksPageInput!) {
-    tasksPage(input: $input) {
-      hasMore
-      tasks {
-        ...TaskParts
-      }
-    }
-  }
-  ${TASK_PARTS}
-`;
-
-export const UPLOAD_FILE = gql`
-  mutation UploadFile($file: File!) {
-    uploadFile(file: $file) {
-      filename
-    }
-  }
-`;
-
-export const PUBLISH_NOTIFICATION = gql`
-  mutation PublishNotification($input: MutationPublishNotificationInput!) {
-    publishNotification(input: $input) {
-      published
-    }
-  }
-`;
-
-export const NOTIFICATION_EVENTS = gql`
-  subscription NotificationEvents {
-    notificationEvents {
-      id
-      type
-      message
-    }
-  }
 `;

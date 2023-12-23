@@ -21,7 +21,7 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 ### Templating
 
 Rapidly develop new code without manual copy/paste or maintaining separate template files.
-Copy source patterns to a new entity structure using comments embedded in files. 
+Copy source patterns to a new entity structure using comments embedded in files.
 
 - `bunx clone-code ENTITY_HOOK <NewEntity> ./src`
 
@@ -38,9 +38,9 @@ See top of [task.model.ts](https://github.com/Enalmada/nextjs-boilerplate/blob/d
 - ⚡ [Next.js](https://nextjs.org) Fullstack react framework with SWC
 - [NextUI](https://nextui.org/) react component library
   - [NextUI-Admin](https://github.com/Enalmada/nextui-admin) admin layout and table components out of the box
-  -💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
+    -💎 [Tailwind CSS](https://tailwindcss.com) composable utility classes
   - [Tailwind Variants](https://www.tailwind-variants.org/) - Create reusable css (css-in-js alternative)
-- 💖[NextGQL Client](https://github.com/Enalmada/next-gql)  GraphQL with secure sensible defaults out of box
+- 💖[NextGQL Client](https://github.com/Enalmada/next-gql) GraphQL with secure sensible defaults out of box
   - [Urql](https://formidable.com/open-source/urql/) graphql (state management, subscriptions, etc)
   - Graphql code generation with [client preset](https://the-guild.dev/graphql/codegen/plugins/presets/preset-client)
   - File Upload and subscriptions example
@@ -156,9 +156,9 @@ To connect authenticated: `Connection Settings > Edit > Include Cookies > on`
 
 ### Drizzle vs Prisma
 
-For many years I was the biggest Prisma maven.  I absolutely love the prisma file format.
+For many years I was the biggest Prisma maven. I absolutely love the prisma file format.
 However when trying to release a serverless backend I found it required [Data Proxy](https://www.prisma.io/blog/how-prisma-and-serverless-fit-together-iaSfcPQVi0#data-proxy)
-which I was not comfortable with.  
+which I was not comfortable with.
 
 ### Database type
 
@@ -200,8 +200,9 @@ If you do want pg, note this issue that needed manual patching at time of writin
 https://github.com/brianc/node-postgres/issues/2980#issuecomment-1658765692
 
 # Git branches cleanup
+
 I am now using [Graphite.dev](https://graphite.dev/) to manage branches, commits, and PR.
-I highly recommend it for personal use and small teams.  
+I highly recommend it for personal use and small teams.
 
 Before to cleanup branches, I was using this alias: `git config --global alias.branch-prune '!git fetch -p && for b in $(git for-each-ref --format='\''%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)'\'' refs/heads); do git branch -d $b; done'`
 Then run this to delete them safely `git branch-prune`

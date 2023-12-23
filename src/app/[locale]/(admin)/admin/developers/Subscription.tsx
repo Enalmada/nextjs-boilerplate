@@ -1,7 +1,7 @@
 'use client';
 
+import { NOTIFICATION_EVENTS } from '@/client/gql/admin-queries.gql';
 import { type NotificationEvent } from '@/client/gql/generated/graphql';
-import { NOTIFICATION_EVENTS } from '@/client/gql/queries-mutations';
 import { useSubscription } from '@enalmada/next-gql/client';
 
 // https://formidable.com/open-source/urql/docs/advanced/subscriptions/

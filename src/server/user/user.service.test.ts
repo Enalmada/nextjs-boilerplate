@@ -35,16 +35,24 @@ export const mockPubSub: PubSub<PubSubChannels> = {
 
 export const mockUserId = 'usr_1';
 
+export const fixedDate = new Date('2023-08-28T21:37:27.238Z');
+
+export const baseEntityMock = {
+  createdAt: fixedDate,
+  createdById: mockUserId,
+  updatedAt: fixedDate,
+  updatedById: mockUserId,
+  version: 1,
+};
+
 export const mockUser: User = {
   id: mockUserId,
   name: 'name',
   email: 'email@email.com',
   image: null,
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  version: 1,
   firebaseId: 'random',
   role: UserRole.MEMBER,
+  ...baseEntityMock,
 };
 
 export const mockCtx: MyContextType = { currentUser: mockUser, pubSub: mockPubSub };

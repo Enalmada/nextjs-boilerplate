@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useRef, useState, type ChangeEvent } from 'react';
+import { UPLOAD_FILE } from '@/client/gql/admin-queries.gql';
 import { type UploadFileMutation } from '@/client/gql/generated/graphql';
-import { UPLOAD_FILE } from '@/client/gql/queries-mutations';
 import { Button, Spinner } from '@nextui-org/react';
 import { useMutation } from 'urql';
 

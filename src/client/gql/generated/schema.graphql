@@ -1,3 +1,12 @@
+interface BaseEntity {
+  createdAt: DateTime!
+  createdBy: User
+  id: ID!
+  updatedAt: DateTime
+  updatedBy: User
+  version: Int!
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -108,14 +117,16 @@ type Subscription {
   notificationEvents: NotificationEvent!
 }
 
-type Task {
+type Task implements BaseEntity {
   createdAt: DateTime!
+  createdBy: User
   description: String
   dueDate: DateTime
   id: ID!
   status: TaskStatus!
   title: NonEmptyString!
-  updatedAt: DateTime!
+  updatedAt: DateTime
+  updatedBy: User
   version: Int!
 }
 
@@ -139,15 +150,17 @@ type UploadResponse {
   filename: String!
 }
 
-type User {
+type User implements BaseEntity {
   createdAt: DateTime!
+  createdBy: User
   email: String
   id: ID!
   name: String
   role: UserRole!
   rules: JSON
   tasks: [Task!]
-  updatedAt: DateTime!
+  updatedAt: DateTime
+  updatedBy: User
   version: Int!
 }
 

@@ -8,9 +8,11 @@
   ]
 }
 */
+import { BaseEntityType } from '@/server/base/base.model';
+import { type ListInput } from '@/server/base/base.service';
 import { TaskStatus, type Task, type TaskInput } from '@/server/db/schema';
 import { builder } from '@/server/graphql/builder';
-import TaskService, { type TasksInput } from '@/server/task/task.service';
+import TaskService from '@/server/task/task.service';
 
 import { OrderInputType, PaginationInputType } from '../graphql/sortAndPagination';
 
@@ -23,8 +25,8 @@ builder.enumType(TaskStatus, {
 export const TaskType = builder.objectRef<Task>('Task');
 
 TaskType.implement({
+  interfaces: [BaseEntityType],
   fields: (t) => ({
-    id: t.exposeID('id'),
     title: t.expose('title', {
       type: 'NonEmptyString',
     }),
@@ -37,13 +39,6 @@ TaskType.implement({
       nullable: true,
       type: 'DateTime',
     }),
-    createdAt: t.expose('createdAt', {
-      type: 'DateTime',
-    }),
-    updatedAt: t.expose('updatedAt', {
-      type: 'DateTime',
-    }),
-    version: t.exposeInt('version'),
   }),
 });
 
@@ -55,7 +50,7 @@ builder.queryField('task', (t) =>
     },
     nullable: true,
     resolve: async (_root, args, ctx) => {
-      return new TaskService().task(args.id as string, ctx);
+      return new TaskService().get(args.id as string, ctx);
     },
   })
 );
@@ -98,7 +93,7 @@ builder.queryField('tasksPage', (t) =>
       pagination: t.input.field({ type: PaginationInputType, required: false }),
     },
     resolve: async (_root, args, ctx) => {
-      const page = await new TaskService().tasks(args.input as TasksInput, ctx);
+      const page = await new TaskService().list(args.input as ListInput<Task>, ctx);
       return {
         hasMore: page.hasMore,
         tasks: page.result,
@@ -122,7 +117,7 @@ builder.mutationField('createTask', (t) =>
         ...args.input,
         userId: ctx.currentUser!.id,
         createdAt: new Date(),
-        updatedAt: new Date(),
+        createdById: ctx.currentUser!.id,
       };
       return new TaskService().create(input, ctx);
     },
@@ -148,6 +143,7 @@ builder.mutationField('updateTask', (t) =>
         ...args.input,
         userId: ctx.currentUser!.id,
         updatedAt: new Date(),
+        updatedById: ctx.currentUser!.id,
       };
       return new TaskService().update(args.id as string, input, ctx);
     },

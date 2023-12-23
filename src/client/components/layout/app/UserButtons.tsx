@@ -2,8 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
+import { ME } from '@/client/gql/client-queries.gql';
 import { UserRole, type MeQuery } from '@/client/gql/generated/graphql';
-import { ME } from '@/client/gql/queries-mutations';
 import { useAuth } from '@/lib/firebase/auth/context';
 import { useQuery } from '@enalmada/next-gql/client';
 import {

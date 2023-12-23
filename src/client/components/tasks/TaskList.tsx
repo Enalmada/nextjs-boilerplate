@@ -1,7 +1,7 @@
 'use client';
 
+import { MY_TASKS } from '@/client/gql/client-queries.gql';
 import { type MyTasksQuery, type Task } from '@/client/gql/generated/graphql';
-import { MY_TASKS } from '@/client/gql/queries-mutations';
 import { Card, CardBody } from '@/client/ui';
 import { useQuery } from '@enalmada/next-gql/client';
 

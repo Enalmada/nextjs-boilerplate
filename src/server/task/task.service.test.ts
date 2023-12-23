@@ -12,6 +12,8 @@ import { TaskStatus, type Task } from '@/server/db/schema';
 import { NotAuthorizedError, OptimisticLockError } from '@/server/graphql/errors';
 import { type MyContextType } from '@/server/graphql/server';
 import {
+  baseEntityMock,
+  fixedDate,
   mockAdminCtx,
   mockCtx,
   mockPubSub,
@@ -28,12 +30,10 @@ export const mockTask: Task = {
   id: mockTaskId,
   title: 'Task 1',
   description: null,
-  dueDate: new Date(),
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  dueDate: fixedDate,
   status: TaskStatus.ACTIVE,
-  version: 1,
   userId: mockUserId,
+  ...baseEntityMock,
 };
 
 const mockPage: Page<Task> = {
@@ -64,17 +64,17 @@ describe('TaskService', () => {
     it('should throw Error if no user is provided', async () => {
       const service = new TaskService();
       const ctx: MyContextType = { currentUser: null!, pubSub: mockPubSub };
-      await expect(service.tasks(undefined, ctx)).rejects.toThrow(Error);
+      await expect(service.list(undefined, ctx)).rejects.toThrow(Error);
     });
 
     it('should throw NotAuthorizedError for member', async () => {
       const service = new TaskService();
-      await expect(service.tasks(undefined, mockCtx)).rejects.toThrow(NotAuthorizedError);
+      await expect(service.list(undefined, mockCtx)).rejects.toThrow(NotAuthorizedError);
     });
 
     it('should return tasks for admin users', async () => {
       const service = new TaskService();
-      const result = await service.tasks(undefined, mockAdminCtx);
+      const result = await service.list(undefined, mockAdminCtx);
       expect(result).toEqual(mockPage);
     });
   });
@@ -82,12 +82,12 @@ describe('TaskService', () => {
   describe('task', () => {
     it('should throw NotAuthorizedError for unauthorized task read', async () => {
       const service = new TaskService();
-      await expect(service.task(mockTaskId, mockWrongCtx)).rejects.toThrow(NotAuthorizedError);
+      await expect(service.get(mockTaskId, mockWrongCtx)).rejects.toThrow(NotAuthorizedError);
     });
 
     it('should return task for authorized task read', async () => {
       const service = new TaskService();
-      const result = await service.task(mockTaskId, mockCtx);
+      const result = await service.get(mockTaskId, mockCtx);
       expect(result).toEqual(mockTask);
     });
   });

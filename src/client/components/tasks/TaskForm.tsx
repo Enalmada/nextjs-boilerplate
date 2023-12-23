@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
+import { CREATE_TASK, DELETE_TASK, TASK, UPDATE_TASK } from '@/client/gql/client-queries.gql';
 import {
   TaskStatus,
   type CreateTaskMutation,
@@ -11,7 +12,6 @@ import {
   type TaskQuery,
   type UpdateTaskMutation,
 } from '@/client/gql/generated/graphql';
-import { CREATE_TASK, DELETE_TASK, TASK, UPDATE_TASK } from '@/client/gql/queries-mutations';
 import {
   Button,
   Card,

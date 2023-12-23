@@ -3,12 +3,12 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAdminPageQuery } from '@/client/admin/useAdminPageQuery';
+import { ADMIN_USERS_PAGE } from '@/client/gql/admin-queries.gql';
 import {
+  type AdminUsersPageQuery,
+  type AdminUsersPageQueryVariables,
   type User,
-  type UsersPageQuery,
-  type UsersPageQueryVariables,
 } from '@/client/gql/generated/graphql';
-import { USERS_PAGE } from '@/client/gql/queries-mutations';
 import { Button, InputControlled } from '@/client/ui';
 import { useTableWrapper } from '@enalmada/nextui-admin';
 import { valibotResolver } from '@hookform/resolvers/valibot';
@@ -60,11 +60,14 @@ export const UserTable = () => {
     data: dataQuery,
     loading,
     error: errorQuery,
-  } = useAdminPageQuery<FormData, UsersPageQuery, UsersPageQueryVariables>(USERS_PAGE, {
-    input: userWhere,
-    sortDescriptor,
-    pageDescriptor,
-  });
+  } = useAdminPageQuery<FormData, AdminUsersPageQuery, AdminUsersPageQueryVariables>(
+    ADMIN_USERS_PAGE,
+    {
+      input: userWhere,
+      sortDescriptor,
+      pageDescriptor,
+    }
+  );
 
   if (errorQuery) return <div>{`Error! ${errorQuery.message}`}</div>;
 
