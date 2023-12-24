@@ -8,7 +8,7 @@ import {
 
 export type Action = 'manage' | 'list' | 'read' | 'create' | 'update' | 'delete';
 
-/* ENTITY_HOOK
+/* clone-code ENTITY_HOOK
 {
   "addType": "<%= h.changeCase.pascalCase(name) %>"
 }
@@ -37,7 +37,7 @@ const rolePermissions: Record<Roles, DefinePermissions> = {
     can('update', 'Task', { userId: user.id });
     can('delete', 'Task', { userId: user.id });
 
-    /* ENTITY_HOOK
+    /* clone-code ENTITY_HOOK
     {
       "todo": "Add rolePermissions for <%= name %>"
     }

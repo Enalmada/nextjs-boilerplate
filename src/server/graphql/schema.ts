@@ -4,7 +4,7 @@ import './sortAndPagination';
 import '@/server/graphql/subscriptions/notification';
 import '@/server/admin/admin.model';
 import '@/server/user/user.model';
-/* ENTITY_HOOK
+/* clone-code ENTITY_HOOK
 {
   "toPlacement": "below",
   "replacements": [
@@ -14,6 +14,6 @@ import '@/server/user/user.model';
 */
 import '@/server/task/task.model';
 
-/* ENTITY_HOOK end */
+/* clone-code ENTITY_HOOK end */
 
 export const schema = builder.toSchema({});

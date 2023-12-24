@@ -24,7 +24,7 @@ import {
   BiSolidUser as UserIcon,
 } from 'react-icons/bi';
 
-/* ENTITY_HOOK
+/* clone-code ENTITY_HOOK
 {
   "todo": "Add correct icon for <%= name %>"
 }
@@ -49,7 +49,7 @@ const sidebarConfig: SidebarSectionConfig[] = [
         icon: <UserIcon />,
         href: '/admin/users',
       },
-      /* ENTITY_HOOK
+      /* clone-code ENTITY_HOOK
       {
         "toPlacement": "below",
         "replacements": [
@@ -64,7 +64,7 @@ const sidebarConfig: SidebarSectionConfig[] = [
         icon: <TaskIcon />,
         href: '/admin/tasks',
       },
-      /* ENTITY_HOOK end */
+      /* clone-code ENTITY_HOOK end */
     ],
   },
   {

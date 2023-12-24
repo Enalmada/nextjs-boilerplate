@@ -1,4 +1,4 @@
-/* ENTITY_HOOK
+/* clone-code ENTITY_HOOK
 {
   "toFile": "src/app/[locale]/(admin)/admin/<%= h.inflection.pluralize(h.changeCase.camelCase(name)) %>/RenderRows.tsx",
   "replacements": [
