@@ -1,4 +1,4 @@
-/* ENTITY_HOOK
+/* clone-code ENTITY_HOOK
 {
   "toFile": "src/server/<%= h.changeCase.camelCase(name) %>/<%= h.changeCase.camelCase(name) %>.repository.ts",
   "replacements": [

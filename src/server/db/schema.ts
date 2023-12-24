@@ -47,7 +47,7 @@ export const usersRelations = relations(UserTable, ({ many }) => ({
   task: many(TaskTable),
 }));
 
-/* ENTITY_HOOK
+/* clone-code ENTITY_HOOK
 {
   "toPlacement": "bottom",
   "replacements": [
@@ -89,4 +89,4 @@ export const taskRelations = relations(TaskTable, ({ one }) => ({
   }),
 }));
 
-/* ENTITY_HOOK end */
+/* clone-code ENTITY_HOOK end */

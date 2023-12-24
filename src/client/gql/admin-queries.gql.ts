@@ -55,14 +55,14 @@ export const ADMIN_UPDATE_USER = gql`
   ${ADMIN_USER_PARTS}
 `;
 
-/* ENTITY_HOOK
+/* clone-code ENTITY_HOOK
 {
   "toPlacement": "bottom",
   "replacements": [
     { "find": "Tasks", "replace": "<%= h.changeCase.camelCase(name) %>" },
     { "find": "TASK", "replace": "<%= h.changeCase.constantCase(name) %>" },
     { "find": "Task", "replace": "<%= h.changeCase.pascalCase(name) %>" },
-    { "find": "task", "replace": "<%= h.changeCase.camelCase(name) %>" },
+    { "find": "task", "replace": "<%= h.changeCase.camelCase(name) %>" }
   ]
 }
 */
@@ -116,7 +116,7 @@ export const ADMIN_DELETE_TASK = gql`
   ${ADMIN_TASK_PARTS}
 `;
 
-/* ENTITY_HOOK end */
+/* clone-code ENTITY_HOOK end */
 
 // UPLOAD
 

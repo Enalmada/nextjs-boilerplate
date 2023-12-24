@@ -111,7 +111,7 @@
     "@changesets/cli": "2.27.1",
     "@commitlint/cli": "18.4.3",
     "@commitlint/config-conventional": "18.4.3",
-    "@enalmada/clone-code": "0.0.2",
+    "@enalmada/clone-code": "0.1.0",
     "@enalmada/storybook-addon-mock-urql": "0.0.4",
     "@faker-js/faker": "8.3.1",
     "@ianvs/prettier-plugin-sort-imports": "4.1.1",
