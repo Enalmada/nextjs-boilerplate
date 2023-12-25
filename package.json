@@ -68,7 +68,7 @@
     "@casl/ability": "6.5.0",
     "@enalmada/drizzle-helpers": "0.0.13",
     "@enalmada/env-valibot": "0.0.13",
-    "@enalmada/next-gql": "0.1.0",
+    "@enalmada/next-gql": "0.1.1",
     "@enalmada/next-gql-codegen": "0.1.0",
     "@enalmada/next-secure": "0.2.3",
     "@enalmada/next-themes": "0.2.4",

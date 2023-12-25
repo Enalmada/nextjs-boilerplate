@@ -1,5 +1,5 @@
 ---
-"nextjs-boilerplate": patch
+'nextjs-boilerplate': patch
 ---
 
 clone-code hook update
