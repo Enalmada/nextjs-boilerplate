@@ -1,10 +1,15 @@
 import Logger from '@/lib/logging/log-util';
+import { db } from '@/server/db';
+import type * as schema from '@/server/db/schema';
 import { NotFoundError, OptimisticLockError } from '@/server/graphql/errors';
 import { type MyContextType } from '@/server/graphql/server';
 import { sortAndPagination, type TableInput } from '@/server/graphql/sortAndPagination';
 import { accessCheck } from '@/server/utils/accessCheck';
 import { type SubjectType } from '@/server/utils/caslAbility';
-import { type IRepository, type Page } from '@enalmada/drizzle-helpers';
+import { createRepo, type Page } from '@enalmada/drizzle-helpers';
+import { type IRepository } from '@enalmada/drizzle-helpers/src/DrizzleOrm';
+import { type PgTableWithColumns } from 'drizzle-orm/pg-core';
+import { type RelationalQueryBuilder } from 'drizzle-orm/pg-core/query-builders/query';
 
 export interface ListInput<TEntity> extends TableInput {
   where?: Partial<TEntity>;
@@ -17,20 +22,24 @@ export interface BaseEntity {
   updatedById?: string | null;
   updatedAt?: Date | null;
   version: number;
+  [key: string]: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export default abstract class BaseService<
   TEntity extends BaseEntity,
   TInput extends Partial<BaseEntity>,
-  TRepository extends IRepository<TEntity, TInput>,
 > {
   protected readonly logger: Logger;
 
+  protected repository: IRepository<TEntity, TInput>;
+
   protected constructor(
     private entityName: SubjectType,
-    private repository: TRepository
+    private table: PgTableWithColumns<any>, // eslint-disable-line @typescript-eslint/no-explicit-any
+    private queryBuilder: RelationalQueryBuilder<TEntity, any> // eslint-disable-line @typescript-eslint/no-explicit-any
   ) {
     this.logger = new Logger(`${entityName}Service`);
+    this.repository = createRepo<typeof schema, TEntity, TInput>(db, this.table, this.queryBuilder);
   }
 
   async get(id: string, ctx: MyContextType) {

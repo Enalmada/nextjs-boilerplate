@@ -8,6 +8,7 @@
   ]
 }
 */
+import { createMockRepository } from '@/server/base/base.service.test';
 import { TaskStatus, type Task } from '@/server/db/schema';
 import { NotAuthorizedError, OptimisticLockError } from '@/server/graphql/errors';
 import { type MyContextType } from '@/server/graphql/server';
@@ -41,16 +42,18 @@ const mockPage: Page<Task> = {
   result: [mockTask],
 };
 
-vi.mock('./task.repository', () => {
+vi.mock('./task.service', async () => {
+  const { default: TaskService } = await import('./task.service');
+
+  class MockTaskService extends TaskService {
+    constructor() {
+      super();
+      this.repository = createMockRepository(mockTask);
+    }
+  }
+
   return {
-    default: {
-      findFirst: vi.fn(() => mockTask),
-      findMany: vi.fn(() => [mockTask]),
-      findPage: vi.fn(() => mockPage),
-      create: vi.fn(() => mockTask),
-      update: vi.fn(() => mockTask),
-      delete: vi.fn(() => mockTask),
-    },
+    default: MockTaskService,
   };
 });
 

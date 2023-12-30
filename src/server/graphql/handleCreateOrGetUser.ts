@@ -37,7 +37,7 @@ export async function handleCreateOrGetUser(req: Request): Promise<User | null> 
   }
 
   if (firebaseId) {
-    return await UserService.createOrGetFirebaseUser(firebaseId, email);
+    return await new UserService().createOrGetFirebaseUser(firebaseId, email);
   }
 
   return null;

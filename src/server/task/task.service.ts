@@ -9,12 +9,11 @@
 }
 */
 import BaseService from '@/server/base/base.service';
-import { type Task, type TaskInput } from '@/server/db/schema';
+import { db } from '@/server/db';
+import { TaskTable, type Task, type TaskInput } from '@/server/db/schema';
 
-import TaskRepository from './task.repository';
-
-export default class TaskService extends BaseService<Task, TaskInput, typeof TaskRepository> {
+export default class TaskService extends BaseService<Task, TaskInput> {
   constructor() {
-    super('Task', TaskRepository);
+    super('Task', TaskTable, db.query.TaskTable);
   }
 }
