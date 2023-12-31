@@ -1,5 +1,13 @@
 # nextjs-boilerplate
 
+## 0.1.9
+
+### Patch Changes
+
+- 8265cab: clone-code hook update
+- 6b677af: shared base service
+- 0d25e72: subscriptions example
+
 ## 0.1.8
 
 ### Patch Changes
