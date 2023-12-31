@@ -11,6 +11,7 @@ Demo: https://nextjs-boilerplate-adam-lane.vercel.app/
 - Install Docker engine. Rancher Desktop ([recommended](https://codeengineered.com/blog/2022/docker-desktop-vs-rancher-desktop/))
 - Install package manager. bun ([recommended](https://bun.sh/))
   - `npm install -g bun`
+  - configure these bun [binary lockfile diff](https://bun.sh/docs/install/lockfile) git config settings
 - Copy `.env.example` to `.env.local` and edit variables (app should come up with default values but you will need real values for auth to work)
 - `bun dev`
 
