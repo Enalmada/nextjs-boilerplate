@@ -1,6 +1,5 @@
 'use client';
 
-import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ADMIN_UPDATE_USER, ADMIN_USER } from '@/client/gql/admin-queries.gql';
 import { extractErrorMessages } from '@/client/gql/errorHandling';
@@ -12,12 +11,14 @@ import { object, string } from 'valibot';
 
 import 'react-day-picker/dist/style.css';
 
+import CancelButton from '@/client/components/admin/buttons/CancelButton';
 import ReadOnlyInput from '@/client/components/admin/ReadOnlyInput';
 import {
   UserRole,
   type AdminUpdateUserMutation,
   type AdminUpdateUserMutationVariables,
   type AdminUserQuery,
+  type MutationUpdateUserInput,
   type User,
 } from '@/client/gql/generated/graphql';
 
@@ -28,7 +29,7 @@ interface Props {
 export default function UserForm(props: Props) {
   const router = useRouter();
 
-  const [{ data: dataQuery, error: errorQuery }] = useQuery<AdminUserQuery>({
+  const [{ data: queryData, error: queryError }] = useQuery<AdminUserQuery>({
     query: ADMIN_USER,
     variables: { id: props.id || '' },
     pause: props.id === undefined,
@@ -37,43 +38,34 @@ export default function UserForm(props: Props) {
   // Create and Update loading is handled by form submitting
   // mutation error will render errors but not handle them
   // https://stackoverflow.com/questions/59465864/handling-errors-with-react-apollo-usemutation-hook
-  const [{ error: updateMutationError }, updateUser] = useMutation<
+  const [{ error: updateError }, updateUser] = useMutation<
     AdminUpdateUserMutation,
     AdminUpdateUserMutationVariables
   >(ADMIN_UPDATE_USER);
-
-  // TODO: dueDate should be Date (form not submitting)
-  type FormData = {
-    role: string;
-  };
 
   const schema = object({
     role: string(),
   });
 
-  const { id, email, role, version } = (dataQuery?.user as User) || ({} as User);
+  const { id, email } = (queryData?.user as User) || ({} as User);
 
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
     control,
-  } = useForm({
+  } = useForm<MutationUpdateUserInput>({
     resolver: valibotResolver(schema),
     defaultValues: {
-      role: role || UserRole.Member,
+      ...queryData?.user,
     },
   });
 
-  const onSubmit = async ({ role }: FormData) => {
-    const input = {
-      role: role == 'MEMBER' ? UserRole.Member : UserRole.Admin,
-    };
-
+  const onSubmit = async (formData: MutationUpdateUserInput) => {
     const result = await updateUser({
-      id,
+      id: props.id!,
       input: {
-        ...input,
-        version,
+        ...formData,
+        version: queryData!.user!.version,
       },
     });
 
@@ -83,7 +75,7 @@ export default function UserForm(props: Props) {
   };
 
   // Without this, updating description causes form update schema checking to say "title can't be blank"
-  if (errorQuery) return <div>{`Error! ${errorQuery.message}`}</div>;
+  if (queryError) return <div>{`Error! ${queryError.message}`}</div>;
 
   const formError = (errors: string[]) => {
     return (
@@ -119,7 +111,7 @@ export default function UserForm(props: Props) {
     <Card radius="sm" shadow="sm" className="max-w-sm sm:max-w-md md:max-w-lg">
       <CardBody>
         <div>
-          {updateMutationError && formError(extractErrorMessages(updateMutationError))}
+          {updateError && formError(extractErrorMessages(updateError))}
 
           <ReadOnlyInput label="ID" defaultValue={id} />
 
@@ -138,8 +130,11 @@ export default function UserForm(props: Props) {
               orientation="horizontal"
               errors={errors}
             >
-              <Radio value={UserRole.Member}>Member</Radio>
-              <Radio value={UserRole.Admin}>Admin</Radio>
+              {Object.entries(UserRole).map(([key, value]) => (
+                <Radio key={key} value={value}>
+                  {value}
+                </Radio>
+              ))}
             </RadioGroupControlled>
 
             <div className={'mt-10 flex justify-between'}>
@@ -148,14 +143,7 @@ export default function UserForm(props: Props) {
                   {id ? 'Save' : 'Create'}
                 </Button>
 
-                <Button
-                  as={NextLink}
-                  href={'/admin/users'}
-                  color={'default'}
-                  isDisabled={isSubmitting}
-                >
-                  Cancel
-                </Button>
+                <CancelButton href={'/admin/users'} isDisabled={isSubmitting} />
               </div>
             </div>
           </form>

@@ -135,6 +135,16 @@ export const adminRoutes: Route[] = [
     name: 'Users',
     storybook: 'Pages/Admin/Users',
   },
+  /* clone-code ENTITY_HOOK
+  {
+    "toPlacement": "below",
+    "replacements": [
+      { "find": "Tasks", "replace": "<%= h.inflection.pluralize(h.changeCase.camelCase(name)) %>" },
+      { "find": "Task", "replace": "<%= h.changeCase.pascalCase(name) %>" },
+      { "find": "tasks", "replace": "<%= h.inflection.pluralize(h.changeCase.camelCase(name)) %>" }
+    ]
+  }
+  */
   {
     id: 'AdminTasks',
     path: '/admin/tasks',
@@ -147,6 +157,7 @@ export const adminRoutes: Route[] = [
     name: 'Task',
     storybook: 'Pages/Admin/Task',
   },
+  /* clone-code ENTITY_HOOK end */
 ];
 
 const routes = [...marketingRoutes, ...authRoutes, ...appRoutes, ...adminRoutes];

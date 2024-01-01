@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { CREATE_TASK, DELETE_TASK, TASK, UPDATE_TASK } from '@/client/gql/client-queries.gql';
 import {
@@ -30,6 +29,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { date, minLength, nullable, object, optional, string } from 'valibot';
 
 import 'react-day-picker/dist/style.css';
+
+import CancelButton from '@/client/components/admin/buttons/CancelButton';
 
 interface Props {
   id?: string;
@@ -257,9 +258,7 @@ export default function TaskForm(props: Props) {
                   {id ? 'Save' : 'Create'}
                 </Button>
 
-                <Button as={NextLink} href={'/app'} color={'default'} isDisabled={isSubmitting}>
-                  Cancel
-                </Button>
+                <CancelButton href={'/app'} isDisabled={isSubmitting} />
               </div>
 
               {dataQuery?.task && (
