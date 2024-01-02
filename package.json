@@ -86,7 +86,7 @@
     "@serwist/sw": "8.3.0",
     "clsx": "2.1.0",
     "date-fns": "3.0.6",
-    "drizzle-orm": "0.29.2",
+    "drizzle-orm": "0.29.3",
     "firebase": "10.7.1",
     "framer-motion": "10.16.16",
     "graphql": "16.8.1",
