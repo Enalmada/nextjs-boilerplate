@@ -11,17 +11,16 @@
 'use client';
 
 import { useState } from 'react';
-import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ADMIN_DELETE_TASK, ADMIN_TASK, ADMIN_UPDATE_TASK } from '@/client/gql/admin-queries.gql';
 import { extractErrorMessages } from '@/client/gql/errorHandling';
 import {
   TaskStatus,
-  type DeleteTaskMutation,
-  type Task,
-  type TaskQuery,
-  type UpdateTaskMutation,
-  type UpdateTaskMutationVariables,
+  type AdminDeleteTaskMutation,
+  type AdminTaskQuery,
+  type AdminUpdateTaskMutation,
+  type AdminUpdateTaskMutationVariables,
+  type MutationUpdateTaskInput,
 } from '@/client/gql/generated/graphql';
 import {
   Button,
@@ -38,10 +37,12 @@ import { Button as NextUIButton, Popover, PopoverContent, PopoverTrigger } from 
 import { format } from 'date-fns/format';
 import { DayPicker } from 'react-day-picker';
 import { Controller, useForm } from 'react-hook-form';
-import { date, minLength, nullable, object, optional, string } from 'valibot';
+import { date, enum_, minLength, nullable, object, optional, required, string } from 'valibot';
 
 import 'react-day-picker/dist/style.css';
 
+import CancelButton from '@/client/components/admin/buttons/CancelButton';
+import DeleteButton from '@/client/components/admin/buttons/DeleteButton';
 import ReadOnlyInput from '@/client/components/admin/ReadOnlyInput';
 
 interface Props {
@@ -52,7 +53,7 @@ export default function TaskForm(props: Props) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
 
-  const [{ data: dataQuery, error: errorQuery }] = useQuery<TaskQuery>({
+  const [{ data: queryData, error: queryError }] = useQuery<AdminTaskQuery>({
     query: ADMIN_TASK,
     variables: { id: props.id || '' },
     pause: props.id === undefined,
@@ -62,57 +63,39 @@ export default function TaskForm(props: Props) {
   // mutation error will render errors but not handle them
   // https://stackoverflow.com/questions/59465864/handling-errors-with-react-apollo-usemutation-hook
   const [{ error: updateMutationError }, updateTask] = useMutation<
-    UpdateTaskMutation,
-    UpdateTaskMutationVariables
+    AdminUpdateTaskMutation,
+    AdminUpdateTaskMutationVariables
   >(ADMIN_UPDATE_TASK);
-  const [{ error: deleteMutationError, fetching: loadingDelete }, deleteTask] =
-    useMutation<DeleteTaskMutation>(ADMIN_DELETE_TASK);
+  const [{ error: deleteError, fetching: deleteFetching }, deleteTask] =
+    useMutation<AdminDeleteTaskMutation>(ADMIN_DELETE_TASK);
 
-  // TODO: dueDate should be Date (form not submitting)
-  type FormData = {
-    title: string;
-    description?: string;
-    status: string;
-    dueDate: Date | null;
-  };
+  const schema = required(
+    object({
+      title: string([minLength(1, 'Title is a required field')]),
+      description: optional(string()),
+      status: enum_(TaskStatus),
+      dueDate: nullable(date()),
+    })
+  );
 
-  const schema = object({
-    title: string([minLength(1, 'Title is a required field')]),
-    description: optional(string()),
-    status: string(),
-    dueDate: nullable(date()),
-  });
-
-  const { id, title, description, dueDate, status, version } =
-    (dataQuery?.task as Task) || ({} as Task);
-
+  // '' necessary for SSR to maintain controlled component
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
     control,
-  } = useForm({
+  } = useForm<MutationUpdateTaskInput>({
     resolver: valibotResolver(schema),
     defaultValues: {
-      title: title || '', // '' necessary for SSR to maintain controlled component
-      description: description || '', // '' necessary for SSR to maintain controlled component
-      dueDate: dueDate ? new Date(dueDate) : null,
-      status: status || TaskStatus.Active,
+      ...queryData?.task,
     },
   });
 
-  const onSubmit = async ({ title, description, status, dueDate }: FormData) => {
-    const input = {
-      title: title,
-      description: description,
-      dueDate: dueDate,
-      status: status == 'ACTIVE' ? TaskStatus.Active : TaskStatus.Completed,
-    };
-
+  const onSubmit = async (formData: MutationUpdateTaskInput) => {
     const result = await updateTask({
-      id,
+      id: props.id!,
       input: {
-        ...input,
-        version,
+        ...formData,
+        version: queryData!.task!.version,
       },
     });
 
@@ -123,7 +106,7 @@ export default function TaskForm(props: Props) {
 
   const handleDelete = async () => {
     const result = await deleteTask({
-      id,
+      id: props.id!,
       // TODO when optimistic errors are handled
       // optimisticResponse: optimisticResponseHelper<DeleteTaskMutation>('deleteTask', props.task),
       //update(cache, { data }) {
@@ -136,7 +119,7 @@ export default function TaskForm(props: Props) {
   };
 
   // Without this, updating description causes form update schema checking to say "title can't be blank"
-  if (errorQuery) return <div>{`Error! ${errorQuery.message}`}</div>;
+  if (queryError) return <div>{`Error! ${queryError.message}`}</div>;
 
   const formError = (errors: string[]) => {
     return (
@@ -173,10 +156,10 @@ export default function TaskForm(props: Props) {
       <CardBody>
         <div>
           {updateMutationError && formError(extractErrorMessages(updateMutationError))}
-          {deleteMutationError && formError(extractErrorMessages(deleteMutationError))}
+          {deleteError && formError(extractErrorMessages(deleteError))}
 
           <form onSubmit={(event) => void handleSubmit(onSubmit)(event)}>
-            {id && <ReadOnlyInput label="ID" defaultValue={id} />}
+            <ReadOnlyInput label="ID" defaultValue={props.id} />
 
             <InputControlled
               name="title"
@@ -251,36 +234,24 @@ export default function TaskForm(props: Props) {
               orientation="horizontal"
               errors={errors}
             >
-              <Radio value={TaskStatus.Active}>Active</Radio>
-              <Radio value={TaskStatus.Completed}>Completed</Radio>
+              {Object.entries(TaskStatus).map(([key, value]) => (
+                <Radio key={key} value={value}>
+                  {value}
+                </Radio>
+              ))}
             </RadioGroupControlled>
 
             <div className={'mt-10 flex justify-between'}>
               <div className={'flex justify-center'}>
                 <Button color={'primary'} type="submit" isLoading={isSubmitting} className={'mr-5'}>
-                  {id ? 'Save' : 'Create'}
+                  {props.id ? 'Save' : 'Create'}
                 </Button>
 
-                <Button
-                  as={NextLink}
-                  href={'/admin/tasks'}
-                  color={'default'}
-                  isDisabled={isSubmitting}
-                >
-                  Cancel
-                </Button>
+                <CancelButton href={'/admin/tasks'} isDisabled={isSubmitting} />
               </div>
 
-              {dataQuery?.task && (
-                <Button
-                  type="button"
-                  color="danger"
-                  className="rounded bg-red-600 p-5 py-2 font-bold text-white shadow-lg transition duration-200 hover:bg-red-700 hover:shadow-xl"
-                  onPress={() => void handleDelete()}
-                  isLoading={loadingDelete}
-                >
-                  Delete
-                </Button>
+              {queryData?.task && (
+                <DeleteButton onPress={() => void handleDelete()} isLoading={deleteFetching} />
               )}
             </div>
           </form>

@@ -3,18 +3,18 @@ import Auditing from '@/client/components/admin/Auditing';
 import Chip from '@/client/components/admin/Chip';
 import Edit from '@/client/components/admin/Edit';
 import { UserRole, type User } from '@/client/gql/generated/graphql';
-import { createGravatarUrl } from '@/client/utils/gravatar';
 import { type TableColumnProps } from '@enalmada/nextui-admin';
 import { User as UserChip } from '@nextui-org/react';
+import gravatarUrl from 'gravatar-url';
 
 export const columnProps: TableColumnProps<User>[] = [
   {
     key: 'avatar',
     header: 'AVATAR',
-    renderCell: async (user: User) => (
+    renderCell: (user: User) => (
       <UserChip
         avatarProps={{
-          src: await createGravatarUrl(user.email, { fallback: 'mp' }),
+          src: gravatarUrl(user.email || '', { default: 'mp' }),
         }}
         name={user.name}
         description={user.email}

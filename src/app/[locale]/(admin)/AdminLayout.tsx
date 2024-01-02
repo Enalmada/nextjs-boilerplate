@@ -16,6 +16,7 @@ import {
   type UserDropdownConfig,
 } from '@enalmada/nextui-admin';
 import { Avatar } from '@nextui-org/react';
+import gravatarUrl from 'gravatar-url';
 import {
   BiBuildingHouse as AcmeIcon,
   BiCode as CodeIcon,
@@ -111,7 +112,7 @@ export default function AdminLayout({ children }: Props) {
   const user: UserConfig = {
     displayName: me?.name || 'unavailable',
     email: me?.email || 'unavailable',
-    photoURL: 'https://picsum.photos/200/300',
+    photoURL: gravatarUrl(me?.email || '', { default: 'mp' }),
   };
 
   const trigger = (

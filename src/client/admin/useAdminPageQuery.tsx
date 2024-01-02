@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-argument */
 import { useQuery } from '@enalmada/next-gql/client';
 import { type PageDescriptor, type SortDescriptor } from '@enalmada/nextui-admin';
 import { type DocumentNode } from 'graphql';
@@ -6,13 +7,15 @@ type UseAdminPageQueryProps<T> = {
   input: T;
   sortDescriptor: SortDescriptor;
   pageDescriptor: PageDescriptor;
+  pause?: boolean;
 };
 
 export const useAdminPageQuery = <T, Q, V extends { [prop: string]: unknown }>(
   query: DocumentNode,
-  { input, sortDescriptor, pageDescriptor }: UseAdminPageQueryProps<T>
+  { input, sortDescriptor, pageDescriptor }: UseAdminPageQueryProps<T>,
+  config?: any
 ) => {
-  const [{ data, fetching: loading, error }] = useQuery<Q, V>({
+  const [{ data, fetching, error }] = useQuery<Q, V>({
     query: query,
     variables: {
       input: {
@@ -27,13 +30,16 @@ export const useAdminPageQuery = <T, Q, V extends { [prop: string]: unknown }>(
         },
       },
     } as unknown as V,
-    // May need this depending on how real time the data needs to be
-    // requestPolicy: 'cache-and-network',
+    // May not need this depending on real time requirements. Here for delete example to work
+    // TODO consider clearing cache on add/delete
+    // https://github.com/urql-graphql/urql/issues/297#issuecomment-504782794
+    requestPolicy: 'cache-and-network',
+    ...config,
   });
 
   return {
     data,
-    loading,
+    fetching,
     error,
   };
 };

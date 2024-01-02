@@ -40,7 +40,7 @@ export const InputControlled = (args: ControlProps & InputProps) => {
           {...args}
           label={args.label}
           labelPlacement={args.labelPlacement || 'outside'}
-          validationState={errorMessage ? 'invalid' : 'valid'}
+          isInvalid={!!errorMessage}
           errorMessage={errorMessage}
         />
       )}

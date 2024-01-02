@@ -34,7 +34,7 @@ export const RadioGroupControlled = (args: ControlProps & RadioGroupProps) => {
           {...args}
           {...field}
           label={args.label}
-          validationState={errorMessage ? 'invalid' : 'valid'}
+          isInvalid={!!errorMessage}
           errorMessage={errorMessage}
         >
           {args.children}

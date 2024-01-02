@@ -5,9 +5,10 @@ import { getRouteById } from '@/client/utils/routes';
 
 interface Props {
   params: {
-    id: string;
+    id?: string;
   };
 }
+
 export const metadata = {
   title: 'User',
 };

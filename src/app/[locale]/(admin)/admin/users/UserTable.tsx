@@ -17,7 +17,11 @@ import { object, string } from 'valibot';
 
 import { columnProps } from './RenderRows';
 
-export const UserTable = () => {
+interface Props {
+  loading?: boolean;
+}
+
+export const UserTable = (props: Props) => {
   const router = useRouter();
 
   const { TableWrapperComponent, sortDescriptor, pageDescriptor } = useTableWrapper<User>();
@@ -57,8 +61,8 @@ export const UserTable = () => {
   };
 
   const {
-    data: dataQuery,
-    loading,
+    data: queryData,
+    fetching: queryFetching,
     error: errorQuery,
   } = useAdminPageQuery<FormData, AdminUsersPageQuery, AdminUsersPageQueryVariables>(
     ADMIN_USERS_PAGE,
@@ -66,6 +70,7 @@ export const UserTable = () => {
       input: userWhere,
       sortDescriptor,
       pageDescriptor,
+      pause: props.loading,
     }
   );
 
@@ -141,12 +146,12 @@ export const UserTable = () => {
           }}
           columnProps={columnProps}
           bodyProps={{
-            items: dataQuery?.usersPage.users || undefined,
+            items: queryData?.usersPage.users || undefined,
             emptyContent: 'No rows to display.',
-            isLoading: loading && !dataQuery,
+            isLoading: queryFetching && !queryData,
           }}
           paginationProps={{
-            hasMore: dataQuery?.usersPage?.hasMore,
+            hasMore: queryData?.usersPage?.hasMore,
           }}
         />
       </div>

@@ -27,7 +27,11 @@ import { object, string } from 'valibot';
 
 import { columnProps } from './RenderRows';
 
-export const TaskTable = () => {
+interface Props {
+  loading?: boolean;
+}
+
+export const TaskTable = (props: Props) => {
   const router = useRouter();
 
   const { TableWrapperComponent, sortDescriptor, pageDescriptor } = useTableWrapper<Task>();
@@ -67,19 +71,20 @@ export const TaskTable = () => {
   };
 
   const {
-    data: dataQuery,
-    loading,
-    error: errorQuery,
+    data: queryData,
+    fetching: queryFetching,
+    error: queryError,
   } = useAdminPageQuery<FormData, AdminTasksPageQuery, AdminTasksPageQueryVariables>(
     ADMIN_TASKS_PAGE,
     {
       input: taskWhere,
       sortDescriptor,
       pageDescriptor,
+      pause: props.loading,
     }
   );
 
-  if (errorQuery) return <div>{`Error! ${errorQuery.message}`}</div>;
+  if (queryError) return <div>{`Error! ${queryError.message}`}</div>;
 
   return (
     <>
@@ -146,12 +151,12 @@ export const TaskTable = () => {
           }}
           columnProps={columnProps}
           bodyProps={{
-            items: dataQuery?.tasksPage.tasks || undefined,
+            items: queryData?.tasksPage.tasks || undefined,
             emptyContent: 'No rows to display.',
-            isLoading: loading && !dataQuery,
+            isLoading: queryFetching && !queryData,
           }}
           paginationProps={{
-            hasMore: dataQuery?.tasksPage?.hasMore,
+            hasMore: queryData?.tasksPage?.hasMore,
           }}
         />
       </div>
