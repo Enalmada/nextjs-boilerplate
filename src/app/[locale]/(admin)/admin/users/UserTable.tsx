@@ -8,12 +8,13 @@ import {
   type AdminUsersPageQuery,
   type AdminUsersPageQueryVariables,
   type User,
+  type UserWhere,
 } from '@/client/gql/generated/graphql';
 import { Button, InputControlled } from '@/client/ui';
 import { useTableWrapper } from '@enalmada/nextui-admin';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useForm } from 'react-hook-form';
-import { object, string } from 'valibot';
+import { object, optional, string } from 'valibot';
 
 import { columnProps } from './RenderRows';
 
@@ -26,37 +27,31 @@ export const UserTable = (props: Props) => {
 
   const { TableWrapperComponent, sortDescriptor, pageDescriptor } = useTableWrapper<User>();
 
-  type FormData = {
-    id?: string;
-    email?: string;
-  };
-
-  const [userWhere, setUserWhere] = useState<FormData>({
-    id: undefined,
-    email: undefined,
-  });
+  const [userWhere, setUserWhere] = useState<UserWhere>();
 
   const schema = object({
-    id: string(),
-    email: string(),
+    id: optional(string()),
+    email: optional(string()),
   });
 
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
     control,
-  } = useForm({
+  } = useForm<UserWhere>({
     resolver: valibotResolver(schema),
     defaultValues: {
-      id: '',
-      email: '', // necessary for SSR to maintain controlled component
+      ...userWhere,
     },
   });
 
-  const onSubmit = ({ id, email }: FormData) => {
+  const onSubmit = (formData: UserWhere) => {
+    // Transform each string field: if it's an empty string, set it to undefined
+    const transformedFormData = Object.fromEntries(
+      Object.entries(formData).map(([key, value]) => [key, value === '' ? undefined : value])
+    );
     setUserWhere({
-      id: id || undefined,
-      email: email || undefined,
+      ...transformedFormData,
     });
   };
 
@@ -64,7 +59,7 @@ export const UserTable = (props: Props) => {
     data: queryData,
     fetching: queryFetching,
     error: errorQuery,
-  } = useAdminPageQuery<FormData, AdminUsersPageQuery, AdminUsersPageQueryVariables>(
+  } = useAdminPageQuery<UserWhere, AdminUsersPageQuery, AdminUsersPageQueryVariables>(
     ADMIN_USERS_PAGE,
     {
       input: userWhere,

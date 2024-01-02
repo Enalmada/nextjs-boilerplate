@@ -18,12 +18,13 @@ import {
   type AdminTasksPageQuery,
   type AdminTasksPageQueryVariables,
   type Task,
+  type TaskWhere,
 } from '@/client/gql/generated/graphql';
 import { Button, InputControlled } from '@/client/ui';
 import { useTableWrapper } from '@enalmada/nextui-admin';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useForm } from 'react-hook-form';
-import { object, string } from 'valibot';
+import { object, optional, string } from 'valibot';
 
 import { columnProps } from './RenderRows';
 
@@ -36,37 +37,31 @@ export const TaskTable = (props: Props) => {
 
   const { TableWrapperComponent, sortDescriptor, pageDescriptor } = useTableWrapper<Task>();
 
-  type FormData = {
-    id?: string;
-    title?: string;
-  };
-
-  const [taskWhere, setTaskWhere] = useState<FormData>({
-    id: undefined,
-    title: undefined,
-  });
+  const [taskWhere, setTaskWhere] = useState<TaskWhere>();
 
   const schema = object({
-    id: string(),
-    title: string(),
+    id: optional(string()),
+    title: optional(string()),
   });
 
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
     control,
-  } = useForm({
+  } = useForm<TaskWhere>({
     resolver: valibotResolver(schema),
     defaultValues: {
-      id: '',
-      title: '', // necessary for SSR to maintain controlled component
+      ...taskWhere,
     },
   });
 
-  const onSubmit = ({ id, title }: FormData) => {
+  const onSubmit = (formData: TaskWhere) => {
+    // Transform each string field: if it's an empty string, set it to undefined
+    const transformedFormData = Object.fromEntries(
+      Object.entries(formData).map(([key, value]) => [key, value === '' ? undefined : value])
+    );
     setTaskWhere({
-      id: id || undefined,
-      title: title || undefined,
+      ...transformedFormData,
     });
   };
 
@@ -74,7 +69,7 @@ export const TaskTable = (props: Props) => {
     data: queryData,
     fetching: queryFetching,
     error: queryError,
-  } = useAdminPageQuery<FormData, AdminTasksPageQuery, AdminTasksPageQueryVariables>(
+  } = useAdminPageQuery<TaskWhere, AdminTasksPageQuery, AdminTasksPageQueryVariables>(
     ADMIN_TASKS_PAGE,
     {
       input: taskWhere,
@@ -144,7 +139,7 @@ export const TaskTable = (props: Props) => {
           </Button>
         </form>
       </div>
-      <div className="mx-auto w-full max-w-[95rem]">
+      <div className="mx-auto w-full">
         <TableWrapperComponent
           tableProps={{
             linkFunction: (id: React.Key) => router.push(`/admin/tasks/${id}`),

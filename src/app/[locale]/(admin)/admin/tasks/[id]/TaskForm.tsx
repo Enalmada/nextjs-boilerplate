@@ -51,6 +51,7 @@ interface Props {
 
 export default function TaskForm(props: Props) {
   const router = useRouter();
+
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
 
   const [{ data: queryData, error: queryError }] = useQuery<AdminTaskQuery>({
@@ -66,6 +67,7 @@ export default function TaskForm(props: Props) {
     AdminUpdateTaskMutation,
     AdminUpdateTaskMutationVariables
   >(ADMIN_UPDATE_TASK);
+
   const [{ error: deleteError, fetching: deleteFetching }, deleteTask] =
     useMutation<AdminDeleteTaskMutation>(ADMIN_DELETE_TASK);
 

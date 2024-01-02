@@ -4,7 +4,7 @@ import { type PageDescriptor, type SortDescriptor } from '@enalmada/nextui-admin
 import { type DocumentNode } from 'graphql';
 
 type UseAdminPageQueryProps<T> = {
-  input: T;
+  input?: T;
   sortDescriptor: SortDescriptor;
   pageDescriptor: PageDescriptor;
   pause?: boolean;
@@ -33,7 +33,7 @@ export const useAdminPageQuery = <T, Q, V extends { [prop: string]: unknown }>(
     // May not need this depending on real time requirements. Here for delete example to work
     // TODO consider clearing cache on add/delete
     // https://github.com/urql-graphql/urql/issues/297#issuecomment-504782794
-    requestPolicy: 'cache-and-network',
+    // requestPolicy: 'cache-and-network',
     ...config,
   });
 
