@@ -8,7 +8,6 @@
   ]
 }
 */
-import { createMockRepository } from '@/server/base/base.service.test';
 import { TaskStatus, type Task } from '@/server/db/schema';
 import { NotAuthorizedError, OptimisticLockError } from '@/server/graphql/errors';
 import { type MyContextType } from '@/server/graphql/server';
@@ -44,6 +43,8 @@ const mockPage: Page<Task> = {
 
 vi.mock('./task.service', async () => {
   const { default: TaskService } = await import('./task.service');
+  // Unsure why this started crashing without import here.  Seems like a vitest bug
+  const { createMockRepository } = await import('../utils/mocks');
 
   class MockTaskService extends TaskService {
     constructor() {

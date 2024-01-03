@@ -23,6 +23,7 @@ scalar JSON
 type Mutation {
   createTask(input: MutationCreateTaskInput!): Task!
   deleteTask(id: ID!): Task
+  deleteUser(id: ID!): User
   publishNotification(input: MutationPublishNotificationInput!): NotificationResponse
   updateTask(id: ID!, input: MutationUpdateTaskInput!): Task
   updateUser(id: ID!, input: MutationUpdateUserInput!): User

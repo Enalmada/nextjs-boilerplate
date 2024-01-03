@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import { type Key } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAdminPageQuery } from '@/client/admin/useAdminPageQuery';
+import FormErrors from '@/client/admin/table/FormErrors';
+import { useAdminTable } from '@/client/admin/table/useAdminTable';
 import { ADMIN_USERS_PAGE } from '@/client/gql/admin-queries.gql';
 import {
   type AdminUsersPageQuery,
@@ -11,9 +12,6 @@ import {
   type UserWhere,
 } from '@/client/gql/generated/graphql';
 import { Button, InputControlled } from '@/client/ui';
-import { useTableWrapper } from '@enalmada/nextui-admin';
-import { valibotResolver } from '@hookform/resolvers/valibot';
-import { useForm } from 'react-hook-form';
 import { object, optional, string } from 'valibot';
 
 import { columnProps } from './RenderRows';
@@ -25,51 +23,29 @@ interface Props {
 export const UserTable = (props: Props) => {
   const router = useRouter();
 
-  const { TableWrapperComponent, sortDescriptor, pageDescriptor } = useTableWrapper<User>();
-
-  const [userWhere, setUserWhere] = useState<UserWhere>();
-
-  const schema = object({
+  const filterSchema = object({
     id: optional(string()),
     email: optional(string()),
   });
 
   const {
-    formState: { errors, isSubmitting },
-    handleSubmit,
-    control,
-  } = useForm<UserWhere>({
-    resolver: valibotResolver(schema),
-    defaultValues: {
-      ...userWhere,
+    tableWrapper: { TableWrapperComponent },
+    form: {
+      formState: { errors, isSubmitting },
+      handleSubmit,
+      control,
+      onSubmit,
     },
-  });
-
-  const onSubmit = (formData: UserWhere) => {
-    // Transform each string field: if it's an empty string, set it to undefined
-    const transformedFormData = Object.fromEntries(
-      Object.entries(formData).map(([key, value]) => [key, value === '' ? undefined : value])
-    );
-    setUserWhere({
-      ...transformedFormData,
-    });
-  };
-
-  const {
-    data: queryData,
-    fetching: queryFetching,
-    error: errorQuery,
-  } = useAdminPageQuery<UserWhere, AdminUsersPageQuery, AdminUsersPageQueryVariables>(
+    queryResult: { data: queryData, fetching: queryFetching, error: queryError },
+  } = useAdminTable<User, UserWhere, AdminUsersPageQuery, AdminUsersPageQueryVariables>(
     ADMIN_USERS_PAGE,
     {
-      input: userWhere,
-      sortDescriptor,
-      pageDescriptor,
-      pause: props.loading,
+      loading: props.loading,
+      filterSchema,
     }
   );
 
-  if (errorQuery) return <div>{`Error! ${errorQuery.message}`}</div>;
+  if (queryError) return <div>{`Error! ${queryError.message}`}</div>;
 
   //  import { Breadcrumb } from '@/client/ui';
   //  import { getRouteById } from '@/client/utils/routes';
@@ -77,14 +53,7 @@ export const UserTable = (props: Props) => {
 
   return (
     <>
-      {errors.root && (
-        <div
-          className="rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-600"
-          role="alert"
-        >
-          <span className="font-bold">Error</span> {errors.root.message}
-        </div>
-      )}
+      <FormErrors errors={errors} />
 
       <div className="gap-4">
         <form
@@ -137,7 +106,7 @@ export const UserTable = (props: Props) => {
       <div className="mx-auto w-full">
         <TableWrapperComponent
           tableProps={{
-            linkFunction: (id: React.Key) => router.push(`/admin/users/${id}`),
+            linkFunction: (id: Key) => router.push(`/admin/users/${id}`),
           }}
           columnProps={columnProps}
           bodyProps={{

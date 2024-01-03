@@ -49,7 +49,16 @@ export const ADMIN_USER = gql`
 export const ADMIN_UPDATE_USER = gql`
   mutation AdminUpdateUser($id: ID!, $input: MutationUpdateUserInput!) {
     updateUser(id: $id, input: $input) {
-      ...UserParts
+      ...AdminUserParts
+    }
+  }
+  ${ADMIN_USER_PARTS}
+`;
+
+export const ADMIN_DELETE_USER = gql`
+  mutation AdminDeleteUser($id: ID!) {
+    deleteUser(id: $id) {
+      ...AdminUserParts
     }
   }
   ${ADMIN_USER_PARTS}

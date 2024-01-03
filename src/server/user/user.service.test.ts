@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createMockRepository } from '@/server/base/base.service.test';
 import { UserRole, type User } from '@/server/db/schema';
 import { NotAuthorizedError } from '@/server/graphql/errors';
 import { type MyContextType } from '@/server/graphql/server';
@@ -84,6 +83,8 @@ const mockPage: Page<User> = {
 
 vi.mock('./user.service', async () => {
   const { default: UserService } = await import('./user.service');
+  // Unsure why this started crashing without import here.  Seems like a vitest bug
+  const { createMockRepository } = await import('../utils/mocks');
 
   class MockUserService extends UserService {
     constructor() {
