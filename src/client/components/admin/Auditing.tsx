@@ -1,11 +1,13 @@
+export interface AuditedEntity {
+  createdAt: Date;
+  createdById?: string;
+  updatedAt?: Date | null;
+  updatedById?: string;
+  version: number;
+}
+
 interface Props {
-  entity: {
-    createdAt: Date;
-    createdById?: string;
-    updatedAt?: Date | null;
-    updatedById?: string;
-    version: number;
-  };
+  entity: AuditedEntity;
 }
 
 const Auditing = (props: Props) => {

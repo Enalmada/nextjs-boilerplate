@@ -1,15 +1,25 @@
+/* clone-code ENTITY_HOOK
+{
+  "toFile": "src/client/admin/entity/<%= h.inflection.pluralize(h.changeCase.camelCase(name)) %>/<%= h.changeCase.pascalCase(name) %>Table.tsx",
+  "replacements": [
+    { "find": "Task", "replace": "<%= h.changeCase.pascalCase(name) %>" },
+    { "find": "task", "replace": "<%= h.changeCase.camelCase(name) %>" },
+    { "find": "TASK", "replace": "<%= h.changeCase.constantCase(name) %>" }
+  ]
+}
+*/
 'use client';
 
 import { type Key } from 'react';
 import { useRouter } from 'next/navigation';
 import FormErrors from '@/client/admin/table/FormErrors';
 import { useAdminTable } from '@/client/admin/table/useAdminTable';
-import { ADMIN_USERS_PAGE } from '@/client/gql/admin-queries.gql';
+import { ADMIN_TASKS_PAGE } from '@/client/gql/admin-queries.gql';
 import {
-  type AdminUsersPageQuery,
-  type AdminUsersPageQueryVariables,
-  type User,
-  type UserWhere,
+  type AdminTasksPageQuery,
+  type AdminTasksPageQueryVariables,
+  type Task,
+  type TaskWhere,
 } from '@/client/gql/generated/graphql';
 import { Button, InputControlled } from '@/client/ui';
 import { object, optional, string } from 'valibot';
@@ -20,12 +30,12 @@ interface Props {
   loading?: boolean;
 }
 
-export const UserTable = (props: Props) => {
+export const TaskTable = (props: Props) => {
   const router = useRouter();
 
   const filterSchema = object({
     id: optional(string()),
-    email: optional(string()),
+    title: optional(string()),
   });
 
   const {
@@ -37,8 +47,8 @@ export const UserTable = (props: Props) => {
       onSubmit,
     },
     queryResult: { data: queryData, fetching: queryFetching, error: queryError },
-  } = useAdminTable<User, UserWhere, AdminUsersPageQuery, AdminUsersPageQueryVariables>(
-    ADMIN_USERS_PAGE,
+  } = useAdminTable<Task, TaskWhere, AdminTasksPageQuery, AdminTasksPageQueryVariables>(
+    ADMIN_TASKS_PAGE,
     {
       loading: props.loading,
       filterSchema,
@@ -46,10 +56,6 @@ export const UserTable = (props: Props) => {
   );
 
   if (queryError) return <div>{`Error! ${queryError.message}`}</div>;
-
-  //  import { Breadcrumb } from '@/client/ui';
-  //  import { getRouteById } from '@/client/utils/routes';
-  //       <Breadcrumb routes={[getRouteById('AdminHome'), getRouteById('Users')]} />
 
   return (
     <>
@@ -78,10 +84,10 @@ export const UserTable = (props: Props) => {
 
           <div className="max-w-sm">
             <InputControlled
-              name="email"
+              name="title"
               size={'sm'}
               control={control}
-              placeholder={'Email'}
+              placeholder={'Title'}
               errors={errors}
               labelPlacement={'inside'}
               label={''}
@@ -102,20 +108,19 @@ export const UserTable = (props: Props) => {
           </Button>
         </form>
       </div>
-
       <div className="mx-auto w-full">
         <TableWrapperComponent
           tableProps={{
-            linkFunction: (id: Key) => router.push(`/admin/users/${id}`),
+            linkFunction: (id: Key) => router.push(`/admin/task/${id}`),
           }}
           columnProps={columnProps}
           bodyProps={{
-            items: queryData?.usersPage.users || undefined,
+            items: queryData?.tasksPage.tasks || undefined,
             emptyContent: 'No rows to display.',
             isLoading: queryFetching && !queryData,
           }}
           paginationProps={{
-            hasMore: queryData?.usersPage?.hasMore,
+            hasMore: queryData?.tasksPage?.hasMore,
           }}
         />
       </div>

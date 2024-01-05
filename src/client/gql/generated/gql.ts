@@ -17,7 +17,7 @@ const documents = {
     "\n  query AdminMe {\n    me {\n      ...AdminUserParts\n      rules\n    }\n  }\n  \n": types.AdminMeDocument,
     "\n  query AdminUsersPage($input: QueryUsersPageInput!) {\n    usersPage(input: $input) {\n      hasMore\n      users {\n        ...AdminUserParts\n      }\n    }\n  }\n  \n": types.AdminUsersPageDocument,
     "\n  query AdminUser($id: ID!) {\n    user(id: $id) {\n      ...AdminUserParts\n    }\n  }\n  \n": types.AdminUserDocument,
-    "\n  mutation AdminUpdateUser($id: ID!, $input: MutationUpdateUserInput!) {\n    updateUser(id: $id, input: $input) {\n      ...UserParts\n    }\n  }\n  \n": types.AdminUpdateUserDocument,
+    "\n  mutation AdminUpdateUser($id: ID!, $input: MutationUpdateUserInput!) {\n    updateUser(id: $id, input: $input) {\n      ...AdminUserParts\n    }\n  }\n  \n": types.AdminUpdateUserDocument,
     "\n  mutation AdminDeleteUser($id: ID!) {\n    deleteUser(id: $id) {\n      ...AdminUserParts\n    }\n  }\n  \n": types.AdminDeleteUserDocument,
     "\n  fragment AdminTaskParts on Task {\n    ...TaskParts\n    createdAt\n    updatedAt\n  }\n  \n": types.AdminTaskPartsFragmentDoc,
     "\n  query AdminTasksPage($input: QueryTasksPageInput!) {\n    tasksPage(input: $input) {\n      hasMore\n      tasks {\n        ...AdminTaskParts\n      }\n    }\n  }\n  \n": types.AdminTasksPageDocument,
@@ -70,7 +70,7 @@ export function graphql(source: "\n  query AdminUser($id: ID!) {\n    user(id: $
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation AdminUpdateUser($id: ID!, $input: MutationUpdateUserInput!) {\n    updateUser(id: $id, input: $input) {\n      ...UserParts\n    }\n  }\n  \n"): (typeof documents)["\n  mutation AdminUpdateUser($id: ID!, $input: MutationUpdateUserInput!) {\n    updateUser(id: $id, input: $input) {\n      ...UserParts\n    }\n  }\n  \n"];
+export function graphql(source: "\n  mutation AdminUpdateUser($id: ID!, $input: MutationUpdateUserInput!) {\n    updateUser(id: $id, input: $input) {\n      ...AdminUserParts\n    }\n  }\n  \n"): (typeof documents)["\n  mutation AdminUpdateUser($id: ID!, $input: MutationUpdateUserInput!) {\n    updateUser(id: $id, input: $input) {\n      ...AdminUserParts\n    }\n  }\n  \n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

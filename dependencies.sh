@@ -6,5 +6,4 @@ sudo apt-get -y upgrade
 bun upgrade
 bun update -g
 
-ncu -g ##npm update -g too slow
-ncu # manually update if desired
+ncu # manually update local deps if desired

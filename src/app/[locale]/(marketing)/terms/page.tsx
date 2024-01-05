@@ -5,7 +5,7 @@ export const metadata = {
 export default function Page() {
   return (
     <div>
-      <section className="prose lg:prose-xl dark:prose-invert">
+      <section className="prose dark:prose-invert lg:prose-xl">
         <h2>Technical Challenge Terms of Service</h2>
         <h3>1. Terms</h3>
         <p>

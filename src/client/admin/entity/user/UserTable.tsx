@@ -1,25 +1,15 @@
-/* clone-code ENTITY_HOOK
-{
-  "toFile": "src/app/[locale]/(admin)/admin/<%= h.inflection.pluralize(h.changeCase.camelCase(name)) %>/<%= h.changeCase.pascalCase(name) %>Table.tsx",
-  "replacements": [
-    { "find": "Task", "replace": "<%= h.changeCase.pascalCase(name) %>" },
-    { "find": "task", "replace": "<%= h.changeCase.camelCase(name) %>" },
-    { "find": "TASK", "replace": "<%= h.changeCase.constantCase(name) %>" }
-  ]
-}
-*/
 'use client';
 
 import { type Key } from 'react';
 import { useRouter } from 'next/navigation';
 import FormErrors from '@/client/admin/table/FormErrors';
 import { useAdminTable } from '@/client/admin/table/useAdminTable';
-import { ADMIN_TASKS_PAGE } from '@/client/gql/admin-queries.gql';
+import { ADMIN_USERS_PAGE } from '@/client/gql/admin-queries.gql';
 import {
-  type AdminTasksPageQuery,
-  type AdminTasksPageQueryVariables,
-  type Task,
-  type TaskWhere,
+  type AdminUsersPageQuery,
+  type AdminUsersPageQueryVariables,
+  type User,
+  type UserWhere,
 } from '@/client/gql/generated/graphql';
 import { Button, InputControlled } from '@/client/ui';
 import { object, optional, string } from 'valibot';
@@ -30,12 +20,12 @@ interface Props {
   loading?: boolean;
 }
 
-export const TaskTable = (props: Props) => {
+export const UserTable = (props: Props) => {
   const router = useRouter();
 
   const filterSchema = object({
     id: optional(string()),
-    title: optional(string()),
+    email: optional(string()),
   });
 
   const {
@@ -47,8 +37,8 @@ export const TaskTable = (props: Props) => {
       onSubmit,
     },
     queryResult: { data: queryData, fetching: queryFetching, error: queryError },
-  } = useAdminTable<Task, TaskWhere, AdminTasksPageQuery, AdminTasksPageQueryVariables>(
-    ADMIN_TASKS_PAGE,
+  } = useAdminTable<User, UserWhere, AdminUsersPageQuery, AdminUsersPageQueryVariables>(
+    ADMIN_USERS_PAGE,
     {
       loading: props.loading,
       filterSchema,
@@ -56,6 +46,10 @@ export const TaskTable = (props: Props) => {
   );
 
   if (queryError) return <div>{`Error! ${queryError.message}`}</div>;
+
+  //  import { Breadcrumb } from '@/client/ui';
+  //  import { getRouteById } from '@/client/utils/routes';
+  //       <Breadcrumb routes={[getRouteById('AdminHome'), getRouteById('Users')]} />
 
   return (
     <>
@@ -84,10 +78,10 @@ export const TaskTable = (props: Props) => {
 
           <div className="max-w-sm">
             <InputControlled
-              name="title"
+              name="email"
               size={'sm'}
               control={control}
-              placeholder={'Title'}
+              placeholder={'Email'}
               errors={errors}
               labelPlacement={'inside'}
               label={''}
@@ -108,19 +102,20 @@ export const TaskTable = (props: Props) => {
           </Button>
         </form>
       </div>
+
       <div className="mx-auto w-full">
         <TableWrapperComponent
           tableProps={{
-            linkFunction: (id: Key) => router.push(`/admin/tasks/${id}`),
+            linkFunction: (id: Key) => router.push(`/admin/user/${id}`),
           }}
           columnProps={columnProps}
           bodyProps={{
-            items: queryData?.tasksPage.tasks || undefined,
+            items: queryData?.usersPage.users || undefined,
             emptyContent: 'No rows to display.',
             isLoading: queryFetching && !queryData,
           }}
           paginationProps={{
-            hasMore: queryData?.tasksPage?.hasMore,
+            hasMore: queryData?.usersPage?.hasMore,
           }}
         />
       </div>
