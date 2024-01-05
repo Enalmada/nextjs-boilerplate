@@ -4,7 +4,7 @@ import { type PageDescriptor, type SortDescriptor } from '@enalmada/nextui-admin
 import { type DocumentNode } from 'graphql';
 
 type UseAdminPageQueryProps<T> = {
-  input: T;
+  input?: T;
   sortDescriptor: SortDescriptor;
   pageDescriptor: PageDescriptor;
   pause?: boolean;

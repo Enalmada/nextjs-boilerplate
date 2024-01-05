@@ -133,3 +133,16 @@ builder.mutationField('updateUser', (t) =>
     },
   })
 );
+
+builder.mutationField('deleteUser', (t) =>
+  t.field({
+    type: UserType,
+    nullable: true,
+    args: {
+      id: t.arg.id({ required: true }),
+    },
+    resolve: async (_root, args, ctx) => {
+      return new UserService().delete(args.id as string, ctx);
+    },
+  })
+);

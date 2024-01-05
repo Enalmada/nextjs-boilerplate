@@ -1,20 +1,21 @@
-export const extractErrorMessages = (error?: unknown): string[] => {
-  if (!error) {
-    return [];
-  }
+// TODO update with better types
+// https://formidable.com/open-source/urql/docs/basics/errors/
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  if (error.message) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return [error.message];
-  }
-
-  return ['errorHandling TBD'];
+// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+export const extractErrorMessages = (...errors: unknown[]): string[] => {
+  return errors.reduce<string[]>((acc, error) => {
+    // Check if error is an object and has a 'message' property of type string
+    if (typeof error === 'object' && error !== null && 'message' in error) {
+      const errorMessage = (error as { message: unknown }).message;
+      if (typeof errorMessage === 'string') {
+        acc.push(errorMessage);
+      }
+    }
+    return acc;
+  }, []);
 };
 
+// Older apollo client stuff for reference
 /*
 type ErrorType = {
   message: string;

@@ -134,6 +134,26 @@
             ]
           },
           {
+            "name": "deleteUser",
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "publishNotification",
             "type": {
               "kind": "OBJECT",

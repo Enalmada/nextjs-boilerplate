@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 'use client';
 
 import React from 'react';
@@ -26,6 +27,9 @@ export interface ControlProps {
   labelPlacement?: string;
 }
 
+// Using controller until this is fixed
+// https://github.com/nextui-org/nextui/issues/1969
+
 export const InputControlled = (args: ControlProps & InputProps) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
   const errorMessage: string = args.errors[args.name]?.message;
@@ -38,6 +42,8 @@ export const InputControlled = (args: ControlProps & InputProps) => {
         <Input
           {...field}
           {...args}
+          type={args.type || undefined}
+          value={field.value ?? ''} // Convert null or undefined to an empty string for SSR
           label={args.label}
           labelPlacement={args.labelPlacement || 'outside'}
           isInvalid={!!errorMessage}

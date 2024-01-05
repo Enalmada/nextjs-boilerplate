@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 'use client';
 
 import React from 'react';
@@ -31,6 +33,7 @@ export const TextareaControlled = (args: ControlProps & InputProps) => {
         <Textarea
           {...field}
           {...args}
+          value={field.value ?? ''} // Convert null or undefined to an empty string for SSR
           label={args.label}
           labelPlacement={args.labelPlacement || 'outside'}
           isInvalid={!!errorMessage}
