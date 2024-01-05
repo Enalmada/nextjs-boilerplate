@@ -47,13 +47,13 @@ const sidebarConfig: SidebarSectionConfig[] = [
       {
         title: 'Users',
         icon: <UserIcon />,
-        href: '/admin/users',
+        href: '/admin/user',
       },
       /* clone-code ENTITY_HOOK
       {
         "toPlacement": "below",
         "replacements": [
-          { "find": "Tasks", "replace": "<%= h.inflection.pluralize(h.changeCase.camelCase(name)) %>" },
+          { "find": "Tasks", "replace": "<%= h.inflection.pluralize(h.changeCase.pascalCase(name)) %>" },
           { "find": "Task", "replace": "<%= h.changeCase.pascalCase(name) %>" },
           { "find": "tasks", "replace": "<%= h.inflection.pluralize(h.changeCase.camelCase(name)) %>" }
         ]
@@ -62,7 +62,7 @@ const sidebarConfig: SidebarSectionConfig[] = [
       {
         title: 'Tasks',
         icon: <TaskIcon />,
-        href: '/admin/tasks',
+        href: '/admin/task',
       },
       /* clone-code ENTITY_HOOK end */
     ],

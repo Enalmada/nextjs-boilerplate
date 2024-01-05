@@ -6,7 +6,6 @@ import FormFields, {
   type FormFieldConfig,
 } from '@/client/admin/edit/formGeneration';
 import { useAdminEdit } from '@/client/admin/edit/useAdminEdit';
-import ReadOnlyInput from '@/client/components/admin/ReadOnlyInput';
 import { ADMIN_DELETE_USER, ADMIN_UPDATE_USER, ADMIN_USER } from '@/client/gql/admin-queries.gql';
 import {
   UserRole,
@@ -17,7 +16,6 @@ import {
   type AdminUserQuery,
   type AdminUserQueryVariables,
   type MutationUpdateUserInput,
-  type User,
 } from '@/client/gql/generated/graphql';
 import { enum_, number } from 'valibot';
 
@@ -28,8 +26,17 @@ interface Props {
 export default function UserForm(props: Props) {
   const inputConfig: FormFieldConfig[] = [
     {
+      key: 'id',
+      isDisabled: true,
+      validation: null,
+    },
+    {
+      key: 'email',
+      isDisabled: true,
+      validation: null,
+    },
+    {
       key: 'role',
-      label: 'Role',
       component: 'radio',
       validation: enum_(UserRole),
       enum: UserRole,
@@ -42,7 +49,7 @@ export default function UserForm(props: Props) {
   ];
 
   const {
-    queryResult: { data: queryData, error: queryError },
+    queryResult: { error: queryError },
     updateMutation: [{ error: updateError }],
     deleteMutation: [{ error: deleteError, fetching: deleteFetching }],
     form: {
@@ -62,10 +69,8 @@ export default function UserForm(props: Props) {
     AdminDeleteUserMutationVariables
   >(props.id, 'user', ADMIN_USER, ADMIN_UPDATE_USER, ADMIN_DELETE_USER, {
     formSchema: generateFormSchema(inputConfig),
-    reUrl: '/admin/users',
+    reUrl: '/admin/user',
   });
-
-  const { id, email } = (queryData?.user as User) || ({} as User);
 
   // Without this, updating description causes form update schema checking to say "title can't be blank"
   if (queryError) return <div>{`Error! ${queryError.message}`}</div>;
@@ -77,14 +82,10 @@ export default function UserForm(props: Props) {
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
       isSubmitting={isSubmitting}
-      reUrl={'/admin/users'}
+      reUrl={'/admin/user'}
       handleDelete={handleDelete}
       deleteFetching={deleteFetching}
     >
-      <ReadOnlyInput label="ID" defaultValue={id} />
-
-      <ReadOnlyInput label="Email" defaultValue={email || ''} />
-
       <FormFields control={control} errors={errors} config={inputConfig} />
     </EditCard>
   );

@@ -131,15 +131,21 @@ export const adminRoutes: Route[] = [
   },
   {
     id: 'AdminUsers',
-    path: '/admin/users',
+    path: '/admin/user',
     name: 'Users',
     storybook: 'Pages/Admin/Users',
+  },
+  {
+    id: 'AdminUser',
+    path: '/admin/user/[id]',
+    name: 'User',
+    storybook: 'Pages/Admin/User',
   },
   /* clone-code ENTITY_HOOK
   {
     "toPlacement": "below",
     "replacements": [
-      { "find": "Tasks", "replace": "<%= h.inflection.pluralize(h.changeCase.camelCase(name)) %>" },
+      { "find": "Tasks", "replace": "<%= h.inflection.pluralize(h.changeCase.pascalCase(name)) %>" },
       { "find": "Task", "replace": "<%= h.changeCase.pascalCase(name) %>" },
       { "find": "tasks", "replace": "<%= h.inflection.pluralize(h.changeCase.camelCase(name)) %>" }
     ]
@@ -147,13 +153,13 @@ export const adminRoutes: Route[] = [
   */
   {
     id: 'AdminTasks',
-    path: '/admin/tasks',
+    path: '/admin/task',
     name: 'Tasks',
     storybook: 'Pages/Admin/Tasks',
   },
   {
     id: 'AdminTask',
-    path: '/admin/tasks/[id]',
+    path: '/admin/task/[id]',
     name: 'Task',
     storybook: 'Pages/Admin/Task',
   },

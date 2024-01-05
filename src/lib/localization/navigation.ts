@@ -37,9 +37,9 @@ export const pathnames = {
 
   // Admin
   '/admin': '/admin',
-  '/admin/users': '/admin/users',
-  '/admin/tasks': '/admin/tasks',
-  '/admin/tasks/[id]': '/admin/tasks/[id]',
+  '/admin/user': '/admin/user',
+  '/admin/task': '/admin/task',
+  '/admin/task/[id]': '/admin/task/[id]',
 } satisfies Pathnames<typeof locales>;
 
 const navigation = createLocalizedPathnamesNavigation({

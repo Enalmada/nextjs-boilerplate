@@ -1,19 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { InputControlled, Radio, RadioGroupControlled, TextareaControlled } from '@/client/ui';
 import DatePicker from '@/client/ui/DateInput';
+import { capitalCase } from 'change-case';
 import {
   type Control,
   type DeepRequired,
   type FieldErrorsImpl,
   type FieldValues,
 } from 'react-hook-form';
-import { object, required, type BaseSchema } from 'valibot';
+import { nullish, object, required, string, type BaseSchema } from 'valibot';
 
 export interface FormFieldConfig {
   key: string;
   label?: string;
-  component: 'input' | 'textarea' | 'radio' | 'date' | 'hidden';
-  validation?: BaseSchema;
+  component?: 'input' | 'textarea' | 'radio' | 'date' | 'hidden';
+  validation?: BaseSchema | null;
   enum?: Record<string, any>;
   defaultValue?: string;
   isReadOnly?: boolean;
@@ -22,8 +23,8 @@ export interface FormFieldConfig {
 
 export const generateFormSchema = (config: FormFieldConfig[]) => {
   const schemaFields = config.reduce<Record<string, BaseSchema>>((acc, field) => {
-    if (field.validation) {
-      acc[field.key] = field.validation;
+    if (field.validation || field.validation === undefined) {
+      acc[field.key] = field.validation === undefined ? nullish(string()) : field.validation;
     }
     return acc;
   }, {});
@@ -43,14 +44,16 @@ const FormFields = <T extends FieldValues>({ config, control, errors }: FormFiel
   return (
     <div className="grid grid-flow-row gap-4">
       {config.map((field) => {
-        switch (field.component) {
+        const label = field.label === undefined ? capitalCase(field.key) : field.label;
+
+        switch (field.component || 'input') {
           case 'input':
             return (
               <InputControlled
                 key={field.key}
                 name={field.key}
                 control={control}
-                label={field.label}
+                label={label}
                 errors={errors}
                 labelPlacement={labelPlacement}
                 isDisabled={field.isDisabled}
@@ -63,7 +66,7 @@ const FormFields = <T extends FieldValues>({ config, control, errors }: FormFiel
                 key={field.key}
                 name={field.key}
                 control={control}
-                label={field.label}
+                label={label}
                 errors={errors}
                 minRows={2}
                 labelPlacement={labelPlacement}
@@ -97,7 +100,7 @@ const FormFields = <T extends FieldValues>({ config, control, errors }: FormFiel
                 disableAnimation={false}
                 control={control}
                 name={field.key}
-                label={field.label}
+                label={label}
                 errors={errors}
               >
                 {Object.entries(field.enum).map(([key, value]) => (

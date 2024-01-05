@@ -68,7 +68,7 @@ export const ADMIN_DELETE_USER = gql`
 {
   "toPlacement": "bottom",
   "replacements": [
-    { "find": "Tasks", "replace": "<%= h.changeCase.camelCase(name) %>" },
+    { "find": "Tasks", "replace": "<%= h.inflection.pluralize(h.changeCase.pascalCase(name)) %>" },
     { "find": "TASK", "replace": "<%= h.changeCase.constantCase(name) %>" },
     { "find": "Task", "replace": "<%= h.changeCase.pascalCase(name) %>" },
     { "find": "task", "replace": "<%= h.changeCase.camelCase(name) %>" }
