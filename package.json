@@ -148,7 +148,7 @@
     "cross-env": "7.0.3",
     "dotenv": "16.3.1",
     "dotenv-cli": "7.3.0",
-    "drizzle-kit": "0.20.9",
+    "drizzle-kit": "0.20.10",
     "eslint": "8.56.0",
     "eslint-config-next": "14.0.4",
     "eslint-config-prettier": "9.1.0",
