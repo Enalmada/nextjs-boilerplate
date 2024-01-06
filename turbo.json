@@ -1,0 +1,47 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "test": {
+      "inputs": ["src/**/*.tsx", "src/**/*.ts"],
+      "outputMode": "new-only"
+    },
+    "test:unit": {
+      "inputs": ["src/**/*.tsx", "src/**/*.ts"],
+      "outputMode": "new-only"
+    },
+    "test:e2e": {
+      "inputs": ["src/**/*.tsx", "src/**/*.ts"],
+      "outputMode": "new-only"
+    },
+    "format": {
+      "outputMode": "new-only"
+    },
+    "next:lint": {
+      "dependsOn": ["format"],
+      "outputMode": "new-only"
+    },
+    "check-types": {},
+    "dev:install": {
+      "inputs": ["package.json", "bun.lockb"],
+      "outputMode": "new-only"
+    },
+    "docker:up": {
+      "cache": false,
+      "outputMode": "new-only"
+    },
+    "drizzle:migrate": {
+      "inputs": ["src/server/db/migrations/**"],
+      "dependsOn": ["docker:up"],
+      "outputMode": "new-only"
+    }
+  }
+}

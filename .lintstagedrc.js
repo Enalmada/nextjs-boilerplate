@@ -12,7 +12,8 @@ const buildEslintCommand = (filenames) =>
 const buildPrettierCommand = (filenames) => `bun prettier --write ${filenames.join(' ')}`;
 
 export default {
-  '**/*.{ts,tsx,mjs,cjs}': [buildPrettierCommand, buildEslintCommand, tsc],
+  '**/*.{ts,tsx}': [tsc],
+  '**/*.{ts,tsx,mjs,cjs}': [buildPrettierCommand, buildEslintCommand],
   'src/server/db/schema.ts': 'bun drizzle:generate',
   'package.json': ['npm pkg fix', 'fixpack'],
 };
