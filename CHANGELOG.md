@@ -1,5 +1,11 @@
 # nextjs-boilerplate
 
+## 0.1.10
+
+### Patch Changes
+
+- ea678f4: turborepo support
+
 ## 0.1.9
 
 ### Patch Changes
