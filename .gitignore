@@ -202,3 +202,6 @@ storybook-static
 # Playwright
 playwright/test-results/**
 playwright/.auth/**
+
+# Turborepo
+.turbo

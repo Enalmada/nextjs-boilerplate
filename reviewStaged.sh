@@ -6,5 +6,5 @@ files=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^(./src/)?.*\
 for file in $files
 do
   echo "Reviewing $file"
-  npm run review $file
+  npm run gpt:review $file
 done
