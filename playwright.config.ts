@@ -11,6 +11,21 @@ const PORT = process.env.PORT || 3000;
 // Set webServer.url and use.baseURL with the location of the WebServer respecting the correct set port
 const baseURL = process.env.PLAYWRIGHT_TEST_BASE_URL || `http://localhost:${PORT}`;
 
+// Common 'use' configuration for projects
+const genericUse = {
+  ...devices['Desktop Chrome'],
+  launchOptions: {
+    args: [
+      '--enable-features=Vulkan,UseSkiaRenderer',
+      '--use-vulkan=swiftshader',
+      '--enable-unsafe-webgpu',
+      '--disable-vulkan-fallback-to-gl-for-testing',
+      '--dignore-gpu-blocklist',
+      '--use-angle=vulkan',
+    ],
+  },
+};
+
 // Reference: https://playwright.dev/docs/test-configuration
 export default defineConfig({
   // Timeout per test (dev page compilation can take more than default)
@@ -22,6 +37,9 @@ export default defineConfig({
 
   // To not conflict with test|spec which bun and vitest default to running
   testMatch: '*.play.ts',
+
+  // ensure tests are performant at scale
+  fullyParallel: true,
 
   // On CI, if a test fails, retry it additional 2 times
   // trying once locally to get around some strange just compiled issues
@@ -67,24 +85,17 @@ export default defineConfig({
   },
 
   projects: [
-    { name: 'setup', testMatch: /.*\.setup\.ts/ },
+    {
+      name: 'setup',
+      testMatch: /.*\.setup\.ts/,
+      use: { ...genericUse },
+      fullyParallel: true,
+    },
     {
       name: 'chromium',
       use: {
-        ...devices['Desktop Chrome'],
-        storageState: 'playwright/.auth/user.json',
-        launchOptions: {
-          // force GPU hardware acceleration (confirm by removing skip from gpu.play.ts)
-          // https://dev.to/perrocontodo/run-playwright-tests-with-hardware-acceleration-on-a-gpu-enabled-ec2-instance-with-docker-support-4j2
-          args: [
-            '--enable-features=Vulkan,UseSkiaRenderer',
-            '--use-vulkan=swiftshader',
-            '--enable-unsafe-webgpu',
-            '--disable-vulkan-fallback-to-gl-for-testing',
-            '--dignore-gpu-blocklist',
-            '--use-angle=vulkan',
-          ],
-        },
+        ...genericUse,
+        storageState: 'playwright/.auth/member.json',
       },
       dependencies: ['setup'],
     },

@@ -20,7 +20,8 @@
     },
     "test:e2e": {
       "inputs": ["src/**/*.tsx", "src/**/*.ts"],
-      "outputMode": "new-only"
+      "outputMode": "new-only",
+      "outputs": ["playwright/.auth/**", "playwright/test-results/**"]
     },
     "format": {
       "outputMode": "new-only"
