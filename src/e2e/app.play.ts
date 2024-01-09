@@ -1,47 +1,44 @@
 import { expect, test } from '@playwright/test';
 
-const uniqueTaskTitle = 'Task ' + Date.now();
+test.describe('App', () => {
+  const uniqueTaskTitle = 'Task ' + Date.now();
 
-test('list should have text', async ({ page }) => {
   // Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
-  await page.goto('/app');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Task Manager');
-});
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/app');
+  });
 
-test('create new', async ({ page }) => {
-  // Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
-  await page.goto('/app');
-  await page.getByRole('button', { name: 'New Task' }).click();
-  await expect(page).toHaveURL('/app/task/new');
+  test('happy path', async ({ page }) => {
+    // list should have text
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Task Manager');
 
-  await page.fill('input[name="title"]', uniqueTaskTitle);
-  await page.getByRole('button', { name: 'Create' }).click();
+    // create new
+    await page.getByRole('button', { name: 'New Task' }).click();
+    await expect(page).toHaveURL('/app/task/new');
 
-  await expect(page).toHaveURL('/app');
-  await expect(page.getByText(uniqueTaskTitle)).toBeVisible();
-});
+    await page.fill('input[name="title"]', uniqueTaskTitle);
+    await page.getByRole('button', { name: 'Create' }).click();
 
-test('update', async ({ page }) => {
-  // Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
-  await page.goto('/app');
-  await page.getByRole('link', { name: uniqueTaskTitle }).click();
+    await expect(page).toHaveURL('/app');
+    await expect(page.getByText(uniqueTaskTitle)).toBeVisible();
 
-  const description = uniqueTaskTitle + '_description';
+    // update
+    await page.getByRole('link', { name: uniqueTaskTitle }).click();
 
-  await page.fill('textarea[name="description"]', description);
-  await page.getByRole('button', { name: 'Save' }).click();
+    const description = uniqueTaskTitle + '_description';
 
-  await expect(page).toHaveURL('/app');
-  await expect(page.getByText(description)).toBeVisible();
-});
+    await page.fill('textarea[name="description"]', description);
+    await page.getByRole('button', { name: 'Save' }).click();
 
-test('delete', async ({ page }) => {
-  // Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
-  await page.goto('/app');
-  await page.getByRole('link', { name: uniqueTaskTitle }).click();
+    await expect(page).toHaveURL('/app');
+    await expect(page.getByText(description)).toBeVisible();
 
-  await page.getByRole('button', { name: 'Delete' }).click();
+    // delete
+    await page.getByRole('link', { name: uniqueTaskTitle }).click();
 
-  await expect(page).toHaveURL('/app');
-  await expect(page.getByText(uniqueTaskTitle)).not.toBeVisible();
+    await page.getByRole('button', { name: 'Delete' }).click();
+
+    await expect(page).toHaveURL('/app');
+    await expect(page.getByText(uniqueTaskTitle)).not.toBeVisible();
+  });
 });

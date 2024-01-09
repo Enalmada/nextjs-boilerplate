@@ -62,7 +62,6 @@ export default function UserButtons() {
             <DropdownTrigger>
               {/* would prefer to use src directly but has a flicker on rehydrate in each page */}
               <Avatar
-                id="avatar"
                 isBordered
                 className="transition-transform"
                 color="secondary"
