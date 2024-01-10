@@ -5,9 +5,11 @@ import {
   type ReferrerEnum,
 } from 'next/dist/lib/metadata/types/metadata-types';
 
-export const baseURL = process.env.NEXT_PUBLIC_VERCEL_URL
-  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-  : process.env.NEXT_PUBLIC_REDIRECT_URL || `http://localhost:${process.env.PORT || 3000}`;
+export const baseURL = process.env.NEXT_PUBLIC_REDIRECT_URL
+  ? process.env.NEXT_PUBLIC_REDIRECT_URL
+  : process.env.NEXT_PUBLIC_VERCEL_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    : `http://localhost:${process.env.PORT || 3000}`;
 
 // Next.js auto icon generation instructions:
 // Use https://realfavicongenerator.net/ to generate icons and manifest
