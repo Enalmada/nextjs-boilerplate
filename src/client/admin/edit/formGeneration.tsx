@@ -13,7 +13,7 @@ import { nullish, object, required, string, type BaseSchema } from 'valibot';
 export interface FormFieldConfig {
   key: string;
   label?: string;
-  component?: 'input' | 'textarea' | 'radio' | 'date' | 'hidden';
+  component?: 'input' | 'textarea' | 'radio' | 'date' | 'hidden' | 'radiobool';
   validation?: BaseSchema | null;
   enum?: Record<string, any>;
   defaultValue?: string;
@@ -36,17 +36,65 @@ interface FormFieldProps<T extends FieldValues> {
   config: FormFieldConfig[];
   control: Control<T>;
   errors: Partial<FieldErrorsImpl<DeepRequired<T>>>;
+  horizontal?: boolean;
 }
 
-const FormFields = <T extends FieldValues>({ config, control, errors }: FormFieldProps<T>) => {
+const mapValueToRadio = (value: boolean | null): string => {
+  if (value === true) return 'true';
+  if (value === false) return 'false';
+  return 'unknown';
+};
+
+const mapRadioToValue = (radioValue: string): boolean | null => {
+  if (radioValue === 'true') return true;
+  if (radioValue === 'false') return false;
+  return null;
+};
+
+const FormFields = <T extends FieldValues>({
+  config,
+  control,
+  errors,
+  horizontal,
+}: FormFieldProps<T>) => {
   const labelPlacement = 'inside';
+  const containerClass = horizontal
+    ? 'grid grid-flow-col auto-cols-max gap-4'
+    : 'grid grid-flow-row gap-4';
 
   return (
-    <div className="grid grid-flow-row gap-4">
+    <div className={containerClass}>
       {config.map((field) => {
         const label = field.label === undefined ? capitalCase(field.key) : field.label;
 
         switch (field.component || 'input') {
+          case 'radiobool':
+            return (
+              <RadioGroupControlled
+                key={field.key}
+                mapValueToRadio={mapValueToRadio}
+                mapRadioToValue={mapRadioToValue}
+                isDisabled={false}
+                color={'primary'}
+                size={'md'}
+                disableAnimation={false}
+                control={control}
+                name={field.key}
+                label={label}
+                errors={errors}
+                orientation="horizontal"
+              >
+                <Radio key={'true'} value={'true'}>
+                  Yes
+                </Radio>
+                <Radio key={'false'} value={'false'}>
+                  No
+                </Radio>
+                <Radio key={'unknown'} value={'unknown'}>
+                  Unknown
+                </Radio>
+              </RadioGroupControlled>
+            );
           case 'input':
             return (
               <InputControlled

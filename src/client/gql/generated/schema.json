@@ -529,6 +529,15 @@
             "args": []
           },
           {
+            "name": "user",
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
             "name": "version",
             "type": {
               "kind": "NON_NULL",

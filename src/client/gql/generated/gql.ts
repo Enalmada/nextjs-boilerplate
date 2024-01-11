@@ -15,12 +15,12 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n  fragment AdminUserParts on User {\n    ...UserParts\n    createdAt\n    updatedAt\n  }\n  \n": types.AdminUserPartsFragmentDoc,
     "\n  query AdminMe {\n    me {\n      ...AdminUserParts\n      rules\n    }\n  }\n  \n": types.AdminMeDocument,
-    "\n  query AdminUsersPage($input: QueryUsersPageInput!) {\n    usersPage(input: $input) {\n      hasMore\n      users {\n        ...AdminUserParts\n      }\n    }\n  }\n  \n": types.AdminUsersPageDocument,
+    "\n  query AdminUsersPage($input: QueryUsersPageInput!) {\n    usersPage(input: $input) {\n      hasMore\n      users {\n        ...AdminUserParts\n        tasks {\n          id\n          title\n        }\n      }\n    }\n  }\n  \n": types.AdminUsersPageDocument,
     "\n  query AdminUser($id: ID!) {\n    user(id: $id) {\n      ...AdminUserParts\n    }\n  }\n  \n": types.AdminUserDocument,
     "\n  mutation AdminUpdateUser($id: ID!, $input: MutationUpdateUserInput!) {\n    updateUser(id: $id, input: $input) {\n      ...AdminUserParts\n    }\n  }\n  \n": types.AdminUpdateUserDocument,
     "\n  mutation AdminDeleteUser($id: ID!) {\n    deleteUser(id: $id) {\n      ...AdminUserParts\n    }\n  }\n  \n": types.AdminDeleteUserDocument,
     "\n  fragment AdminTaskParts on Task {\n    ...TaskParts\n    createdAt\n    updatedAt\n  }\n  \n": types.AdminTaskPartsFragmentDoc,
-    "\n  query AdminTasksPage($input: QueryTasksPageInput!) {\n    tasksPage(input: $input) {\n      hasMore\n      tasks {\n        ...AdminTaskParts\n      }\n    }\n  }\n  \n": types.AdminTasksPageDocument,
+    "\n  query AdminTasksPage($input: QueryTasksPageInput!) {\n    tasksPage(input: $input) {\n      hasMore\n      tasks {\n        ...AdminTaskParts\n        user {\n          id\n          name\n          email\n        }\n      }\n    }\n  }\n  \n": types.AdminTasksPageDocument,
     "\n  query AdminTask($id: ID!) {\n    task(id: $id) {\n      ...AdminTaskParts\n    }\n  }\n  \n": types.AdminTaskDocument,
     "\n  mutation AdminUpdateTask($id: ID!, $input: MutationUpdateTaskInput!) {\n    updateTask(id: $id, input: $input) {\n      ...AdminTaskParts\n    }\n  }\n  \n": types.AdminUpdateTaskDocument,
     "\n  mutation AdminDeleteTask($id: ID!) {\n    deleteTask(id: $id) {\n      ...AdminTaskParts\n    }\n  }\n  \n": types.AdminDeleteTaskDocument,
@@ -62,7 +62,7 @@ export function graphql(source: "\n  query AdminMe {\n    me {\n      ...AdminUs
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query AdminUsersPage($input: QueryUsersPageInput!) {\n    usersPage(input: $input) {\n      hasMore\n      users {\n        ...AdminUserParts\n      }\n    }\n  }\n  \n"): (typeof documents)["\n  query AdminUsersPage($input: QueryUsersPageInput!) {\n    usersPage(input: $input) {\n      hasMore\n      users {\n        ...AdminUserParts\n      }\n    }\n  }\n  \n"];
+export function graphql(source: "\n  query AdminUsersPage($input: QueryUsersPageInput!) {\n    usersPage(input: $input) {\n      hasMore\n      users {\n        ...AdminUserParts\n        tasks {\n          id\n          title\n        }\n      }\n    }\n  }\n  \n"): (typeof documents)["\n  query AdminUsersPage($input: QueryUsersPageInput!) {\n    usersPage(input: $input) {\n      hasMore\n      users {\n        ...AdminUserParts\n        tasks {\n          id\n          title\n        }\n      }\n    }\n  }\n  \n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -82,7 +82,7 @@ export function graphql(source: "\n  fragment AdminTaskParts on Task {\n    ...T
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query AdminTasksPage($input: QueryTasksPageInput!) {\n    tasksPage(input: $input) {\n      hasMore\n      tasks {\n        ...AdminTaskParts\n      }\n    }\n  }\n  \n"): (typeof documents)["\n  query AdminTasksPage($input: QueryTasksPageInput!) {\n    tasksPage(input: $input) {\n      hasMore\n      tasks {\n        ...AdminTaskParts\n      }\n    }\n  }\n  \n"];
+export function graphql(source: "\n  query AdminTasksPage($input: QueryTasksPageInput!) {\n    tasksPage(input: $input) {\n      hasMore\n      tasks {\n        ...AdminTaskParts\n        user {\n          id\n          name\n          email\n        }\n      }\n    }\n  }\n  \n"): (typeof documents)["\n  query AdminTasksPage($input: QueryTasksPageInput!) {\n    tasksPage(input: $input) {\n      hasMore\n      tasks {\n        ...AdminTaskParts\n        user {\n          id\n          name\n          email\n        }\n      }\n    }\n  }\n  \n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

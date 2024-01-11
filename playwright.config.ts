@@ -29,8 +29,8 @@ const genericUse = {
 // Reference: https://playwright.dev/docs/test-configuration
 export default defineConfig({
   // Timeout per test (dev page compilation can take more than default)
-  timeout: 60 * 1000,
-  expect: { timeout: 60000 },
+  timeout: 30 * 1000,
+  expect: { timeout: 30000 },
 
   // Test directory
   testDir: path.join(__dirname, 'src/e2e'),

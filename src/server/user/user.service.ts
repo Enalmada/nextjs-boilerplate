@@ -1,13 +1,17 @@
 import Logger from '@/lib/logging/log-util';
 import BaseService from '@/server/base/base.service';
 import { db } from '@/server/db';
-import { UserTable, type User, type UserInput } from '@/server/db/schema';
+import { UserTable, type Task, type User, type UserInput } from '@/server/db/schema';
 import { type MyContextType } from '@/server/graphql/server';
 import { accessCheck } from '@/server/utils/accessCheck';
 import { defineAbilitiesFor } from '@/server/utils/caslAbility';
 import { packRules } from '@casl/ability/extra';
 
-export default class UserService extends BaseService<User, UserInput> {
+export interface UserWithTasks extends User {
+  tasks?: Task[];
+}
+
+export default class UserService extends BaseService<UserWithTasks, UserInput> {
   constructor() {
     super('User', UserTable, db.query.UserTable);
   }

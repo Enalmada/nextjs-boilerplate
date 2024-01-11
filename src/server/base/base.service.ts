@@ -13,6 +13,7 @@ import { type RelationalQueryBuilder } from 'drizzle-orm/pg-core/query-builders/
 
 export interface ListInput<TEntity> extends TableInput {
   where?: Partial<TEntity>;
+  with?: Record<string, string | boolean>;
 }
 
 export interface BaseEntity {
@@ -31,7 +32,7 @@ export default abstract class BaseService<
 > {
   protected readonly logger: Logger;
 
-  protected repository: IRepository<TEntity, TInput>;
+  repository: IRepository<TEntity, TInput>;
 
   protected constructor(
     private entityName: SubjectType,
@@ -42,10 +43,12 @@ export default abstract class BaseService<
     this.repository = createRepo<typeof schema, TEntity, TInput>(db, this.table, this.queryBuilder);
   }
 
-  async get(id: string, ctx: MyContextType) {
+  async get(id: string, ctx: MyContextType, input?: ListInput<TEntity>) {
     const logger = this.logger.logMethodStart(`${this.entityName} ${this.get.name}`, ctx);
 
-    const entity = await this.repository.findFirst({ id } as Partial<TEntity>);
+    const entity = await this.repository.findFirst({ id } as Partial<TEntity>, {
+      with: input?.with,
+    });
 
     if (!entity) {
       throw new NotFoundError(`${this.entityName} ${id} not found`, logger);
@@ -65,7 +68,7 @@ export default abstract class BaseService<
 
     const { order, paging } = sortAndPagination(input);
 
-    return this.repository.findPage({ criteria: input?.where, order, paging });
+    return this.repository.findPage({ criteria: input?.where, order, paging, with: input?.with });
   }
 
   async create(input: TInput, ctx: MyContextType): Promise<TEntity> {
