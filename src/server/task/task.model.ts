@@ -12,7 +12,8 @@ import { BaseEntityType } from '@/server/base/base.model';
 import { type ListInput } from '@/server/base/base.service';
 import { TaskStatus, type Task, type TaskInput } from '@/server/db/schema';
 import { builder } from '@/server/graphql/builder';
-import TaskService from '@/server/task/task.service';
+import TaskService, { type TaskWithUser } from '@/server/task/task.service';
+import { UserType } from '@/server/user/user.model';
 
 import { OrderInputType, PaginationInputType } from '../graphql/sortAndPagination';
 
@@ -38,6 +39,11 @@ TaskType.implement({
     dueDate: t.expose('dueDate', {
       nullable: true,
       type: 'DateTime',
+    }),
+    user: t.field({
+      type: UserType,
+      resolve: (task: TaskWithUser) => task.user,
+      nullable: true,
     }),
   }),
 });
@@ -73,6 +79,7 @@ TaskPageType.implement({
 export interface TaskWhere {
   id?: string;
   title?: string;
+  userId?: string;
 }
 
 export const TaskWhereInputType = builder.inputRef<TaskWhere>('TaskWhere');
@@ -81,6 +88,7 @@ TaskWhereInputType.implement({
   fields: (t) => ({
     id: t.string(),
     title: t.string(),
+    userId: t.string(),
   }),
 });
 
@@ -93,7 +101,11 @@ builder.queryField('tasksPage', (t) =>
       pagination: t.input.field({ type: PaginationInputType, required: false }),
     },
     resolve: async (_root, args, ctx) => {
-      const page = await new TaskService().list(args.input as ListInput<Task>, ctx);
+      const input = {
+        ...(args.input as ListInput<Task>),
+        with: { user: true },
+      };
+      const page = await new TaskService().list(input, ctx);
       return {
         hasMore: page.hasMore,
         tasks: page.result,

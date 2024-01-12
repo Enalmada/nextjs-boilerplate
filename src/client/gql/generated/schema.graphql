@@ -128,6 +128,7 @@ type Task implements BaseEntity {
   title: NonEmptyString!
   updatedAt: DateTime
   updatedBy: User
+  user: User
   version: Int!
 }
 
@@ -145,6 +146,7 @@ enum TaskStatus {
 input TaskWhere {
   id: String
   title: String
+  userId: String
 }
 
 type UploadResponse {

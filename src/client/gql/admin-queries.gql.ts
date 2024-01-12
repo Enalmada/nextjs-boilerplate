@@ -31,6 +31,10 @@ export const ADMIN_USERS_PAGE = gql`
       hasMore
       users {
         ...AdminUserParts
+        tasks {
+          id
+          title
+        }
       }
     }
   }
@@ -92,6 +96,11 @@ export const ADMIN_TASKS_PAGE = gql`
       hasMore
       tasks {
         ...AdminTaskParts
+        user {
+          id
+          name
+          email
+        }
       }
     }
   }

@@ -3,7 +3,7 @@ import { getAuditProps } from '@/client/admin/table/FormHelpers';
 import Chip from '@/client/components/admin/Chip';
 import { UserRole, type User } from '@/client/gql/generated/graphql';
 import { type TableColumnProps } from '@enalmada/nextui-admin';
-import { User as UserChip } from '@nextui-org/react';
+import { Link, User as UserChip } from '@nextui-org/react';
 import gravatarUrl from 'gravatar-url';
 
 export const columnProps: TableColumnProps<User>[] = [
@@ -23,6 +23,12 @@ export const columnProps: TableColumnProps<User>[] = [
     key: 'role',
     renderCell: (user: User) => (
       <Chip color={user.role === UserRole.Admin ? 'danger' : 'default'} label={user.role} />
+    ),
+  },
+  {
+    key: 'tasks',
+    renderCell: (user: User) => (
+      <Link href={`/admin/task?userId=${user?.id}`}>{user.tasks?.length} Tasks</Link>
     ),
   },
   ...getAuditProps<User>(),

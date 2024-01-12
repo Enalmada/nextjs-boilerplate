@@ -44,7 +44,7 @@ export type User = InferSelectModel<typeof UserTable>;
 export type UserInput = InferInsertModel<typeof UserTable>;
 
 export const usersRelations = relations(UserTable, ({ many }) => ({
-  task: many(TaskTable),
+  tasks: many(TaskTable),
 }));
 
 /* clone-code ENTITY_HOOK
@@ -84,7 +84,7 @@ export type TaskInput = InferInsertModel<typeof TaskTable>;
 
 export const taskRelations = relations(TaskTable, ({ one }) => ({
   user: one(UserTable, {
-    fields: [TaskTable.id],
+    fields: [TaskTable.userId],
     references: [UserTable.id],
   }),
 }));
