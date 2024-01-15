@@ -159,7 +159,7 @@
     "husky": "8.0.3",
     "lint-staged": "15.2.0",
     "postcss": "8.4.33",
-    "prettier": "3.1.1",
+    "prettier": "3.2.0",
     "prettier-plugin-tailwindcss": "0.5.11",
     "start-server-and-test": "2.0.3",
     "storybook": "7.6.8",
