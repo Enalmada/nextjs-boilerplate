@@ -84,7 +84,7 @@
     "@sentry/nextjs": "7.93.0",
     "@serwist/next": "8.4.2",
     "@serwist/sw": "8.4.2",
-    "change-case": "5.4.1",
+    "change-case": "5.4.2",
     "clsx": "2.1.0",
     "date-fns": "3.2.0",
     "drizzle-orm": "0.29.3",
