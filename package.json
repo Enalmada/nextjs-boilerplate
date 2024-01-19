@@ -145,7 +145,7 @@
     "@vitejs/plugin-react": "4.2.1",
     "@vitest/coverage-v8": "1.2.0",
     "autoprefixer": "10.4.16",
-    "chromatic": "10.2.2",
+    "chromatic": "10.3.0",
     "cross-env": "7.0.3",
     "dotenv": "16.3.1",
     "dotenv-cli": "7.3.0",
