@@ -118,7 +118,7 @@
     "@faker-js/faker": "8.3.1",
     "@ianvs/prettier-plugin-sort-imports": "4.1.1",
     "@next/bundle-analyzer": "14.0.4",
-    "@parcel/watcher": "2.3.0",
+    "@parcel/watcher": "2.4.0",
     "@playwright/test": "1.40.1",
     "@storybook/addon-actions": "7.6.8",
     "@storybook/addon-essentials": "7.6.8",
