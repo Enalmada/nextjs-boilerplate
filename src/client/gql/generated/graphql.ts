@@ -227,9 +227,9 @@ export enum TaskStatus {
 }
 
 export type TaskWhere = {
-  id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
-  userId?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UploadResponse = {
@@ -266,7 +266,7 @@ export enum UserRole {
 
 export type UserWhere = {
   email?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type AdminUserPartsFragment = { __typename?: 'User', createdAt: Date, updatedAt?: Date | null, id: string, name?: string | null, email?: string | null, role: UserRole, version: number };

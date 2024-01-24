@@ -56,7 +56,7 @@ builder.queryField('task', (t) =>
     },
     nullable: true,
     resolve: async (_root, args, ctx) => {
-      return new TaskService().get(args.id as string, ctx);
+      return new TaskService().get(args.id, ctx);
     },
   })
 );
@@ -76,19 +76,13 @@ TaskPageType.implement({
   }),
 });
 
-export interface TaskWhere {
-  id?: string;
-  title?: string;
-  userId?: string;
-}
-
-export const TaskWhereInputType = builder.inputRef<TaskWhere>('TaskWhere');
+export const TaskWhereInputType = builder.inputRef<Partial<Task>>('TaskWhere');
 
 TaskWhereInputType.implement({
   fields: (t) => ({
-    id: t.string(),
+    id: t.id(),
     title: t.string(),
-    userId: t.string(),
+    userId: t.id(),
   }),
 });
 
@@ -157,7 +151,7 @@ builder.mutationField('updateTask', (t) =>
         updatedAt: new Date(),
         updatedById: ctx.currentUser!.id,
       };
-      return new TaskService().update(args.id as string, input, ctx);
+      return new TaskService().update(args.id, input, ctx);
     },
   })
 );
@@ -170,7 +164,7 @@ builder.mutationField('deleteTask', (t) =>
       id: t.arg.id({ required: true }),
     },
     resolve: async (_root, args, ctx) => {
-      return new TaskService().delete(args.id as string, ctx);
+      return new TaskService().delete(args.id, ctx);
     },
   })
 );
