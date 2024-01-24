@@ -22,15 +22,15 @@
     "paths": {
       "@/*": ["./src/*"],
       // Necessary to solve next request being out of sync with 3rd party peer dependencies
-      "next/*": ["./node_modules/next/*"]
+      "next/*": ["./node_modules/next/*"],
     },
     "plugins": [
       {
-        "name": "next"
-      }
+        "name": "next",
+      },
     ],
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true
+    "sourceMap": true,
   },
   "include": [
     "src/**/*.ts",
@@ -43,7 +43,7 @@
     "drizzle.config.ts",
     "vitest.config.ts",
     "codegen.ts",
-    "playwright.config.ts"
+    "playwright.config.ts",
   ],
-  "exclude": ["node_modules", "packages/**"]
+  "exclude": ["node_modules", "packages/**"],
 }

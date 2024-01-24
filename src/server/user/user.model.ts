@@ -63,7 +63,7 @@ builder.queryField('user', (t) =>
     },
     nullable: true,
     resolve: async (_root, args, ctx) => {
-      return new UserService().get(args.id as string, ctx);
+      return new UserService().get(args.id, ctx);
     },
   })
 );
@@ -83,16 +83,11 @@ UserPageType.implement({
   }),
 });
 
-export interface UserWhere {
-  id?: string;
-  email?: string;
-}
-
-export const UserWhereInputType = builder.inputRef<UserWhere>('UserWhere');
+export const UserWhereInputType = builder.inputRef<Partial<User>>('UserWhere');
 
 UserWhereInputType.implement({
   fields: (t) => ({
-    id: t.string(),
+    id: t.id(),
     email: t.string(),
   }),
 });
@@ -135,7 +130,7 @@ builder.mutationField('updateUser', (t) =>
         ...args.input,
         updatedAt: new Date(),
       };
-      return new UserService().update(args.id as string, input, ctx);
+      return new UserService().update(args.id, input, ctx);
     },
   })
 );
@@ -148,7 +143,7 @@ builder.mutationField('deleteUser', (t) =>
       id: t.arg.id({ required: true }),
     },
     resolve: async (_root, args, ctx) => {
-      return new UserService().delete(args.id as string, ctx);
+      return new UserService().delete(args.id, ctx);
     },
   })
 );

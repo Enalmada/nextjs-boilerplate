@@ -144,9 +144,9 @@ enum TaskStatus {
 }
 
 input TaskWhere {
-  id: String
+  id: ID
   title: String
-  userId: String
+  userId: ID
 }
 
 type UploadResponse {
@@ -180,5 +180,5 @@ enum UserRole {
 
 input UserWhere {
   email: String
-  id: String
+  id: ID
 }
