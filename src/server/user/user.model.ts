@@ -1,7 +1,7 @@
 import { BaseEntityType } from '@/server/base/base.model';
 import { type ListInput } from '@/server/base/base.service';
 import { UserRole, type Task, type User, type UserInput } from '@/server/db/schema';
-import { builder } from '@/server/graphql/builder';
+import { builder, type InputFieldBuilderType } from '@/server/graphql/builder';
 import { OrderInputType, PaginationInputType } from '@/server/graphql/sortAndPagination';
 import { TaskType } from '@/server/task/task.model';
 import TaskService from '@/server/task/task.service';
@@ -114,6 +114,12 @@ builder.queryField('usersPage', (t) =>
   })
 );
 
+function createSharedFields(input: InputFieldBuilderType) {
+  return {
+    role: input.field({ type: UserRole, required: true }),
+  };
+}
+
 builder.mutationField('updateUser', (t) =>
   t.fieldWithInput({
     type: UserType,
@@ -122,7 +128,7 @@ builder.mutationField('updateUser', (t) =>
       id: t.arg.id({ required: true }),
     },
     input: {
-      role: t.input.field({ type: UserRole, required: true }),
+      ...createSharedFields(t.input),
       version: t.input.int({ required: true }),
     },
     resolve: async (_root, args, ctx) => {

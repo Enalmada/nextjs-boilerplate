@@ -11,7 +11,7 @@
 import { BaseEntityType } from '@/server/base/base.model';
 import { type ListInput } from '@/server/base/base.service';
 import { TaskStatus, type Task, type TaskInput } from '@/server/db/schema';
-import { builder } from '@/server/graphql/builder';
+import { builder, type InputFieldBuilderType } from '@/server/graphql/builder';
 import TaskService, { type TaskWithUser } from '@/server/task/task.service';
 import { UserType } from '@/server/user/user.model';
 
@@ -108,14 +108,20 @@ builder.queryField('tasksPage', (t) =>
   })
 );
 
+function createSharedFields(input: InputFieldBuilderType) {
+  return {
+    title: input.field({ type: 'NonEmptyString', required: true }),
+    description: input.string(),
+    status: input.field({ type: TaskStatus, required: true }),
+    dueDate: input.field({ type: 'DateTime' }),
+  };
+}
+
 builder.mutationField('createTask', (t) =>
   t.fieldWithInput({
     type: TaskType,
     input: {
-      title: t.input.field({ type: 'NonEmptyString', required: true }),
-      description: t.input.string(),
-      status: t.input.field({ type: TaskStatus, required: true }),
-      dueDate: t.input.field({ type: 'DateTime' }),
+      ...createSharedFields(t.input),
     },
     // errors: {},
     resolve: async (_root, args, ctx) => {
@@ -138,10 +144,7 @@ builder.mutationField('updateTask', (t) =>
       id: t.arg.id({ required: true }),
     },
     input: {
-      title: t.input.field({ type: 'NonEmptyString', required: true }),
-      description: t.input.string(),
-      status: t.input.field({ type: TaskStatus, required: true }),
-      dueDate: t.input.field({ type: 'DateTime' }),
+      ...createSharedFields(t.input),
       version: t.input.int({ required: true }),
     },
     resolve: async (_root, args, ctx) => {

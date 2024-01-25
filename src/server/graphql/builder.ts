@@ -1,6 +1,6 @@
 import { type MyContextType } from '@/server/graphql/server';
 import { initializeBuilder, type DefaultScalars } from '@enalmada/next-gql/server';
-import SchemaBuilder from '@pothos/core';
+import SchemaBuilder, { type InputFieldBuilder } from '@pothos/core';
 import WithInputPlugin from '@pothos/plugin-with-input';
 
 // If you would like your ID to be something other than string
@@ -15,6 +15,12 @@ export interface ExtendedScalars extends DefaultScalars {
     };
 }
 */
+
+// used for DRY inputs
+export type InputFieldBuilderType = InputFieldBuilder<
+  PothosSchemaTypes.ExtendDefaultTypes<DefaultUserSchemaTypes>,
+  'InputObject'
+>;
 
 type DefaultUserSchemaTypes = DefaultScalars & { Context: MyContextType };
 
