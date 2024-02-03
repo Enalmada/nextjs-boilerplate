@@ -82,7 +82,7 @@
     "@react-aria/ssr": "3.9.1",
     "@react-aria/visually-hidden": "3.8.8",
     "@sentry/nextjs": "7.98.0",
-    "@serwist/next": "8.4.3",
+    "@serwist/next": "8.4.4",
     "@serwist/sw": "8.4.3",
     "change-case": "5.4.2",
     "clsx": "2.1.0",
