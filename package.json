@@ -156,7 +156,7 @@
     "eslint-plugin-storybook": "0.6.15",
     "fixpack": "4.0.0",
     "happy-dom": "13.3.5",
-    "husky": "9.0.7",
+    "husky": "9.0.10",
     "lint-staged": "15.2.2",
     "postcss": "8.4.33",
     "prettier": "3.2.4",
