@@ -1,5 +1,5 @@
 # Base stage
-FROM node:20.11.0-alpine AS base
+FROM node:20.11.1-alpine AS base
 WORKDIR /app
 
 # Add dependencies to get Bun working on Alpine
