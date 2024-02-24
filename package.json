@@ -147,7 +147,7 @@
     "autoprefixer": "10.4.17",
     "chromatic": "10.6.1",
     "cross-env": "7.0.3",
-    "dotenv": "16.4.1",
+    "dotenv": "16.4.5",
     "dotenv-cli": "7.3.0",
     "drizzle-kit": "0.20.14",
     "eslint": "8.56.0",
