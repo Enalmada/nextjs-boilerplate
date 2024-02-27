@@ -153,7 +153,7 @@
     "eslint": "8.57.0",
     "eslint-config-next": "14.1.0",
     "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-storybook": "0.6.15",
+    "eslint-plugin-storybook": "0.8.0",
     "fixpack": "4.0.0",
     "happy-dom": "13.3.5",
     "husky": "9.0.11",
