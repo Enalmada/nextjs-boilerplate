@@ -138,7 +138,7 @@
     "@types/cookie": "0.6.0",
     "@types/eslint": "8.56.3",
     "@types/node": "20.11.24",
-    "@types/react": "18.2.57",
+    "@types/react": "18.2.61",
     "@types/react-dom": "18.2.19",
     "@typescript-eslint/eslint-plugin": "6.19.1",
     "@typescript-eslint/parser": "6.19.1",
