@@ -66,7 +66,7 @@
     "vercel:buildLocal": "dotenv -e ./.env.local bunx vercel build"
   },
   "dependencies": {
-    "@casl/ability": "6.7.0",
+    "@casl/ability": "6.7.1",
     "@enalmada/drizzle-helpers": "0.0.15",
     "@enalmada/env-valibot": "0.0.14",
     "@enalmada/next-gql": "0.1.3",
