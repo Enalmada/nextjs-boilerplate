@@ -74,7 +74,7 @@
     "@enalmada/next-secure": "0.2.3",
     "@enalmada/next-themes": "0.2.4",
     "@enalmada/nextui-admin": "0.1.5",
-    "@firebase/util": "1.9.4",
+    "@firebase/util": "1.9.5",
     "@graphql-typed-document-node/core": "3.2.0",
     "@hookform/resolvers": "3.3.4",
     "@nextui-org/react": "2.2.10",
