@@ -105,7 +105,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "7.51.2",
     "react-icons": "5.0.1",
-    "react-loading-hook": "1.0.0",
+    "react-loading-hook": "1.1.0",
     "tailwind-variants": "0.2.1",
     "valibot": "0.27.0"
   },
