@@ -163,7 +163,7 @@
     "prettier-plugin-tailwindcss": "0.5.13",
     "start-server-and-test": "2.0.3",
     "storybook": "8.0.8",
-    "storybook-addon-mock": "4.3.0",
+    "storybook-addon-mock": "5.0.0",
     "storybook-dark-mode": "4.0.1",
     "tailwindcss": "3.4.3",
     "turbo": "1.13.2",
