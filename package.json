@@ -160,7 +160,7 @@
     "lint-staged": "15.2.2",
     "postcss": "8.4.38",
     "prettier": "3.2.5",
-    "prettier-plugin-tailwindcss": "0.5.13",
+    "prettier-plugin-tailwindcss": "0.5.14",
     "start-server-and-test": "2.0.3",
     "storybook": "8.0.8",
     "storybook-addon-mock": "5.0.0",
