@@ -85,7 +85,7 @@
     "@serwist/next": "8.4.4",
     "@serwist/sw": "8.4.4",
     "change-case": "5.4.4",
-    "clsx": "2.1.0",
+    "clsx": "2.1.1",
     "date-fns": "3.6.0",
     "drizzle-orm": "0.29.3",
     "firebase": "10.11.0",
