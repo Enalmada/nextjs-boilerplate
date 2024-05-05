@@ -79,7 +79,7 @@
     "@hookform/resolvers": "3.3.4",
     "@nextui-org/react": "2.3.6",
     "@pothos/core": "3.41.1",
-    "@react-aria/ssr": "3.9.2",
+    "@react-aria/ssr": "3.9.3",
     "@react-aria/visually-hidden": "3.8.10",
     "@sentry/nextjs": "7.112.2",
     "@serwist/next": "8.4.4",
