@@ -150,7 +150,7 @@
     "dotenv": "16.4.5",
     "dotenv-cli": "7.4.1",
     "drizzle-kit": "0.20.17",
-    "eslint": "9.1.1",
+    "eslint": "9.2.0",
     "eslint-config-next": "14.2.3",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-storybook": "0.8.0",
