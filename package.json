@@ -89,7 +89,7 @@
     "date-fns": "3.6.0",
     "drizzle-orm": "0.29.3",
     "firebase": "10.11.1",
-    "framer-motion": "11.1.8",
+    "framer-motion": "11.1.9",
     "graphql": "16.8.1",
     "graphql-web-lite": "16.6.0-4",
     "gravatar-url": "4.0.1",
