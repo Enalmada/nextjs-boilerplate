@@ -148,7 +148,7 @@
     "chromatic": "11.3.1",
     "cross-env": "7.0.3",
     "dotenv": "16.4.5",
-    "dotenv-cli": "7.4.1",
+    "dotenv-cli": "7.4.2",
     "drizzle-kit": "0.20.18",
     "eslint": "9.2.0",
     "eslint-config-next": "14.2.3",
