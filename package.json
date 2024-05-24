@@ -80,7 +80,7 @@
     "@nextui-org/react": "2.3.6",
     "@pothos/core": "3.41.1",
     "@react-aria/ssr": "3.9.4",
-    "@react-aria/visually-hidden": "3.8.11",
+    "@react-aria/visually-hidden": "3.8.12",
     "@sentry/nextjs": "7.116.0",
     "@serwist/next": "8.4.4",
     "@serwist/sw": "8.4.4",
