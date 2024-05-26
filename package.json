@@ -119,7 +119,7 @@
     "@ianvs/prettier-plugin-sort-imports": "4.2.1",
     "@next/bundle-analyzer": "14.2.3",
     "@parcel/watcher": "2.4.1",
-    "@playwright/test": "1.44.0",
+    "@playwright/test": "1.44.1",
     "@storybook/addon-actions": "8.1.2",
     "@storybook/addon-essentials": "8.1.2",
     "@storybook/addon-interactions": "8.1.2",
