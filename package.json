@@ -161,7 +161,7 @@
     "postcss": "8.4.38",
     "prettier": "3.3.0",
     "prettier-plugin-tailwindcss": "0.6.1",
-    "start-server-and-test": "2.0.3",
+    "start-server-and-test": "2.0.4",
     "storybook": "8.1.5",
     "storybook-addon-mock": "5.0.0",
     "storybook-dark-mode": "4.0.1",
