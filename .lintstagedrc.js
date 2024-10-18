@@ -15,5 +15,5 @@ export default {
   '**/*.{ts,tsx}': [tsc],
   '**/*.{ts,tsx,mjs,cjs}': [buildPrettierCommand, buildEslintCommand],
   'src/server/db/schema.ts': 'bun drizzle:generate',
-  'package.json': ['npm pkg fix', 'fixpack'],
+  // 'package.json': ['npm pkg fix', 'fixpack'],
 };
