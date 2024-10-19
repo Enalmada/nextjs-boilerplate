@@ -10,13 +10,14 @@ const UploadResponseObject = builder.objectRef<UploadResponse>('UploadResponse')
 
 UploadResponseObject.implement({
   fields: (t) => ({
-    filename: t.exposeString('filename'),
+    filename: t.exposeString('filename', { nullable: false }),
   }),
 });
 
 builder.mutationField('uploadFile', (t) =>
   t.field({
     type: UploadResponseObject,
+    nullable: false,
     args: {
       file: t.arg({
         type: 'File',
@@ -35,7 +36,7 @@ const NotificationResponseObject = builder.objectRef<NotificationResponse>('Noti
 
 NotificationResponseObject.implement({
   fields: (t) => ({
-    published: t.exposeBoolean('published'),
+    published: t.exposeBoolean('published', { nullable: false }),
   }),
 });
 

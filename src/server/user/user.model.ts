@@ -21,6 +21,7 @@ UserType.implement({
     email: t.exposeString('email', { nullable: true }),
     role: t.field({
       type: UserRole,
+      nullable: false,
       resolve: (user: User) => user.role as unknown as UserRole,
     }),
     rules: t.expose('rules', { type: 'JSON', nullable: true }),
@@ -78,8 +79,8 @@ export const UserPageType = builder.objectRef<UserPage>('UserPage');
 UserPageType.implement({
   description: 'Type used for querying paginated users',
   fields: (t) => ({
-    hasMore: t.exposeBoolean('hasMore'),
-    users: t.expose('users', { type: [UserType] }),
+    hasMore: t.exposeBoolean('hasMore', { nullable: false }),
+    users: t.expose('users', { type: [UserType], nullable: false }),
   }),
 });
 
@@ -95,6 +96,7 @@ UserWhereInputType.implement({
 builder.queryField('usersPage', (t) =>
   t.fieldWithInput({
     type: UserPageType,
+    nullable: false,
     input: {
       where: t.input.field({ type: UserWhereInputType, required: false }),
       order: t.input.field({ type: OrderInputType, required: false }),

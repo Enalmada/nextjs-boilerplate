@@ -24,9 +24,10 @@ builder.objectType(NotificationEventRef, {
   name: 'NotificationEvent',
   description: 'When a notification is posted',
   fields: (t) => ({
-    id: t.exposeID('id'),
+    id: t.exposeID('id', { nullable: false }),
     type: t.field({
       type: NotificationEventType,
+      nullable: false,
       description: 'Notification type',
       resolve: (event) => {
         return event.type;
@@ -34,12 +35,14 @@ builder.objectType(NotificationEventRef, {
     }),
     message: t.exposeString('message', {
       description: 'Notification message',
+      nullable: false,
     }),
   }),
 });
 builder.subscriptionField('notificationEvents', (t) => {
   return t.field({
     type: NotificationEventRef,
+    nullable: false,
     description: 'Events related to notifications',
     args: {},
     subscribe: (parent, args, ctx, info) => {

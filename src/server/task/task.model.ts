@@ -30,10 +30,12 @@ TaskType.implement({
   fields: (t) => ({
     title: t.expose('title', {
       type: 'NonEmptyString',
+      nullable: false,
     }),
     description: t.exposeString('description', { nullable: true }),
     status: t.field({
       type: TaskStatus,
+      nullable: false,
       resolve: (task: Task) => task.status as unknown as TaskStatus,
     }),
     dueDate: t.expose('dueDate', {
@@ -71,8 +73,8 @@ export const TaskPageType = builder.objectRef<TaskPage>('TaskPage');
 TaskPageType.implement({
   description: 'Type used for querying paginated tasks',
   fields: (t) => ({
-    hasMore: t.exposeBoolean('hasMore'),
-    tasks: t.expose('tasks', { type: [TaskType] }),
+    hasMore: t.exposeBoolean('hasMore', { nullable: false }),
+    tasks: t.expose('tasks', { type: [TaskType], nullable: false }),
   }),
 });
 
@@ -89,6 +91,7 @@ TaskWhereInputType.implement({
 builder.queryField('tasksPage', (t) =>
   t.fieldWithInput({
     type: TaskPageType,
+    nullable: false,
     input: {
       where: t.input.field({ type: TaskWhereInputType, required: false }),
       order: t.input.field({ type: OrderInputType, required: false }),
@@ -120,6 +123,7 @@ function createSharedFields(input: InputFieldBuilderType) {
 builder.mutationField('createTask', (t) =>
   t.fieldWithInput({
     type: TaskType,
+    nullable: false,
     input: {
       ...createSharedFields(t.input),
     },

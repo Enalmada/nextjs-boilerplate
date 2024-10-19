@@ -8,9 +8,10 @@ export const BaseEntityType = builder.interfaceRef<BaseEntity>('BaseEntity');
 builder.interfaceType(BaseEntityType, {
   name: 'BaseEntity',
   fields: (t) => ({
-    id: t.exposeID('id'),
+    id: t.exposeID('id', { nullable: false }),
     createdAt: t.expose('createdAt', {
       type: 'DateTime',
+      nullable: false,
     }),
     createdBy: t.field({
       type: UserType,
@@ -30,6 +31,6 @@ builder.interfaceType(BaseEntityType, {
         return new UserService().get(root.updatedById as string, ctx);
       },
     }),
-    version: t.exposeInt('version'),
+    version: t.exposeInt('version', { nullable: false }),
   }),
 });
