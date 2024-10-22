@@ -67,13 +67,13 @@
   },
   "dependencies": {
     "@casl/ability": "6.5.0",
-    "@enalmada/drizzle-helpers": "0.0.15",
-    "@enalmada/env-valibot": "0.0.14",
+    "@enalmada/drizzle-helpers": "0.0.16",
+    "@enalmada/env-valibot": "0.0.15",
     "@enalmada/next-gql": "0.2.0",
     "@enalmada/next-gql-codegen": "0.2.1",
-    "@enalmada/next-secure": "0.2.3",
-    "@enalmada/next-themes": "0.2.4",
-    "@enalmada/nextui-admin": "0.1.4",
+    "@enalmada/next-secure": "0.2.4",
+    "@enalmada/next-themes": "0.3.0",
+    "@enalmada/nextui-admin": "0.1.6",
     "@firebase/util": "1.9.3",
     "@graphql-typed-document-node/core": "3.2.0",
     "@hookform/resolvers": "3.3.4",
@@ -87,7 +87,7 @@
     "change-case": "5.4.2",
     "clsx": "2.1.0",
     "date-fns": "3.3.1",
-    "drizzle-orm": "0.29.3",
+    "drizzle-orm": "0.35.2",
     "firebase": "10.7.2",
     "framer-motion": "11.0.3",
     "graphql": "16.8.1",
@@ -99,7 +99,7 @@
     "next-firebase-auth-edge": "1.0.0",
     "next-intl": "3.5.1",
     "nextjs-routes": "2.1.0",
-    "postgres": "3.4.3",
+    "postgres": "3.4.4",
     "react": "18.2.0",
     "react-day-picker": "8.10.0",
     "react-dom": "18.2.0",
@@ -107,10 +107,10 @@
     "react-icons": "5.0.1",
     "react-loading-hook": "1.0.0",
     "tailwind-variants": "0.1.20",
-    "valibot": "0.27.0"
+    "valibot": "0.42.1"
   },
   "devDependencies": {
-    "@0no-co/graphqlsp": "^1.12.16",
+    "@0no-co/graphqlsp": "1.12.16",
     "@changesets/cli": "2.27.1",
     "@commitlint/cli": "18.5.0",
     "@commitlint/config-conventional": "18.5.0",
@@ -189,5 +189,5 @@
     "turbo"
   ],
   "type": "module",
-  "packageManager": "bun@1.1.31"
+  "packageManager": "bun@1.1.32"
 }
