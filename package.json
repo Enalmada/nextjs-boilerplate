@@ -87,7 +87,7 @@
     "change-case": "5.4.4",
     "clsx": "2.1.1",
     "date-fns": "3.6.0",
-    "drizzle-orm": "0.29.3",
+    "drizzle-orm": "0.35.3",
     "firebase": "10.12.2",
     "framer-motion": "11.2.10",
     "graphql": "16.8.2",
