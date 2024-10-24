@@ -81,7 +81,7 @@
     "@pothos/core": "3.41.1",
     "@react-aria/ssr": "3.9.4",
     "@react-aria/visually-hidden": "3.8.12",
-    "@sentry/nextjs": "7.117.0",
+    "@sentry/nextjs": "8.35.0",
     "@serwist/next": "8.4.4",
     "@serwist/sw": "8.4.4",
     "change-case": "5.4.4",
