@@ -1,10 +1,8 @@
 {
-  "id": "e932ebff-b810-4812-b9c8-4985d60eca49",
-  "prevId": "79a23373-16ce-4014-8d1c-eada8634b2bd",
-  "version": "5",
-  "dialect": "pg",
+  "version": "7",
+  "dialect": "postgresql",
   "tables": {
-    "task": {
+    "public.task": {
       "name": "task",
       "schema": "",
       "columns": {
@@ -82,17 +80,21 @@
         "task_user_id_user_id_fk": {
           "name": "task_user_id_user_id_fk",
           "tableFrom": "task",
+          "columnsFrom": [
+            "user_id"
+          ],
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "user": {
+    "public.user": {
       "name": "user",
       "schema": "",
       "columns": {
@@ -172,26 +174,30 @@
       "uniqueConstraints": {
         "user_firebase_id_unique": {
           "name": "user_firebase_id_unique",
-          "nullsNotDistinct": false,
-          "columns": ["firebase_id"]
+          "columns": [
+            "firebase_id"
+          ],
+          "nullsNotDistinct": false
         }
       }
     }
   },
   "enums": {
-    "status": {
+    "public.status": {
       "name": "status",
-      "values": {
-        "ACTIVE": "ACTIVE",
-        "COMPLETED": "COMPLETED"
-      }
+      "schema": "public",
+      "values": [
+        "ACTIVE",
+        "COMPLETED"
+      ]
     },
-    "role": {
+    "public.role": {
       "name": "role",
-      "values": {
-        "MEMBER": "MEMBER",
-        "ADMIN": "ADMIN"
-      }
+      "schema": "public",
+      "values": [
+        "MEMBER",
+        "ADMIN"
+      ]
     }
   },
   "schemas": {},
@@ -204,5 +210,8 @@
       "\"user\".\"created_by\"": "\"user\".\"created_by_id\"",
       "\"user\".\"updated_by\"": "\"user\".\"updated_by_id\""
     }
-  }
+  },
+  "id": "e932ebff-b810-4812-b9c8-4985d60eca49",
+  "prevId": "79a23373-16ce-4014-8d1c-eada8634b2bd",
+  "sequences": {}
 }

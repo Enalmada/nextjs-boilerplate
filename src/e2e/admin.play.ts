@@ -1,33 +1,33 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from "@playwright/test";
 
-import { testPageNavigation, type PageTestConfig } from './util';
+import { type PageTestConfig, testPageNavigation } from "./util";
 
-test('non-admin should get redirected', async ({ page }) => {
-  // Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
-  await page.goto('/admin');
-  await expect(page).toHaveURL('/');
+test("non-admin should get redirected", async ({ page }) => {
+	// Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
+	await page.goto("/admin");
+	await expect(page).toHaveURL("/");
 });
 
-test.describe('Admin', () => {
-  test.use({ storageState: 'playwright/.auth/admin.json' });
+test.describe("Admin", () => {
+	test.use({ storageState: "playwright/.auth/admin.json" });
 
-  // Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/admin');
-  });
+	// Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
+	test.beforeEach(async ({ page }) => {
+		await page.goto("/admin");
+	});
 
-  test('admin should not get redirected', async ({ page }) => {
-    await expect(page).toHaveURL('/admin');
-  });
+	test("admin should not get redirected", async ({ page }) => {
+		await expect(page).toHaveURL("/admin");
+	});
 
-  test(`list pages`, async ({ page }) => {
-    const pageConfigs: PageTestConfig[] = [
-      {
-        textToClick: 'Users',
-        expectedURL: '/admin/user',
-        expectedText: 'Avatar',
-      },
-      /* clone-code ENTITY_HOOK
+	test("list pages", async ({ page }) => {
+		const pageConfigs: PageTestConfig[] = [
+			{
+				textToClick: "Users",
+				expectedURL: "/admin/user",
+				expectedText: "Avatar",
+			},
+			/* clone-code ENTITY_HOOK
       {
         "toPlacement": "below",
         "replacements": [
@@ -36,16 +36,16 @@ test.describe('Admin', () => {
         ]
       }
       */
-      {
-        textToClick: 'Tasks',
-        expectedURL: '/admin/task',
-        expectedText: 'Title',
-      },
-      /* clone-code ENTITY_HOOK end */
-    ];
+			{
+				textToClick: "Tasks",
+				expectedURL: "/admin/task",
+				expectedText: "Title",
+			},
+			/* clone-code ENTITY_HOOK end */
+		];
 
-    for (const config of pageConfigs) {
-      await testPageNavigation('section', page, config);
-    }
-  });
+		for (const config of pageConfigs) {
+			await testPageNavigation("section", page, config);
+		}
+	});
 });

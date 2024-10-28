@@ -1,9 +1,9 @@
-import { ME } from '@/client/gql/client-queries.gql';
-import { type MeQuery, type MeQueryVariables } from '@/client/gql/generated/graphql';
-import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
-import { print, type ExecutionResult } from 'graphql';
+import { ME } from "@/client/gql/client-queries.gql";
+import type { MeQuery, MeQueryVariables } from "@/client/gql/generated/graphql";
+import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
+import { type ExecutionResult, print } from "graphql";
 
-import { graphqlServer } from '../server';
+import { graphqlServer } from "../server";
 
 /*
 import { mockTask } from '@/server/task/task.service.test';
@@ -46,40 +46,47 @@ vi.mock('@/server/user/user.service', () => {
  */
 
 async function executeOperation<TResult, TVariables>(
-  operation: TypedDocumentNode<TResult, TVariables>,
-  variables?: TVariables extends Record<string, never> ? [] : [TVariables],
-  headers?: Record<string, unknown>
+	operation: TypedDocumentNode<TResult, TVariables>,
+	variables?: TVariables extends Record<string, never> ? [] : [TVariables],
+	headers?: Record<string, unknown>,
 ): Promise<ExecutionResult<TResult>> {
-  const response = await graphqlServer('/api/graphql').fetch('http://yoga/api/graphql', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      ...headers,
-    },
-    body: JSON.stringify({
-      query: print(operation),
-      variables: variables ?? undefined,
-    }),
-  });
-  return (await response.json()) as ExecutionResult<TResult>;
+	const response = await graphqlServer("/api/graphql").fetch(
+		"http://yoga/api/graphql",
+		{
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Accept: "application/json",
+				...headers,
+			},
+			body: JSON.stringify({
+				query: print(operation),
+				variables: variables ?? undefined,
+			}),
+		},
+	);
+	return (await response.json()) as ExecutionResult<TResult>;
 }
 
-describe('Yoga Tests', () => {
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
+describe("Yoga Tests", () => {
+	afterEach(() => {
+		vi.clearAllMocks();
+	});
 
-  test('execute query operation unauthenticated', async () => {
-    const result = await executeOperation<MeQuery, MeQueryVariables>(ME, undefined, {});
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // Due to error masking "Required CSRF header(s) not present" is only available in dev
-    expect(result.errors[0].message).toEqual('Unexpected error.');
-  });
+	test("execute query operation unauthenticated", async () => {
+		const result = await executeOperation<MeQuery, MeQueryVariables>(
+			ME,
+			undefined,
+			{},
+		);
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		// Due to error masking "Required CSRF header(s) not present" is only available in dev
+		expect(result.errors[0].message).toEqual("Unexpected error.");
+	});
 
-  // TODO somehow the mocks here are messing up other tests
-  /*
+	// TODO somehow the mocks here are messing up other tests
+	/*
   test('execute query operation', async () => {
     const result = await executeOperation<MeQuery, MeQueryVariables>(ME, undefined, {
       authorization: 'bla',
@@ -103,7 +110,7 @@ describe('Yoga Tests', () => {
 
    */
 
-  /*
+	/*
   test('execute mutation operation', async () => {
     const EchoMutation = graphql(`
         mutation EchoMutation($message: String!) {

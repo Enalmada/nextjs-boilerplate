@@ -3,30 +3,30 @@
 // Uncomment for Cloudflare next-on-pages (required) or Vercel edge
 // export const runtime = 'edge';
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export function GET() {
-  let databaseWorking = false;
+	let databaseWorking = false;
 
-  try {
-    // TODO fill this in with something appropriate for serverless db
-    databaseWorking = true;
-  } catch (err) {}
+	try {
+		// TODO fill this in with something appropriate for serverless db
+		databaseWorking = true;
+	} catch (err) {}
 
-  const data = {
-    status: {
-      database: databaseWorking,
-    },
-  };
+	const data = {
+		status: {
+			database: databaseWorking,
+		},
+	};
 
-  const healthy = databaseWorking;
+	const healthy = databaseWorking;
 
-  const statusCode = healthy ? 200 : 503;
+	const statusCode = healthy ? 200 : 503;
 
-  return new Response(JSON.stringify(data), {
-    status: statusCode,
-    headers: {
-      'content-type': 'application/json',
-    },
-  });
+	return new Response(JSON.stringify(data), {
+		status: statusCode,
+		headers: {
+			"content-type": "application/json",
+		},
+	});
 }

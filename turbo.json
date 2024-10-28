@@ -1,40 +1,39 @@
 {
-  "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
-  "tasks": {
-    "build": {
-      "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**"]
-    },
-    "dev": {
-      "cache": false,
-      "persistent": true
-    },
-    "test": {
-      "inputs": ["src/**/*.tsx", "src/**/*.ts"]
-    },
-    "test:unit": {
-      "inputs": ["src/**/*.tsx", "src/**/*.ts"]
-    },
-    "test:e2e": {
-      "inputs": ["src/**/*.tsx", "src/**/*.ts"],
-      "outputs": ["playwright/.auth/**", "playwright/test-results/**"]
-    },
-    "format": {
-    },
-    "next:lint": {
-      "dependsOn": ["format"]
-    },
-    "check-types": {},
-    "dev:install": {
-      "inputs": ["package.json", "bun.lockb"]
-    },
-    "docker:up": {
-      "cache": false
-    },
-    "drizzle:migrate": {
-      "inputs": ["src/server/db/migrations/**"],
-      "dependsOn": ["docker:up"]
-    }
-  }
+	"$schema": "https://turbo.build/schema.json",
+	"globalDependencies": ["**/.env.*local"],
+	"tasks": {
+		"build": {
+			"dependsOn": ["^build"],
+			"outputs": [".next/**", "!.next/cache/**"]
+		},
+		"dev": {
+			"cache": false,
+			"persistent": true
+		},
+		"test": {
+			"inputs": ["src/**/*.tsx", "src/**/*.ts"]
+		},
+		"test:unit": {
+			"inputs": ["src/**/*.tsx", "src/**/*.ts"]
+		},
+		"test:e2e": {
+			"inputs": ["src/**/*.tsx", "src/**/*.ts"],
+			"outputs": ["playwright/.auth/**", "playwright/test-results/**"]
+		},
+		"format": {},
+		"next:lint": {
+			"dependsOn": ["format"]
+		},
+		"check-types": {},
+		"dev:install": {
+			"inputs": ["package.json", "bun.lockb"]
+		},
+		"docker:up": {
+			"cache": false
+		},
+		"drizzle:migrate": {
+			"inputs": ["src/server/db/migrations/**"],
+			"dependsOn": ["docker:up"]
+		}
+	}
 }

@@ -1,4 +1,4 @@
-import { MarketingLayout } from '@/app/[locale]/(marketing)/MarketingLayout';
+import { MarketingLayout } from "@/app/[locale]/(marketing)/MarketingLayout";
 
 // Uncomment for Cloudflare next-on-pages (required) or Vercel edge
 // export const runtime = 'edge';
@@ -13,12 +13,12 @@ export function generateStaticParams() {
 */
 
 type Props = {
-  children: React.ReactNode;
-  params?: {
-    locale?: string;
-  };
+	children: React.ReactNode;
+	params?: {
+		locale?: string;
+	};
 };
 
 export default function RootLayout({ children }: Props) {
-  return <MarketingLayout>{children}</MarketingLayout>;
+	return <MarketingLayout>{children}</MarketingLayout>;
 }

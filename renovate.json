@@ -1,11 +1,15 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:js-app", ":automergeMajor", "schedule:automergeEarlyMondays"],
-  "packageRules": [
-    {
-      "matchDatasources": ["npm"],
-      "minimumReleaseAge": "3 days"
-    }
-  ],
-  "enabled": false
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"config:js-app",
+		":automergeMajor",
+		"schedule:automergeEarlyMondays"
+	],
+	"packageRules": [
+		{
+			"matchDatasources": ["npm"],
+			"minimumReleaseAge": "3 days"
+		}
+	],
+	"enabled": false
 }

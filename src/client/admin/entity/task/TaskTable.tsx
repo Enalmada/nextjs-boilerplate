@@ -8,46 +8,51 @@
   ]
 }
 */
-'use client';
+"use client";
 
-import { type FormFieldConfig } from '@/client/admin/edit/formGeneration';
-import AdminTable from '@/client/admin/table/AdminTable';
-import { ADMIN_TASKS_PAGE } from '@/client/gql/admin-queries.gql';
-import {
-  type AdminTasksPageQuery,
-  type AdminTasksPageQueryVariables,
-  type Task,
-  type TaskWhere,
-} from '@/client/gql/generated/graphql';
+import type { FormFieldConfig } from "@/client/admin/edit/formGeneration";
+import AdminTable from "@/client/admin/table/AdminTable";
+import { ADMIN_TASKS_PAGE } from "@/client/gql/admin-queries.gql";
+import type {
+	AdminTasksPageQuery,
+	AdminTasksPageQueryVariables,
+	Task,
+	TaskWhere,
+} from "@/client/gql/generated/graphql";
 
-import { columnProps } from './RenderRows';
+import { columnProps } from "./RenderRows";
 
 interface Props {
-  loading?: boolean;
+	loading?: boolean;
 }
 
 export const TaskTable = (props: Props) => {
-  const inputConfig: FormFieldConfig[] = [
-    {
-      key: 'id',
-    },
-    {
-      key: 'title',
-    },
-    {
-      key: 'userId',
-    },
-  ];
+	const inputConfig: FormFieldConfig[] = [
+		{
+			key: "id",
+		},
+		{
+			key: "title",
+		},
+		{
+			key: "userId",
+		},
+	];
 
-  return (
-    <AdminTable<Task, TaskWhere, AdminTasksPageQuery, AdminTasksPageQueryVariables>
-      inputConfig={inputConfig}
-      query={ADMIN_TASKS_PAGE}
-      columnProps={columnProps}
-      loading={props.loading}
-      basePath={'/admin/task'}
-      pageName={'tasksPage'}
-      entityKey={'tasks'}
-    />
-  );
+	return (
+		<AdminTable<
+			Task,
+			TaskWhere,
+			AdminTasksPageQuery,
+			AdminTasksPageQueryVariables
+		>
+			inputConfig={inputConfig}
+			query={ADMIN_TASKS_PAGE}
+			columnProps={columnProps}
+			loading={props.loading}
+			basePath={"/admin/task"}
+			pageName={"tasksPage"}
+			entityKey={"tasks"}
+		/>
+	);
 };

@@ -1,17 +1,17 @@
-import { RegisterPage } from './RegisterPage';
+import { RegisterPage } from "./RegisterPage";
 
 export const metadata = {
-  title: 'Register',
+	title: "Register",
 };
 
 interface Props {
-  searchParams: {
-    redirect?: string;
-  };
+	searchParams: {
+		redirect?: string;
+	};
 }
 
 export default function Register({ searchParams }: Props) {
-  const redirect = searchParams.redirect;
+	const redirect = searchParams.redirect;
 
-  return <RegisterPage redirect={redirect} />;
+	return <RegisterPage redirect={redirect} />;
 }

@@ -1,17 +1,17 @@
-import { LoginPage as ClientLoginPage } from './LoginPage';
+import { LoginPage as ClientLoginPage } from "./LoginPage";
 
 export const metadata = {
-  title: 'Login',
+	title: "Login",
 };
 
 interface Props {
-  searchParams: {
-    redirect?: string;
-  };
+	searchParams: {
+		redirect?: string;
+	};
 }
 
 export default function Login({ searchParams }: Props) {
-  const redirect = searchParams.redirect;
+	const redirect = searchParams.redirect;
 
-  return <ClientLoginPage redirect={redirect} />;
+	return <ClientLoginPage redirect={redirect} />;
 }

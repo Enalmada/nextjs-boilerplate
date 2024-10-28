@@ -1,16 +1,19 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Radio as NextUIRadio, type RadioProps as NextUIRadioProps } from '@nextui-org/react';
+import {
+	Radio as NextUIRadio,
+	type RadioProps as NextUIRadioProps,
+} from "@nextui-org/react";
+import React from "react";
 
 interface RadioProps extends NextUIRadioProps {
-  size?: 'sm' | 'md' | 'lg';
+	size?: "sm" | "md" | "lg";
 }
 
 export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(
-  ({ size = 'md', ...props }, ref) => {
-    return <NextUIRadio as={undefined} size={size} ref={ref} {...props} />;
-  }
+	({ size = "md", ...props }, ref) => {
+		return <NextUIRadio as={undefined} size={size} ref={ref} {...props} />;
+	},
 );
 
-Radio.displayName = 'Radio';
+Radio.displayName = "Radio";

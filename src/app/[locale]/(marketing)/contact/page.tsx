@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Contact',
+	title: "Contact",
 };
 export default function Page() {
-  return <>Contact</>;
+	return <>Contact</>;
 }

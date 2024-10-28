@@ -1,8 +1,8 @@
 // Import this to use fragments in pages
 // import { graphql } from '@/client/gql/generated';
 
-import { TASK_PARTS, USER_PARTS } from '@/client/gql/client-queries.gql';
-import { gql } from '@urql/core';
+import { TASK_PARTS, USER_PARTS } from "@/client/gql/client-queries.gql";
+import { gql } from "@urql/core";
 
 // USERS
 

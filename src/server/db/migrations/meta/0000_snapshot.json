@@ -1,10 +1,8 @@
 {
-  "version": "5",
-  "dialect": "pg",
-  "id": "c54b04d6-bfc1-4610-8e2b-ac65d198d671",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
   "tables": {
-    "task": {
+    "public.task": {
       "name": "task",
       "schema": "",
       "columns": {
@@ -71,17 +69,21 @@
         "task_user_id_user_id_fk": {
           "name": "task_user_id_user_id_fk",
           "tableFrom": "task",
+          "columnsFrom": [
+            "user_id"
+          ],
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "user": {
+    "public.user": {
       "name": "user",
       "schema": "",
       "columns": {
@@ -143,19 +145,22 @@
       "uniqueConstraints": {
         "user_firebase_id_unique": {
           "name": "user_firebase_id_unique",
-          "nullsNotDistinct": false,
-          "columns": ["firebase_id"]
+          "columns": [
+            "firebase_id"
+          ],
+          "nullsNotDistinct": false
         }
       }
     }
   },
   "enums": {
-    "status": {
+    "public.status": {
       "name": "status",
-      "values": {
-        "ACTIVE": "ACTIVE",
-        "COMPLETED": "COMPLETED"
-      }
+      "schema": "public",
+      "values": [
+        "ACTIVE",
+        "COMPLETED"
+      ]
     }
   },
   "schemas": {},
@@ -163,5 +168,8 @@
     "schemas": {},
     "tables": {},
     "columns": {}
-  }
+  },
+  "id": "c54b04d6-bfc1-4610-8e2b-ac65d198d671",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "sequences": {}
 }
