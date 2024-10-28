@@ -207,3 +207,7 @@ playwright/.auth/**
 .turbo
 
 .codebuddy
+
+# Serwist
+public/sw*
+public/swe-worker*

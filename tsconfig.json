@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
 		"target": "ES2022",
-		"lib": ["dom", "dom.iterable", "ES2023"],
-		"types": ["vitest/globals"],
+		"lib": ["dom", "dom.iterable", "ES2023", "webworker"],
+		"types": ["vitest/globals", "@serwist/next/typings"],
 
 		"allowJs": true,
 		"checkJs": true,
@@ -45,5 +45,5 @@
 		"codegen.ts",
 		"playwright.config.ts"
 	],
-	"exclude": ["node_modules", "packages/**"]
+	"exclude": ["node_modules", "packages/**", "public/sw.js"]
 }

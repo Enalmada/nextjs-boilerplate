@@ -47,7 +47,7 @@ export function createRandomMe(id?: string): User {
 }
 
 export const tasks = (count = 5) =>
-	faker.helpers.multiple(createRandomTask, {
+	faker.helpers.multiple(() => createRandomTask(), {
 		count,
 	});
 
