@@ -18,6 +18,7 @@ test.describe("Admin", () => {
 
 	test("admin should not get redirected", async ({ page }) => {
 		await expect(page).toHaveURL("/admin");
+		await page.waitForSelector("text=ToDo Co.", { state: "visible" });
 	});
 
 	test("list pages", async ({ page }) => {
@@ -44,7 +45,11 @@ test.describe("Admin", () => {
 			/* clone-code ENTITY_HOOK end */
 		];
 
+		// Wait for the loading spinner or "Loading" text to disappear
+		await page.waitForSelector("text=ToDo Co.", { state: "visible" });
+
 		for (const config of pageConfigs) {
+			await page.goto("/admin");
 			await testPageNavigation("section", page, config);
 		}
 	});
