@@ -27,6 +27,7 @@
 		"enabled": true,
 		"rules": {
 			"suspicious": {
+				"noConsoleLog": { "level": "error", "fix": "none" },
 				"noExplicitAny": "off",
 				"noExportsInTest": "off",
 				"noArrayIndexKey": "off",

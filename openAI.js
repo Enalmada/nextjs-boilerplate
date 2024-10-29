@@ -105,10 +105,12 @@ const main = async () => {
 			}
 
 			const response = await getReview(openai, code, shouldOverwrite);
+			// biome-ignore lint/suspicious/noConsoleLog: ok
 			console.log(`${green}Review ${filePath}:${reset}\n${response}${reset}\n`);
 
 			if (shouldOverwrite) {
 				fs.writeFileSync(filePath, response, "utf-8");
+				// biome-ignore lint/suspicious/noConsoleLog: ok
 				console.log(
 					`File ${filePath} has been overwritten with the suggested rewrite.`,
 				);

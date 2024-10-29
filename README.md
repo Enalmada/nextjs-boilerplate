@@ -103,6 +103,7 @@ See top of [task.model.ts](https://github.com/Enalmada/nextjs-boilerplate/blob/d
 - [ ] playwright tests
   - [ ] running with github actions
   - [ ] on admin
+  - [ ] auto create admin test user from .env.test data
 - [ ] vitest with bun vs node. There were bugs that are [being worked on](https://github.com/oven-sh/bun/issues/4145#issuecomment-1725759116).
   - blocked by [module mock](https://github.com/oven-sh/bun/issues/5394) support
 - [ ] playwright tests using bun - blocked
