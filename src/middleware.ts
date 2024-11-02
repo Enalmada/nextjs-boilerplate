@@ -7,7 +7,7 @@ import {
 	applyHeaders,
 	generateSecurityHeaders,
 } from "@enalmada/next-secure";
-import { authentication } from "next-firebase-auth-edge/lib/next/middleware";
+import { authMiddleware } from "next-firebase-auth-edge/lib/next/middleware";
 import createIntlMiddleware from "next-intl/middleware";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
@@ -58,16 +58,23 @@ export async function middleware(request: NextRequest) {
 		},
 	);
 
-	return authentication(request, {
+	return authMiddleware(request, {
 		loginPath: "/api/login",
 		logoutPath: "/api/logout",
+		refreshTokenPath: "/api/refresh-token",
+		debug: authConfig.debug,
+		enableMultipleCookies: authConfig.enableMultipleCookies,
+		enableCustomToken: authConfig.enableCustomToken,
 		apiKey: authConfig.apiKey,
 		cookieName: authConfig.cookieName,
 		cookieSerializeOptions: authConfig.cookieSerializeOptions,
 		cookieSignatureKeys: authConfig.cookieSignatureKeys,
 		serviceAccount: authConfig.serviceAccount,
+		experimental_enableTokenRefreshOnExpiredKidHeader:
+			authConfig.experimental_enableTokenRefreshOnExpiredKidHeader,
+		tenantId: authConfig.tenantId,
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/require-await
-		handleValidToken: async ({ token, decodedToken }, headers) => {
+		handleValidToken: async ({ token, decodedToken, customToken }, headers) => {
 			// Authenticated user should not be able to access /login, /register and /reset-password routes
 			// if (PUBLIC_PATHS.includes(request.nextUrl.pathname)) {
 			//  return redirectToHome(request);
@@ -77,7 +84,7 @@ export async function middleware(request: NextRequest) {
 			return applyHeaders(response, secureHeaders);
 		},
 		// eslint-disable-next-line @typescript-eslint/require-await
-		handleInvalidToken: async () => {
+		handleInvalidToken: async (_reason) => {
 			const response = redirectToLogin(request);
 			return applyHeaders(response, secureHeaders);
 		},
@@ -92,9 +99,10 @@ export async function middleware(request: NextRequest) {
 export const config = {
 	matcher: [
 		"/",
-		"/((?!_next|favicon.ico|api|.*\\.).*)",
+		"/((?!_next|favicon.ico|__/auth|__/firebase|api|.*\\.).*)",
 		"/api/login",
 		"/api/logout",
+		"/api/refresh-token",
 	],
 	// source for ignoring prefetches
 	// https://github.com/vercel/next.js/blob/canary/examples/with-strict-csp/middleware.js

@@ -17,7 +17,7 @@ steps:
       - '--build-arg'
       - 'APP_ENV=$_APP_ENV'
       - '--build-arg'
-      - 'REDIRECT_URL=$_REDIRECT_URL'
+      - 'ORIGIN=$_ORIGIN'
       - '--build-arg'
       - 'FIREBASE_PROJECT_ID=$_FIREBASE_PROJECT_ID'
       - '--build-arg'

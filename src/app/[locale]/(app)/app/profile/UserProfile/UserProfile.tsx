@@ -1,8 +1,8 @@
 "use client";
 
 import { Button, ButtonGroup, Card, CardBody } from "@/client/ui";
-import { useAuth } from "@/lib/firebase/auth/context";
-import { useFirebaseAuth } from "@/lib/firebase/auth/firebase";
+import { useAuth } from "@/lib/firebase/auth/AuthContext";
+import { getFirebaseAuth } from "@/lib/firebase/auth/firebase";
 import { clientConfig } from "@/lib/firebase/config/client-config";
 import { Chip } from "@nextui-org/react";
 import Image from "next/image";
@@ -31,7 +31,6 @@ export function ProfileWrapper() {
 export function UserProfile({ count }: UserProfileProps) {
 	const router = useRouter();
 	const { user } = useAuth();
-	const { getFirebaseAuth } = useFirebaseAuth();
 
 	const [handleClaims, isClaimsLoading] = useLoadingCallback(async () => {
 		const auth = getFirebaseAuth();
@@ -44,7 +43,7 @@ export function UserProfile({ count }: UserProfileProps) {
 
 	function handleRedirect() {
 		router.push(
-			`${clientConfig.redirectUrl}?redirect_url=${window.location.href}`,
+			`${clientConfig.authDomain}?redirect_url=${window.location.href}`,
 		);
 	}
 

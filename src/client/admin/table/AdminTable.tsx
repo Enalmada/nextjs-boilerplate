@@ -47,14 +47,13 @@ const AdminTable = <
 		inputConfig.map(({ key }) => [key, ""]),
 	);
 
-	const defaultFilter = Array.from(searchParams.entries()).reduce(
-		(acc, [key, value]) => {
-			// @ts-expect-error string key
-			acc[key] = value || undefined;
-			return acc;
-		},
-		initialFilter,
-	);
+	const defaultFilter = searchParams
+		? Array.from(searchParams.entries()).reduce((acc, [key, value]) => {
+				// @ts-expect-error string key
+				acc[key] = value || undefined;
+				return acc;
+			}, initialFilter)
+		: initialFilter; // or handle the scenario where searchParams is null
 
 	const filterSchema = generateFormSchema(inputConfig);
 

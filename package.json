@@ -22,7 +22,7 @@
 		"dev:init": "bun run dev:install && bun run docker:up && bun run drizzle:migrate",
 		"dev:install": "bun install",
 		"dev:next": "next dev",
-		"docker:build": "export $(cat .env.local | grep -v '^#' | grep -v '^FIREBASE_ADMIN_PRIVATE_KEY=' | xargs) && docker build --build-arg REDIRECT_URL --build-arg FIREBASE_PROJECT_ID --build-arg FIREBASE_API_KEY --build-arg FIREBASE_AUTH_DOMAIN --build-arg FIREBASE_DATABASE_URL --build-arg FIREBASE_MESSAGING_SENDER_ID --build-arg AXIOM_TOKEN --build-arg AXIOM_DATASET -t t3-challenge .",
+		"docker:build": "export $(cat .env.local | grep -v '^#' | grep -v '^FIREBASE_ADMIN_PRIVATE_KEY=' | xargs) && docker build --build-arg ORIGIN --build-arg FIREBASE_PROJECT_ID --build-arg FIREBASE_API_KEY --build-arg FIREBASE_AUTH_DOMAIN --build-arg FIREBASE_DATABASE_URL --build-arg FIREBASE_MESSAGING_SENDER_ID --build-arg AXIOM_TOKEN --build-arg AXIOM_DATASET -t t3-challenge .",
 		"docker:down": "docker compose --env-file .env.local down",
 		"docker:logs": "docker logs -f $(docker ps --filter \"ancestor=nextjs-boilerplate\" --format \"{{.ID}}\" | head -n 1)",
 		"docker:prune": "docker system prune",
@@ -62,6 +62,7 @@
 		"vercel:buildLocal": "dotenv -e ./.env.local bunx vercel build"
 	},
 	"dependencies": {
+		"firebase-admin": "11.10.1",
 		"@casl/ability": "6.7.1",
 		"@enalmada/drizzle-helpers": "0.0.16",
 		"@enalmada/env-valibot": "0.0.15",
@@ -92,7 +93,7 @@
 		"nanoid": "5.0.8",
 		"next": "14.1.0",
 		"next-axiom": "1.5.1",
-		"next-firebase-auth-edge": "1.0.0",
+		"next-firebase-auth-edge": "1.8.0",
 		"next-intl": "3.23.5",
 		"nextjs-routes": "2.2.3",
 		"postgres": "3.4.4",

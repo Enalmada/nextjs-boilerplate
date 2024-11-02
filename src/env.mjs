@@ -12,15 +12,15 @@ const serverSchema = createEnvSchema({
 	USE_SECURE_COOKIES: required("USE_SECURE_COOKIES"),
 	FIREBASE_PROJECT_ID: required("FIREBASE_PROJECT_ID"),
 	FIREBASE_API_KEY: required("FIREBASE_API_KEY"),
-	FIREBASE_SECRET1: required("FIREBASE_SECRET1"),
-	FIREBASE_SECRET2: required("FIREBASE_SECRET2"),
+	COOKIE_SECRET_CURRENT: required("COOKIE_SECRET_CURRENT"),
+	COOKIE_SECRET_PREVIOUS: required("COOKIE_SECRET_PREVIOUS"),
 	AXIOM_TOKEN: optional(string()),
 	AXIOM_DATASET: optional(string()),
 });
 
 const clientSchema = createEnvSchema({
 	NEXT_PUBLIC_APP_ENV: required("NEXT_PUBLIC_APP_ENV"),
-	NEXT_PUBLIC_REDIRECT_URL: required("NEXT_PUBLIC_REDIRECT_URL"),
+	NEXT_PUBLIC_ORIGIN: required("NEXT_PUBLIC_ORIGIN"),
 	NEXT_PUBLIC_FIREBASE_API_KEY: required("NEXT_PUBLIC_FIREBASE_API_KEY"),
 	NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: required(
 		"NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
@@ -46,8 +46,8 @@ const serverEnv = validateEnv(
 		USE_SECURE_COOKIES: process.env.USE_SECURE_COOKIES,
 		FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
 		FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
-		FIREBASE_SECRET1: process.env.FIREBASE_SECRET1,
-		FIREBASE_SECRET2: process.env.FIREBASE_SECRET2,
+		COOKIE_SECRET_CURRENT: process.env.COOKIE_SECRET_CURRENT,
+		COOKIE_SECRET_PREVIOUS: process.env.COOKIE_SECRET_PREVIOUS,
 		AXIOM_TOKEN: process.env.AXIOM_TOKEN,
 		AXIOM_DATASET: process.env.AXIOM_DATASET,
 	},
@@ -58,7 +58,7 @@ const clientEnv = validateEnv(
 	clientSchema,
 	{
 		NEXT_PUBLIC_APP_ENV: process.env.NEXT_PUBLIC_APP_ENV,
-		NEXT_PUBLIC_REDIRECT_URL: process.env.NEXT_PUBLIC_REDIRECT_URL,
+		NEXT_PUBLIC_ORIGIN: process.env.NEXT_PUBLIC_ORIGIN,
 		NEXT_PUBLIC_FIREBASE_API_KEY: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
 		NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN:
 			process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -92,14 +92,14 @@ export const env = createEnv({
     USE_SECURE_COOKIES: z.string().min(1),
     FIREBASE_PROJECT_ID: z.string().min(1),
     FIREBASE_API_KEY: z.string().min(1),
-    FIREBASE_SECRET1: z.string().min(1),
-    FIREBASE_SECRET2: z.string().min(1),
+    COOKIE_SECRET_CURRENT: z.string().min(1),
+    COOKIE_SECRET_PREVIOUS: z.string().min(1),
     AXIOM_TOKEN: z.string().optional(),
     AXIOM_DATASET: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_APP_ENV: z.string(),
-    NEXT_PUBLIC_REDIRECT_URL: z.string().url(),
+    NEXT_PUBLIC_ORIGIN: z.string().url(),
     //.transform((s) => new URL(s)),
     NEXT_PUBLIC_FIREBASE_API_KEY: z.string().min(1),
     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: z.string().min(1),

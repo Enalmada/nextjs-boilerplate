@@ -1,10 +1,17 @@
-import type { Auth, AuthError, AuthProvider, User } from "firebase/auth";
+import type {
+	Auth,
+	AuthError,
+	AuthProvider,
+	User,
+	UserCredential,
+} from "firebase/auth";
 import {
 	GoogleAuthProvider,
 	browserPopupRedirectResolver,
+	useDeviceLanguage as setDeviceLanguage,
 	signInWithPopup,
+	signInWithRedirect,
 	signOut,
-	useDeviceLanguage,
 } from "firebase/auth";
 
 const CREDENTIAL_ALREADY_IN_USE_ERROR = "auth/credential-already-in-use";
@@ -19,9 +26,7 @@ export const getGoogleProvider = (auth: Auth) => {
 	const provider = new GoogleAuthProvider();
 	provider.addScope("profile");
 	provider.addScope("email");
-	// complaining about "use" not being a real react hook.
-	// eslint-disable-next-line react-hooks/rules-of-hooks
-	useDeviceLanguage(auth);
+	setDeviceLanguage(auth);
 	provider.setCustomParameters({
 		display: "popup",
 	});
@@ -32,12 +37,19 @@ export const getGoogleProvider = (auth: Auth) => {
 export const loginWithProvider = async (
 	auth: Auth,
 	provider: AuthProvider,
-): Promise<User> => {
+): Promise<UserCredential> => {
 	const result = await signInWithPopup(
 		auth,
 		provider,
 		browserPopupRedirectResolver,
 	);
 
-	return result.user;
+	return result;
+};
+
+export const loginWithProviderUsingRedirect = async (
+	auth: Auth,
+	provider: AuthProvider,
+): Promise<void> => {
+	await signInWithRedirect(auth, provider);
 };

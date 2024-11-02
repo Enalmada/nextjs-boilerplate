@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, InputControlled, Link } from "@/client/ui";
-import { useFirebaseAuth } from "@/lib/firebase/auth/firebase";
+import { getFirebaseAuth } from "@/lib/firebase/auth/firebase";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useForm } from "react-hook-form";
@@ -42,8 +42,6 @@ export function ResetPasswordPage({ redirect }: Props) {
 	// const params = useSearchParams();
 	// TODO make sure forgot password page links back to login with redirect
 	// const redirect = params?.get('redirect');
-
-	const { getFirebaseAuth } = useFirebaseAuth();
 
 	type FormData = {
 		email: string;

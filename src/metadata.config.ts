@@ -5,8 +5,8 @@ import type {
 	ReferrerEnum,
 } from "next/dist/lib/metadata/types/metadata-types";
 
-export const baseURL = process.env.NEXT_PUBLIC_REDIRECT_URL
-	? process.env.NEXT_PUBLIC_REDIRECT_URL
+export const baseURL = process.env.NEXT_PUBLIC_ORIGIN
+	? process.env.NEXT_PUBLIC_ORIGIN
 	: process.env.NEXT_PUBLIC_VERCEL_URL
 		? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
 		: `http://localhost:${process.env.PORT || 3000}`;
@@ -61,7 +61,7 @@ export const basicFields: Metadata = {
 	appLinks: {
 		/*
     ios: {
-      url: '${env.NEXT_PUBLIC_REDIRECT_URL}/ios',
+      url: '${env.NEXT_PUBLIC_ORIGIN}/ios',
       app_store_id: 'app_store_id',
     },
     android: {

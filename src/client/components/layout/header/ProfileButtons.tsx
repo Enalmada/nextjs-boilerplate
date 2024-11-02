@@ -1,4 +1,4 @@
-import { useAuth } from "@/lib/firebase/auth/context";
+import { useAuth } from "@/lib/firebase/auth/AuthContext";
 import Link from "next/link";
 
 export default function AuthButtons() {

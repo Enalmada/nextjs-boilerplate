@@ -1,12 +1,10 @@
 "use client";
 
-import { useFirebaseAuth } from "@/lib/firebase/auth/firebase";
+import { getFirebaseAuth } from "@/lib/firebase/auth/firebase";
 import { signOut } from "firebase/auth";
 import { useEffect } from "react";
 
 export default function LogoutPage() {
-	const { getFirebaseAuth } = useFirebaseAuth();
-
 	useEffect(() => {
 		const clearCache = async () => {
 			try {

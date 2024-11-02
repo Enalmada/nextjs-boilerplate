@@ -1,9 +1,16 @@
 import { Button } from "@/client/ui";
-import { useFirebaseAuth } from "@/lib/firebase/auth/firebase";
+import { getFirebaseAuth } from "@/lib/firebase/auth/firebase";
+import type { UserCredential } from "firebase/auth";
 import type { ReactNode } from "react";
 import { useLoadingCallback } from "react-loading-hook";
 
-import { getGoogleProvider, loginWithProvider } from "./firebase";
+import { useRedirectAfterLogin } from "@/app/shared/useRedirectAfterLogin";
+import { loginWithCredential } from "@/lib/firebase/api";
+import {
+	getGoogleProvider,
+	loginWithProvider,
+	loginWithProviderUsingRedirect,
+} from "./firebase";
 
 type SetLoggedFunction = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -18,32 +25,35 @@ export default function GoogleButton({
 	setHasLogged,
 	children,
 }: Props) {
-	const { getFirebaseAuth } = useFirebaseAuth();
+	const redirectAfterLogin = useRedirectAfterLogin();
 
-	const [handleLoginWithGoogle, isGoogleLoading] = useLoadingCallback(
-		async () => {
+	async function handleLogin(credential: UserCredential) {
+		await loginWithCredential(credential);
+		redirectAfterLogin();
+	}
+
+	const [handleLoginWithGoogle, isGoogleLoading, googleError] =
+		useLoadingCallback(async () => {
 			setHasLogged(false);
-			try {
-				const auth = getFirebaseAuth();
-				const user = await loginWithProvider(auth, getGoogleProvider(auth));
-				const idTokenResult = await user.getIdTokenResult();
-				setHasLogged(true);
-				await fetch("/api/login", {
-					method: "GET",
-					headers: {
-						Authorization: `Bearer ${idTokenResult.token}`,
-					},
-				});
-				// router.refresh(); // This seems necessary to avoid a full window.reload
-				// TODO get router refresh and push working again.
-				//router.push(redirect ?? '/');
-				window.location.replace(redirect ?? "/app");
-			} catch (error: unknown) {
-				setHasLogged(false);
-				throw error;
-			}
-		},
-	);
+
+			const auth = getFirebaseAuth();
+			await handleLogin(await loginWithProvider(auth, getGoogleProvider(auth)));
+
+			setHasLogged(true);
+		});
+
+	const [
+		handleLoginWithGoogleUsingRedirect,
+		isGoogleUsingRedirectLoading,
+		googleUsingRedirectError,
+	] = useLoadingCallback(async () => {
+		setHasLogged(false);
+
+		const auth = getFirebaseAuth();
+		await loginWithProviderUsingRedirect(auth, getGoogleProvider(auth));
+
+		setHasLogged(true);
+	});
 
 	return (
 		<Button

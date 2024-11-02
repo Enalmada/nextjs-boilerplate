@@ -1,6 +1,6 @@
 import { ME } from "@/client/gql/client-queries.gql";
 import { type MeQuery, UserRole } from "@/client/gql/generated/graphql";
-import { useAuth } from "@/lib/firebase/auth/context";
+import { useAuth } from "@/lib/firebase/auth/AuthContext";
 import { useQuery } from "@enalmada/next-gql/client";
 import {
 	Avatar,

@@ -1,7 +1,9 @@
+import { useRedirectAfterLogin } from "@/app/shared/useRedirectAfterLogin";
 import { Button, InputControlled, Link } from "@/client/ui";
 import { HiddenIcon } from "@/client/ui/icons/HiddenIcon";
 import { VisibleIcon } from "@/client/ui/icons/VisibleIcon";
-import { useFirebaseAuth } from "@/lib/firebase/auth/firebase";
+import { loginWithCredential } from "@/lib/firebase/api";
+import { getFirebaseAuth } from "@/lib/firebase/auth/firebase";
 import { FirebaseError } from "@firebase/util";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Checkbox } from "@nextui-org/react";
@@ -35,8 +37,6 @@ export default function PasswordForm({
 		password: string;
 	};
 
-	const { getFirebaseAuth } = useFirebaseAuth();
-
 	const schema = object({
 		email: pipe(
 			string(),
@@ -64,27 +64,22 @@ export default function PasswordForm({
 		},
 	});
 
+	const redirectAfterLogin = useRedirectAfterLogin();
+
 	const onSubmit = async ({ email, password }: FormData) => {
 		const auth = getFirebaseAuth();
 		try {
 			const credential = isSignIn
 				? await signInWithEmailAndPassword(auth, email, password)
 				: await createUserWithEmailAndPassword(auth, email, password);
+
+			await loginWithCredential(credential);
+
 			if (!isSignIn) {
 				await sendEmailVerification(credential.user);
 			}
-			const idTokenResult = await credential.user.getIdTokenResult();
+			redirectAfterLogin();
 			setHasLogged(true);
-			await fetch("/api/login", {
-				method: "GET",
-				headers: {
-					Authorization: `Bearer ${idTokenResult.token}`,
-				},
-			});
-			// router.refresh(); // This seems necessary to avoid a full window.reload
-			// TODO get router refresh and push working again.
-			// router.push(redirect ?? '/');
-			window.location.replace(redirect ?? "/app");
 		} catch (error: unknown) {
 			setHasLogged(false);
 
