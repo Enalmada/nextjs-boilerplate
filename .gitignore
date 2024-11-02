@@ -211,3 +211,6 @@ playwright/.auth/**
 # Serwist
 public/sw*
 public/swe-worker*
+
+# Sentry Config File
+.env.sentry-build-plugin
