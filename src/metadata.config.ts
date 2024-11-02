@@ -28,7 +28,7 @@ export const viewportConfig: Viewport = {
 	],
 };
 
-export const config = {
+export const siteConfig = {
 	siteUrl: "ToDoApp.com",
 	applicationName: "ToDoApp",
 	description: "Everyone loves a simple todo app exercise.",
@@ -39,22 +39,22 @@ export const basicFields: Metadata = {
 	// @ts-ignore
 	metadataBase: baseURL,
 	title: {
-		template: `%s | ${config.siteUrl}`,
-		default: config.siteUrl, // a default is required when creating a template
+		template: `%s | ${siteConfig.siteUrl}`,
+		default: siteConfig.siteUrl, // a default is required when creating a template
 	},
 	// keywords: ["Next.js", "React", "JavaScript"],
-	description: config.description,
+	description: siteConfig.description,
 	category: "technology",
-	applicationName: config.siteUrl,
+	applicationName: siteConfig.siteUrl,
 	referrer: "strict-origin-when-cross-origin" as ReferrerEnum, // https://web.dev/referrer-best-practices/
 	authors: [{ name: "Adam Lane" }],
 	creator: "Adam Lane",
 	publisher: "Lane Business Consulting",
 	openGraph: {
-		title: config.applicationName,
-		description: config.description,
+		title: siteConfig.applicationName,
+		description: siteConfig.description,
 		url: baseURL,
-		siteName: config.siteUrl,
+		siteName: siteConfig.siteUrl,
 		locale: "en_US",
 		type: "website",
 	},
@@ -80,13 +80,13 @@ export const basicFields: Metadata = {
 	appleWebApp: {
 		capable: true,
 		statusBarStyle: "default",
-		title: config.applicationName,
+		title: siteConfig.applicationName,
 		// startUpImage: [],
 	},
 	twitter: {
 		card: "summary",
-		title: config.applicationName,
-		description: config.description,
+		title: siteConfig.applicationName,
+		description: siteConfig.description,
 	},
 	formatDetection: {
 		telephone: false,

@@ -6,9 +6,9 @@ import { Suspense } from "react";
 export const dynamic = "force-dynamic";
 
 interface Props {
-	params: {
+	params: Promise<{
 		id: string;
-	};
+	}>;
 }
 
 export const metadata = {
@@ -16,8 +16,8 @@ export const metadata = {
 };
 
 // TODO - this use of Suspense should be loading.ts instead
-export default function Page(props: Props) {
-	const id = props.params.id;
+export default async function Page(props: Props) {
+	const id = (await props.params).id;
 	return (
 		<>
 			<Breadcrumb routes={[getRouteById("Home"), getRouteById("Task")]} />

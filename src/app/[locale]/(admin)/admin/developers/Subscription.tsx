@@ -1,4 +1,3 @@
-// Subscription.tsx
 "use client";
 
 import { NOTIFICATION_EVENTS } from "@/client/gql/admin-queries.gql";

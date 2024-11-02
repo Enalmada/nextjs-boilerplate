@@ -5,12 +5,13 @@ export const metadata = {
 };
 
 interface Props {
-	searchParams: {
+	searchParams: Promise<{
 		redirect?: string;
-	};
+	}>;
 }
 
-export default function Register({ searchParams }: Props) {
+export default async function Register(props: Props) {
+	const searchParams = await props.searchParams;
 	const redirect = searchParams.redirect;
 
 	return <RegisterPage redirect={redirect} />;

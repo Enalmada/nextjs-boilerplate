@@ -157,7 +157,7 @@ const withSentry = (config) => {
 // TODO figure out how to not get error with .default
 // @ts-ignore
 const withNextIntl = (await import("next-intl/plugin")).default(
-	"./src/lib/localization/i18n.ts",
+	"./src/lib/localization/request.ts",
 );
 
 /**

@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
 // Generate customized metadata based on user cookies
 // https://nextjs.org/docs/app/building-your-application/optimizing/metadata
 export async function generateMetadata(): Promise<Metadata> {
-	const tokens = await getTokens(cookies(), authConfig);
+	const tokens = await getTokens(await cookies(), authConfig);
 
 	if (!tokens) {
 		return {};

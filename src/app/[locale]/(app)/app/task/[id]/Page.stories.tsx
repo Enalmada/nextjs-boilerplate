@@ -7,11 +7,18 @@ const meta: Meta<typeof Page> = {
 	title: "Pages/App/Task",
 	component: Page,
 	argTypes: {},
-	render: () => (
-		<AppLayout>
-			<Page params={{ id: "tsk_1" }} />
-		</AppLayout>
-	),
+	render: () => {
+		// Simulate the async nature of params by wrapping in Promise.resolve
+		const mockAsyncParams: Promise<{ id: string }> = Promise.resolve({
+			id: "tsk_1",
+		});
+
+		return (
+			<AppLayout>
+				<Page params={mockAsyncParams} />
+			</AppLayout>
+		);
+	},
 	parameters: {
 		layout: "fullscreen",
 	},

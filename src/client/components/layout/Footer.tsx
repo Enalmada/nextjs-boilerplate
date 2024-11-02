@@ -1,6 +1,6 @@
 import { Link } from "@/client/ui";
 import { getRouteById } from "@/client/utils/routes";
-import { config } from "@/metadata.config";
+import { siteConfig } from "@/metadata.config";
 
 const formEnabled = false;
 
@@ -35,7 +35,7 @@ const Footer = () => {
 							href="#"
 							aria-label="Brand"
 						>
-							{config.applicationName}
+							{siteConfig.applicationName}
 						</a>
 					</div>
 

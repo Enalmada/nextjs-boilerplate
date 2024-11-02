@@ -3,19 +3,20 @@ import "@/client/styles/index.css";
 import { fontSans } from "@/client/styles/fonts";
 import { NextUIWrapper } from "@/client/ui/NextUIWrapper";
 import { ServerAuthProvider } from "@/lib/firebase/auth/server-auth-provider";
-import { timeZone } from "@/lib/localization/i18n";
 import { locales } from "@/lib/localization/navigation";
+import { timeZone } from "@/lib/localization/request";
 import metadataConfig, { viewportConfig } from "@/metadata.config";
 import clsx from "clsx";
 import { type AbstractIntlMessages, NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
 type Props = {
 	children: React.ReactNode;
-	params?: {
+	params?: Promise<{
 		locale?: string;
-	};
+	}>;
 };
 
 export const viewport = {
@@ -26,27 +27,24 @@ export const metadata = {
 	...metadataConfig,
 };
 
-export default async function LocaleLayout({
-	children,
-	params = { locale: "en" },
-}: Props) {
+export default async function LocaleLayout(props: Props) {
+	// Await on params, defaulting to an object if undefined
+	const params = (await props.params) ?? {};
+
+	const { children } = props;
+
 	const { locale = "en" } = params;
-	const nonce = headers().get("x-nonce") || undefined;
-	let messages: AbstractIntlMessages;
+	const nonce = (await headers()).get("x-nonce") || undefined;
 
 	// Validate that the incoming `locale` parameter is valid
 	if (!locales.includes(locale)) notFound();
 
-	try {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-		messages = (await import(`../../../messages/${locale}.json`))
-			.default as AbstractIntlMessages;
-	} catch (error) {
-		notFound();
-	}
+	// Providing all messages to the client
+	// side is the easiest way to get started
+	const messages = await getMessages();
 
 	return (
-		<html lang={params.locale} suppressHydrationWarning>
+		<html lang={locale} suppressHydrationWarning>
 			<body
 				className={clsx(
 					"min-h-screen bg-background bg-slate-50 font-sans antialiased dark:bg-slate-900",

@@ -19,12 +19,12 @@ export async function ServerAuthProvider({
 	nonce?: string;
 	children: React.ReactNode;
 }) {
-	const cookieStore = cookies();
+	const cookieStore = await cookies();
 	const url = `${baseURL}/api/graphql`;
 
-	const tokens = await getTokens(cookies(), {
+	const tokens = await getTokens(await cookies(), {
 		...authConfig,
-		headers: headers(),
+		headers: await headers(),
 	});
 	const user = tokens ? toUser(tokens) : null;
 

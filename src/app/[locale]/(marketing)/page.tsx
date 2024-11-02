@@ -7,7 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import NextLink from "next/link";
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+	const params = await props.params;
 	const t = await getTranslations({
 		locale: params.locale,
 		namespace: "Index",
@@ -19,9 +20,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 interface Props {
-	params: {
+	params: Promise<{
 		locale: string;
-	};
+	}>;
 }
 
 export default function Home() {

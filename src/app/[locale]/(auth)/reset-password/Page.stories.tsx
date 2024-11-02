@@ -7,11 +7,18 @@ const meta: Meta<typeof Page> = {
 	title: "Pages/Auth/ResetPassword",
 	component: Page,
 	argTypes: {},
-	render: () => (
-		<AuthLayout>
-			<Page searchParams={{ redirect: "/app" }} />
-		</AuthLayout>
-	),
+	render: () => {
+		const mockAsyncSearchParams: Promise<{ redirect?: string }> =
+			Promise.resolve({
+				redirect: "/app",
+			});
+
+		return (
+			<AuthLayout>
+				<Page searchParams={mockAsyncSearchParams} />
+			</AuthLayout>
+		);
+	},
 	parameters: {
 		layout: "fullscreen",
 	},

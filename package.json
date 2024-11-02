@@ -21,7 +21,7 @@
 		"dev": "bun dev:init && start-server-and-test dev:next http-get://localhost:3000/api/graphql codegen",
 		"dev:init": "bun run dev:install && bun run docker:up && bun run drizzle:migrate",
 		"dev:install": "bun install",
-		"dev:next": "next dev",
+		"dev:next": "cross-env SENTRY_SUPPRESS_TURBOPACK_WARNING=1 next dev --turbo",
 		"docker:build": "export $(cat .env.local | grep -v '^#' | grep -v '^FIREBASE_ADMIN_PRIVATE_KEY=' | xargs) && docker build --build-arg ORIGIN --build-arg FIREBASE_PROJECT_ID --build-arg FIREBASE_API_KEY --build-arg FIREBASE_AUTH_DOMAIN --build-arg FIREBASE_DATABASE_URL --build-arg FIREBASE_MESSAGING_SENDER_ID --build-arg AXIOM_TOKEN --build-arg AXIOM_DATASET -t t3-challenge .",
 		"docker:down": "docker compose --env-file .env.local down",
 		"docker:logs": "docker logs -f $(docker ps --filter \"ancestor=nextjs-boilerplate\" --format \"{{.ID}}\" | head -n 1)",
@@ -91,15 +91,15 @@
 		"graphql-web-lite": "16.6.0-4",
 		"gravatar-url": "4.0.1",
 		"nanoid": "5.0.8",
-		"next": "14.1.0",
+		"next": "15.0.2",
 		"next-axiom": "1.5.1",
 		"next-firebase-auth-edge": "1.8.0",
 		"next-intl": "3.24.0",
 		"nextjs-routes": "2.2.3",
 		"postgres": "3.4.4",
-		"react": "18.3.1",
+		"react": "19.0.0-rc-02c0e824-20241028",
 		"react-day-picker": "9.2.1",
-		"react-dom": "18.3.1",
+		"react-dom": "19.0.0-rc-02c0e824-20241028",
 		"react-hook-form": "7.53.1",
 		"react-icons": "5.3.0",
 		"react-loading-hook": "1.1.2",
@@ -135,8 +135,8 @@
 		"@total-typescript/ts-reset": "0.6.1",
 		"@types/cookie": "1.0.0",
 		"@types/node": "22.8.6",
-		"@types/react": "18.3.12",
-		"@types/react-dom": "18.3.1",
+		"@types/react": "npm:types-react@19.0.0-rc.1",
+		"@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
 		"@vitejs/plugin-react": "4.3.3",
 		"@vitest/coverage-v8": "2.1.4",
 		"autoprefixer": "10.4.20",
@@ -180,5 +180,9 @@
 		"turbo"
 	],
 	"type": "module",
-	"packageManager": "bun@1.1.34"
+	"packageManager": "bun@1.1.34",
+	"overrides": {
+		"@types/react": "npm:types-react@19.0.0-rc.1",
+		"@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
+	}
 }

@@ -3,11 +3,12 @@ import type { Metadata } from "next";
 import EntityForm from "./EntityForm";
 
 type Props = {
-	params: { entity: string; id: string };
-	searchParams: { [key: string]: string | string[] | undefined };
+	params: Promise<{ entity: string; id: string }>;
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export function generateMetadata({ params }: Props): Metadata {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+	const params = await props.params;
 	const { entity, id } = params;
 
 	return {
@@ -15,7 +16,8 @@ export function generateMetadata({ params }: Props): Metadata {
 	};
 }
 
-export default function Page({ params }: Props) {
+export default async function Page(props: Props) {
+	const params = await props.params;
 	const { entity, id } = params;
 
 	return <EntityForm entity={entity} id={id} />;
