@@ -1,49 +1,48 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["dom", "dom.iterable", "ES2023"],
-    "types": ["vitest/globals"],
+	"compilerOptions": {
+		"target": "es5",
+		"lib": ["dom", "dom.iterable", "esnext", "webworker"],
+		"types": ["vitest/globals", "@serwist/next/typings"],
 
-    "allowJs": true,
-    "checkJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "noUncheckedIndexedAccess": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"],
-      // Necessary to solve next request being out of sync with 3rd party peer dependencies
-      "next/*": ["./node_modules/next/*"],
-    },
-    "plugins": [
-      {
-        "name": "next",
-      },
-    ],
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.mjs",
-    "next-env.d.ts",
-    "*.cjs",
-    "*.mjs",
-    ".next/types/**/*.ts",
-    "drizzle.config.ts",
-    "vitest.config.ts",
-    "codegen.ts",
-    "playwright.config.ts",
-  ],
-  "exclude": ["node_modules", "packages/**"],
+		"allowJs": true,
+		"checkJs": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
+		"incremental": true,
+		"noUncheckedIndexedAccess": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"],
+			"next/*": ["./node_modules/next/*"] // Necessary to solve next request being out of sync with 3rd party peer dependencies
+		},
+		"plugins": [
+			{
+				"name": "next"
+			}
+		],
+		"allowSyntheticDefaultImports": true,
+		"sourceMap": true
+	},
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.tsx",
+		"src/**/*.mjs",
+		"next-env.d.ts",
+		"*.cjs",
+		"*.mjs",
+		".next/types/**/*.ts",
+		"drizzle.config.ts",
+		"vitest.config.ts",
+		"codegen.ts",
+		"playwright.config.ts"
+	],
+	"exclude": ["node_modules", "packages/**", "public/sw.js"]
 }

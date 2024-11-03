@@ -1,23 +1,23 @@
-import { type Metadata } from 'next';
-import { cookies } from 'next/headers';
-import { ProfileWrapper } from '@/app/[locale]/(app)/app/profile/UserProfile/UserProfile';
-import { authConfig } from '@/lib/firebase/config/server-config';
-import { getTokens } from 'next-firebase-auth-edge/lib/next/tokens';
+import { ProfileWrapper } from "@/app/[locale]/(app)/app/profile/UserProfile/UserProfile";
+import { authConfig } from "@/lib/firebase/config/server-config";
+import type { Metadata } from "next";
+import { getTokens } from "next-firebase-auth-edge/lib/next/tokens";
+import { cookies } from "next/headers";
 
 // Generate customized metadata based on user cookies
 // https://nextjs.org/docs/app/building-your-application/optimizing/metadata
 export async function generateMetadata(): Promise<Metadata> {
-  const tokens = await getTokens(cookies(), authConfig);
+	const tokens = await getTokens(await cookies(), authConfig);
 
-  if (!tokens) {
-    return {};
-  }
+	if (!tokens) {
+		return {};
+	}
 
-  return {
-    title: `${tokens.decodedToken.email} Profile`,
-  };
+	return {
+		title: `${tokens.decodedToken.email} Profile`,
+	};
 }
 
 export default function Profile() {
-  return <ProfileWrapper />;
+	return <ProfileWrapper />;
 }

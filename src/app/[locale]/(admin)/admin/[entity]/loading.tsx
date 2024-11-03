@@ -1,5 +1,5 @@
-import EntityTable from './EntityTable';
+import EntityTable from "./EntityTable";
 
 export default function Loading() {
-  return <EntityTable loading={true} />;
+	return <EntityTable loading={true} />;
 }

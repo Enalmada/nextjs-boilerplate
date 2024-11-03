@@ -1,18 +1,18 @@
-import Redirecting from '@/client/components/auth/Redirecting';
+import Redirecting from "@/client/components/auth/Redirecting";
 
-import LogoutPage from './LogoutPage';
+import LogoutPage from "./LogoutPage";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: 'Logout',
+	title: "Logout",
 };
 
 export default function Logout() {
-  return (
-    <>
-      <Redirecting>Logging out</Redirecting>
-      <LogoutPage />
-    </>
-  );
+	return (
+		<>
+			<Redirecting>Logging out</Redirecting>
+			<LogoutPage />
+		</>
+	);
 }

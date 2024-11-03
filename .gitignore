@@ -205,3 +205,12 @@ playwright/.auth/**
 
 # Turborepo
 .turbo
+
+.codebuddy
+
+# Serwist
+public/sw*
+public/swe-worker*
+
+# Sentry Config File
+.env.sentry-build-plugin

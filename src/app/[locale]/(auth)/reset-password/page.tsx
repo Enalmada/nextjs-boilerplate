@@ -1,17 +1,18 @@
-import { ResetPasswordPage } from './ResetPasswordPage';
+import { ResetPasswordPage } from "./ResetPasswordPage";
 
 export const metadata = {
-  title: 'Reset Password',
+	title: "Reset Password",
 };
 
 interface Props {
-  searchParams: {
-    redirect?: string;
-  };
+	searchParams: Promise<{
+		redirect?: string;
+	}>;
 }
 
-export default function ResetPassword({ searchParams }: Props) {
-  const redirect = searchParams.redirect;
+export default async function ResetPassword(props: Props) {
+	const searchParams = await props.searchParams;
+	const redirect = searchParams.redirect;
 
-  return <ResetPasswordPage redirect={redirect} />;
+	return <ResetPasswordPage redirect={redirect} />;
 }

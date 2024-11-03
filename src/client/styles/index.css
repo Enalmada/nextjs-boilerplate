@@ -7,39 +7,39 @@
 @tailwind utilities;
 
 @layer base {
-  html,
-  body {
-    min-height: 100%;
-    height: auto;
-  }
+	html,
+	body {
+		min-height: 100%;
+		height: auto;
+	}
 
-  .gradient {
-    background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
-  }
+	.gradient {
+		background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
+	}
 
-  /* sticky footer hacking for next.js */
-  /* purgecss ignore */
-  #__next,
-  #sticky-footer {
-    height: 100%;
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-  }
+	/* sticky footer hacking for next.js */
+	/* purgecss ignore */
+	#__next,
+	#sticky-footer {
+		height: 100%;
+		display: flex;
+		min-height: 100vh;
+		flex-direction: column;
+	}
 
-  .page-class {
-    margin-top: 72px;
-  }
-  @media screen and (max-width: 1023px) {
-    .page-class {
-      margin-top: 52px;
-    }
-  }
+	.page-class {
+		margin-top: 72px;
+	}
+	@media screen and (max-width: 1023px) {
+		.page-class {
+			margin-top: 52px;
+		}
+	}
 
-  /* NextUI requires this */
-  /* https://github.com/nextui-org/nextui/discussions/804#discussioncomment-4241529 */
-  [data-overlay-container='true'] {
-    height: 100%;
-    width: 100%;
-  }
+	/* NextUI requires this */
+	/* https://github.com/nextui-org/nextui/discussions/804#discussioncomment-4241529 */
+	[data-overlay-container="true"] {
+		height: 100%;
+		width: 100%;
+	}
 }

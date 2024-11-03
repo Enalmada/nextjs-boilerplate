@@ -1,0 +1,63 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"vcs": {
+		"enabled": false,
+		"clientKind": "git",
+		"useIgnoreFile": false
+	},
+	"files": {
+		"ignoreUnknown": false,
+		"ignore": [
+			".next/**",
+			".turbo/**",
+			"src/client/gql/generated",
+			"src/server/graphql/schema.graphql",
+			"src/server/db/migrations",
+			"@types/nextjs-routes.d.ts"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
+	},
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"suspicious": {
+				"noConsoleLog": { "level": "error", "fix": "none" },
+				"noExplicitAny": "off",
+				"noExportsInTest": "off",
+				"noArrayIndexKey": "off",
+				"noRedeclare": "off",
+				"noShadowRestrictedNames": "off"
+			},
+			"style": {
+				"noNonNullAssertion": "off"
+			},
+			"a11y": {
+				"noSvgWithoutTitle": "off",
+				"useButtonType": "off",
+				"useValidAnchor": "off",
+				"useHtmlLang": "off",
+				"useHeadingContent": "off"
+			},
+			"correctness": {
+				"useExhaustiveDependencies": "off",
+				"noEmptyPattern": "off",
+				"noUnreachable": "off"
+			},
+			"complexity": {
+				"noForEach": "off"
+			},
+			"recommended": true
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double"
+		}
+	}
+}

@@ -1,9 +1,9 @@
-import { builder } from '@/server/graphql/builder';
+import { builder } from "@/server/graphql/builder";
 
-import './sortAndPagination';
-import '@/server/graphql/subscriptions/notification';
-import '@/server/admin/admin.model';
-import '@/server/user/user.model';
+import "./sortAndPagination";
+import "@/server/graphql/subscriptions/notification";
+import "@/server/admin/admin.model";
+import "@/server/user/user.model";
 /* clone-code ENTITY_HOOK
 {
   "toPlacement": "below",
@@ -12,7 +12,7 @@ import '@/server/user/user.model';
   ]
 }
 */
-import '@/server/task/task.model';
+import "@/server/task/task.model";
 
 /* clone-code ENTITY_HOOK end */
 

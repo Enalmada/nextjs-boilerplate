@@ -8,166 +8,173 @@
   ]
 }
 */
-import { BaseEntityType } from '@/server/base/base.model';
-import { type ListInput } from '@/server/base/base.service';
-import { TaskStatus, type Task, type TaskInput } from '@/server/db/schema';
-import { builder, type InputFieldBuilderType } from '@/server/graphql/builder';
-import TaskService, { type TaskWithUser } from '@/server/task/task.service';
-import { UserType } from '@/server/user/user.model';
+import { BaseEntityType } from "@/server/base/base.model";
+import type { ListInput } from "@/server/base/base.service";
+import { type Task, type TaskInput, TaskStatus } from "@/server/db/schema";
+import { type InputFieldBuilderType, builder } from "@/server/graphql/builder";
+import TaskService, { type TaskWithUser } from "@/server/task/task.service";
+import { UserType } from "@/server/user/user.model";
 
-import { OrderInputType, PaginationInputType } from '../graphql/sortAndPagination';
+import {
+	OrderInputType,
+	PaginationInputType,
+} from "../graphql/sortAndPagination";
 
 // https://github.com/chimame/graphql-yoga-worker-with-pothos
 
 builder.enumType(TaskStatus, {
-  name: 'TaskStatus',
+	name: "TaskStatus",
 });
 
-export const TaskType = builder.objectRef<Task>('Task');
+export const TaskType = builder.objectRef<Task>("Task");
 
 TaskType.implement({
-  interfaces: [BaseEntityType],
-  fields: (t) => ({
-    title: t.expose('title', {
-      type: 'NonEmptyString',
-    }),
-    description: t.exposeString('description', { nullable: true }),
-    status: t.field({
-      type: TaskStatus,
-      resolve: (task: Task) => task.status as unknown as TaskStatus,
-    }),
-    dueDate: t.expose('dueDate', {
-      nullable: true,
-      type: 'DateTime',
-    }),
-    user: t.field({
-      type: UserType,
-      resolve: (task: TaskWithUser) => task.user,
-      nullable: true,
-    }),
-  }),
+	interfaces: [BaseEntityType],
+	fields: (t) => ({
+		title: t.expose("title", {
+			type: "NonEmptyString",
+			nullable: false,
+		}),
+		description: t.exposeString("description", { nullable: true }),
+		status: t.field({
+			type: TaskStatus,
+			nullable: false,
+			resolve: (task: Task) => task.status as unknown as TaskStatus,
+		}),
+		dueDate: t.expose("dueDate", {
+			nullable: true,
+			type: "DateTime",
+		}),
+		user: t.field({
+			type: UserType,
+			resolve: (task: TaskWithUser) => task.user,
+			nullable: true,
+		}),
+	}),
 });
 
-builder.queryField('task', (t) =>
-  t.field({
-    type: TaskType,
-    args: {
-      id: t.arg.id({ required: true }),
-    },
-    nullable: true,
-    resolve: async (_root, args, ctx) => {
-      return new TaskService().get(args.id, ctx);
-    },
-  })
+builder.queryField("task", (t) =>
+	t.field({
+		type: TaskType,
+		args: {
+			id: t.arg.id({ required: true }),
+		},
+		nullable: true,
+		resolve: async (_root, args, ctx) => {
+			return new TaskService().get(args.id, ctx);
+		},
+	}),
 );
 
 export interface TaskPage {
-  hasMore: boolean;
-  tasks: Task[];
+	hasMore: boolean;
+	tasks: Task[];
 }
 
-export const TaskPageType = builder.objectRef<TaskPage>('TaskPage');
+export const TaskPageType = builder.objectRef<TaskPage>("TaskPage");
 
 TaskPageType.implement({
-  description: 'Type used for querying paginated tasks',
-  fields: (t) => ({
-    hasMore: t.exposeBoolean('hasMore'),
-    tasks: t.expose('tasks', { type: [TaskType] }),
-  }),
+	description: "Type used for querying paginated tasks",
+	fields: (t) => ({
+		hasMore: t.exposeBoolean("hasMore", { nullable: false }),
+		tasks: t.expose("tasks", { type: [TaskType], nullable: false }),
+	}),
 });
 
-export const TaskWhereInputType = builder.inputRef<Partial<Task>>('TaskWhere');
+export const TaskWhereInputType = builder.inputRef<Partial<Task>>("TaskWhere");
 
 TaskWhereInputType.implement({
-  fields: (t) => ({
-    id: t.id(),
-    title: t.string(),
-    userId: t.id(),
-  }),
+	fields: (t) => ({
+		id: t.id(),
+		title: t.string(),
+		userId: t.id(),
+	}),
 });
 
-builder.queryField('tasksPage', (t) =>
-  t.fieldWithInput({
-    type: TaskPageType,
-    input: {
-      where: t.input.field({ type: TaskWhereInputType, required: false }),
-      order: t.input.field({ type: OrderInputType, required: false }),
-      pagination: t.input.field({ type: PaginationInputType, required: false }),
-    },
-    resolve: async (_root, args, ctx) => {
-      const input = {
-        ...(args.input as ListInput<Task>),
-        with: { user: true },
-      };
-      const page = await new TaskService().list(input, ctx);
-      return {
-        hasMore: page.hasMore,
-        tasks: page.result,
-      };
-    },
-  })
+builder.queryField("tasksPage", (t) =>
+	t.fieldWithInput({
+		type: TaskPageType,
+		nullable: false,
+		input: {
+			where: t.input.field({ type: TaskWhereInputType, required: false }),
+			order: t.input.field({ type: OrderInputType, required: false }),
+			pagination: t.input.field({ type: PaginationInputType, required: false }),
+		},
+		resolve: async (_root, args, ctx) => {
+			const input = {
+				...(args.input as ListInput<Task>),
+				with: { user: true },
+			};
+			const page = await new TaskService().list(input, ctx);
+			return {
+				hasMore: page.hasMore,
+				tasks: page.result,
+			};
+		},
+	}),
 );
 
 function createSharedFields(input: InputFieldBuilderType) {
-  return {
-    title: input.field({ type: 'NonEmptyString', required: true }),
-    description: input.string(),
-    status: input.field({ type: TaskStatus, required: true }),
-    dueDate: input.field({ type: 'DateTime' }),
-  };
+	return {
+		title: input.field({ type: "NonEmptyString", required: true }),
+		description: input.string(),
+		status: input.field({ type: TaskStatus, required: true }),
+		dueDate: input.field({ type: "DateTime" }),
+	};
 }
 
-builder.mutationField('createTask', (t) =>
-  t.fieldWithInput({
-    type: TaskType,
-    input: {
-      ...createSharedFields(t.input),
-    },
-    // errors: {},
-    resolve: async (_root, args, ctx) => {
-      const input: TaskInput = {
-        ...args.input,
-        userId: ctx.currentUser!.id,
-        createdAt: new Date(),
-        createdById: ctx.currentUser!.id,
-      };
-      return new TaskService().create(input, ctx);
-    },
-  })
+builder.mutationField("createTask", (t) =>
+	t.fieldWithInput({
+		type: TaskType,
+		nullable: false,
+		input: {
+			...createSharedFields(t.input),
+		},
+		// errors: {},
+		resolve: async (_root, args, ctx) => {
+			const input: TaskInput = {
+				...args.input,
+				userId: ctx.currentUser?.id || "-1",
+				createdAt: new Date(),
+				createdById: ctx.currentUser?.id,
+			};
+			return new TaskService().create(input, ctx);
+		},
+	}),
 );
 
-builder.mutationField('updateTask', (t) =>
-  t.fieldWithInput({
-    type: TaskType,
-    nullable: true,
-    args: {
-      id: t.arg.id({ required: true }),
-    },
-    input: {
-      ...createSharedFields(t.input),
-      version: t.input.int({ required: true }),
-    },
-    resolve: async (_root, args, ctx) => {
-      const input: TaskInput = {
-        ...args.input,
-        userId: ctx.currentUser!.id,
-        updatedAt: new Date(),
-        updatedById: ctx.currentUser!.id,
-      };
-      return new TaskService().update(args.id, input, ctx);
-    },
-  })
+builder.mutationField("updateTask", (t) =>
+	t.fieldWithInput({
+		type: TaskType,
+		nullable: true,
+		args: {
+			id: t.arg.id({ required: true }),
+		},
+		input: {
+			...createSharedFields(t.input),
+			version: t.input.int({ required: true }),
+		},
+		resolve: async (_root, args, ctx) => {
+			const input: TaskInput = {
+				...args.input,
+				userId: ctx.currentUser?.id || "-1",
+				updatedAt: new Date(),
+				updatedById: ctx.currentUser?.id,
+			};
+			return new TaskService().update(args.id, input, ctx);
+		},
+	}),
 );
 
-builder.mutationField('deleteTask', (t) =>
-  t.field({
-    type: TaskType,
-    nullable: true,
-    args: {
-      id: t.arg.id({ required: true }),
-    },
-    resolve: async (_root, args, ctx) => {
-      return new TaskService().delete(args.id, ctx);
-    },
-  })
+builder.mutationField("deleteTask", (t) =>
+	t.field({
+		type: TaskType,
+		nullable: true,
+		args: {
+			id: t.arg.id({ required: true }),
+		},
+		resolve: async (_root, args, ctx) => {
+			return new TaskService().delete(args.id, ctx);
+		},
+	}),
 );

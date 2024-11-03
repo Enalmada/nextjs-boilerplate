@@ -1,7 +1,7 @@
 // Import this to use fragments in pages
 // import { graphql } from '@/client/gql/generated';
 
-import { gql } from '@urql/core';
+import { gql } from "@urql/core";
 
 export const USER_PARTS = gql`
   fragment UserParts on User {

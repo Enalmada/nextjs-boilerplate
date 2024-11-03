@@ -1,10 +1,8 @@
 {
-  "id": "79a23373-16ce-4014-8d1c-eada8634b2bd",
-  "prevId": "7e22f078-0e9d-4de8-b532-9c34fb22bf4d",
-  "version": "5",
-  "dialect": "pg",
+  "version": "7",
+  "dialect": "postgresql",
   "tables": {
-    "task": {
+    "public.task": {
       "name": "task",
       "schema": "",
       "columns": {
@@ -83,17 +81,21 @@
         "task_user_id_user_id_fk": {
           "name": "task_user_id_user_id_fk",
           "tableFrom": "task",
+          "columnsFrom": [
+            "user_id"
+          ],
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "user": {
+    "public.user": {
       "name": "user",
       "schema": "",
       "columns": {
@@ -174,26 +176,30 @@
       "uniqueConstraints": {
         "user_firebase_id_unique": {
           "name": "user_firebase_id_unique",
-          "nullsNotDistinct": false,
-          "columns": ["firebase_id"]
+          "columns": [
+            "firebase_id"
+          ],
+          "nullsNotDistinct": false
         }
       }
     }
   },
   "enums": {
-    "status": {
+    "public.status": {
       "name": "status",
-      "values": {
-        "ACTIVE": "ACTIVE",
-        "COMPLETED": "COMPLETED"
-      }
+      "schema": "public",
+      "values": [
+        "ACTIVE",
+        "COMPLETED"
+      ]
     },
-    "role": {
+    "public.role": {
       "name": "role",
-      "values": {
-        "MEMBER": "MEMBER",
-        "ADMIN": "ADMIN"
-      }
+      "schema": "public",
+      "values": [
+        "MEMBER",
+        "ADMIN"
+      ]
     }
   },
   "schemas": {},
@@ -201,5 +207,8 @@
     "schemas": {},
     "tables": {},
     "columns": {}
-  }
+  },
+  "id": "79a23373-16ce-4014-8d1c-eada8634b2bd",
+  "prevId": "7e22f078-0e9d-4de8-b532-9c34fb22bf4d",
+  "sequences": {}
 }

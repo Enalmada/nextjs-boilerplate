@@ -1,3 +1,3 @@
 export default function AppLoading() {
-  return null;
+	return null;
 }

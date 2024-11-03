@@ -1,27 +1,45 @@
-import { getApp, getApps, initializeApp, type FirebaseOptions } from 'firebase/app';
-import { connectAuthEmulator, getAuth } from 'firebase/auth';
+import { getOrInitializeAppCheck } from "@/lib/firebase/app-check";
+import { clientConfig } from "@/lib/firebase/config/client-config";
+import { getApp, getApps, initializeApp } from "firebase/app";
+import {
+	connectAuthEmulator,
+	getAuth,
+	inMemoryPersistence,
+	setPersistence,
+} from "firebase/auth";
 
-import { clientConfig } from '../config/client-config';
+export const getFirebaseApp = () => {
+	if (getApps().length) {
+		return getApp();
+	}
 
-const getFirebaseApp = (options: FirebaseOptions) => {
-  return !getApps().length ? initializeApp(options) : getApp();
+	const app = initializeApp(clientConfig);
+
+	if (process.env.NEXT_PUBLIC_FIREBASE_APP_CHECK_KEY) {
+		getOrInitializeAppCheck(app);
+	}
+
+	return app;
 };
 
-export const useFirebaseAuth = () => {
-  const getFirebaseAuth = () => {
-    const auth = getAuth(getFirebaseApp(clientConfig));
+export function getFirebaseAuth() {
+	const auth = getAuth(getFirebaseApp());
 
-    if (process.env.NEXT_PUBLIC_EMULATOR_HOST) {
-      // https://stackoverflow.com/questions/73605307/firebase-auth-emulator-fails-intermittently-with-auth-emulator-config-failed
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
-      (auth as unknown as any)._canInitEmulator = true;
-      connectAuthEmulator(auth, process.env.NEXT_PUBLIC_EMULATOR_HOST, {
-        disableWarnings: true,
-      });
-    }
+	// App relies only on server token. We make sure Firebase does not store credentials in the browser.
+	// See: https://github.com/awinogrodzki/next-firebase-auth-edge/issues/143
+	setPersistence(auth, inMemoryPersistence);
 
-    return auth;
-  };
+	if (process.env.NEXT_PUBLIC_EMULATOR_HOST) {
+		// https://stackoverflow.com/questions/73605307/firebase-auth-emulator-fails-intermittently-with-auth-emulator-config-failed
+		(auth as unknown as any)._canInitEmulator = true;
+		connectAuthEmulator(auth, process.env.NEXT_PUBLIC_EMULATOR_HOST, {
+			disableWarnings: true,
+		});
+	}
 
-  return { getFirebaseAuth };
-};
+	if (clientConfig.tenantId) {
+		auth.tenantId = clientConfig.tenantId;
+	}
+
+	return auth;
+}

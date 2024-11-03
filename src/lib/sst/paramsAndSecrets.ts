@@ -9,7 +9,7 @@ export function getParamsAndSecrets(stack: Stack) {
     APP_ENV: 'local',
     LOG_LEVEL: 'info',
     EDGE: 'false',
-    REDIRECT_URL: (() => {
+    ORIGIN: (() => {
       switch (stack.stage) {
         case 'production':
           return '';
@@ -26,7 +26,7 @@ export function getParamsAndSecrets(stack: Stack) {
 
   const publicConfig = [
     'NEXT_PUBLIC_APP_ENV',
-    'NEXT_PUBLIC_REDIRECT_URL',
+    'NEXT_PUBLIC_ORIGIN',
     'NEXT_PUBLIC_FIREBASE_PROJECT_ID',
     'NEXT_PUBLIC_FIREBASE_API_KEY',
     'NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN',
@@ -38,8 +38,8 @@ export function getParamsAndSecrets(stack: Stack) {
 
   const secretConfig = [
     'DATABASE_URL',
-    'FIREBASE_SECRET1',
-    'FIREBASE_SECRET2',
+    'COOKIE_SECRET_CURRENT',
+    'COOKIE_SECRET_PREVIOUS',
     'FIREBASE_API_KEY',
     'FIREBASE_ADMIN_CLIENT_EMAIL',
     'FIREBASE_ADMIN_PRIVATE_KEY',

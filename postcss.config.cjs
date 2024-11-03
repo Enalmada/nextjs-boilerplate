@@ -2,8 +2,8 @@
 // json causes trouble with storybook.
 // js causes issues with next 14
 module.exports = {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
+	plugins: {
+		tailwindcss: {},
+		autoprefixer: {},
+	},
 };

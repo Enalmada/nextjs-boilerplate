@@ -1,21 +1,41 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { ThemeProvider as NextThemesProvider } from '@enalmada/next-themes';
-import { type ThemeProviderProps } from '@enalmada/next-themes/dist/types';
-import { NextUIProvider } from '@nextui-org/react';
+import { ThemeProvider as NextThemesProvider } from "@enalmada/next-themes";
+import { NextUIProvider } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import type { PropsWithChildren, ReactNode } from "react";
+
+// Manually defining based on chatgpt.  Could export this manually in the future
+interface ValueObject {
+	[themeName: string]: string;
+}
+
+type Attribute = `data-${string}` | "class";
+
+interface ThemeProviderProps extends PropsWithChildren {
+	themes?: string[] | undefined;
+	forcedTheme?: string | undefined;
+	enableSystem?: boolean | undefined;
+	disableTransitionOnChange?: boolean | undefined;
+	enableColorScheme?: boolean | undefined;
+	storageKey?: string | undefined;
+	defaultTheme?: string | undefined;
+	attribute?: Attribute | Attribute[] | undefined;
+	value?: ValueObject | undefined;
+	nonce?: string | undefined;
+}
 
 export interface ProvidersProps {
-  children: React.ReactNode;
-  themeProps?: ThemeProviderProps;
+	children: ReactNode;
+	themeProps?: ThemeProviderProps;
 }
 
 export function NextUIWrapper({ children, themeProps }: ProvidersProps) {
-  const router = useRouter();
+	const router = useRouter();
 
-  return (
-    <NextUIProvider navigate={(href) => router.push(href)}>
-      <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
-    </NextUIProvider>
-  );
+	return (
+		<NextUIProvider navigate={(href) => router.push(href)}>
+			<NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
+		</NextUIProvider>
+	);
 }

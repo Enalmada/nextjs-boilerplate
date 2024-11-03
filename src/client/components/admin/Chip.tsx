@@ -1,14 +1,14 @@
-import React from 'react';
-import { Chip, type ChipProps } from '@nextui-org/react';
+import { Chip, type ChipProps } from "@nextui-org/react";
+import React from "react";
 
 interface Props extends ChipProps {
-  label: string;
+	label: string;
 }
 
 const ReadOnlyInput = (props: Props) => (
-  <Chip size="sm" variant="flat" {...props}>
-    <span className="text-xs capitalize">{props.label}</span>
-  </Chip>
+	<Chip size="sm" variant="flat" {...props}>
+		<span className="text-xs capitalize">{props.label}</span>
+	</Chip>
 );
 
 export default ReadOnlyInput;

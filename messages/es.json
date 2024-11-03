@@ -1,7 +1,7 @@
 {
-  "Index": {
-    "title": "Hola",
-    "home": "Inicio",
-    "hero-main": "Aplicación simple de tareas pendientes"
-  }
+	"Index": {
+		"title": "Hola",
+		"home": "Inicio",
+		"hero-main": "Aplicación simple de tareas pendientes"
+	}
 }
