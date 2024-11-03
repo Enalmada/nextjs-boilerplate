@@ -9,21 +9,28 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.deployment_status.state == 'success'
     steps:
+
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
+
       - run: bun install
+
       - run: bunx playwright install --with-deps
+
       - name: Run Playwright tests
-        run: bunx playwright test
+        run: bun test:e2e
         env:
           PLAYWRIGHT_TEST_BASE_URL: ${{ github.event.deployment_status.target_url }}
           TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+
       - name: Upload Screenshots
         if: failure()
         uses: actions/upload-artifact@v4
