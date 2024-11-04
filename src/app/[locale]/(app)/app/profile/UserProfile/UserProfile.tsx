@@ -1,14 +1,10 @@
 "use client";
 
-import { Button, ButtonGroup, Card, CardBody } from "@/client/ui";
-import { useAuth } from "@/lib/firebase/auth/AuthContext";
-import { getFirebaseAuth } from "@/lib/firebase/auth/firebase";
-import { clientConfig } from "@/lib/firebase/config/client-config";
+import { Button, Card, CardBody } from "@/client/ui";
+import { useAuth } from "@enalmada/next-firebase-auth-edge-wrapper";
 import { Chip } from "@nextui-org/react";
 import Image from "next/image";
 import NextLink from "next/link";
-import { useRouter } from "next/navigation";
-import { useLoadingCallback } from "react-loading-hook";
 
 interface UserProfileProps {
 	count: number;
@@ -29,23 +25,7 @@ export function ProfileWrapper() {
 }
 
 export function UserProfile({ count }: UserProfileProps) {
-	const router = useRouter();
 	const { user } = useAuth();
-
-	const [handleClaims, isClaimsLoading] = useLoadingCallback(async () => {
-		const auth = getFirebaseAuth();
-		await fetch("/api/custom-claims", {
-			method: "POST",
-		});
-
-		await auth.currentUser?.getIdTokenResult(true);
-	});
-
-	function handleRedirect() {
-		router.push(
-			`${clientConfig.authDomain}?redirect_url=${window.location.href}`,
-		);
-	}
 
 	if (!user) {
 		return null;
@@ -80,16 +60,6 @@ export function UserProfile({ count }: UserProfileProps) {
 						<h5>Custom claims</h5>
 						<pre>{JSON.stringify(user.customClaims, undefined, 2)}</pre>
 					</div>
-					<ButtonGroup>
-						<Button
-							isLoading={isClaimsLoading}
-							disabled={isClaimsLoading}
-							onPress={() => void handleClaims()}
-						>
-							Refresh custom user claims
-						</Button>
-						<Button onPress={handleRedirect}>Redirect</Button>
-					</ButtonGroup>
 				</CardBody>
 			</Card>
 

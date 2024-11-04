@@ -1,13 +1,10 @@
 import { cacheExchange } from "@/client/gql/cacheExchange";
 import { baseURL } from "@/metadata.config";
+import { getUser } from "@enalmada/next-firebase-auth-edge-wrapper";
+import { AuthProvider } from "@enalmada/next-firebase-auth-edge-wrapper/client/AuthProvider";
 import { UrqlWrapper as NextGqlProvider } from "@enalmada/next-gql/client/urql/UrqlWrapper";
-import { getTokens } from "next-firebase-auth-edge/lib/next/tokens";
 import { cookies, headers } from "next/headers";
 import type React from "react";
-
-import { toUser } from "@/app/shared/user";
-import { authConfig } from "../config/server-config";
-import { AuthProvider } from "./AuthProvider";
 
 // I would prefer AuthProvider and UrqlWrapper separate but I would need to create
 // a ServerUrqlWrapper that immediately fetches the same data (tokens and cookies).
@@ -22,17 +19,13 @@ export async function ServerAuthProvider({
 	const cookieStore = await cookies();
 	const url = `${baseURL}/api/graphql`;
 
-	const tokens = await getTokens(await cookies(), {
-		...authConfig,
-		headers: await headers(),
-	});
-	const user = tokens ? toUser(tokens) : null;
+	const user = await getUser(cookieStore, await headers());
 
 	return (
 		<AuthProvider user={user}>
 			<NextGqlProvider
 				url={url}
-				isLoggedIn={!tokens}
+				isLoggedIn={!!user}
 				cookie={JSON.stringify(cookieStore)}
 				cacheExchange={cacheExchange}
 				nonce={nonce}

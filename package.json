@@ -62,16 +62,15 @@
 		"vercel:buildLocal": "dotenv -e ./.env.local bunx vercel build"
 	},
 	"dependencies": {
-		"firebase-admin": "12.7.0",
 		"@casl/ability": "6.7.2",
 		"@enalmada/drizzle-helpers": "0.0.17",
 		"@enalmada/env-valibot": "0.0.15",
+		"@enalmada/next-firebase-auth-edge-wrapper": "0.0.2",
 		"@enalmada/next-gql": "0.2.0",
 		"@enalmada/next-gql-codegen": "0.2.1",
 		"@enalmada/next-secure": "0.2.4",
 		"@enalmada/next-themes": "0.3.0",
 		"@enalmada/nextui-admin": "0.1.6",
-		"@firebase/util": "1.10.1",
 		"@graphql-typed-document-node/core": "3.2.0",
 		"@hookform/resolvers": "3.9.1",
 		"@nextui-org/react": "2.4.8",
@@ -79,13 +78,12 @@
 		"@react-aria/ssr": "3.9.6",
 		"@react-aria/visually-hidden": "3.8.17",
 		"@sentry/nextjs": "8.36.0",
-		"@serwist/next": "^9.0.9",
+		"@serwist/next": "9.0.9",
 		"@serwist/sw": "9.0.9",
 		"change-case": "5.4.4",
 		"clsx": "2.1.1",
 		"date-fns": "4.1.0",
 		"drizzle-orm": "0.36.0",
-		"firebase": "11.0.1",
 		"framer-motion": "11.11.11",
 		"graphql": "16.9.0",
 		"graphql-web-lite": "16.6.0-4",
@@ -93,7 +91,6 @@
 		"nanoid": "5.0.8",
 		"next": "15.0.2",
 		"next-axiom": "1.5.1",
-		"next-firebase-auth-edge": "1.8.0",
 		"next-intl": "3.24.0",
 		"nextjs-routes": "2.2.3",
 		"postgres": "3.4.5",
@@ -170,6 +167,11 @@
 		"node": ">=18.x"
 	},
 	"main": "",
+	"overrides": {
+		"@types/react": "npm:types-react@19.0.0-rc.1",
+		"@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
+	},
+	"packageManager": "bun@1.1.34",
 	"trustedDependencies": [
 		"@biomejs/biome",
 		"@sentry/cli",
@@ -179,10 +181,5 @@
 		"sharp",
 		"turbo"
 	],
-	"type": "module",
-	"packageManager": "bun@1.1.34",
-	"overrides": {
-		"@types/react": "npm:types-react@19.0.0-rc.1",
-		"@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
-	}
+	"type": "module"
 }
