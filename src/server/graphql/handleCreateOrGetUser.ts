@@ -1,6 +1,6 @@
-import { authConfig } from "@/lib/firebase/config/server-config";
 import type { User } from "@/server/db/schema";
 import UserService from "@/server/user/user.service";
+import { authConfig } from "@enalmada/next-firebase-auth-edge-wrapper";
 import { getFirebaseAuth } from "next-firebase-auth-edge/lib/auth";
 import { getTokens } from "next-firebase-auth-edge/lib/next/tokens";
 import type { NextRequest } from "next/server";

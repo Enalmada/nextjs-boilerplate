@@ -1,13 +1,16 @@
 import matchesAnyItem from "@/client/utils/matchesAnyItem";
 import { cspConfig, cspRules } from "@/cspRules.mjs";
-import { authConfig } from "@/lib/firebase/config/server-config";
 import { locales, pathnames } from "@/lib/localization/navigation";
+import {
+	authConfig,
+	authMiddleware,
+} from "@enalmada/next-firebase-auth-edge-wrapper";
 import {
 	type CspRule,
 	applyHeaders,
 	generateSecurityHeaders,
 } from "@enalmada/next-secure";
-import { authMiddleware } from "next-firebase-auth-edge/lib/next/middleware";
+
 import createIntlMiddleware from "next-intl/middleware";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";

@@ -1,7 +1,6 @@
 "use client";
 
-import { getFirebaseAuth } from "@/lib/firebase/auth/firebase";
-import { signOut } from "firebase/auth";
+import { logout } from "@enalmada/next-firebase-auth-edge-wrapper";
 import { useEffect } from "react";
 
 export default function LogoutPage() {
@@ -10,11 +9,7 @@ export default function LogoutPage() {
 			try {
 				// Urql cache is unique to tenant and will be cleared when it changes
 				// https://formidable.com/open-source/urql/docs/advanced/authentication/#cache-invalidation-on-logout
-				const auth = getFirebaseAuth();
-				await signOut(auth);
-				await fetch("/api/logout", {
-					method: "GET",
-				});
+				await logout();
 				// router.refresh(); // This seems necessary to avoid a full window.reload
 				// TODO get router.replace working again
 				// router.replace('/');

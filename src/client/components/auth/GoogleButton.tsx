@@ -1,18 +1,10 @@
+import { useRedirectAfterLogin } from "@/app/shared/useRedirectAfterLogin";
 import { Button } from "@/client/ui";
-import { getFirebaseAuth } from "@/lib/firebase/auth/firebase";
-import type { UserCredential } from "firebase/auth";
-import type { ReactNode } from "react";
+import { createGoogleLoginHandlers } from "@enalmada/next-firebase-auth-edge-wrapper";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { useLoadingCallback } from "react-loading-hook";
 
-import { useRedirectAfterLogin } from "@/app/shared/useRedirectAfterLogin";
-import { loginWithCredential } from "@/lib/firebase/api";
-import {
-	getGoogleProvider,
-	loginWithProvider,
-	loginWithProviderUsingRedirect,
-} from "./firebase";
-
-type SetLoggedFunction = React.Dispatch<React.SetStateAction<boolean>>;
+type SetLoggedFunction = Dispatch<SetStateAction<boolean>>;
 
 interface Props {
 	children: ReactNode;
@@ -27,33 +19,13 @@ export default function GoogleButton({
 }: Props) {
 	const redirectAfterLogin = useRedirectAfterLogin();
 
-	async function handleLogin(credential: UserCredential) {
-		await loginWithCredential(credential);
-		redirectAfterLogin();
-	}
+	const { handleLoginWithGoogle } = createGoogleLoginHandlers(
+		redirectAfterLogin,
+		setHasLogged,
+	);
 
-	const [handleLoginWithGoogle, isGoogleLoading, googleError] =
-		useLoadingCallback(async () => {
-			setHasLogged(false);
-
-			const auth = getFirebaseAuth();
-			await handleLogin(await loginWithProvider(auth, getGoogleProvider(auth)));
-
-			setHasLogged(true);
-		});
-
-	const [
-		handleLoginWithGoogleUsingRedirect,
-		isGoogleUsingRedirectLoading,
-		googleUsingRedirectError,
-	] = useLoadingCallback(async () => {
-		setHasLogged(false);
-
-		const auth = getFirebaseAuth();
-		await loginWithProviderUsingRedirect(auth, getGoogleProvider(auth));
-
-		setHasLogged(true);
-	});
+	const [executeLoginWithGoogle, isGoogleLoading, googleError] =
+		useLoadingCallback(handleLoginWithGoogle);
 
 	return (
 		<Button

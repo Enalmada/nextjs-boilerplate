@@ -1,4 +1,4 @@
-import { useAuth } from "@/lib/firebase/auth/AuthContext";
+import { useAuth } from "@enalmada/next-firebase-auth-edge-wrapper";
 import Link from "next/link";
 
 export default function AuthButtons() {

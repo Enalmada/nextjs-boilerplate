@@ -1,9 +1,8 @@
 "use client";
 
 import { Button, InputControlled, Link } from "@/client/ui";
-import { getFirebaseAuth } from "@/lib/firebase/auth/firebase";
+import { resetPassword } from "@enalmada/next-firebase-auth-edge-wrapper";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { sendPasswordResetEmail } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { email, object, pipe, string } from "valibot";
 
@@ -65,8 +64,7 @@ export function ResetPasswordPage({ redirect }: Props) {
 
 	const onSubmit = async ({ email }: FormData) => {
 		try {
-			const auth = getFirebaseAuth();
-			await sendPasswordResetEmail(auth, email);
+			await resetPassword(email);
 		} catch (error: unknown) {
 			setError("root", {
 				type: "unknown",

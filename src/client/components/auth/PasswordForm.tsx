@@ -2,20 +2,12 @@ import { useRedirectAfterLogin } from "@/app/shared/useRedirectAfterLogin";
 import { Button, InputControlled, Link } from "@/client/ui";
 import { HiddenIcon } from "@/client/ui/icons/HiddenIcon";
 import { VisibleIcon } from "@/client/ui/icons/VisibleIcon";
-import { loginWithCredential } from "@/lib/firebase/api";
-import { getFirebaseAuth } from "@/lib/firebase/auth/firebase";
-import { FirebaseError } from "@firebase/util";
+import { submitPasswordForm } from "@enalmada/next-firebase-auth-edge-wrapper";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Checkbox } from "@nextui-org/react";
-import {
-	createUserWithEmailAndPassword,
-	sendEmailVerification,
-	signInWithEmailAndPassword,
-} from "firebase/auth";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { email, maxLength, minLength, object, pipe, string } from "valibot";
-
 type SetLoggedFunction = React.Dispatch<React.SetStateAction<boolean>>;
 
 interface Props {
@@ -41,7 +33,7 @@ export default function PasswordForm({
 		email: pipe(
 			string(),
 			minLength(1, "Please enter your email."),
-			email("valid email is required"),
+			email("Valid email is required"),
 		),
 		password: pipe(
 			string(),
@@ -56,7 +48,7 @@ export default function PasswordForm({
 		handleSubmit,
 		control,
 		setError,
-	} = useForm({
+	} = useForm<FormData>({
 		resolver: valibotResolver(schema),
 		defaultValues: {
 			email: "", // necessary for SSR to maintain controlled component
@@ -64,66 +56,16 @@ export default function PasswordForm({
 		},
 	});
 
-	const redirectAfterLogin = useRedirectAfterLogin();
+	const redirectAfterLogin = useRedirectAfterLogin(); // Call the hook here
 
-	const onSubmit = async ({ email, password }: FormData) => {
-		const auth = getFirebaseAuth();
-		try {
-			const credential = isSignIn
-				? await signInWithEmailAndPassword(auth, email, password)
-				: await createUserWithEmailAndPassword(auth, email, password);
-
-			await loginWithCredential(credential);
-
-			if (!isSignIn) {
-				await sendEmailVerification(credential.user);
-			}
-			redirectAfterLogin();
-			setHasLogged(true);
-		} catch (error: unknown) {
-			setHasLogged(false);
-
-			if (
-				error instanceof FirebaseError &&
-				error.code === "auth/wrong-password"
-			) {
-				setError("root", {
-					type: "auth/wrong-password",
-					message: "The email/password combination not found",
-				});
-				return;
-			}
-
-			if (
-				error instanceof FirebaseError &&
-				error.code === "auth/user-not-found"
-			) {
-				setError("root", {
-					type: "auth/user-not-found",
-					message: "The email/password combination not found",
-				});
-				return;
-			}
-
-			if (
-				error instanceof FirebaseError &&
-				error.code === "auth/email-already-in-use"
-			) {
-				setError("root", {
-					type: "auth/email-already-in-use",
-					message: "The email already exists",
-				});
-				return;
-			}
-
-			setError("root", {
-				type: "unknown",
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-				message: error.message || "Unknown error",
-			});
-		}
+	const onSubmit = async (formData: FormData) => {
+		await submitPasswordForm(
+			formData,
+			isSignIn,
+			setHasLogged,
+			setError,
+			redirectAfterLogin, // Pass the redirect function
+		);
 	};
 
 	return (

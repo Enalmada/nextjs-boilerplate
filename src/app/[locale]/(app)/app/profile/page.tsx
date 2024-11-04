@@ -1,7 +1,9 @@
 import { ProfileWrapper } from "@/app/[locale]/(app)/app/profile/UserProfile/UserProfile";
-import { authConfig } from "@/lib/firebase/config/server-config";
+import {
+	authConfig,
+	getTokens,
+} from "@enalmada/next-firebase-auth-edge-wrapper";
 import type { Metadata } from "next";
-import { getTokens } from "next-firebase-auth-edge/lib/next/tokens";
 import { cookies } from "next/headers";
 
 // Generate customized metadata based on user cookies
