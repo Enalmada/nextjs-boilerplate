@@ -4,11 +4,11 @@ import {
 	MoonFilledIcon,
 	SunFilledIcon,
 } from "@/client/components/nextui/icons";
-import { useTheme } from "@enalmada/next-themes";
 import { useSwitch } from "@nextui-org/react";
 import { useIsSSR } from "@react-aria/ssr";
 import { VisuallyHidden } from "@react-aria/visually-hidden";
 import clsx, { type ClassValue } from "clsx";
+import { useTheme } from "next-themes";
 import React, { useEffect, useState } from "react";
 
 interface ClassNames {
