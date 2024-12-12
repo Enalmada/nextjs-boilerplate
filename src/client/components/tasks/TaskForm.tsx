@@ -6,14 +6,7 @@ import {
 	TASK,
 	UPDATE_TASK,
 } from "@/client/gql/client-queries.gql";
-import {
-	type CreateTaskMutation,
-	type DeleteTaskMutation,
-	type Task,
-	type TaskQuery,
-	TaskStatus,
-	type UpdateTaskMutation,
-} from "@/client/gql/generated/graphql";
+import { type Task, TaskStatus } from "@/client/gql/generated/graphql";
 import {
 	Button,
 	Card,
@@ -58,7 +51,7 @@ export default function TaskForm(props: Props) {
 	const router = useRouter();
 	const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
 
-	const [{ data: dataQuery, error: errorQuery }] = useQuery<TaskQuery>({
+	const [{ data: dataQuery, error: errorQuery }] = useQuery({
 		query: TASK,
 		variables: { id: props.id || "" },
 		pause: props.id === undefined,
@@ -67,12 +60,10 @@ export default function TaskForm(props: Props) {
 	// Create and Update loading is handled by form submitting
 	// mutation error will render errors but not handle them
 	// https://stackoverflow.com/questions/59465864/handling-errors-with-react-apollo-usemutation-hook
-	const [{ error: createMutationError }, createTask] =
-		useMutation<CreateTaskMutation>(CREATE_TASK);
-	const [{ error: updateMutationError }, updateTask] =
-		useMutation<UpdateTaskMutation>(UPDATE_TASK);
+	const [{ error: createMutationError }, createTask] = useMutation(CREATE_TASK);
+	const [{ error: updateMutationError }, updateTask] = useMutation(UPDATE_TASK);
 	const [{ error: deleteMutationError, fetching: loadingDelete }, deleteTask] =
-		useMutation<DeleteTaskMutation>(DELETE_TASK);
+		useMutation(DELETE_TASK);
 
 	// TODO: dueDate should be Date (form not submitting)
 	type FormData = {

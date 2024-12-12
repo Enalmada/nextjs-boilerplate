@@ -1,0 +1,62 @@
+/* eslint-disable */
+/* prettier-ignore */
+
+export type introspection_types = {
+    'BaseEntity': { kind: 'INTERFACE'; name: 'BaseEntity'; fields: { 'createdAt': { name: 'createdAt'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; }; } }; 'createdBy': { name: 'createdBy'; type: { kind: 'OBJECT'; name: 'User'; ofType: null; } }; 'id': { name: 'id'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'ID'; ofType: null; }; } }; 'updatedAt': { name: 'updatedAt'; type: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; } }; 'updatedBy': { name: 'updatedBy'; type: { kind: 'OBJECT'; name: 'User'; ofType: null; } }; 'version': { name: 'version'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Int'; ofType: null; }; } }; }; possibleTypes: 'Task' | 'User'; };
+    'Boolean': unknown;
+    'DateTime': unknown;
+    'File': unknown;
+    'ID': unknown;
+    'Int': unknown;
+    'JSON': unknown;
+    'Mutation': { kind: 'OBJECT'; name: 'Mutation'; fields: { 'createTask': { name: 'createTask'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'OBJECT'; name: 'Task'; ofType: null; }; } }; 'deleteTask': { name: 'deleteTask'; type: { kind: 'OBJECT'; name: 'Task'; ofType: null; } }; 'deleteUser': { name: 'deleteUser'; type: { kind: 'OBJECT'; name: 'User'; ofType: null; } }; 'publishNotification': { name: 'publishNotification'; type: { kind: 'OBJECT'; name: 'NotificationResponse'; ofType: null; } }; 'updateTask': { name: 'updateTask'; type: { kind: 'OBJECT'; name: 'Task'; ofType: null; } }; 'updateUser': { name: 'updateUser'; type: { kind: 'OBJECT'; name: 'User'; ofType: null; } }; 'uploadFile': { name: 'uploadFile'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'OBJECT'; name: 'UploadResponse'; ofType: null; }; } }; }; };
+    'MutationCreateTaskInput': { kind: 'INPUT_OBJECT'; name: 'MutationCreateTaskInput'; isOneOf: false; inputFields: [{ name: 'description'; type: { kind: 'SCALAR'; name: 'String'; ofType: null; }; defaultValue: null }, { name: 'dueDate'; type: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; }; defaultValue: null }, { name: 'status'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'ENUM'; name: 'TaskStatus'; ofType: null; }; }; defaultValue: null }, { name: 'title'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'NonEmptyString'; ofType: null; }; }; defaultValue: null }]; };
+    'MutationPublishNotificationInput': { kind: 'INPUT_OBJECT'; name: 'MutationPublishNotificationInput'; isOneOf: false; inputFields: [{ name: 'message'; type: { kind: 'SCALAR'; name: 'String'; ofType: null; }; defaultValue: null }]; };
+    'MutationUpdateTaskInput': { kind: 'INPUT_OBJECT'; name: 'MutationUpdateTaskInput'; isOneOf: false; inputFields: [{ name: 'description'; type: { kind: 'SCALAR'; name: 'String'; ofType: null; }; defaultValue: null }, { name: 'dueDate'; type: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; }; defaultValue: null }, { name: 'status'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'ENUM'; name: 'TaskStatus'; ofType: null; }; }; defaultValue: null }, { name: 'title'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'NonEmptyString'; ofType: null; }; }; defaultValue: null }, { name: 'version'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Int'; ofType: null; }; }; defaultValue: null }]; };
+    'MutationUpdateUserInput': { kind: 'INPUT_OBJECT'; name: 'MutationUpdateUserInput'; isOneOf: false; inputFields: [{ name: 'role'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'ENUM'; name: 'UserRole'; ofType: null; }; }; defaultValue: null }, { name: 'version'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Int'; ofType: null; }; }; defaultValue: null }]; };
+    'NonEmptyString': unknown;
+    'NotificationEvent': { kind: 'OBJECT'; name: 'NotificationEvent'; fields: { 'id': { name: 'id'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'ID'; ofType: null; }; } }; 'message': { name: 'message'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'String'; ofType: null; }; } }; 'type': { name: 'type'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'ENUM'; name: 'NotificationEventType'; ofType: null; }; } }; }; };
+    'NotificationEventType': { name: 'NotificationEventType'; enumValues: 'SystemNotification'; };
+    'NotificationResponse': { kind: 'OBJECT'; name: 'NotificationResponse'; fields: { 'published': { name: 'published'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Boolean'; ofType: null; }; } }; }; };
+    'OrderInput': { kind: 'INPUT_OBJECT'; name: 'OrderInput'; isOneOf: false; inputFields: [{ name: 'sortBy'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'String'; ofType: null; }; }; defaultValue: null }, { name: 'sortOrder'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'ENUM'; name: 'SortOrder'; ofType: null; }; }; defaultValue: null }]; };
+    'PaginationInput': { kind: 'INPUT_OBJECT'; name: 'PaginationInput'; isOneOf: false; inputFields: [{ name: 'page'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Int'; ofType: null; }; }; defaultValue: null }, { name: 'pageSize'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Int'; ofType: null; }; }; defaultValue: null }]; };
+    'Query': { kind: 'OBJECT'; name: 'Query'; fields: { 'me': { name: 'me'; type: { kind: 'OBJECT'; name: 'User'; ofType: null; } }; 'task': { name: 'task'; type: { kind: 'OBJECT'; name: 'Task'; ofType: null; } }; 'tasksPage': { name: 'tasksPage'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'OBJECT'; name: 'TaskPage'; ofType: null; }; } }; 'user': { name: 'user'; type: { kind: 'OBJECT'; name: 'User'; ofType: null; } }; 'usersPage': { name: 'usersPage'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'OBJECT'; name: 'UserPage'; ofType: null; }; } }; }; };
+    'QueryTasksPageInput': { kind: 'INPUT_OBJECT'; name: 'QueryTasksPageInput'; isOneOf: false; inputFields: [{ name: 'order'; type: { kind: 'INPUT_OBJECT'; name: 'OrderInput'; ofType: null; }; defaultValue: null }, { name: 'pagination'; type: { kind: 'INPUT_OBJECT'; name: 'PaginationInput'; ofType: null; }; defaultValue: null }, { name: 'where'; type: { kind: 'INPUT_OBJECT'; name: 'TaskWhere'; ofType: null; }; defaultValue: null }]; };
+    'QueryUsersPageInput': { kind: 'INPUT_OBJECT'; name: 'QueryUsersPageInput'; isOneOf: false; inputFields: [{ name: 'order'; type: { kind: 'INPUT_OBJECT'; name: 'OrderInput'; ofType: null; }; defaultValue: null }, { name: 'pagination'; type: { kind: 'INPUT_OBJECT'; name: 'PaginationInput'; ofType: null; }; defaultValue: null }, { name: 'where'; type: { kind: 'INPUT_OBJECT'; name: 'UserWhere'; ofType: null; }; defaultValue: null }]; };
+    'SortOrder': { name: 'SortOrder'; enumValues: 'ASC' | 'DESC'; };
+    'String': unknown;
+    'Subscription': { kind: 'OBJECT'; name: 'Subscription'; fields: { 'notificationEvents': { name: 'notificationEvents'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'OBJECT'; name: 'NotificationEvent'; ofType: null; }; } }; }; };
+    'Task': { kind: 'OBJECT'; name: 'Task'; fields: { 'createdAt': { name: 'createdAt'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; }; } }; 'createdBy': { name: 'createdBy'; type: { kind: 'OBJECT'; name: 'User'; ofType: null; } }; 'description': { name: 'description'; type: { kind: 'SCALAR'; name: 'String'; ofType: null; } }; 'dueDate': { name: 'dueDate'; type: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; } }; 'id': { name: 'id'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'ID'; ofType: null; }; } }; 'status': { name: 'status'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'ENUM'; name: 'TaskStatus'; ofType: null; }; } }; 'title': { name: 'title'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'NonEmptyString'; ofType: null; }; } }; 'updatedAt': { name: 'updatedAt'; type: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; } }; 'updatedBy': { name: 'updatedBy'; type: { kind: 'OBJECT'; name: 'User'; ofType: null; } }; 'user': { name: 'user'; type: { kind: 'OBJECT'; name: 'User'; ofType: null; } }; 'version': { name: 'version'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Int'; ofType: null; }; } }; }; };
+    'TaskPage': { kind: 'OBJECT'; name: 'TaskPage'; fields: { 'hasMore': { name: 'hasMore'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Boolean'; ofType: null; }; } }; 'tasks': { name: 'tasks'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'LIST'; name: never; ofType: { kind: 'NON_NULL'; name: never; ofType: { kind: 'OBJECT'; name: 'Task'; ofType: null; }; }; }; } }; }; };
+    'TaskStatus': { name: 'TaskStatus'; enumValues: 'ACTIVE' | 'COMPLETED'; };
+    'TaskWhere': { kind: 'INPUT_OBJECT'; name: 'TaskWhere'; isOneOf: false; inputFields: [{ name: 'id'; type: { kind: 'SCALAR'; name: 'ID'; ofType: null; }; defaultValue: null }, { name: 'title'; type: { kind: 'SCALAR'; name: 'String'; ofType: null; }; defaultValue: null }, { name: 'userId'; type: { kind: 'SCALAR'; name: 'ID'; ofType: null; }; defaultValue: null }]; };
+    'UploadResponse': { kind: 'OBJECT'; name: 'UploadResponse'; fields: { 'filename': { name: 'filename'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'String'; ofType: null; }; } }; }; };
+    'User': { kind: 'OBJECT'; name: 'User'; fields: { 'createdAt': { name: 'createdAt'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; }; } }; 'createdBy': { name: 'createdBy'; type: { kind: 'OBJECT'; name: 'User'; ofType: null; } }; 'email': { name: 'email'; type: { kind: 'SCALAR'; name: 'String'; ofType: null; } }; 'id': { name: 'id'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'ID'; ofType: null; }; } }; 'name': { name: 'name'; type: { kind: 'SCALAR'; name: 'String'; ofType: null; } }; 'role': { name: 'role'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'ENUM'; name: 'UserRole'; ofType: null; }; } }; 'rules': { name: 'rules'; type: { kind: 'SCALAR'; name: 'JSON'; ofType: null; } }; 'tasks': { name: 'tasks'; type: { kind: 'LIST'; name: never; ofType: { kind: 'NON_NULL'; name: never; ofType: { kind: 'OBJECT'; name: 'Task'; ofType: null; }; }; } }; 'updatedAt': { name: 'updatedAt'; type: { kind: 'SCALAR'; name: 'DateTime'; ofType: null; } }; 'updatedBy': { name: 'updatedBy'; type: { kind: 'OBJECT'; name: 'User'; ofType: null; } }; 'version': { name: 'version'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Int'; ofType: null; }; } }; }; };
+    'UserPage': { kind: 'OBJECT'; name: 'UserPage'; fields: { 'hasMore': { name: 'hasMore'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Boolean'; ofType: null; }; } }; 'users': { name: 'users'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'LIST'; name: never; ofType: { kind: 'NON_NULL'; name: never; ofType: { kind: 'OBJECT'; name: 'User'; ofType: null; }; }; }; } }; }; };
+    'UserRole': { name: 'UserRole'; enumValues: 'ADMIN' | 'MEMBER'; };
+    'UserWhere': { kind: 'INPUT_OBJECT'; name: 'UserWhere'; isOneOf: false; inputFields: [{ name: 'email'; type: { kind: 'SCALAR'; name: 'String'; ofType: null; }; defaultValue: null }, { name: 'id'; type: { kind: 'SCALAR'; name: 'ID'; ofType: null; }; defaultValue: null }]; };
+};
+
+/** An IntrospectionQuery representation of your schema.
+ *
+ * @remarks
+ * This is an introspection of your schema saved as a file by GraphQLSP.
+ * It will automatically be used by `gql.tada` to infer the types of your GraphQL documents.
+ * If you need to reuse this data or update your `scalars`, update `tadaOutputLocation` to
+ * instead save to a .ts instead of a .d.ts file.
+ */
+export type introspection = {
+  name: never;
+  query: 'Query';
+  mutation: 'Mutation';
+  subscription: 'Subscription';
+  types: introspection_types;
+};
+
+import * as gqlTada from 'gql.tada';
+
+declare module 'gql.tada' {
+  interface setupSchema {
+    introspection: introspection
+  }
+}

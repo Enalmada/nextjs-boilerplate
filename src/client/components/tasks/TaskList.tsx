@@ -3,7 +3,7 @@
 import { MY_TASKS } from "@/client/gql/client-queries.gql";
 import type { MyTasksQuery, Task } from "@/client/gql/generated/graphql";
 import { Card, CardBody } from "@/client/ui";
-import { useQuery } from "@enalmada/next-gql/client";
+import { useQuery } from "urql";
 
 import TaskRender, { TaskBody } from "./Task";
 
@@ -30,7 +30,7 @@ const EmptyState = () => {
 };
 
 export default function TaskList() {
-	const [{ data, error }] = useQuery<MyTasksQuery>({ query: MY_TASKS });
+	const [{ data, error }] = useQuery({ query: MY_TASKS });
 
 	if (error) return <div>{`Error! ${error?.message}`}</div>;
 

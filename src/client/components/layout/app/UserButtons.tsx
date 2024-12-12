@@ -1,5 +1,5 @@
 import { ME } from "@/client/gql/client-queries.gql";
-import { type MeQuery, UserRole } from "@/client/gql/generated/graphql";
+import { UserRole } from "@/client/gql/generated/graphql";
 import { useAuth } from "@enalmada/next-firebase-auth-edge-wrapper";
 import { useQuery } from "@enalmada/next-gql/client";
 import {
@@ -20,7 +20,7 @@ export default function UserButtons() {
 	const router = useRouter();
 	const { user: authUser } = useAuth();
 
-	const [{ data: dataQuery }] = useQuery<MeQuery>({ query: ME });
+	const [{ data: dataQuery }] = useQuery({ query: ME });
 
 	const user = dataQuery?.me;
 
