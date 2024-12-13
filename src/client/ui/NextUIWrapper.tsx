@@ -1,7 +1,7 @@
 "use client";
 
-import { ThemeProvider as NextThemesProvider } from "@enalmada/next-themes";
 import { NextUIProvider } from "@nextui-org/react";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { useRouter } from "next/navigation";
 import type { PropsWithChildren, ReactNode } from "react";
 
