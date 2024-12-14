@@ -43,15 +43,9 @@ export const useAdminEdit = <
 	// Create and Update loading is handled by form submitting
 	// mutation error will render errors but not handle them
 	// https://stackoverflow.com/questions/59465864/handling-errors-with-react-apollo-usemutation-hook
-	const updateMutation = useMutation<
-		TUpdateMutationQuery,
-		TUpdateMutationQueryVariables
-	>(updateMutationQuery);
+	const updateMutation = useMutation(updateMutationQuery);
 
-	const deleteMutation = useMutation<
-		TDeleteMutationQuery,
-		TDeleteMutationQueryVariables
-	>(deleteMutationQuery);
+	const deleteMutation = useMutation(deleteMutationQuery);
 
 	// '' necessary for inputs using this in SSR to maintain controlled component
 	const form = useForm<TUpdateMutationInput>({

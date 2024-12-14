@@ -26,6 +26,12 @@
 		"plugins": [
 			{
 				"name": "next"
+			},
+			{
+				"name": "gql.tada/ts-plugin",
+				"schema": "./src/client/gql/generated/schema.graphql",
+				"tadaOutputLocation": "./src/client/gql/generated/graphql-env.d.ts",
+				"tadaTurboLocation": "./src/client/gql/generated/graphql-cache.d.ts"
 			}
 		],
 		"allowSyntheticDefaultImports": true,

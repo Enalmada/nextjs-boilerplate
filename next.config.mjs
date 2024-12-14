@@ -74,12 +74,12 @@ const nextConfig = {
 		// Make sure all web modules are using graphql-web-lite for min size (following urql)
 		// https://github.com/0no-co/graphql-web-lite  330k to 323k
 		// https://github.com/urql-graphql/urql/pull/3108
-		if (!isServer) {
-			config.resolve.alias = {
-				...config.resolve.alias,
-				graphql: "graphql-web-lite",
-			};
-		}
+		//if (!isServer) {
+		//	config.resolve.alias = {
+		//		...config.resolve.alias,
+		//		graphql: "graphql-web-lite",
+		//		};
+		//	}
 
 		// TODO - figure out how to fix this the real way
 		config.ignoreWarnings = [

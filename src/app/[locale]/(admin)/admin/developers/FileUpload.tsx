@@ -1,7 +1,6 @@
 "use client";
 
 import { UPLOAD_FILE } from "@/client/gql/admin-queries.gql";
-import type { UploadFileMutation } from "@/client/gql/generated/graphql";
 import { Button, Spinner } from "@nextui-org/react";
 import React, { useRef, useState, type ChangeEvent } from "react";
 import { useMutation } from "urql";
@@ -11,7 +10,7 @@ import { useMutation } from "urql";
 
 const FileUpload = () => {
 	const [selectedFile, setSelectedFile] = useState<File>();
-	const [result, uploadFile] = useMutation<UploadFileMutation>(UPLOAD_FILE);
+	const [result, uploadFile] = useMutation(UPLOAD_FILE);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const { data, fetching, error } = result;

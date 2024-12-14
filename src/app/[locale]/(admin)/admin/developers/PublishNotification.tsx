@@ -1,13 +1,11 @@
 "use client";
 
 import { PUBLISH_NOTIFICATION } from "@/client/gql/admin-queries.gql";
-import type { PublishNotificationMutation } from "@/client/gql/generated/graphql";
 import { useMutation } from "@enalmada/next-gql/client";
 import { Button, Spinner } from "@nextui-org/react";
 
 const PublishNotification = () => {
-	const [result, publishNotification] =
-		useMutation<PublishNotificationMutation>(PUBLISH_NOTIFICATION);
+	const [result, publishNotification] = useMutation(PUBLISH_NOTIFICATION);
 	const { data, fetching, error } = result;
 
 	return (

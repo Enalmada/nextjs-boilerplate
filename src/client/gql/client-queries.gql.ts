@@ -1,9 +1,7 @@
 // Import this to use fragments in pages
-// import { graphql } from '@/client/gql/generated';
+import { graphql } from "./graphql";
 
-import { gql } from "@urql/core";
-
-export const USER_PARTS = gql`
+export const USER_PARTS = graphql(`
   fragment UserParts on User {
     id
     name
@@ -11,9 +9,9 @@ export const USER_PARTS = gql`
     role
     version
   }
-`;
+`);
 
-export const TASK_PARTS = gql`
+export const TASK_PARTS = graphql(`
   fragment TaskParts on Task {
     id
     title
@@ -22,9 +20,9 @@ export const TASK_PARTS = gql`
     status
     version
   }
-`;
+`);
 
-export const ME = gql`
+export const ME = graphql(`
   query Me {
     me {
       ...UserParts
@@ -36,9 +34,9 @@ export const ME = gql`
   }
   ${USER_PARTS}
   ${TASK_PARTS}
-`;
+`);
 
-export const MY_TASKS = gql`
+export const MY_TASKS = graphql(/* GraphQL */ `
   query MyTasks {
     me {
       ...UserParts
@@ -50,7 +48,7 @@ export const MY_TASKS = gql`
   }
   ${USER_PARTS}
   ${TASK_PARTS}
-`;
+`);
 
 /*
 export const TASK = graphql(`
@@ -79,38 +77,38 @@ export const TASK = graphql(`
 `);
  */
 
-export const TASK = gql`
+export const TASK = graphql(`
   query Task($id: ID!) {
     task(id: $id) {
       ...TaskParts
     }
   }
   ${TASK_PARTS}
-`;
+`);
 
-export const CREATE_TASK = gql`
+export const CREATE_TASK = graphql(`
   mutation CreateTask($input: MutationCreateTaskInput!) {
     createTask(input: $input) {
       ...TaskParts
     }
   }
   ${TASK_PARTS}
-`;
+`);
 
-export const UPDATE_TASK = gql`
+export const UPDATE_TASK = graphql(`
   mutation UpdateTask($id: ID!, $input: MutationUpdateTaskInput!) {
     updateTask(id: $id, input: $input) {
       ...TaskParts
     }
   }
   ${TASK_PARTS}
-`;
+`);
 
-export const DELETE_TASK = gql`
+export const DELETE_TASK = graphql(`
   mutation DeleteTask($id: ID!) {
     deleteTask(id: $id) {
       ...TaskParts
     }
   }
   ${TASK_PARTS}
-`;
+`);

@@ -1,10 +1,12 @@
 /* eslint-disable no-console,@typescript-eslint/no-unsafe-assignment */
 import { getAuditProps } from "@/client/admin/table/FormHelpers";
 import Chip from "@/client/components/admin/Chip";
-import { type User, UserRole } from "@/client/gql/generated/graphql";
 import type { TableColumnProps } from "@enalmada/nextui-admin";
 import { Link, User as UserChip } from "@nextui-org/react";
 import gravatarUrl from "gravatar-url";
+
+import { graphql } from '@/client/gql/graphql';
+export type UserRole = ReturnType<typeof graphql.scalar<'UserRole'>>;
 
 export const columnProps: TableColumnProps<User>[] = [
 	{

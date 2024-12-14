@@ -3,7 +3,6 @@
 import { useAuthorization } from "@/app/[locale]/(admin)/Authorization";
 import AdminLoading from "@/app/[locale]/(admin)/loading";
 import { ADMIN_ME } from "@/client/gql/admin-queries.gql";
-import type { AdminMeQuery } from "@/client/gql/generated/graphql";
 import { useQuery } from "@enalmada/next-gql/client";
 import {
 	type AdminNavHeader,
@@ -96,7 +95,7 @@ interface Props {
 	children: React.ReactNode;
 }
 export default function AdminLayout({ children }: Props) {
-	const [{ data: dataQuery, error: errorQuery }] = useQuery<AdminMeQuery>({
+	const [{ data: dataQuery, error: errorQuery }] = useQuery({
 		query: ADMIN_ME,
 	});
 
